@@ -1,0 +1,32 @@
+{
+  "name"     : "statistics_panel",
+  "type"     : "panel",
+  "position" : [0,0,0,0],
+  "width"    : 640,
+  "height"   : 960,
+  "children" : 
+  [
+    {
+      "name"       : "fps",
+      "type"       : "text",
+      "position"   : [0,0,0,0],
+      "width"      : 640,
+      "height"     : 20,
+      "font-type"  : "consolab",
+      "font-size"  : 12,
+      "font-align" : "top",
+      "text"       : ""
+    },
+    {
+      "name"       : "profiler_dump",
+      "type"       : "text",
+      "position"   : [0,20,0,0],
+      "width"      : 640,
+      "height"     : 275,
+      "font-type"  : "consolab",
+      "font-size"  : 12,
+      "font-align" : "top",
+      "text"       : ""
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "objects" : [
+    {
+      "identifier":"ocean",
+      "type":"static",
+      "components":{
+        "aspect":{
+          "atlas":"sprites/env_atlas.json",
+          "frame":"bg_01"
+        },
+        "placement":{
+          "position":[-320.0,-480.0,-5.5,0]
+        }
+      }
+    },
+    {
+      "identifier":"caustics",
+      "type":"static",
+      "components":{
+        "aspect":{
+          "atlas":"sprites/env_atlas.json",
+          "frame":"caustics"
+        },
+        "placement":{
+          "position":[-320.0,-480.0,-5.0,0]
+        }
+      }
+    }
+  ]
+}

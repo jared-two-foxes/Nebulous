@@ -1,0 +1,66 @@
+{
+  "type"     : "panel",
+  "position" : [0,0,0,0],
+  "width"    : 640,
+  "height"   : 960,
+  "children" : 
+  [
+    {
+      "name"        : "btn_pause",
+      "type"        : "button",
+      "position"    : [-10,-10,0,0],
+      "width"       : 80,
+      "height"      : 80,
+      "atlas"       : "sprites/ui_atlas.json",
+      "frame"       : "btn_pause",
+      "onClick"     : "_GAME_TO_PAUSE_"
+    },
+    {
+      "name"        : "txt_score",
+      "type"        : "text",
+      "position"    : [550,10,0,0],
+      "width"       : 80,
+      "height"      : 30
+    },
+    {
+      "name"        : "game_over_panel",
+      "type"        : "panel",
+      "position"    : [138,440,0,0],
+      "width"       : 364,
+      "height"      : 250,
+      "visible"     : false,
+      "children"    :
+      [
+        {
+          "name"        : "txt_gameover",
+          "type"        : "text",
+          "position"    : [142,0,0,0],
+          "width"       : 80,
+          "height"      : 30,
+          "font-size"   : 36,
+          "text"        : "GAME OVER!"
+        },
+        {
+          "name"        : "btn_end",
+          "type"        : "button",
+          "position"    : [0,140,0,0],
+          "width"       : 364,
+          "height"      : 100,
+          "atlas"       : "sprites/ui_atlas.json",
+          "frame"       : "menu_btn_play",
+          "onClick"     : "_GAME_TO_TITLE_"
+        },
+        {
+          "name"        : "btn_continue",
+          "type"        : "button",
+          "position"    : [0,40,0,0],
+          "width"       : 364,
+          "height"      : 100,
+          "atlas"       : "sprites/ui_atlas.json",
+          "frame"       : "menu_btn_play",
+          "onClick"     : "_CONTINUE_"
+        }
+      ]
+    }
+  ]
+}

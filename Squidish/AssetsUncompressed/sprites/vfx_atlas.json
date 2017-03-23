@@ -1,0 +1,30 @@
+{"frames": [
+
+{
+	"filename": "bubble_01",
+	"frame": {"x":2,"y":161,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":48,"h":48},
+	"sourceSize": {"w":50,"h":50},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ink_01",
+	"frame": {"x":2,"y":2,"w":72,"h":157},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":1,"w":72,"h":157},
+	"sourceSize": {"w":80,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "textures/vfx_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":256,"h":256},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e172758318f1e4fb5048e8df83e28b78:ff0819a31835dfb8ab2749a1b19b82b2:7820df9b0d87d5fe1654149221cdfb29$"
+}
+}

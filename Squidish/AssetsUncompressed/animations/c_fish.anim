@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Animation>
+	<Frame spritesheet="sprites/char_large_fish.json" frame="c_fish_01" />
+	<Frame spritesheet="sprites/char_large_fish.json" frame="c_fish_02" />
+</Animation>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Animation>
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_01" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_02" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_03" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_04" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_05" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_06" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_07" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_08" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_09" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_10" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_11" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_12" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_13" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_14" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_15" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_16" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_17" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_18" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_19" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_20" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_21" />
+	<Frame spritesheet="sprites/char_eel.json" frame="eel_22" />
+</Animation>

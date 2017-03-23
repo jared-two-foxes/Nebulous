@@ -1,0 +1,21 @@
+{"frames": [
+
+{
+	"filename": "fish_01_R",
+	"frame": {"x":2,"y":2,"w":60,"h":38},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":38},
+	"sourceSize": {"w":60,"h":38},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "textures/char_small_fish_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":64,"h":64},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:dc3448863b8b2bd5e21af9d6b7972b17:09f3b0c62b652e1ee4952d85f49b5dcb:c848ff3d9c11d1bcece6ab2268c66be5$"
+}
+}

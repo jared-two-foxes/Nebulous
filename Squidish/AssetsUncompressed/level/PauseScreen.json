@@ -1,0 +1,4 @@
+{
+  "scene"      : "scenes/pause.json",
+  "gui_layout" : "gui/pause_ui_layout.json"
+}

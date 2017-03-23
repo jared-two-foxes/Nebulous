@@ -1,0 +1,10 @@
+{
+  "name"        : "btn_pause",
+  "type"        : "button",
+  "position"    : [-10,-10,0,0],
+  "width"       : 80,
+  "height"      : 80,
+  "atlas"       : "sprites/ui_atlas.json",
+  "frame"       :  "btn_pause",
+  "onClick"     : "_GAME_TO_PAUSE_"
+}

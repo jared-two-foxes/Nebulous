@@ -1,0 +1,17 @@
+{
+  "objects" : [
+    {
+      "identifier":"blob",
+      "type":"static",
+      "components":{
+        "aspect":{
+          "atlas":"sprites/env_atlas.json",
+          "frame":"bg_01"
+        },
+        "placement":{
+          "position":[-320.0,-512.0,0,0]
+        }
+      }
+    }
+  ]
+}

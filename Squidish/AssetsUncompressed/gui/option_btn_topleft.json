@@ -1,0 +1,8 @@
+{  
+  "type"     : "image",
+  "position" : [20,20,0,0],
+  "width"    : 364,
+  "height"   : 84,
+  "atlas"    : "sprites/ui_atlas.json",
+  "frame"    : "menu_btn_options"
+}

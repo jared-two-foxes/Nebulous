@@ -1,0 +1,30 @@
+{
+  "name"     : "menu_panel",
+  "type"     : "panel",
+  "position" : [320,375,0,0],
+  "width"    : 364,
+  "height"   : 500,
+  "children" : 
+  [
+    {
+      "name"       : "btnPlay",
+      "type"       : "button",
+      "position"   : [30,84,0,0],
+      "width"      : 364,
+      "height"     : 100,
+      "atlas"      : "sprites/ui_atlas.json",
+      "frame"      : "menu_btn_play",
+      "rotation"   : 90.0
+    },
+    {
+      "name"       : "btnOptions",
+      "type"       : "button",
+      "position"   : [0,224,0,0],
+      "width"      : 364,
+      "height"     : 84,
+      "atlas"      : "sprites/ui_atlas.json",
+      "frame"      : "menu_btn_options",
+      "onClick"    : "_MAIN_TO_OPTIONS_"
+    }
+  ]
+}

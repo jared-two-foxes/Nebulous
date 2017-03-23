@@ -1,0 +1,9 @@
+{
+  "name"     : "img_logo",
+  "type"     : "image",
+  "position" : [30,30,0,0],
+  "width"    : 204,
+  "height"   : 164,
+  "atlas"    : "sprites/ui_atlas.json",
+  "frame"    :  "title_logo_01"
+}

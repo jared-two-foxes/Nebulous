@@ -1,0 +1,4 @@
+{
+  "scene"      : "level/score.json",
+  "gui_layout" : "level/score_ui_layout.json"
+}

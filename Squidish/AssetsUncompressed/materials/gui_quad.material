@@ -1,0 +1,23 @@
+{
+  "passes": [ 
+    {
+      "vertexshader": {
+        "name":"gui_quad_vs.glsl",
+        "uniforms": [
+          { "name":"projection", "type":"mat4" }, 
+          { "name":"size", "type":"vec2" }, 
+          { "name":"offset", "type":"vec2" },
+          { "name":"angle", "type":"float" },
+          { "name":"depth", "type":"float" }
+        ]
+      },
+      "fragmentshader": {
+        "name":"gui_quad_fs.glsl",
+        "uniforms": [
+          { "name":"diffuseTexture", "type":"sampler2D", "shared":false },
+          { "name":"colour", "type":"vec4", "shared":false }
+        ]
+      }
+    }
+  ]
+}

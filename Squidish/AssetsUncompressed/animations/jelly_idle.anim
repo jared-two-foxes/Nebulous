@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Animation>
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_00" />
+	<Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_01" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_02" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_03" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_04" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_05" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_06" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_07" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_08" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_09" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_10" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_11" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_12" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_13" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_14" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_15" />
+  <Frame spritesheet="sprites/char_jellyfish.json" frame="jelly_16" />
+</Animation>

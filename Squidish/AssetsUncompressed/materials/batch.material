@@ -1,0 +1,18 @@
+{
+  "passes": [ 
+    {
+      "vertexshader": {
+        "name":"batch_vs.glsl",
+        "uniforms": [
+          { "name":"projection", "type":"mat4" }, 
+        ]
+      },
+      "fragmentshader": {
+        "name":"batch_fs.glsl",
+        "uniforms": [
+          { "name":"diffuseTexture", "type":"sampler2D", "shared":false },
+        ]
+      }
+    }
+  ]
+}

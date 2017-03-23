@@ -1,0 +1,93 @@
+{"frames": [
+
+{
+	"filename": "bg_01",
+	"frame": {"x":2,"y":2,"w":640,"h":1024},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":1024},
+	"sourceSize": {"w":640,"h":1024},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "caustics",
+	"frame": {"x":644,"y":2,"w":640,"h":1024},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":1024},
+	"sourceSize": {"w":640,"h":1024},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "net_01",
+	"frame": {"x":1603,"y":1082,"w":175,"h":273},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":175,"h":273},
+	"sourceSize": {"w":176,"h":274},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "title_bg_01",
+	"frame": {"x":1286,"y":692,"w":640,"h":388},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":388},
+	"sourceSize": {"w":640,"h":388},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "title_boat_01",
+	"frame": {"x":1245,"y":1082,"w":356,"h":383},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":356,"h":383},
+	"sourceSize": {"w":358,"h":384},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "title_caustics",
+	"frame": {"x":2,"y":1028,"w":640,"h":960},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":960},
+	"sourceSize": {"w":640,"h":960},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "title_cloudA_01",
+	"frame": {"x":2,"y":1990,"w":180,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":180,"h":50},
+	"sourceSize": {"w":180,"h":50},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "title_cloudB_01",
+	"frame": {"x":644,"y":1028,"w":599,"h":171},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":9,"w":599,"h":171},
+	"sourceSize": {"w":664,"h":180},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "title_water_01",
+	"frame": {"x":1286,"y":2,"w":640,"h":688},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":640,"h":688},
+	"sourceSize": {"w":640,"h":690},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "textures/env_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7324402aef825454f4c4a67581c118c3:989b857b59de13a47f4de728bfc58965:4247c6bbbc58ec3d4399eede682a7856$"
+}
+}

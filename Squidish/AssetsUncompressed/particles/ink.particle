@@ -1,0 +1,6 @@
+{
+  "atlas":"sprites/vfx_atlas.json",
+  "frame":"ink_01",
+  "life":1.25,
+  "scale":0.25
+}

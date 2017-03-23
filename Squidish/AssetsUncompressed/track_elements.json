@@ -1,0 +1,249 @@
+{
+  "elements" : [
+    {
+      "next_depth"  : -1526.0,
+      "stride"      : 890.0,
+      "depth_ahead" : 1536.0,
+      "probability" : 0.9,
+      "nodes"       : [
+        [
+          {
+           "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_01",
+              "flags"  : "LOCATION_LEFT"
+            },
+            "placement" : {
+              "position" : [-320.0, 0.0, -5.0, 0.0]
+            }
+          },
+          {
+            "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_01Blur",
+              "flags"  : "LOCATION_LEFT"
+            },
+            "placement" : {
+              "position" : [-320.0, 0.0, -5.0, 0.0]
+            }
+          },
+          {
+            "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_02Blur",
+              "flags"  : "LOCATION_LEFT"
+            },
+            "placement" : {
+              "position" : [-320.0, 0.0, -5.0, 0.0]
+            }
+          },
+          {
+            "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_01Blur",
+              "flags"  : "LOCATION_LEFT"
+            },
+            "placement" : {
+              "position" : [-320.0, 0.0, -5.0, 0.0]
+            },
+            "children" : [
+              {
+                "name"        : "amphibian",
+                "aspect" : {
+                  "atlas"      : "sprites/char_eel.json", 
+                  "frame"      : "eel_00",
+                  "flags"      : "LOCATION_LEFT",
+                  "alignment"  : "CENTER_RIGHT"
+                },
+                "placement" : {
+                  "position" : [-225.0, 400.0, -4.0, 0.0]
+                }, 
+                "behaviour" : {
+                  "attractionStrength" : 750.0,
+                  "attractionInfluenceRadius" : 400.0
+                }
+              }   
+            ]
+          }
+        ]
+      ]
+    },
+
+    {
+      "next_depth"  : -1280.0,
+      "stride"      : 890.0,
+      "depth_ahead" : 1536.0,
+      "probability" : 0.9,
+      "nodes"       : [
+        [
+          {
+           "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_01",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [29.0, 0.0, -5.0, 0.0]
+            }
+          },
+          {
+            "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_01Blur",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [103.0, 0.0, -5.0, 0.0]
+            }
+          },
+          {
+            "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_02Blur",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [126.0, 0.0, -5.0, 0.0]
+            }
+          },
+          {
+            "name"        : "reef",
+            "aspect" : {
+              "atlas"  : "sprites/env_reef.json", 
+              "frame"  : "reef_01Blur",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [103.0, 0.0, -5.0, 0.0]
+            },
+            "children" : [
+              {
+                "name"        : "amphibian",
+                "aspect" : {
+                  "atlas"      : "sprites/char_eel.json", 
+                  "frame"      : "eel_00",
+                  "flags"      : "LOCATION_RIGHT",
+                  "alignment"  : "CENTER_LEFT"
+                },
+                "placement" : {
+                  "position" : [225.0, 400.0, -4.0, 0.0]
+                },
+                "behaviour" : {
+                  "attractionStrength" : 750.0,
+                  "attractionInfluenceRadius" : 400.0
+                }
+              }   
+            ]
+          }
+        ]
+      ]
+    },
+    
+    {
+      "next_depth"  : -1536.0,
+      "stride"      : 1024.0,
+      "depth_ahead" : 2048.0,
+      "probability" : 1.0,
+      "nodes"       : [
+        [
+          {
+            "name"        : "caustic",
+            "aspect" : {
+              "atlas"  : "sprites/env_atlas.json", 
+              "frame"  : "caustics",
+              "flags"  : "LOCATION_CENTER"
+            },
+            "placement" : {
+              "position" : [-320.0, 0.0, 10.0, 0.0]
+            }
+          }
+        ]
+      ]
+    },
+
+    {
+      "next_depth"  : -1024.0,
+      "stride"      : 256.0,
+      "depth_ahead" : 1024.0,
+      "probability" : 1.0,
+      "nodes"       : [
+        [
+          {
+            "name"        : "amphibian",
+            "aspect" : {
+              "atlas"  : "sprites/char_large_fish.json", 
+              "frame"  : "c_fish_01",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [320.0, 0.0, -4.0, 0.0]
+            },
+            "motion" : {
+              "velocity"      : [-25,0,0,0],
+              "max_velocity"  : 50.0
+            },
+            "score" : {
+              "bonus" : 20
+            }
+          }
+        ]
+      ]
+    },
+
+    { 
+      "next_depth"  : -1024.0,
+      "stride"      : 528.0,
+      "depth_ahead" : 512.0,
+      "probability" : 0.8,
+      "nodes"       : [
+        [
+          {
+            "name"        : "amphibian",
+            "aspect" : {
+              "atlas"  : "sprites/char_small_fish_atlas.json", 
+              "frame"  : "fish_01_R",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [-320.0, 30.0, -4.0, 0.0]
+            },
+            "motion" : {
+              "velocity"      : [25,0,0,0],
+              "max_velocity"  : 50.0
+            },
+            "score" : {
+              "bonus" : 5
+            }
+          }
+        ],
+        [
+          {
+            "name"        : "amphibian",
+            "aspect" : {
+              "atlas"  : "sprites/char_small_fish_atlas.json", 
+              "frame"  : "fish_01_R",
+              "flags"  : "LOCATION_RIGHT"
+            },
+            "placement" : {
+              "position" : [-340.0, -30.0, -4.0, 0.0]
+            },
+            "motion" : {
+              "velocity"      : [25,0,0,0],
+              "max_velocity"  : 50.0
+            },
+            "score" : {
+              "bonus" : 5
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}

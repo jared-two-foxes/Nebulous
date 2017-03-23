@@ -1,0 +1,65 @@
+{
+  "type"     : "panel",
+  "position" : [0,0,0,0],
+  "width"    : 640,
+  "height"   : 960,
+  "children" : 
+  [
+    {
+      "type"     : "image",
+      "position" : [300,850,0,0],
+      "width"    : 364,
+      "height"   : 84,
+      "atlas"    : "sprites/ui_atlas.json",
+      "frame"    : "menu_btn_options"
+    },
+    {
+      "type"     : "image",
+      "position" : [0,684,0,0],
+      "width"    : 362,
+      "height"   : 92,
+      "atlas"    : "sprites/ui_atlas.json",
+      "frame"    : "opts_music"
+    },
+    {
+      "name"     : "music_slider",
+      "type"     : "slider",
+      "position" : [50,600,0,0],
+      "width"    : 540,
+      "height"   : 50
+    },
+    {
+      "type"     : "image",
+      "position" : [0,460,0,0],
+      "width"    : 360,
+      "height"   : 102,
+      "atlas"    : "sprites/ui_atlas.json",
+      "frame"    : "opts_sfx"
+    },
+    {
+      "name"     : "sfx_slider",
+      "type"     : "slider",
+      "position" : [50,380,0,0],
+      "width"    : 540,
+      "height"   : 50
+    },
+    {
+      "type"     : "button",
+      "position" : [155,250,0,0],
+      "width"    : 274,
+      "height"   : 82,
+      "atlas"    : "sprites/ui_atlas.json",
+      "frame"    : "opts_reset",
+      "onClick"  : "_RELOAD_"
+    },
+    {
+      "type"     : "button",
+      "position" : [0,50,0,0],
+      "width"    : 188,
+      "height"   : 88,
+      "atlas"    : "sprites/ui_atlas.json",
+      "frame"    : "menu_arrow",
+      "onClick"  : "_PAUSE_TO_MAIN_"
+    }
+  ]
+}

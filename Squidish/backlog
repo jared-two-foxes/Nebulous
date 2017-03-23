@@ -1,0 +1,27 @@
+
+# Sprint
+  * FontRenderer Benchmark file directly creates a Win32Platform object.  Need some form of platform agnostic call that can be made that will resolve the correct platform to create.
+  * UnitTests & Benchmarks are not compiling correctly.
+
+# Notes  
+
+  [Gui] Load "guiscene" from file.
+
+  [Model] Determine how to apply the ui elements to a state.  
+    * Should there be a single UI element/system per "gamestate".
+  [Controller] Determine feasiblity of graph like "state" system and instead of calling pushState we instead call "TransverseEdge".  Where each "state" would be a vertex of the Graph.  Should the vertices know how to transverse the edges
+
+# Squidish (new)
+  * ElementNodes are basically ObjectTemplates/Blueprints.  Could formalize this system. 
+  * Modify the LevelGenerator and modify the concept of ElementNodes instead reference ObjectTemplates which the Model can create instances of directly.
+  * MotionSystem::GetDistanceBetweenEntities should return a scalar? is currently more of a GetVectorToEntity
+  * InputListeners could be a simple template? so that we dont need to add a new object type for each object that wants to listen in to input.
+
+# Nebulae
+  * Promote Platform and Profiling stuff into common library so that Profile calls can be added to audio library.
+
+# Complete
+##----
+  [1][Model] Load EntityTemplates from a file.
+  [1][Model] Load an existing scene from a file.
+  [1][Game] Setup the required EntityTemplates file?

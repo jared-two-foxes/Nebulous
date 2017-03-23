@@ -1,0 +1,4 @@
+{
+  "scene"      : "scenes/game.json",
+  "gui_layout" : [ "gui/game_menu_layout.json", "gui/game_menu_title_layout.json", "gui/game_top_left_layout.json", "gui/game_top_right_layout.json", "gui/game_dead_layout.json" ]
+}

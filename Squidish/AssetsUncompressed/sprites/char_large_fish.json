@@ -1,0 +1,30 @@
+{"frames": [
+
+{
+	"filename": "c_fish_01",
+	"frame": {"x":2,"y":2,"w":60,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":70},
+	"sourceSize": {"w":60,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "c_fish_02",
+	"frame": {"x":64,"y":2,"w":57,"h":70},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":70},
+	"sourceSize": {"w":60,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "textures/char_large_fish.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":128},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5b16de7afec20f01bb18b3d43374badc:daa1a7fcb40e15bb09b2c2fca545c594:731f9002a387035e0dd144a49bc7172c$"
+}
+}

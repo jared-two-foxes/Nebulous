@@ -1,0 +1,4 @@
+{
+  "scene"      : "scenes/title.json",
+  "gui_layout" : [ "gui/title_ui_layout.json", "gui/option_btn_topleft.json" ]
+}

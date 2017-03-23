@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Animation>
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_01" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_02" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_03" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_04" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_05" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_06" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_07" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_08" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_09" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_10" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_11" />
+	<Frame spritesheet="sprites/char_squid.json" frame="ss_01_12" />
+</Animation>

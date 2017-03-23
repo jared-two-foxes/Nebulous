@@ -1,0 +1,165 @@
+{"frames": [
+
+{
+	"filename": "jelly_00",
+	"frame": {"x":2,"y":1747,"w":224,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":21,"w":224,"h":299},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_01",
+	"frame": {"x":228,"y":1742,"w":224,"h":301},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":22,"w":224,"h":301},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_02",
+	"frame": {"x":549,"y":2,"w":224,"h":309},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":20,"w":224,"h":309},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_03",
+	"frame": {"x":318,"y":703,"w":224,"h":317},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":17,"w":224,"h":317},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_04",
+	"frame": {"x":172,"y":1411,"w":223,"h":329},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":12,"w":223,"h":329},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_05",
+	"frame": {"x":342,"y":2,"w":205,"h":340},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":8,"w":205,"h":340},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_06",
+	"frame": {"x":169,"y":356,"w":191,"h":345},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":7,"w":191,"h":345},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_07",
+	"frame": {"x":2,"y":1062,"w":185,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":5,"w":185,"h":347},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_08",
+	"frame": {"x":2,"y":2,"w":177,"h":352},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":0,"w":177,"h":352},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_09",
+	"frame": {"x":2,"y":356,"w":165,"h":352},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":28,"y":0,"w":165,"h":352},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_10",
+	"frame": {"x":2,"y":710,"w":158,"h":350},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":0,"w":158,"h":350},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_11",
+	"frame": {"x":162,"y":710,"w":154,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":35,"y":0,"w":154,"h":347},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_12",
+	"frame": {"x":181,"y":2,"w":159,"h":344},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":0,"w":159,"h":344},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_13",
+	"frame": {"x":2,"y":1411,"w":168,"h":334},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":4,"w":168,"h":334},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_14",
+	"frame": {"x":189,"y":1059,"w":179,"h":322},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":10,"w":179,"h":322},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_15",
+	"frame": {"x":362,"y":344,"w":202,"h":310},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":16,"w":202,"h":310},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "jelly_16",
+	"frame": {"x":370,"y":1022,"w":224,"h":301},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":20,"w":224,"h":301},
+	"sourceSize": {"w":224,"h":352},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "textures/char_jellyfish.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f390e57942c2cc40711570bb54fe66da:2611188233cdc7766f24d2480e08579c:d49a5c92b338b6ad5672aeb4af1842ad$"
+}
+}

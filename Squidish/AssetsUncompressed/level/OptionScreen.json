@@ -1,0 +1,4 @@
+{
+  "scene"      : "scenes/option.json",
+  "gui_layout" : "gui/option_ui_layout.json"
+}

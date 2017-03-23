@@ -1,0 +1,45 @@
+{
+  "blueprints" : [
+    {
+      "identifier":"squid",
+      "type":"player",
+      "components":{
+        "animation":{
+          "animation":"animations/squid_pulse.anim"
+        },
+        "aspect":{
+          "atlas":"sprites/char_squid.json",
+          "frame":"ss_01"
+        },
+        "placement":{
+          "position":[-20.0,220.0,-4.0,0]
+        },
+        "placementConstraint":{
+          "leftBound":-320,
+          "rightBound":240 //320 - 80(width of the squid images) 
+        }
+      }
+    },
+    {
+      "identifier":"small_fish",
+      "type":"amphibian",
+      "components": {
+        "aspect" : {
+          "atlas"  : "sprites/char_small_fish_atlas.json", 
+          "frame"  : "fish_01_R",
+          "flags"  : "LOCATION_RIGHT"
+        },
+        "placement" : {
+          "position" : [-340.0, -30.0, -4.0, 0.0]
+        },
+        "motion" : {
+          "velocity"      : [25,0,0,0],
+          "max_velocity"  : 50.0
+        },
+        "score" : {
+          "bonus" : 5
+        } 
+      }
+    }
+  ]
+}

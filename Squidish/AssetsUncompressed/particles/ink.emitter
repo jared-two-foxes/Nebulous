@@ -1,0 +1,14 @@
+{
+  "tank":[
+    {
+      "count":1,
+      "flow":0,
+      "group":"particles/ink.particle"
+    }
+  ],
+  "force":{ 
+    "x":[0.0],
+    "y":[100.0],
+    "z":[0.0]
+  }
+}
