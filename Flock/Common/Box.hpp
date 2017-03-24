@@ -13,7 +13,7 @@ public:
   vector4_t max;
 
   public:
-    box_t();
+    box_t() {}
     box_t( const vector4_t& min, const vector4_t& max );
 
 };

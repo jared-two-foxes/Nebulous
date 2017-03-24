@@ -37,5 +37,5 @@ void Seperation( entity_t& entity, std::vector<entity_t >& entities )
   }
 }
 
-void Cohesion( entity_t& entity, std::vector<entity_t >& entities )
-{}
+//void Cohesion( entity_t& entity, std::vector<entity_t >& entities )
+//{}

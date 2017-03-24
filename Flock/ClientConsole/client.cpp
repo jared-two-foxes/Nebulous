@@ -38,7 +38,7 @@
 //  } 
 //}
 
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd )
+int main( int argc, char* argv[] )
 {
   CONSOLE_SCREEN_BUFFER_INFO initial_console_info, final_console_info;
 
@@ -55,7 +55,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCm
   subscriber.connect( "tcp://localhost:5556" );
   
   // Setting subscription to all events. Argument is not currently supported, server doesnt push a identifier yet.
-  const char* filter = ""; //( argc > 1 ) ? argv[1] : "";
+  const char* filter = ( argc > 1 ) ? argv[1] : "";
   subscriber.setsockopt( ZMQ_SUBSCRIBE, filter, strlen(filter) );
 
   std::vector<entity_t > entities;

@@ -8,11 +8,15 @@
 #include <stdlib.h>
 #include <iostream>  // was included in <zhelpers.hpp> 
 
-#include "Console.hpp"
-#include "Entity.hpp"
-#include "Flocking.hpp"
-#include "MathUtils.hpp"
-#include "StopWatch.hpp"
+#include "Common/Box.hpp"
+#include "Common/MathUtils.hpp"
+
+#include "Common/Box.inl"
+
+#include "Common/Console.hpp"
+#include "Common/Entity.hpp"
+#include "Common/Flocking.hpp"
+#include "Common/StopWatch.hpp"
 
 
 void PrepareEntities( std::vector<entity_t >& entities, const box_t& zone )
@@ -75,7 +79,7 @@ int main( int argc, char* argv[] )
 		//@todo Check that none of the entities are moving outside of the box.
 
     // Push all the entities out to anyone listening.
-    int list_size = entities.size(); 
+    std::size_t list_size = entities.size(); 
     zmq::message_t message( list_size * sizeof( entity_t ) + sizeof( int ) );
     char* ptr = (char*)message.data();
     memcpy( ptr, &list_size, sizeof( int ) );
