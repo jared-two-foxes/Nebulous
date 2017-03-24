@@ -59,6 +59,14 @@ int main( int argc, char* argv[] )
 	std::vector<entity_t > entities( argc > 1 ? atoi( argv[1] ) : 256 );
 	PrepareEntities( entities, zone );
 
+  plane_t planes[6];
+  planes[0] = plane_t( vector4_t( 1.0f, 0.0f, 0.0f, 0.0f ), zone.min.x ); // left;
+  planes[1] = plane_t( vector4_t( 0.0f, 1.0f, 0.0f, 0.0f ), zone.min.y ); // bottom;
+  planes[2] = plane_t( vector4_t( 0.0f, 0.0f, 1.0f, 0.0f ), zone.min.z ); // far;
+  planes[2] = plane_t( vector4_t( 1.0f, 0.0f, 0.0f, 0.0f ), zone.max.x ); // right;
+  planes[2] = plane_t( vector4_t( 0.0f, 1.0f, 0.0f, 0.0f ), zone.max.y ); // top;
+  planes[2] = plane_t( vector4_t( 0.0f, 0.0f, 1.0f, 0.0f ), zone.max.z ); // near;
+
 	// GO! Simulate and push everything to anyone listening as fast as possible!
 	while (1) 
 	{
@@ -74,6 +82,23 @@ int main( int argc, char* argv[] )
 		}
 
 		//@todo Check that none of the entities are moving outside of the box.
+    for( entity_t& entity : entities ) 
+    {
+      // Check this entity's proximity to each "wall" of the cage
+      for( int i = 0; i < 6; ++i ) 
+      {
+        const float PROXIMITY_THRESHOLD = 1.0f;
+
+        float distance = Distance( planes[i], entity.position );
+        if( distance < PROXIMITY_THRESHOLD )
+        {
+          // Try to push the entity away from the wall.  Note that if the accumlated force  
+          // moving the entity towards the wall is greater than the amount we try to move him away
+          // it's going to simply keep moving in this direction.
+          entity.position = entity.position + planes[i].getNormal() * entity.speed; 
+        }
+      }
+    }
 
     // Push all the entities out to anyone listening.
     std::size_t list_size = entities.size(); 
