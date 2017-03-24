@@ -1,9 +1,6 @@
 
 #include "Flocking.hpp"
 
-#include "Vector4.hpp"
-#include "Vector4.inl"
-
 void Attraction( entity_t& entity, std::vector<entity_t >& entities )
 {
 	for( auto& e : entities ) 

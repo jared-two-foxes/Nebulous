@@ -10,7 +10,7 @@ inline std::pair<bool, float > Intersects( const ray_t& ray, const plane_t& plan
   {
     float nom = Dot3( plane.p, ray.origin ) + plane.p.w;
     float t = -( nom / denom );
-    return std::pair<bool, real >( t >= 0, t );
+    return std::pair<bool, float >( t >= 0, t );
   }
 }
 

@@ -2,6 +2,9 @@
 #define CONSOLE_H__
 
 #if defined(WIN32)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 #endif
 

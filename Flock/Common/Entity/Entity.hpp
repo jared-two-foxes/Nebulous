@@ -1,7 +1,7 @@
 #ifndef ENTITY_H__
 #define ENTITY_H__
 
-#include "Vector4.hpp"
+#include <Common/Math/Math.hpp>
 
 struct entity_t
 {

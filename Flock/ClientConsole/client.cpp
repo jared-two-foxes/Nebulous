@@ -7,9 +7,9 @@
 #include <iostream>
 #include <sstream>
 
-#include "Common/Console.hpp"
-#include "Common/Entity.hpp"
-#include "Common/StopWatch.hpp"
+#include <Common/Entity/Entity.hpp>
+#include <Common/Platform/Console.hpp>
+#include <Common/Platform/StopWatch.hpp>
 
 
 //void ProcessUpdate( entity_t* updatedEntities, std::vector<entity_t >& entities )
@@ -37,6 +37,7 @@
 //    memcpy( e, &updatedEntities[i], sizeof( entity_t ) );
 //  } 
 //}
+
 
 int main( int argc, char* argv[] )
 {

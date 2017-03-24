@@ -26,7 +26,9 @@ inline vector4_t vector4_t::operator/ ( const float s )
 
 
 
-// -----
+// ---------------
+// Free Functions
+// ----------------
 
 inline float Length( const vector4_t& v ) 
 {
@@ -49,4 +51,14 @@ inline vector4_t Truncate( const vector4_t& v, float max )
   float s = max * max / LengthSq( v );
   float inv = 1.0f / s;
   return { v.x * inv, v.y * inv, v.z * inv, v.w * inv };
+}
+
+inline float Dot3( const vector4_t& a, const vector4_t& b ) 
+{
+  return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+inline float Dot4( const vector4_t& a, const vector4_t& b )
+{
+  return a.x * b.x + a.y * b.y + a.z * b.z + a. w * b.w;
 }

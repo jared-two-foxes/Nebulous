@@ -1,5 +1,5 @@
 
-box_t::box_t( const vector4_t& a, const vector4_t& b ) 
+inline box_t::box_t( const vector4_t& a, const vector4_t& b ) 
   : min( a ), max( b )
 {}
 

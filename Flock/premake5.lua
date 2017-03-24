@@ -162,6 +162,27 @@ workspace "Flock"
 
   filter {}
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+project "Common"  
+  kind "StaticLib"
+  language "C++"
+  location( projectLocation )
+
+  files {
+    "Common/**.h",
+    "Common/**.inl",
+    "Common/**.hpp",
+    "Common/**.cpp",
+  }
+
+filter 'configurations:debug'
+  targetdir ( path.join(baseLocation, "Library/Debug" ) )
+
+filter 'configurations:release'
+  targetdir ( path.join(baseLocation, "Library/Release") ) 
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 project "Server"  
   kind "ConsoleApp"
@@ -169,12 +190,14 @@ project "Server"
   location( projectLocation )
 
   files {
-    "Common/**.h",
-    "Common/**.hpp",
-    "Common/**.cpp",
     "Server/**.h",
+    "Server/**.inl",
     "Server/**.hpp",
     "Server/**.cpp"
+  }
+
+  links {
+    "Common",
   }
 
   utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform );
@@ -193,23 +216,15 @@ project "ClientConsole"
   language "C++"
   location( projectLocation )
 
-  -- libdirs {
-  --   path.join( baseLocation, rendererLibraryLocation )
-  -- }
-
-  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform );
-
-  -- links {
-  --   "Squidish_lib",
-  --   rendererLibraryNames
-  -- }
-
   files {
-    "Common/**.h",
-    "Common/**.hpp",
-    "Common/**.cpp",
     "ClientConsole/**.cpp"
   }
+
+  links {
+    "Common",
+  }
+
+  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform );
 
   filter 'configurations:debug'
     targetdir ( path.join(baseLocation, "Bin/Debug" ) )
@@ -230,21 +245,17 @@ project "Client"
   --   path.join( baseLocation, rendererLibraryLocation )
   -- }
 
-  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform );
-
-  -- links {
-  --   "Squidish_lib",
-  --   rendererLibraryNames
-  -- }
-
   files {
-    "Common/**.h",
-    "Common/**.hpp",
-    "Common/**.cpp",
     "Client/**.h",
     "Client/**.hpp",
     "Client/**.cpp"
   }
+
+  links {
+    "Common",
+  }
+
+  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform );
 
   filter 'configurations:debug'
     targetdir ( path.join(baseLocation, "Bin/Debug" ) )

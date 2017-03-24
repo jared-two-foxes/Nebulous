@@ -7,36 +7,10 @@
 #include <iostream>
 #include <sstream>
 
-#include "Common/Console.hpp"
-#include "Common/Entity.hpp"
-#include "Common/StopWatch.hpp"
+#include "Common/Entity/Entity.hpp"
+#include "Common/Platform/Console.hpp"
+#include "Common/Platform/StopWatch.hpp"
 
-
-//void ProcessUpdate( entity_t* updatedEntities, std::vector<entity_t >& entities )
-//{
-//  // We know this list size at the moment...
-//  for( int i = 0; i < 256; ++i ) 
-//  {
-//    auto it = std::find_if( entities.begin(), entities.end(), [&]( entity_t& e ) {
-//        if( e.identifier == updatedEntities[i].identifier ) {
-//          return true;
-//        }
-//      } );
-//
-//    entity_t* e = nullptr;
-//    if ( it == entities.end() ) 
-//    {
-//      entities.push_back( entity_t() );
-//      e = &entities.back();
-//    }
-//    else 
-//    {
-//      e = &(*it);
-//    }
-//
-//    memcpy( e, &updatedEntities[i], sizeof( entity_t ) );
-//  } 
-//}
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd )
 {

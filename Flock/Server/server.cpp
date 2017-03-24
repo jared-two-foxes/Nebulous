@@ -8,15 +8,12 @@
 #include <stdlib.h>
 #include <iostream>  // was included in <zhelpers.hpp> 
 
-#include "Common/Box.hpp"
-#include "Common/MathUtils.hpp"
+#include <Common/Math/Math.hpp>
+#include <Common/Entity/Entity.hpp>
+#include <Common/Platform/Console.hpp>
+#include <Common/Platform/StopWatch.hpp>
 
-#include "Common/Box.inl"
-
-#include "Common/Console.hpp"
-#include "Common/Entity.hpp"
-#include "Common/Flocking.hpp"
-#include "Common/StopWatch.hpp"
+#include <Server/Flocking.hpp>
 
 
 void PrepareEntities( std::vector<entity_t >& entities, const box_t& zone )
@@ -72,7 +69,7 @@ int main( int argc, char* argv[] )
 		for( entity_t& entity : entities ) 
 		{
 			Attraction( entity, entities );
-			//@todo apply a seperation force
+			Seperation( entity, entities ); 
 			//@todo apply a cohesion force
 		}
 

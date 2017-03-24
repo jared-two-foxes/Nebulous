@@ -1,8 +1,6 @@
 #ifndef MATH_RAY_H__
 #define MATH_RAY_H__
 
-#include "Vector4.hpp"
-
 struct ray_t
 {
 public:

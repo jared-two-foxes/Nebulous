@@ -1,8 +1,6 @@
 #ifndef MATH_BOX_H__
 #define MATH_BOX_H__
 
-#include "Vector4.hpp"
-
 struct box_t
 //
 // Simple Axis Aligned Box.

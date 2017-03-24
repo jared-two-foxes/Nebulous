@@ -1,8 +1,6 @@
 #ifndef MATH_PLANE_H__
 #define MATH_PLANE_H__
 
-#include "Vector4.h"
-
 struct plane_t
 {
 public:

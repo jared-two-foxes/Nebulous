@@ -21,5 +21,9 @@ float Length( const vector4_t& v );
 float LengthSq( const vector4_t& v );
 vector4_t Normalize( const vector4_t& v );
 vector4_t Truncate( const vector4_t& v, float max );
+float Dot3( const vector4_t& a, const vector4_t& b );
+float Dot4( const vector4_t& a, const vector4_t& b );
+float Cross3( const vector4_t& a, const vector4_t& b );
+float Cross4( const vector4_t& a, const vector4_t& b );
 
 #endif // MATH_VECTOR4_H__
