@@ -1,0 +1,22 @@
+{
+  "passes": [ 
+    {
+      "vertexshader": {
+        "name":"default_particle_vs.glsl",
+        "uniforms": [
+          { "name":"world", "type":"mat4" }, 
+          { "name":"view", "type":"mat4" }, 
+          { "name":"projection", "type":"mat4" }, 
+          { "name":"offset", "type":"vec2" }, 
+          { "name":"size", "type":"vec2" }
+        ]
+      },
+      "fragmentshader": {
+        "name":"default_particle_fs.glsl",
+        "uniforms": [
+          { "name":"diffuseTexture" , "type":"sampler2D", "shared":false }
+        ]
+      }
+    }
+  ]
+}

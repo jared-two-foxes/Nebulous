@@ -1,0 +1,5 @@
+<Panel name="pnlMain" position="[0,0]" >
+  <Button name="btnAbout" position="[0,84]" width="364" height="100" />
+  <Button name="btnHighScore" position="[0,184]" width="364" height="94" />
+  <Button name="btnPlay" position="[0,278]" width="364" height="100" />
+</Panel>

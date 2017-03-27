@@ -1,0 +1,30 @@
+
+struct ProfileSample
+{
+   bool         bValid;                ///< Whether this data is valid
+   unsigned int iProfileInstances;     ///< # of times ProfileBegin called
+   int          iOpenProfiles;         ///< # of times ProfileBegin w/o ProfileEnd
+   char         szName[256];           ///< Name of sample
+   uint64       startTime;             ///< The current open profile start time
+   uint64       accumulator;
+   uint64       min;
+   uint64       max;
+   int32        parent;
+   unsigned int iNumParents;           ///< Number of profile parents
+};
+
+struct CallSite : public std::vector<std::shared_ptr<CallSite > >
+///
+/// Defines a list type that contains shared_ptr's to other CallSite objects.  Each object contained
+/// within the array can be considered a child of this CallSite.
+///
+{
+};
+
+std::unique_ptr<CallSite > m_call_stack;
+
+auto current = m_call_stack.back();
+if( current == nullptr )
+{
+  
+} 

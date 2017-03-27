@@ -1,0 +1,143 @@
+cmake_minimum_required(VERSION 2.8)
+
+message(trunk/CMakeLists.txt)
+
+if(GAME_WIN32)
+  message("-- Configuring Win32")
+  add_definitions("-DGAME_WIN32 -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX")
+elseif(GAME_IOS)
+  message("-- Configuring iOS")
+  add_definitions("-DGAME_IOS" "-D_IPHONE_OS" "-DOS_IPHONE" )
+    if(GAMELOFT_AD_SERVER_IOS)
+        add_definitions("-DGAMELOFT_AD_SERVER_IOS_ON")
+        # For TapJoy, to stop the TJCOffersWebView crash, we dont have the Nib file for the view
+        add_definitions("-DTJC_CONNECT_SDK")
+    endif()
+elseif(GAME_ANDROID)
+  set(CMAKE_SUPPRESS_REGENERATION true)
+  message("-- Configuring Android")
+  add_definitions("-DGAME_ANDROID" "-DRKRETAIL")
+else()
+  message(FATAL_ERROR "Unknown platform. Only GAME_WIN32|GAME_IOS|GAME_ANDROID supported")
+endif()
+
+if(GAME_ANDROID)
+  project(Game)
+else()
+  project(IceAgeAdventure)
+endif()
+
+# Enable GameSWF source to be compiled into the project
+set(USE_GAMESWF 1)
+
+set(ENGINE_NAME CasualCore)
+set(GAME_NAME IceAgeAdventure)
+#Disable jni folder - this is needed for new Android build process
+#set(JNI_NAME jni)
+#Add Android.vcproj to Game.sln - this is needed for new Android build process
+set(ANDROID_NAME prj/android)
+set(GAMESWF_CMAKE_PATH GameSWF)
+set(VOX_CMAKE_PATH Vox)
+
+if(GAME_ANDROID)
+set(IAP_LIB ${PROJECT_SOURCE_DIR}/lib/in_app_purchase)  
+endif()
+  
+
+# NOTE(Diego): Decided to move all CMAKE-specific variables to the main CMakeLists.txt file
+set(CMAKE_DEBUG_POSTFIX "_d")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DGAME_DEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBNFO} -DNDEBUG")
+
+if(GAME_WIN32)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /MP")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /ZI")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /MP /wd4018 /wd4244 /wd4996")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /ZI")
+endif()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
+
+if(GAME_IOS)
+  set(CMAKE_XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2")
+  set(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "5.0")
+  set(CMAKE_XCODE_ATTRIBUTE_ARCHS "armv7")
+  set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS "armv7")
+
+  if(GAME_USE_GCC)
+    set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvmgcc42")
+  endif()
+
+  set(CMAKE_OSX_SYSROOT iphoneos6.0)
+
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework AddressBook")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework AddressBookUI")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework AudioToolbox")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CFNetwork")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreGraphics")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreAudio")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreFoundation")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreLocation")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreMotion")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Foundation")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework GameKit")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework MapKit")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework MobileCoreServices")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework MediaPlayer")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework MessageUI")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenAL")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenGLES")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework QuartzCore")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework StoreKit")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework SystemConfiguration")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework UIKit")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework CoreTelephony")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework Security")
+
+  if(GAMELOFT_AD_SERVER_IOS)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreLocation")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework iAd")
+  
+          # For the burstly
+          set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework EventKit")
+          set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework EventKitUI")
+  endif()
+
+    # --- christophe added, for camera capture feature [changed weak_framework AVFoundation to framework AVFoundation .., ok ? ] + see \CasualCore\Graphics/VideoCamCap.h
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework AVFoundation")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreVideo")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework CoreMedia")
+
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework Accounts")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework AdSupport")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -weak_framework Social")
+endif()
+
+add_subdirectory(${GAME_NAME})
+add_subdirectory(${ENGINE_NAME})
+if(USE_GAMESWF)
+  add_subdirectory(${GAMESWF_CMAKE_PATH}) 
+endif()
+add_subdirectory(${VOX_CMAKE_PATH})
+
+if(GAME_IOS)
+  set_target_properties(${GAME_NAME} PROPERTIES XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS "YES")
+  set_target_properties(${ENGINE_NAME} PROPERTIES XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS "YES")
+  if(USE_GAMESWF)
+    set_target_properties(${GAMESWF_CMAKE_PATH} PROPERTIES XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS "YES")
+  endif()
+endif()
+
+if(GAME_ANDROID)
+  #Disable jni folder - this is needed for new Android build process
+  #add_subdirectory(${JNI_NAME})
+  #Add Android.vcproj to Game.sln - this is needed for new Android build process
+  add_subdirectory(${ANDROID_NAME} Android)
+  add_subdirectory(${IAP_LIB} InAppPurchase)
+endif()
