@@ -1,0 +1,18 @@
+[submodule "Externals/lua"]
+	path = Externals/lua
+	url = https://github.com/lua/lua
+[submodule "Externals/jsoncpp"]
+	path = Externals/jsoncpp
+	url = https://github.com/open-source-parsers/jsoncpp.git
+[submodule "Externals/boost"]
+	path = Externals/boost
+	url = https://github.com/boostorg/boost.git
+[submodule "Externals/freetype2"]
+	path = Externals/freetype2
+	url = git://git.savannah.gnu.org/freetype/freetype2.git
+[submodule "Externals/vorbis"]
+	path = Externals/vorbis
+	url = https://github.com/xiph/vorbis.git
+[submodule "Externals/ogg"]
+	path = Externals/ogg
+	url = https://github.com/xiph/ogg.git

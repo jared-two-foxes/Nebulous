@@ -6,9 +6,6 @@ return {
   },
   jsoncpp = {                                                                                 
     nil,                                                                 'jsoncpp/include',           'jsoncpp/lib/release',              'jsoncpp.lib'
-  },           
-  pugixml = {                                                                                 
-    nil,                                                                 'pugixml/src',               'pugixml/lib/release',              'pugixml.lib'
   },
   libvorbis = {                                                                         
     nil,                                                                 'libvorbis/include',         'libvorbis/lib/release',            'vorbis.lib'
