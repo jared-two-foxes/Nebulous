@@ -41,51 +41,51 @@ bool
 SpriteAnimation::Load( File* is )
 {
   if( NULL == is ) return false;
-
 //
-// Read the contents of stream into a buffer.
+////
+//// Read the contents of stream into a buffer.
+////
+//  is->SeekToEnd();
+//  std::size_t size = is->Tell();
+//  char* buffer = new char[size];
+//  is->Seek( 0 );
+//  is->Read( buffer, size );
 //
-  is->SeekToEnd();
-  std::size_t size = is->Tell();
-  char* buffer = new char[size];
-  is->Seek( 0 );
-  is->Read( buffer, size );
-
+////
+//// This is actually returning a structure with parse details which is being cast to a boolean.
+////
+//  pugi::xml_document doc; 
+//  bool bSuccess = doc.load(buffer);
+//	if( !bSuccess ) {
+//    delete [] buffer;
+//		return false;
+//	}
 //
-// This is actually returning a structure with parse details which is being cast to a boolean.
+////
+//// Grab the frames.
+////
+//	pugi::xml_node root = doc.document_element();
+//	pugi::xml_node_iterator itr;
+//	int i = 0;
+//	SpriteAtlas* pAtlas = NULL;
 //
-  pugi::xml_document doc; 
-  bool bSuccess = doc.load(buffer);
-	if( !bSuccess ) {
-    delete [] buffer;
-		return false;
-	}
-
+//	for( itr = root.begin(); itr != root.end(); ++itr ) {
+//		std::string strSpriteSheetName = (*itr).attribute("spritesheet").as_string();
+//		pAtlas = m_atlasManager->GetByName( strSpriteSheetName );
+//		if( pAtlas == NULL ) {
+//			pAtlas = m_atlasManager->Create( strSpriteSheetName );
+//		}
 //
-// Grab the frames.
+//		// Create the animation frame link.
+//		SpriteAnimationFrame* pAnimationFrame = new SpriteAnimationFrame();
+//		pAnimationFrame->iId          = i++;
+//		pAnimationFrame->pSpriteAtlas = pAtlas;
+//		pAnimationFrame->strFrameName = (*itr).attribute("frame").as_string();
 //
-	pugi::xml_node root = doc.document_element();
-	pugi::xml_node_iterator itr;
-	int i = 0;
-	SpriteAtlas* pAtlas = NULL;
-
-	for( itr = root.begin(); itr != root.end(); ++itr ) {
-		std::string strSpriteSheetName = (*itr).attribute("spritesheet").as_string();
-		pAtlas = m_atlasManager->GetByName( strSpriteSheetName );
-		if( pAtlas == NULL ) {
-			pAtlas = m_atlasManager->Create( strSpriteSheetName );
-		}
-
-		// Create the animation frame link.
-		SpriteAnimationFrame* pAnimationFrame = new SpriteAnimationFrame();
-		pAnimationFrame->iId          = i++;
-		pAnimationFrame->pSpriteAtlas = pAtlas;
-		pAnimationFrame->strFrameName = (*itr).attribute("frame").as_string();
-
-		// Store the reference frame.
-		m_Frames.push_back( pAnimationFrame );
-	}
-
-  delete [] buffer;
+//		// Store the reference frame.
+//		m_Frames.push_back( pAnimationFrame );
+//	}
+//
+//  delete [] buffer;
 	return true;
 }

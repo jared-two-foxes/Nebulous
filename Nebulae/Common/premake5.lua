@@ -32,7 +32,7 @@ project "Common"
     "UnitTests/**"
   }
 
-  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform )
+  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform  )
 
   filter "action:xcode*"
     removefiles

@@ -21,6 +21,7 @@
 #include <set>
 #include <string>
 #include <map>
+#include <memory>
 
 // STL algorithms & functions
 #include <algorithm>
@@ -32,14 +33,12 @@
 
 // boost includes
 #include <boost/any.hpp>
+//#define BOOST_FILESYSTEM_NO_DEPRECATED //< Prevent use of depreciated functions
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
 // json 
 #include <json/json.h>
-
-// xml
-#include <pugixml.hpp>
 
 
 #endif // __NEBULAE_COMMON_DEPENDENCIES_H__

@@ -33,7 +33,7 @@ DiskFile::DiskFile( std::string filename, bool bReadOnly )
   baseStream = new std::fstream( filename.c_str(), mode ); 
   
   // Should check ensure open succeeded, in case fail for some reason.
-  NE_ASSERT( !baseStream->fail(), "Attempting to open file '%s' failed", filename )();
+  NE_ASSERT( !baseStream->fail(), "Attempting to open file '%s' failed", filename.c_str() )();
   if( baseStream->fail() )
   {
     delete baseStream;

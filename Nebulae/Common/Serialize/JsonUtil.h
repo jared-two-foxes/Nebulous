@@ -31,7 +31,7 @@ struct json_caster<bool>
 {
   static bool to_value( const Json::Value& value, bool valueOnError ) 
   { 
-    NE_ASSERT( value.isBool(), "Bad json_cast; expected boolean, found %s", value.toStyledString() )();
+    NE_ASSERT( value.isBool(), "Bad json_cast; expected boolean, found %s", value.toStyledString().c_str() )();
     if( value.isBool() )
     {
       return value.asBool();
@@ -48,7 +48,7 @@ struct json_caster<int>
 {
   static int to_value( const Json::Value& value, int valueOnError ) 
   { 
-    NE_ASSERT( value.isInt(), "Bad json_cast; expected integer, found %s", value.toStyledString() )();
+    NE_ASSERT( value.isInt(), "Bad json_cast; expected integer, found %s", value.toStyledString().c_str())();
     if( value.isInt() )
     {
       return value.asInt();

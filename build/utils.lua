@@ -3,13 +3,11 @@ local function endsWith(s, suffix)
   return #s >= #suffix and s:find(suffix, #s - #suffix + 1, true)
 end
 
-
 local function splitPathName(path)
   local nameStart, _, name = path:find('([^/\\]+)[/\\]?$')
   local dir = path:sub(0, nameStart - 2)
   return dir, name
 end                                  
-
 
 local function splitExt(path)
   local extStart, _, ext = path:find('[^/\\.][.]([^/\\.]*)$')
@@ -20,8 +18,6 @@ local function splitExt(path)
     return path, nil
   end
 end
-
-
 
 local function merge(t1, t2)
   for k, v in pairs(t2) do
@@ -34,47 +30,20 @@ local function merge(t1, t2)
   return t1
 end
 
+local function unpackLibPlatformInfo( libsRootPath, libPlatformInfo )
+  local projectPath, includePath, libPath, libName = unpack( libPlatformInfo )
 
-local function getUuidByRegexp(path, pattern)
-  assert(os.isfile(_WORKING_DIR .. '/' .. path), 'Unable to find project file: ' .. path)
-  local uuid = nil
-
-  for line in io.lines(_WORKING_DIR .. '/' .. path) do    
-    local _, _, foundUuid = line:find(pattern)
-    if foundUuid ~= nil then
-      assert(uuid == nil, 'Second UUID/target found in file: ' .. path)
-      uuid = foundUuid
-    end
+  if projectPath ~= nil and not path.isabsolute( projectPath ) then 
+    projectPath = libsRootPath .. '/' .. projectPath 
   end
-
-  return uuid
-end
-
-local function getUuid(projectPath)
-  if endsWith(projectPath, '.vcxproj') then
-    local uuid = getUuidByRegexp(projectPath, '<ProjectGuid>{([%x-]+)}</ProjectGuid>')
-    if uuid == nil then
-      uuid = getUuidByRegexp(projectPath, '<ProjectGUID>{([%x-]+)}</ProjectGUID>')
-    end
-    return uuid
-  elseif endsWith(projectPath, '.vcproj') then
-    return getUuidByRegexp(projectPath, 'ProjectGUID="{([%x-]+)}"')
-  elseif endsWith(projectPath, '.xcodeproj') then
-    return getUuidByRegexp(projectPath .. '/project.pbxproj', 'rootObject%s*=%s*(%x+)')
-  elseif endsWith(projectPath, '.mk') then -- for android it returns target name
-    return getUuidByRegexp(projectPath, 'LOCAL_MODULE%s*:=%s*([^%s]+)')
-  else
-    assert(false, 'Unsupported project type: ' .. projectPath)
+  
+  if includePath ~= nil and not path.isabsolute( includePath ) then 
+    includePath = libsRootPath .. '/' .. includePath 
   end
-end
-
-
-local function unpackLibPlatformInfo(libsRootPath, libPlatformInfo)
-  local projectPath, includePath, libPath, libName = unpack(libPlatformInfo)
-
-  if projectPath ~= nil then projectPath = libsRootPath .. '/' .. projectPath end
-  if includePath ~= nil then includePath = libsRootPath .. '/' .. includePath end
-  if libPath     ~= nil then libPath     = libsRootPath .. '/' .. libPath end
+  
+  if libPath ~= nil and not path.isabsolute( libPath ) then 
+    libPath = libsRootPath .. '/' .. libPath 
+  end
 
   return projectPath, includePath, libPath, libName
 end
@@ -84,7 +53,7 @@ local function addDependencyPathsToCurrentSolution(libraries, libsRootPath, plat
     local libPlatformInfo = libDef[platform]
 
     if libPlatformInfo ~= nil then
-      local projectPath, includePath, libPath, libName = unpackLibPlatformInfo(libsRootPath, libPlatformInfo)
+      local projectPath, includePath, libPath, libName = unpackLibPlatformInfo( libsRootPath, libPlatformInfo )
       
       if includePath ~= nil then
         -- premake calls
@@ -130,47 +99,38 @@ local function addProjectsToCurrentSolution(libraries, libsRootPath, platform)
   end
 end
 
-local function addLibrariesToCurrentProject(libraries, libsRootPath, platform)
-  for libName, libDef in pairs(libraries) do
-    local projectPath, includePath, libPath, libName = unpackLibPlatformInfo(libsRootPath, libDef)
+local function addLibrariesToCurrentProject( libraries, libsRootPath, platform )
+  for libName, libDef in pairs( libraries ) do
+    local projectPath, includePath, libPath, libName = unpackLibPlatformInfo( libsRootPath, libDef )
 
     if projectPath ~= nil then
-      local fileDir, fileName     = splitPathName(projectPath)
-      local fileBaseName, fileExt = splitExt(fileName)
-
+      local fileDir, fileName     = splitPathName( projectPath )
+      local fileBaseName, fileExt = splitExt( fileName )
       links { fileBaseName } 
     else
-      if includePath ~= nil then
-        includedirs { includePath }
-      end
-
-      if libPath ~= nil then 
-        libdirs { libPath }
-      end
-      
-      if libPath ~= nil then 
-        links { libName }
-      end
+      if includePath ~= nil then includedirs { includePath } end
+      if libPath ~= nil then     libdirs { libPath } end
+      if libPath ~= nil then     links { libName } end
     end
   end
 end
 
 
-local function setResourcesDir(path)
-  local items = {}
+-- local function setResourcesDir(path)
+--   local items = {}
 
-  -- adding both files and directories
-  local f = io.popen("ls -1 " .. path)
-  for line in f:lines() do
-    if line.sub(1, 1) ~= '.' then
-      table.insert(items, path .. '/' .. line)
-    end
-  end
+--   -- adding both files and directories
+--   local f = io.popen("ls -1 " .. path)
+--   for line in f:lines() do
+--     if line.sub(1, 1) ~= '.' then
+--       table.insert(items, path .. '/' .. line)
+--     end
+--   end
 
-  -- premake call
-  files(items)
-  resources(items)
-end
+--   -- premake call
+--   files(items)
+--   resources(items)
+-- end
 
 
 

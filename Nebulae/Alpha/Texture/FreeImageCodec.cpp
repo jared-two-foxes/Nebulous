@@ -1,3 +1,4 @@
+#if 0
 
 #include "FreeImageCodec.h"
 
@@ -463,3 +464,5 @@ FreeImageCodec::ConvertFromRawBits( uint8* bits, PixelFormat sourceFormat, std::
 
   return NULL;
 }
+
+#endif 

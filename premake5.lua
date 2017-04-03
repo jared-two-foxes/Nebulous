@@ -2,7 +2,7 @@
 --  Nebulae v0.0.1 build script
 --
 
-dependenciesRoot = 'D:/Develop/nebulous/Dependencies/'
+dependenciesRoot = 'C:/Users/Jared Watt/Documents/Develop/Nebulous/Externals'
 -- package.path = package.path .. ";" .. dependenciesRoot
 
 local utils    = require('build.utils')
@@ -21,16 +21,6 @@ newoption {
 }
 
 newoption {
-  trigger     = "benchmark",
-  description = "Add's to the solution the benchmark projects.",
-}
-
-newoption {
-  trigger     = "buildDependencyProjects",
-  description = "Will recreate the project files for any dependencies.",
-}
-
-newoption {
   trigger     = "samples",
   description = "Add's to the solution the project files for the engine samples.",
 }
@@ -43,11 +33,6 @@ newoption {
 newoption {
   trigger     = "validate",
   description = "Runs cpplint's validation scripts on the source code as a post build step.",
-}
-
-newoption {
-  trigger     = "ios",
-  description = "Will configure projects for iOS, only applicable when action is xcode.",
 }
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -85,10 +70,6 @@ if( false == os.isdir(solutionLocation) ) then
   os.mkdir( solutionLocation )
 end
 
-if _OPTIONS["buildDependencyProjects"] then
-  include "../../Dependencies" --dependenciesRoot
-end
-
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -107,8 +88,6 @@ workspace "Nebulae"
     "./"
   }
 
-  -- utils.addDependencyPathsToCurrentSolution(dependenciesRoot, platform)
-
   filter "configurations:debug"
     defines { "DEBUG", "_DEBUG" }
     targetdir ( path.join(baseLocation, "bin/debug") )
@@ -125,9 +104,9 @@ workspace "Nebulae"
       "_WIN32" 
     }
 
-    architecture ("x86_64")     
+    architecture ( "x86_64" )
     buildoptions { "/EHsc", "/MP", "/Wall" }
-    flags        { "WinMain", 'FatalWarnings' }
+    --flags        { "WinMain", 'FatalWarnings' }
 
     -- ignore some warnings
     linkoptions {
@@ -183,6 +162,7 @@ workspace "Nebulae"
       '/wd4702',
       '/wd4189',
       '/wd4706', -- assignment within a conditional
+      '/wd4987', -- assignment within a conditional
 
       '/wd4628', -- gmock
       '/wd4373', -- previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
@@ -203,88 +183,6 @@ workspace "Nebulae"
       '_CRT_SECURE_NO_DEPRECATE',
     }
 
-  filter "action:xcode*"
-    -- enable most
-    buildoptions { 
-      '-Wall', '-Wextra', -- not using -Weverything, it's usage discouraged by clang developers and it might contain buggy warnings
-    }
-    -- treat all warnings as errors
-    flags { 'FatalWarnings' }
-    -- ignore some warnings
-    buildoptions {
-      '-Wno-unused-parameter', -- whole idea is broken, because overriding method might not need an argument
-      '-Wno-unused-function',  -- maybe can be enabled, but actually it's harmless and can be helpful for debugging
-      '-Wno-trigraphs',        -- trigraphs in constants are not converted, that's exactly what any sane person would expected
-      '-Wno-missing-braces',   -- triggers numerous warnings in math constants
-    }
-    -- maybe should be enabled later
-    buildoptions {
-      '-Wno-unknown-pragmas',  -- can't find a reasonable alternative solution, it's either removing all regions or -fms-extensions, neither is very good
-      '-Wno-sign-compare',     -- would like to have it, but it's triggered even on == comparison, way too many false positives
-      '-Wno-reorder',          -- would like to have it, but it would require to change almost all ctors... =(
-                               -- + msvc doesn't have such warning, it would be too easy to use wrong order while using msvc, as a result ios build will be broken too often
-      '-Wno-deprecated-writable-strings', --sin by Tracking lib
-      '-Wno-semicolon-before-method-body', -- sin by Tracking lib
-      '-Wno-uninitialized', -- sin by Tracking lib
-      '-Wno-incomplete-implementation', -- sin by Tracking lib
-      '-Wno-ignored-qualifiers', -- sin by GLOTonGLWT
-      '-Wno-unused-variable', -- sin by Gaia
-      '-Wno-unused-value', -- sin by GLF
-      '-Wno-format', -- sin by GLWTManager
-      '-Wno-delete-non-virtual-dtor', -- sin by SocialLib
-      '-Wno-missing-selector-name',
-    }
-
-    defines {
-      "_IPHONE_OS",
-      "OS_IPHONE",
-      "IPHONEOS"
-    }
-    
-    strongFrameworks = {
-      'boost',
-      'GLKit',
-      'AVFoundation',
-      'AddressBook',
-      'AddressBookUI',
-      'AudioToolbox',
-      'CFNetwork',
-      'CoreGraphics',
-      'CoreAudio',
-      'CoreFoundation',
-      'CoreLocation',
-      'CoreMedia',
-      'CoreMotion',
-      'CoreVideo',
-      'Foundation',
-      'MessageUI',
-      'OpenAL',
-      'OpenGLES',
-      'QuartzCore',
-      'StoreKit',
-      'SystemConfiguration',
-    }
-    
-    weakFrameworks = {
-      'Accounts',
-      'AdSupport',
-      'CoreTelephony',
-      'EventKit',
-      'EventKitUI',
-      'GameKit',
-      'MapKit',
-      'MediaPlayer',
-      'MobileCoreServices',
-      'Security',
-      'UIKit',
-    }
-
-    -- utils.addFrameworksToCurrentSolutionConfiguration(strongFrameworks, weakFrameworks)
-
-  -- if platform == 'ios' then
-  --   utils.addXCodeBuildSettings()
-  -- end
-
   filter {}
 
   -- utils.addProjectsToCurrentSolution(dependenciesRoot, platform)
@@ -300,11 +198,6 @@ workspace "Nebulae"
   -- Build tests --
   if _OPTIONS["tests"] then
     include "tests"
-  end
-
-  -- Build benchmarks --
-  if _OPTIONS["benchmark"] then
-    include "Benchmarks"
   end
 
   -- Samples --

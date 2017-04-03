@@ -1,1 +1,1 @@
-premake5 %* --buildDependencyProjects --clean --plugins --benchmark --tests vs2015
+premake5 %* --clean vs2015
