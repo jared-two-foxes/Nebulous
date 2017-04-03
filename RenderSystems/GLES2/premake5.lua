@@ -2,9 +2,9 @@
 -- OpenGL ES 2.0 Module v0.0.1 build script
 --
 
-local utils    = require('build.utils')
-local tablex   = require('pl.tablex')
+local utils     = require('build.utils')
 local libraries = require('build.libraries')
+local tablex    = require('build.tablex')
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14,14 +14,6 @@ project "gles_2_0"
   assert(solutionLocation, 'solutionLocation should be an absolute path set up in the main premake file')
   location(path.join(solutionLocation, "GLES2"))
   
-  -- if platform == 'ios' then
-  --   utils.addXCodeBuildSettings()
-  -- end
-
-  defines {
-    "FREEIMAGE_LIB"
-  }
-
   includedirs {
     "./",
     "../",
@@ -40,19 +32,11 @@ project "gles_2_0"
   }
 
   local current_libraries = tablex.copy( libraries );
-
   local var               = path.getdirectory(_SCRIPT) .. '/libraries.lua'
   local project_libraries = dofile( var )
-  
-  utils.merge( current_libraries, project_libraries )
+  local libraries         = tablex.union( current_libraries, project_libraries )
 
-  utils.addLibrariesToCurrentProject( current_libraries, dependenciesRoot, platform )
-
-  filter "action:xcode*"
-    files {
-      "EAGL/**.h",
-      "EAGL/**.mm"
-    }
+  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform )
 
   filter "action:vs*"
     files {
@@ -60,13 +44,13 @@ project "gles_2_0"
       "Win32/**.cpp"
     }
 
-  filter 'configurations:debug'
+  filter 'configurations:Debug'
     defines { "DEBUG" }
     flags { "Symbols" }       
     targetsuffix '_d'
-    targetdir ( path.join(baseLocation, "bin/debug") )
+    targetdir ( path.join(baseLocation, "Bin/Debug") )
 
-  filter 'configurations:release'
+  filter 'configurations:Release'
     defines { "NDEBUG" }
     flags { "Optimize" }      
-    targetdir ( path.join(baseLocation, "bin/release") )    
+    targetdir ( path.join(baseLocation, "Bin/Release") )    

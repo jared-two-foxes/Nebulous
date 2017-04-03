@@ -25,3 +25,6 @@
 [submodule "Externals/openal-soft"]
 	path = Externals/openal-soft
 	url = https://github.com/kcat/openal-soft.git
+[submodule "Penlight"]
+	path = Penlight
+	url = https://github.com/stevedonovan/Penlight.git

@@ -3,8 +3,8 @@
 --
 
 local utils     = require('build.utils')
-local tablex    = require('pl.tablex')
 local libraries = require('build.libraries')
+local tablex    = require('build.tablex')
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -13,14 +13,6 @@ project "opengl_3"
   language "C++"
   assert(solutionLocation, 'solutionLocation should be an absolute path set up in the main premake file')
   location(path.join(solutionLocation, "GL3"))
-  
-  -- if platform == 'ios' then
-  --   utils.addXCodeBuildSettings()
-  -- end
-
-  defines {
-    "FREEIMAGE_LIB"
-  }
 
   includedirs {
     "./",
@@ -37,26 +29,14 @@ project "opengl_3"
   links {
     "Common",
     "Alpha",
-    --"opengl32.lib",
   }
 
-
-
-  local var               = path.getdirectory(_SCRIPT) .. '/libraries.lua'
+  local var               = path.getdirectory( _SCRIPT ) .. '/libraries.lua'
   local project_libraries = dofile( var )
   local current_libraries = tablex.copy( libraries );
-  
-  utils.merge( current_libraries, project_libraries )
+  local libraries         = tablex.union( current_libraries, project_libraries )
 
-  -- print( "Adding Libraries to project - " .. dependenciesRoot )
-
-  utils.addLibrariesToCurrentProject( current_libraries, dependenciesRoot, platform )
-
-  filter "action:xcode*"
-    files {
-      "EAGL/**.h",
-      "EAGL/**.mm"
-    }
+  utils.addLibrariesToCurrentProject( libraries, dependenciesRoot, platform )
 
   filter "action:vs*"
     files {
@@ -64,13 +44,13 @@ project "opengl_3"
       "Win32/**.cpp"
     }
 
-  filter 'configurations:debug'
+  filter 'configurations:Debug'
     defines { "DEBUG" }
     flags { "Symbols" }       
     targetsuffix '_d'
-    targetdir ( path.join(baseLocation, "bin/debug") )
+    targetdir ( path.join(baseLocation, "Bin/Debug") )
 
-  filter 'configurations:release'
+  filter 'configurations:Release'
     defines { "NDEBUG" }
     flags { "Optimize" }      
-    targetdir ( path.join(baseLocation, "bin/release") )
+    targetdir ( path.join(baseLocation, "Bin/Release") )

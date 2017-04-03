@@ -14,10 +14,6 @@ project "Common"
   language "C++"
   location(path.join(solutionLocation, "Common"))
 
-  -- if platform == 'ios' then
-  --   utils.addXCodeBuildSettings()
-  -- end
-
   files {
    "**.cpp",
    "**.h"

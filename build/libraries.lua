@@ -26,12 +26,12 @@ return {
     'ogg/lib/release',               
     'ogg.lib'
   },
-  -- openal = {
-  --   nil,                                                               
-  --   'openal-soft/include',       
-  --   'openal-soft/libs/Win64',           
-  --   'OpenAL32.lib'
-  -- },
+  openal = {
+    nil,                                                               
+    'openal-soft/include',       
+    'openal-soft/libs/Win64',           
+    'OpenAL32.lib'
+  },
 
   zlib = {
     nil,                                                               

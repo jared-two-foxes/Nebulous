@@ -1,1 +1,1 @@
-premake5 %* --clean vs2015
+premake5 %* --clean --plugins vs2015
