@@ -22,3 +22,6 @@
 [submodule "Externals/zlib"]
 	path = Externals/zlib
 	url = https://github.com/madler/zlib.git
+[submodule "Externals/openal-soft"]
+	path = Externals/openal-soft
+	url = https://github.com/kcat/openal-soft.git
