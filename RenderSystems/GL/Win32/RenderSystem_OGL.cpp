@@ -5,12 +5,12 @@
 
 #include <Nebulae/Alpha/Shaders/UniformDefinition.h>
 
-#include <RenderSystems/GL/Shared/HardwareShaderImpl_OGL.h>
-#include <RenderSystems/GL/Shared/InputLayoutImpl_OGL.h>
-#include <RenderSystems/GL/Shared/ProgramObject.h>
-#include <RenderSystems/GL/Shared/HardwareBufferImpl_OGL.h>
-#include <RenderSystems/GL/Shared/SamplerImpl_OGL.h>
-#include <RenderSystems/GL/Shared/TextureImpl_OGL.h>
+#include <RenderSystems/GL/HardwareShaderImpl_OGL.h>
+#include <RenderSystems/GL/InputLayoutImpl_OGL.h>
+#include <RenderSystems/GL/ProgramObject.h>
+#include <RenderSystems/GL/HardwareBufferImpl_OGL.h>
+#include <RenderSystems/GL/SamplerImpl_OGL.h>
+#include <RenderSystems/GL/TextureImpl_OGL.h>
 
 
 PFNGLUNIFORM1FPROC        glUniform1f        = NULL;
