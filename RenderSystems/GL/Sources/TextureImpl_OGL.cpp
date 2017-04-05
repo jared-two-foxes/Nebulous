@@ -1,11 +1,8 @@
 
-#include "TextureImpl_OGL.h"
-#include "GLPixelConversionUtil.h"
+#include "Includes/TextureImpl_OGL.h"
+#include "Includes/GLPixelConversionUtil.h"
 
 #include <Nebulae/Alpha/Texture/Image.h>
-
-#include <FreeImage.h>
-
 
 using namespace Nebulae;
 

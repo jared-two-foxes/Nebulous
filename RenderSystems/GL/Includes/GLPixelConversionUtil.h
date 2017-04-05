@@ -1,7 +1,7 @@
 #ifndef __NEBULAE_GLPIXELCONVERTIONUTIL_H__
 #define __NEBULAE_GLPIXELCONVERTIONUTIL_H__
 
-#include <GL/config.h>
+#include <Config.h>
 
 namespace Nebulae
 {

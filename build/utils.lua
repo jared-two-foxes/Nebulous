@@ -99,7 +99,7 @@ local function addLibrariesToCurrentProject( libraries, libsRootPath, platform )
     else
       if includePath ~= nil then includedirs { includePath } end
       if libPath ~= nil then     libdirs { libPath } end
-      if libPath ~= nil then     links { libName } end
+      if libName ~= nil then     links { libName } end
     end
   end
 end

@@ -10,41 +10,45 @@ return {
   jsoncpp = {                                                                                 
     nil,                                                               
     'jsoncpp/include',           
-    'jsoncpp/lib/release',              
-    'jsoncpp.lib'
+    'jsoncpp/makefiles/msvc2010/x64/$(Configuration)',              
+    'lib_json.lib'
   },
 
   libvorbis = {
     nil,                                                               
-    'vorbis/include',         
-    'vorbis/lib/release',            
-    'vorbis.lib'
+    'libvorbis/include',         
+    'libvorbis/win32/VS2010/x64/$(Configuration)',            
+    'libvorbis_static.lib'
   },
   libogg = {
     nil,                                   
-    'ogg/include',           
-    'ogg/lib/release',               
-    'ogg.lib'
+    'libogg/include',           
+    'libogg/win32/VS2015/x64/$(Configuration)',               
+    'libvorbis_static.lib'
   },
-  openal = {
+
+  -- CMake installed!
+  openal = { 
     nil,                                                               
-    'openal-soft/include',       
-    'openal-soft/libs/Win64',           
+    'C:/Program Files/OpenAL/include',       
+    'C:/Program Files/OpenAL/lib',           
     'OpenAL32.lib'
   },
 
+  -- CMake installed!
   zlib = {
     nil,                                                               
-    'zlib',                      
-    'zlib/lib/release',                 
-    'zlib.lib'
+    'C:/Program Files/zlib/include',                      
+    'C:/Program Files/zlib/lib',                 
+    'zlibstatic.lib'
   },
-  minizip = {
-    nil,                                                               
-    'zlib/contrib',              
-    'zlib/lib/release',                 
-    'minizip.lib'
-  },
+
+  -- minizip = {
+  --   nil,                                                               
+  --   'zlib/contrib',              
+  --   'zlib/build/$(Configuration)',                 
+  --   'minizip.lib'
+  -- },
 
   gli = {   
     nil,                                                               
@@ -56,8 +60,8 @@ return {
   freetype = {   
     nil,                                                               
     'freetype2/include',          
-    'freetype2/lib/release',             
-    'freetype2411mt.lib'
+    'freetype2/objs/vc2010/x64',             
+    'freetype271.lib'
   },
 
   utf8 = {   
@@ -67,11 +71,12 @@ return {
     nil 
   },
 
+  -- CMake installed!
   lua = {   
     nil,                                                               
-    'lua/src',                   
-    'lua/lib/release',                  
-    'lualib51.lib'
+    'C:/Program Files/lua/include',                   
+    'C:/Program Files/lua/lib',                  
+    'lua.lib'
   },
 
   -- gmock = {                  
@@ -83,7 +88,7 @@ return {
   -- gtest = {                  
   --   nil,                                                               
   --   'gtest/include',             
-  --   'gtest/lib/debug',                        
+  --   'gtest/lib/$(Configuration)',                        
   --   'gtest.lib'
   -- },  
 

@@ -1,6 +1,6 @@
 
-#include "InputLayoutImpl_OGL.h"
-#include "ProgramObject.h"
+#include "Includes/InputLayoutImpl_OGL.h"
+#include "Includes/ProgramObject.h"
 
 #include <Nebulae/Alpha/InputLayout/VertexDeceleration.h>
 

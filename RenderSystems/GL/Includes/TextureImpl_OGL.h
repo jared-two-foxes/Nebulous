@@ -1,8 +1,7 @@
 #ifndef __TEXTUREIMPL_OGL_H__
 #define __TEXTUREIMPL_OGL_H__
 
-#include <GL/config.h>
-
+#include <Config.h>
 #include <Nebulae/Alpha/Texture/TextureImpl.h>
 
 namespace Nebulae

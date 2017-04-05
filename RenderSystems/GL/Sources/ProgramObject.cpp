@@ -1,6 +1,6 @@
 
-#include "ProgramObject.h"
-#include "HardwareShaderImpl_OGL.h"
+#include "Includes/ProgramObject.h"
+#include "Includes/HardwareShaderImpl_OGL.h"
 
 PFNGLATTACHSHADERPROC       glAttachShader      = NULL;
 PFNGLCREATEPROGRAMPROC      glCreateProgram     = NULL;

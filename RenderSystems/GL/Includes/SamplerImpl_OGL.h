@@ -1,7 +1,7 @@
 #ifndef NEBULAE_SAMPLERIMPL_OGL_H__
 #define NEBULAE_SAMPLERIMPL_OGL_H__
 
-#include <GL/config.h>
+#include <Config.h>
 
 #include <Nebulae/Alpha/Sampler/Sampler.h>
 

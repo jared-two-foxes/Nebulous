@@ -1,8 +1,6 @@
 
 #include "Image.h"
 
-#include <Nebulae/Alpha/Texture/FreeImageCodec.h>
-
 
 using namespace Nebulae;
 
@@ -165,25 +163,25 @@ Image::flipAroundX()
 
 Image&
 Image::load( File& is ) {
-  ImageCodec*     codec = new FreeImageCodec();
-  ImageCodecData* data  = codec->Decode( is );
-  if( data ) {
-    m_width      = data->width;
-    m_height     = data->height;
-    m_bufSize    = data->size;
-    m_format     = data->format;
-    m_pixelSize  = static_cast<uint8>( PixelUtil::GetNumElemBytes(m_format) );
-  
-    // Store the image data.
-    m_buffer = new uint8[ m_bufSize ];
-    memcpy( m_buffer, data->datastream, m_bufSize );
+  //ImageCodec*     codec = new FreeImageCodec();
+  //ImageCodecData* data  = codec->Decode( is );
+  //if( data ) {
+  //  m_width      = data->width;
+  //  m_height     = data->height;
+  //  m_bufSize    = data->size;
+  //  m_format     = data->format;
+  //  m_pixelSize  = static_cast<uint8>( PixelUtil::GetNumElemBytes(m_format) );
+  //
+  //  // Store the image data.
+  //  m_buffer = new uint8[ m_bufSize ];
+  //  memcpy( m_buffer, data->datastream, m_bufSize );
 
-    // delete the data being pointed to by the ImageCodeData;
-    delete [] data->datastream;
-    delete data;
-  }
+  //  // delete the data being pointed to by the ImageCodeData;
+  //  delete [] data->datastream;
+  //  delete data;
+  //}
 
-  delete codec;
+  //delete codec;
   
   return *this;
 }
@@ -208,26 +206,26 @@ std::size_t numMipMaps) {
 
 Image&
 Image::convert( PixelFormat conversionFormat ) {
-  ImageCodec*     codec = new FreeImageCodec();
-  std::size_t     pitch = m_width * PixelUtil::GetNumElemBytes(m_format);
-  ImageCodecData* data  = codec->ConvertFromRawBits( m_buffer, m_format, m_width, m_height, pitch, m_pixelSize * 8, conversionFormat );
-  if( data ) {
-    m_width      = data->width;
-    m_height     = data->height;
-    m_bufSize    = data->size;
-    m_format     = data->format;
-    m_pixelSize  = static_cast<uint8>( PixelUtil::GetNumElemBytes(m_format) );
-  
-    // Store the image data.
-    m_buffer = new uint8[ m_bufSize ];
-    memcpy( m_buffer, data->datastream, m_bufSize );
-  
-    // delete the data being pointed to by the ImageCodeData;
-    delete [] data->datastream;
-    delete data;
-  }
+  //ImageCodec*     codec = new FreeImageCodec();
+  //std::size_t     pitch = m_width * PixelUtil::GetNumElemBytes(m_format);
+  //ImageCodecData* data  = codec->ConvertFromRawBits( m_buffer, m_format, m_width, m_height, pitch, m_pixelSize * 8, conversionFormat );
+  //if( data ) {
+  //  m_width      = data->width;
+  //  m_height     = data->height;
+  //  m_bufSize    = data->size;
+  //  m_format     = data->format;
+  //  m_pixelSize  = static_cast<uint8>( PixelUtil::GetNumElemBytes(m_format) );
+  //
+  //  // Store the image data.
+  //  m_buffer = new uint8[ m_bufSize ];
+  //  memcpy( m_buffer, data->datastream, m_bufSize );
+  //
+  //  // delete the data being pointed to by the ImageCodeData;
+  //  delete [] data->datastream;
+  //  delete data;
+  //}
 
-  delete codec;
+  //delete codec;
   
   return *this;
 }

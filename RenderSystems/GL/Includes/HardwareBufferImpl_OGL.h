@@ -1,7 +1,7 @@
 #ifndef __HARDWAREBUFFERIMPL_OGL_H__
 #define __HARDWAREBUFFERIMPL_OGL_H__
 
-#include <GL/config.h>
+#include <Config.h>
 
 #include <Nebulae/Alpha/Buffer/HardwareBufferImpl.h>
 

@@ -1,7 +1,7 @@
 #ifndef __PASSIMPL_OPENGL_H__
 #define __PASSIMPL_OPENGL_H__
 
-#include <GL/config.h>
+#include <Config.h>
 
 #include <Nebulae/Alpha/Shaders/UniformDefinition.h>
 

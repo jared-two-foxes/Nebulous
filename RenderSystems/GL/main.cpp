@@ -2,7 +2,7 @@
 
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
 
-#include <RenderSystem_OGL.h>
+#include <Includes/RenderSystem_OGL.h>
 
 
 NE_RENDERER_PLUGIN( RendererPlugin, "OpenGL 3.0 Renderer", "0.0.1" )

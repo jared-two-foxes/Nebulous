@@ -1,7 +1,7 @@
 #ifndef __HARDWARESHADERIMPL_OGL_H__
 #define __HARDWARESHADERIMPL_OGL_H__
 
-#include <GL/config.h>
+#include <Config.h>
 
 #include <Nebulae/Alpha/Shaders/HardwareShaderImpl.h>
 

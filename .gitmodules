@@ -34,3 +34,6 @@
 [submodule "Externals/libvorbis"]
 	path = Externals/libvorbis
 	url = https://github.com/xiph/vorbis.git
+[submodule "Externals/luaDist"]
+	path = Externals/luaDist
+	url = https://github.com/LuaDist/lua.git
