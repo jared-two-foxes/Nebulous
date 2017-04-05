@@ -16,14 +16,16 @@ project "opengl_3"
 
   includedirs {
     "./",
-    "../",
-    "../../../"
+    "./Include",
+    "../../" -- Root Nebulae include path?
   }
 
   files {
-    "config.h",
-    "../Shared/**.cpp",
-    "../Shared/**.h"
+    "main.cpp",
+    "Config.h",
+    "Sources/**.cpp",
+    "Includes/**.hpp",
+    "Includes/**.h"
   }
 
   links {
@@ -40,8 +42,7 @@ project "opengl_3"
 
   filter "action:vs*"
     files {
-      "Win32/**.h",
-      "Win32/**.cpp"
+      "Sources/Win32/**.cpp"
     }
 
   filter 'configurations:Debug'
