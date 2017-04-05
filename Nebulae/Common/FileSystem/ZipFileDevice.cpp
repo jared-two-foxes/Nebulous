@@ -21,25 +21,25 @@ ZipFileDevice::ZipFileDevice( const char* path, const char* archiveName, const c
   fullPath /= path;
   fullPath /= filename;
   
-  m_stream = unzOpen64( fullPath.c_str() );
+  //m_stream = unzOpen64( fullPath.c_str() );
 }
 
 ZipFileDevice::~ZipFileDevice()
 {
-  unzClose( m_stream );
+  //unzClose( m_stream );
 }
 
 File* 
 ZipFileDevice::Open( const std::string& path, FileSystem::Mode mode )
 {
-  int err = unzLocateFile( m_stream, path.c_str(), CASESENSITIVITY );
-  NE_ASSERT( err == UNZ_OK, "File %s not found in the zipfile\n", path.c_str() )();
-  if( err != UNZ_OK )
-  {  
+  //int err = unzLocateFile( m_stream, path.c_str(), CASESENSITIVITY );
+  //NE_ASSERT( err == UNZ_OK, "File %s not found in the zipfile\n", path.c_str() )();
+  //if( err != UNZ_OK )
+  //{  
     return nullptr;
-  }
+  //}
 
-  return new ZipFile( m_stream );
+  //return new ZipFile( m_stream );
 }
 
 File* 

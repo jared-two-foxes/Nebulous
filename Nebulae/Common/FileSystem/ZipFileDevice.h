@@ -3,7 +3,7 @@
 
 #include <Nebulae/Common/Common.h>
 
-#include <minizip/unzip.h>
+//#include <minizip/unzip.h>
 
 namespace Nebulae {
 
@@ -11,7 +11,7 @@ class ZipFileDevice : public FileDevice
 {
 private:
   std::string m_rootDirectory;
-  unzFile     m_stream;
+  //unzFile     m_stream;
 
   public:
     ZipFileDevice( const char* path, const char* archiveName, const char* extention = "zip" );

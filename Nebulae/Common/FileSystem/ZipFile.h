@@ -3,7 +3,7 @@
 
 #include <Nebulae/Common/Common.h>
 
-#include <minizip/unzip.h>
+//#include <minizip/unzip.h>
 
 namespace Nebulae {
 
@@ -13,12 +13,12 @@ namespace Nebulae {
 class ZipFile : public File
 {
 private:
-  unzFile            m_stream;  ///< The zip file stream object.
+  //unzFile            m_stream;  ///< The zip file stream object.
   std::vector<char > m_buffer;  ///< file content buffer.
   std::size_t        m_pos;     ///< the current position into the data buffer.
 
   public:
-    ZipFile( unzFile stream );
+    ZipFile( /*unzFile stream*/ );
     virtual ~ZipFile();
 
    
@@ -42,7 +42,7 @@ private:
 
   private:
     /// Streams the contents of the current file pointed to by 'stream' into 'buffer'.
-    int32 ExtractFileData( unzFile stream, std::vector<char >& buffer );
+    //int32 ExtractFileData( unzFile stream, std::vector<char >& buffer );
 
   private:
     /// Disable the piggyback constructor.
