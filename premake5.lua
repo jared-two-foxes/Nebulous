@@ -106,7 +106,7 @@ workspace "Nebulae"
 
     architecture ( "x86_64" )
     buildoptions { "/EHsc", "/MP", "/Wall" }
-    --flags        { "WinMain", 'FatalWarnings' }
+    --flags        { 'FatalWarnings' }
 
     -- ignore some warnings
     linkoptions {

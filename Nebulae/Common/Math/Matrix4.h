@@ -27,7 +27,7 @@ public:
     Real*       ptr();
     const Real* ptr() const;
 
-    void GetOpenGL( Real* buffer );
+    void GetOpenGL( Real* buffer ) const;
     void SetFromOpenGl( const Real* buffer );
     
     void MakeOrthoMatrix( const Real l, const Real r, const Real b, const Real t, float n, const Real f );

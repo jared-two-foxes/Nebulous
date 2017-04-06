@@ -85,7 +85,19 @@ StateStack::PopState()
 
 
 void 
-StateStack::ProcessFrame( float fTimeElapsed )
+StateStack::ProcessSimulation( uint64 iTimeElapsed )
+{
+  // Basically need to do a conversion between microseconds and seconds as
+  // the subsystems are expecting time in seconds.  Should possibly change all
+  // subsystems to also expect microseconds.
+  float elapsedInSeconds = iTimeElapsed / 1000000.0f;
+
+  Update(elapsedInSeconds);
+}
+
+
+void 
+StateStack::ProcessFrame( uint64 iTimeElapsed )
 ///
 /// Called each frame and contains the main application logic for the application.
 /// Will update whatever the current application state is and then render the results.
@@ -97,15 +109,7 @@ StateStack::ProcessFrame( float fTimeElapsed )
 ///   Nothing.
 /// 
 {
-  // Do the rendering.
-  m_pRenderSystem->Clear();
-
-  Update( fTimeElapsed );
-
   Render();
-
-  // Present back buffer.
-  m_pRenderSystem->SwapBuffers();
 }
 
 

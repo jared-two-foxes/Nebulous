@@ -14,15 +14,18 @@ class Material;
 
 class ExampleScreen : public State
 {
+public:
+  typedef std::shared_ptr<RenderSystem > RenderSystemPtr;
+  typedef std::shared_ptr<Camera >       CameraPtr;
+
 private:
-  RenderSystem* m_renderSystem; ///< The rendering system. 
-  Camera*       m_camera;       ///< The camera for scene. 
-  Real          m_rotation;
-  Material*     m_material;
+  RenderSystemPtr m_renderSystem; ///< The rendering system. 
+  CameraPtr       m_camera;       ///< The camera for scene. 
+  Real            m_rotation;
 
   public:
     /** \name Structors */ ///@{
-    ExampleScreen( const std::string& name, RenderSystem* renderSystem );
+    ExampleScreen( const std::string& name, RenderSystemPtr renderSystem );
     virtual ~ExampleScreen();
     //@}
     
@@ -34,8 +37,8 @@ private:
      //@}
 
     /** \name Accessors */ ///@{
-    const RenderSystem*   GetRenderSystem() const   { return m_renderSystem; }
-    const Camera*         GetCamera() const         { return m_camera; }
+    const RenderSystemPtr   GetRenderSystem() const   { return m_renderSystem; }
+    const CameraPtr         GetCamera() const         { return m_camera; }
     //@}
 
   protected:

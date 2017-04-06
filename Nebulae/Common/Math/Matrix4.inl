@@ -63,7 +63,7 @@ Matrix4::ptr() const
 
 
 inline void 
-Matrix4::GetOpenGL( Real* buffer )
+Matrix4::GetOpenGL( Real* buffer ) const
 {
   buffer[0]  = m[0];
   buffer[1]  = m[4];

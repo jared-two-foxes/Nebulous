@@ -1,5 +1,14 @@
 
 # Sprint {Engine}
+  [] Simple example with dll render system.
+
+# Backlog
+
+## Build System
+  [] Reimplement unittests
+  [] Reimplmeent the sprite animation descriptor files as json files.
+  [] Reimplement ZipFile so that we can reintroduce the ZipDisk archive
+  [] Reimplement the image codec functionality to load images for the texture class.
   [] Split the test programs into seperate projects so they can be run independantly
   [] Split the RenderSystems and build them as dll's, creation of render system based upon some enum based to a free function.
   [] Add all RenderSystems to the build process so that things can be built and tested at once.
@@ -13,11 +22,6 @@
   [1] modify sprite aniamtion classes to allow for lerping between transforms of different frames of the animation.
   [2] Remove all xml parsing code and remove the library from the engine.
   [2] migrate as many boost libraries to equivalent stl libraries.
-
-
-# Backlog
-
-## Build System
   [20] Change the build process so that it somehow causes the 'install' command to be called; ie rebuild the projects and copy everything to the correct paths before linking the project to our solution?  Better emulate normal flow for linking against libraries so that we can have better support for the project vs static link types.
   
   [1]  Determine what to do about the "builds" folder in freetype which contain platform specific files such as the win32 overridden ftdebug.c folder.

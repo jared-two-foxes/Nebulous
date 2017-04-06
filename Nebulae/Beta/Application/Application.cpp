@@ -223,11 +223,13 @@ Application::CreatePlatform()
 	{
 		m_pPlatform->Initiate();
 
-#if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
-		m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice("..\\..\\UncompressedAssets") );
-#else
-		m_pPlatform->GetFileSystem()->Mount( "zip", new ZipFileDevice("..\\..\\Assets", "Assets") );
-#endif
+//#if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
+//		m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice("..\\..\\UncompressedAssets") );
+//#else
+//		m_pPlatform->GetFileSystem()->Mount( "zip", new ZipFileDevice("..\\..\\Assets", "Assets") );
+//#endif
+
+    m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice( "..\\..\\Samples\\Application" ) );
 	}
 
 	return m_pPlatform;
@@ -254,7 +256,7 @@ Application::Setup( int w, int h )
   m_pMainWindow->Show();
 
   // Create RenderSystem for the application
-  m_pRenderSystem = ::CreateRenderSystem( GLES_2_0 /*OPENGL_3*/, m_pPlatform->GetFileSystem(), m_pMainWindow );
+  m_pRenderSystem = ::CreateRenderSystem( OPENGL_3, m_pPlatform->GetFileSystem(), m_pMainWindow );
   if( m_pRenderSystem == NULL ) {
     m_pMainWindow.reset();
     return;

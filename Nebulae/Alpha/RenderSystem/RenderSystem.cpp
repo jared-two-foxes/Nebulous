@@ -157,19 +157,11 @@ RenderSystem::CreateRenderTexture( const std::string& identifier, int32 width, i
 HardwareShader* 
 RenderSystem::CreateShader( const std::string& identifier, HardwareShaderType eType, bool shouldLoad )
 { 
-	std::string str = GetName();
-
-  std::string path;
-	path = "shaders/";
-	path += str;
-	path += "/";
-  path += identifier;
-
-  HardwareShader* shader = m_shaderFactory->Create( path.c_str() );
+  HardwareShader* shader = m_shaderFactory->Create( identifier.c_str() );
   if( shader && !shader->IsLoaded() ) {
-    shader->SetImpl( CreateShaderImpl( path, eType ) );
+    shader->SetImpl( CreateShaderImpl( identifier, eType ) );
     if( shouldLoad ) {
-      shader->Load( m_fileSystem->Open(NE_DEFAULT_ROOTDEVICE,path) );
+      shader->Load( m_fileSystem->Open(NE_DEFAULT_ROOTDEVICE, identifier) );
     }
   }
 

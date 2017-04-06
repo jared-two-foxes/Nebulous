@@ -10,8 +10,8 @@ using namespace Nebulae;
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd )
 {
   StateStack app;
-  app.Initiate("../../Samples/Application/Assets");
-  app.PushState( new ExampleScreen("AudioTest", app.GetRenderSystem()) );
+  app.Initiate( 800, 600 );
+  app.PushState( new ExampleScreen("Application", app.GetRenderSystem()) );
   app.Run();
   return 0;
 }

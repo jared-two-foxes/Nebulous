@@ -35,8 +35,9 @@ namespace Nebulae
   		void Clear();
       void PushState( State* newstate );
       void PopState();
-      
-      virtual void ProcessFrame( float fTimeElapsed );
+
+      virtual void ProcessSimulation( uint64 iTimeElapsed );
+      virtual void ProcessFrame( uint64 elapsed );
       //@}
 
     private:

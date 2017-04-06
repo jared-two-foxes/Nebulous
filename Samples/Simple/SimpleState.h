@@ -6,8 +6,6 @@
 
 namespace Nebulae {
   class Camera;
-  class DebugUtil;
-  class GuiManager;
   class RenderSystem;
 }
 
@@ -17,10 +15,14 @@ namespace Sample
    */
   class SimpleState : public Nebulae::State
   {
+  public:
+    typedef std::shared_ptr<Nebulae::RenderSystem > RenderSystemPtr;
+    typedef std::shared_ptr<Nebulae::Camera >       CameraPtr;
+
   private:
-    Nebulae::RenderSystem* m_pRenderSystem; ///< The rendering system.
-    Nebulae::Camera*       m_pCamera;       ///< The camera for scene.
-    Nebulae::DebugUtil*    m_debugRenderer; ///< The renderer used for drawing simple debug shapes.
+    RenderSystemPtr m_pRenderSystem; ///< The rendering system.
+    CameraPtr       m_pCamera;       ///< The camera for scene.
+
 
     public:
       /** \name Structors */ ///@{
@@ -36,8 +38,8 @@ namespace Sample
        //@}
 
       /** \name Accessors */ ///@{
-      Nebulae::Camera*         GetCamera() const         { return m_pCamera; }
-      Nebulae::RenderSystem*   GetRenderSystem() const   { return m_pRenderSystem; }
+      CameraPtr         GetCamera() const         { return m_pCamera; }
+      RenderSystemPtr   GetRenderSystem() const   { return m_pRenderSystem; }
       //@}
 
   }; //GuiSampleState

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 jessica mccormack. All rights reserved.
 //
 
-varying mediump vec4 colorVarying;
+varying vec4 colorVarying;
 
 void main()
 {

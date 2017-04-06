@@ -1,36 +1,32 @@
 --
--- OpenGL Render Module v0.0.1 build script
+-- Simple example build script
 --
 
 local utils     = require('build.utils')
 local libraries = require('build.libraries')
 local tablex    = require('build.tablex')
 
+assert( solutionLocation, 'solutionLocation should be an absolute path set up in the main premake file' )
+local projectLocation = path.join(solutionLocation, "Simple") 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-project "opengl_3"
-  kind "SharedLib"
+project "Simple"
+  kind "WindowedApp"
   language "C++"
-  assert(solutionLocation, 'solutionLocation should be an absolute path set up in the main premake file')
-  location(path.join(solutionLocation, "GL3"))
-
-  includedirs {
-    "./",
-    "./Include",
-    "../../" -- Root Nebulae include path?
-  }
-
-  files {
-    "main.cpp",
-    "Config.h",
-    "Sources/**.cpp",
-    "Includes/**.hpp",
-    "Includes/**.h"
+  location( projectLocation )
+  
+  files 
+  {
+    "**.cpp",
+    "**.hpp",
+    "**.h"
   }
 
   links {
     "Common",
     "Alpha",
+    "Beta"
   }
 
   local combined_libraries = {}
@@ -47,9 +43,7 @@ project "opengl_3"
   utils.addLibrariesToCurrentProject( combined_libraries, dependenciesRoot, platform )
 
   filter "action:vs*"
-    files {
-      "Sources/Win32/**.cpp"
-    }
+    flags { "WinMain" }
 
   filter 'configurations:Debug'
     defines { "DEBUG" }
@@ -61,3 +55,8 @@ project "opengl_3"
     defines { "NDEBUG" }
     flags { "Optimize" }      
     targetdir ( path.join(baseLocation, "Bin/Release") )
+
+  
+
+	
+
