@@ -1,4 +1,0 @@
-How to add widget types to the widget factory!
-----------------------------------------------
-
-If we were to add a widget to the factory we would also need to add a widget to the renderer.  Just really doesnt seem like the way to go.  Use basic control types is probably better.
