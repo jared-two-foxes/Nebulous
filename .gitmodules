@@ -1,6 +1,3 @@
-[submodule "Externals/lua"]
-	path = Externals/lua
-	url = https://github.com/lua/lua
 [submodule "Externals/jsoncpp"]
 	path = Externals/jsoncpp
 	url = https://github.com/open-source-parsers/jsoncpp.git
