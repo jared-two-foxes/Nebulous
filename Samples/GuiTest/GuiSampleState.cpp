@@ -4,10 +4,11 @@
 
 #include <boost/bind.hpp>
 
+#include <Nebulae/Common/Platform/Platform.h>
 #include <Nebulae/Common/Window/Window.h>
 
-#include <Nebulae/Alpha/Shared/RenderSystem/RenderSystem.h>
-#include <Nebulae/Alpha/Shared/Texture/SubTexture.h>
+#include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
+#include <Nebulae/Alpha/Texture/SubTexture.h>
 
 #include <Nebulae/Beta/Camera/Camera.h>
 #include <Nebulae/Beta/Font/Font.h>
@@ -18,7 +19,6 @@
 #include <Nebulae/Beta/Gui/Control/ButtonControl.h>
 #include <Nebulae/Beta/Gui/Control/TextControl.h>
 #include <Nebulae/Beta/Gui/Control/StaticGraphic.h>
-#include <Nebulae/Beta/Platform/Platform.h>
 #include <Nebulae/Beta/StateStack/StateStack.h>
 
 
@@ -74,7 +74,7 @@ GuiSampleState::SetupInternalSystems( StateStack* caller )
   m_fontMgr       = new FontManager(); 
   m_pGuiManager   = new GuiManager( caller->GetPlatform()->GetFileSystem(), m_pRenderSystem );
   m_inputListener = new GuiInputListener( *m_pGuiManager );
-  m_renderer      = new WidgetRenderer( caller->GetPlatform()->GetFileSystem(), m_pRenderSystem );
+  m_renderer      = new WidgetRenderer( caller->GetPlatform()->GetFileSystem(), nullptr, m_pRenderSystem );
 }
 
 void 

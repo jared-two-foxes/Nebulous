@@ -6,8 +6,10 @@
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/FileSystem/DiskFileDevice.h>
+#include <Nebulae/Common/Platform/Platform.h>
 
-#include <Nebulae/Alpha/Alpha.h>
+#include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
+#include <Nebulae/Alpha/Texture/SubTexture.h>
 
 #include <Nebulae/Beta/Beta.h>
 #include <Nebulae/Beta/Gui/GuiManager.h>
@@ -15,7 +17,6 @@
 #include <Nebulae/Beta/Gui/WidgetRenderer.h>
 #include <Nebulae/Beta/Gui/Control/StaticGraphic.h>
 #include <Nebulae/Beta/Gui/Control/TextControl.h>
-#include <Nebulae/Beta/Platform/Platform.h>
 
 static const char* DEFAULT_ENTITY_TEMPLATE_PATH = "entityTemplates.json";
 
@@ -54,7 +55,7 @@ ExampleApplication::Init()
   m_audioController   = boost::shared_ptr<Nebulae::AudioManager>( new AudioManager(fileSystem) );
   m_guiController     = boost::shared_ptr<Nebulae::GuiManager>( new GuiManager(fileSystem, m_pRenderSystem) );
   
-  m_widgetRenderer    = new WidgetRenderer( GetPlatform()->GetFileSystem(), m_pRenderSystem );
+  m_widgetRenderer    = new WidgetRenderer( GetPlatform()->GetFileSystem(), nullptr, m_pRenderSystem );
   m_widgetRenderer->Init();
 
   m_scriptInterpreter = boost::shared_ptr<Nebulae::LuaInterpreter>( new LuaInterpreter() );

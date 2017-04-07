@@ -67,7 +67,7 @@ return {
     nil,                                                               
     'freetype2/include',          
     'freetype2/objs/vc2010/x64',             
-    'freetype271.lib'
+    'freetype271MT.lib'
   },
 
   utf8 = {   
@@ -84,6 +84,13 @@ return {
     'C:/Program Files/lua/lib',                  
     'lua.lib'
   },
+
+  -- lua = {   
+  --   nil,                                                               
+  --   'luaDist/etc;luaDist/src',                   
+  --   'luaDist/build/$(Configuration)',
+  --   'liblua_static.lib'
+  -- },
 
   -- gmock = {                  
   --   nil,                                                               

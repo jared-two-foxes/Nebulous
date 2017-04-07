@@ -3,8 +3,9 @@
 
 #include "Lua/LuaInterpreter.h"
 
+#include <Nebulae/Common/Platform/Keyboard.h>
+
 #include <Nebulae/Beta/Gui/Control/TextControl.h>
-#include <Nebulae/Beta/Platform/Keyboard.h>
 
 using namespace Nebulae;
 

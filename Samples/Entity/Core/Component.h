@@ -3,7 +3,7 @@
 
 #include <Nebulae/Common/Common.h>
 
-#include <Core/ComponentType.h>
+#include "ComponentType.h"
 
 namespace Sample
 {

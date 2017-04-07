@@ -5,14 +5,14 @@
 //
 
 #include <Nebulae/Common/Common.h>
-
-#ifdef _WIN32
-
+#include <Nebulae/Common/FileSystem/DiskFileDevice.h>
 #include <Nebulae/Common/Window/Win32/ClassRegisterationUtility.h>
 #include <Nebulae/Common/Window/Win32/Win32Utils.h>
 #include <Nebulae/Common/Window/Win32/Win32Window.h>
 
-#include <Nebulae/RenderModules/GL/Win32/RenderSystem_OGL.h>
+#include <Nebulae/Alpha/Alpha.h>
+#include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
+
 
 using namespace Nebulae;
 
@@ -68,7 +68,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
   return 1;
 }
 
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nCmdShow )
+int 
+WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nCmdShow )
 {
   // Setup engine required platforming systems.
   Win32Utils::InitiateOS();
@@ -76,13 +77,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nCmdSho
   ClassRegisterationUtility registrationUtility;
   registrationUtility.Register( "NebulaeWindowClass", WndProc, hInstance, NULL );
 
-  Win32Window* pRenderWindow = new Win32Window( "NebulaeWindowClass", NULL );
+  Platform::WindowPtr pRenderWindow = std::make_shared<Win32Window >( "NebulaeWindowClass", nullptr );
   pRenderWindow->MoveAndResize( 0, 0, 960, 640 );
   pRenderWindow->SetCaption( "render" );
-  pRenderWindow->Initiate();
+  pRenderWindow->Initiate( nullptr );
   pRenderWindow->Show();
 
-  RenderSystem_OGL* pRenderSystem = new RenderSystem_OGL( pRenderWindow );
+  Platform::FileSystemPtr pFileSystem = std::make_shared<FileSystem >();
+  pFileSystem->Mount( "disk", new Nebulae::DiskFileDevice("") );
+
+  std::shared_ptr<RenderSystem > pRenderSystem = CreateRenderSystem( OPENGL_3, pFileSystem, pRenderWindow );
   pRenderSystem->Initiate();
 
   pRenderSystem->SetClearColour( 1.0f,0.0f,0.0f,0.0f );
@@ -103,19 +107,3 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nCmdSho
 
   return 0;
 }
-
-
-#else   // The iOS version
-
-#include "iOS/AppDelegate.h"
-#import <UIKit/UIKit.h>
-
-int main( int argc, char* argv[] )
-{
-  NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-  int retVal = UIApplicationMain(argc, argv, @"UIApplication", @"AppDelegate");
-  [pool release];
-  return retVal;
-}
-
-#endif

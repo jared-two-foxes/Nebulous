@@ -26,8 +26,16 @@ local function unpackLibPlatformInfo( libsRootPath, libPlatformInfo )
     projectPath = libsRootPath .. '/' .. projectPath 
   end
   
-  if includePath ~= nil and not path.isabsolute( includePath ) then 
-    includePath = libsRootPath .. '/' .. includePath 
+  if includePath ~= nil then
+    -- could be a list of objects, split on ';', and recombine
+    parts = string.explode( includePath, ';' ) 
+    includePath = ""
+    for _,v in pairs(parts) do
+      if not path.isabsolute( v ) then 
+        v = libsRootPath .. '/' .. v
+      end
+      includePath = includePath .. v .. ';'
+    end
   end
   
   if libPath ~= nil and not path.isabsolute( libPath ) then 
