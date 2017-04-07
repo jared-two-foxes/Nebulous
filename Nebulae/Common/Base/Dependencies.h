@@ -40,5 +40,6 @@
 // json 
 #include <json/json.h>
 
+#include <Brofiler.h>
 
 #endif // __NEBULAE_COMMON_DEPENDENCIES_H__

@@ -20,6 +20,4 @@
 
 #include <Nebulae/Common/Platform/Platform.h>
 
-#include <Nebulae/Common/Profile/Profile.h>
-
 #endif // __NEBULAE_COMMON_H__

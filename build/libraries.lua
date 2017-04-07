@@ -13,6 +13,12 @@ return {
     'jsoncpp/makefiles/msvc2010/x64/$(Configuration)',              
     'lib_json.lib'
   },
+  brofiler = {       
+    nil,                                                                 
+    'Brofiler-1.1.1',           
+    'Brofiler-1.1.1',              
+    'ProfilerCore64.lib'
+  },
 
   libvorbis = {
     nil,                                                               

@@ -145,6 +145,8 @@ ExampleScreen::Exit( StateStack* caller )
 void 
 ExampleScreen::Update( float fDeltaTimeStep, StateStack* pCaller )
 {
+  BROFILER_CATEGORY( "UpdateLogic", Profiler::Color::Orchid );
+
   m_rotation += fDeltaTimeStep * 5.0f; 
   if( m_rotation > 360.0f ) {
     m_rotation -= 360.0f;
@@ -155,6 +157,8 @@ ExampleScreen::Update( float fDeltaTimeStep, StateStack* pCaller )
 void
 ExampleScreen::Render() const
 {
+  BROFILER_CATEGORY( "RenderLogic", Profiler::Color::Blue );
+  
   // Calculate the camera transforms.
   Matrix4 view = m_camera->GetViewMatrix();
   Matrix4 proj = m_camera->GetProjectionMatrix();
@@ -195,6 +199,8 @@ ExampleScreen::DrawCube( Matrix4& mvp, Matrix4& normal, Vector4& diffuseColour )
 // Setup the render pass and push vertices.
 //
 {
+  PROFILE;
+
   // Set the operation type
   m_renderSystem->SetOperationType( OT_TRIANGLES );
 

@@ -20,9 +20,7 @@ Application::Application()
 : m_bInitialized( false ),
   m_pPlatform( NULL ),
   m_pMainWindow( NULL ),
-  m_pRenderSystem( NULL ),
-  m_currentFrame( 0 ),
-  m_framesPerSecond( 0 )
+  m_pRenderSystem( NULL )
 {}
 
 Application::~Application()
@@ -47,9 +45,6 @@ Application::Initiate( int w, int h )
 {
   /// Creates the platform object.
   CreatePlatform();
-
-  /// Setup the profiler module.
-  InitProfiler( m_pPlatform->GetClock() );
 
   m_logger.Register( std::cout, false );
 
@@ -124,7 +119,6 @@ Application::StartGameLoop()
     }
 
     m_pPlatform->GetClock().MarkThisTick();
-    MarkFrame();
 
 #if NE_PLATFORM == NE_PLATFORM_WIN32
     uint64 timeNow       = m_pPlatform->GetClock().GetUpTime();
@@ -134,11 +128,11 @@ Application::StartGameLoop()
   }
 }
 
-std::list<std::pair<uint64, uint64 > > timestamps;
-
 uint64 
 Application::ProcessApplicationLoop( uint64 elapsed )
 {
+  BROFILER_FRAME( "ThreadName" )
+
   uint64 updatedTime = 0;
 
   // Do the rendering.
@@ -154,27 +148,6 @@ Application::ProcessApplicationLoop( uint64 elapsed )
 
   // Present back buffer.
   m_pRenderSystem->SwapBuffers();
-
-
-  m_currentFrame++;
-  
-  // Track every 10th frame.
-  if( m_currentFrame % 10 == 0 )
-  {
-    timestamps.push_back( std::make_pair(m_pPlatform->GetClock().GetUpTime(), m_currentFrame) );
-  }
-
-  // If we have enough timestamps to determine the fps then do so.
-  if( timestamps.size() >= 10 )
-  { 
-    // Calculate the fps
-    uint64 time       = timestamps.back().first - timestamps.front().first;
-    uint64 frames     = timestamps.back().second - timestamps.front().second;
-    m_framesPerSecond = ( frames * 1000000.0f ) / time;
-
-    // Pop out the earliest time.
-    timestamps.pop_front();
-  }
   
   m_logger.Flush();
 

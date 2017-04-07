@@ -26,9 +26,7 @@ namespace Nebulae
     PlatformPtr     m_pPlatform;       ///< The object defining the platform that application is running on. Strong Reference. 
     WindowPtr       m_pMainWindow;     ///< The main application window. Strong Reference.
     RenderSystemPtr m_pRenderSystem;   ///< The context used for rendering to the application window. Strong Reference.
-    uint64          m_currentFrame;    ///< Records the current number of frames processed.
     Logger          m_logger;          ///< Create Logger object.  (Can be accessed after creation through singleton interface).
-    float           m_framesPerSecond; ///< The number of frames that are being rendered per second.
        
     public:
       /** \name Structors */ ///@{
