@@ -24,7 +24,7 @@ return {
     nil,                                                               
     'libvorbis/include',         
     'libvorbis/win32/VS2010/x64/$(Configuration)',            
-    'libvorbis_static.lib'
+    'libvorbis_static.lib;libvorbisfile_static.lib'
   },
   libogg = {
     nil,                                   
