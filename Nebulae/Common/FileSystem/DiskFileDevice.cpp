@@ -28,8 +28,14 @@ File*
 DiskFileDevice::Open( const std::string& path, FileSystem::Mode mode )
 {
   boost::filesystem::path fullPath = CreateAbsolutePath( m_rootDirectory, path );
-
-  return new DiskFile( fullPath.generic_string(), false );
+  if( boost::filesystem::exists( fullPath ) )
+  {
+    return new DiskFile( fullPath.generic_string(), false );
+  }
+  else
+  {
+    return nullptr;
+  }
 }
 
 File* 

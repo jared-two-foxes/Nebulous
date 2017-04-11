@@ -80,8 +80,8 @@ workspace "Nebulae"
   flags { "Symbols", "StaticRuntime", "NoMinimalRebuild", "NoEditAndContinue", "FloatFast" }
 
   defines {
-    "PREMAKE4",
-    "FREEIMAGE_LIB"
+    "PREMAKE5",
+    "NEBULAE_INCLUDES_PNG"
   }
 
   includedirs {

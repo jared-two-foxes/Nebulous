@@ -1,4 +1,4 @@
--- Format: { projectPath, includePath, libPath, libname, patch } 
+-- Format: { projectPath, includePath, libPath, libname } 
 
 return {
   boost = {       
@@ -7,38 +7,19 @@ return {
     'C:/boost/lib',                  
     nil 
   },
+
   jsoncpp = {                                                                                 
     nil,                                                               
     'jsoncpp/include',           
     'jsoncpp/makefiles/msvc2010/x64/$(Configuration)',              
     'lib_json.lib'
   },
+
   brofiler = {       
     nil,                                                                 
     'Brofiler-1.1.1',           
     'Brofiler-1.1.1',              
     'ProfilerCore64.lib'
-  },
-
-  libvorbis = {
-    nil,                                                               
-    'libvorbis/include',         
-    'libvorbis/win32/VS2010/x64/$(Configuration)',            
-    'libvorbis_static.lib;libvorbisfile_static.lib'
-  },
-  libogg = {
-    nil,                                   
-    'libogg/include',           
-    'libogg/win32/VS2015/x64/$(Configuration)',               
-    'libvorbis_static.lib'
-  },
-
-  -- CMake installed!
-  openal = { 
-    nil,                                                               
-    'C:/Program Files/OpenAL/include',       
-    'C:/Program Files/OpenAL/lib',           
-    'OpenAL32.lib'
   },
 
   -- CMake installed!
@@ -49,18 +30,11 @@ return {
     'zlibstatic.lib'
   },
 
-  -- minizip = {
-  --   nil,                                                               
-  --   'zlib/contrib',              
-  --   'zlib/build/$(Configuration)',                 
-  --   'minizip.lib'
-  -- },
-
-  gli = {   
-    nil,                                                               
-    'gli/include',          
-    nil,             
-    nil
+  libpng = {
+    nil, 
+    'C:/Program Files/libpng/include',
+    'C:/Program Files/libpng/lib',
+    'libpng16.lib'
   },
 
   freetype = {   
@@ -85,12 +59,6 @@ return {
     'lua.lib'
   },
 
-  -- lua = {   
-  --   nil,                                                               
-  --   'luaDist/etc;luaDist/src',                   
-  --   'luaDist/build/$(Configuration)',
-  --   'liblua_static.lib'
-  -- },
 
   -- gmock = {                  
   --   nil,                                                               
@@ -98,6 +66,7 @@ return {
   --   'gmock/lib',                        
   --   'gmock.lib'
   -- },
+
   -- gtest = {                  
   --   nil,                                                               
   --   'gtest/include',             

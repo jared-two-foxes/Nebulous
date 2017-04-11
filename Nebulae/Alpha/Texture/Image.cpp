@@ -1,6 +1,7 @@
 
 #include "Image.h"
-
+#include "ImageCodec.h"
+#include "PngCodec.h"
 
 using namespace Nebulae;
 
@@ -162,27 +163,50 @@ Image::flipAroundX()
 
 
 Image&
-Image::load( File& is ) {
-  //ImageCodec*     codec = new FreeImageCodec();
-  //ImageCodecData* data  = codec->Decode( is );
-  //if( data ) {
-  //  m_width      = data->width;
-  //  m_height     = data->height;
-  //  m_bufSize    = data->size;
-  //  m_format     = data->format;
-  //  m_pixelSize  = static_cast<uint8>( PixelUtil::GetNumElemBytes(m_format) );
-  //
-  //  // Store the image data.
-  //  m_buffer = new uint8[ m_bufSize ];
-  //  memcpy( m_buffer, data->datastream, m_bufSize );
+Image::load( File& is ) 
+///
+///@todo; 
+///   * Reset the File back to the start of the file?
+///
+{  
+  ImageCodecData* data = nullptr;
 
-  //  // delete the data being pointed to by the ImageCodeData;
-  //  delete [] data->datastream;
-  //  delete data;
-  //}
-
-  //delete codec;
+  //ImageCodec codec;
+  //data = codec.Decode( is );
+  //if ( !data )
   
+  #ifdef NEBULAE_INCLUDES_PNG
+  {
+    PngCodec png_codec;
+    data = png_codec.Decode( is );
+  }
+  #endif
+
+  #ifdef NEBULAE_INCLUDES_GLI
+  if( !data )
+  {
+    GliCodec gli_codec;
+    data = gli_codec.Decode( is );
+  }
+  #endif
+  
+  if( data ) 
+  {
+    m_width      = data->width;
+    m_height     = data->height;
+    m_bufSize    = data->size;
+    m_format     = data->format;
+    m_pixelSize  = static_cast<uint8>( PixelUtil::GetNumElemBytes(m_format) );
+  
+    // Store the image data.
+    m_buffer = new uint8[ m_bufSize ];
+    memcpy( m_buffer, data->datastream, m_bufSize );
+
+    // delete the data being pointed to by the ImageCodeData;
+    delete [] data->datastream;
+    delete data;
+  }
+
   return *this;
 }
 

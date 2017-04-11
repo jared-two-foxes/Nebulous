@@ -101,6 +101,7 @@ FileSystem::Open( const char* devices, const std::string& path, Mode mode )
     }
   }
 
+  NE_ASSERT( file, "Attempting to open file '%s' failed", path.c_str() )();
   return file;
 }
 

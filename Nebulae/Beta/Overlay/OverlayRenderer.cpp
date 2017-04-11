@@ -104,104 +104,107 @@ void
 OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& upperLeft, const Nebulae::Point& lowerRight, 
                         const Colour& colour, const SubTexture* subtexture, float depth, float rotation ) const
 {
-#if 0
-  NE_ASSERT( renderer, "Null renderer passed to RenderWidget" )();
-  NE_ASSERT( m_basicMaterial->GetPassCount() == 1, "Material is expected to have a single pass." )();
-
-  // Early out if renderer is not valid.
-  if( !renderer ) {
-    return;
+  if ( m_batcher )
+  {
+    m_batcher->AddQuad( upperLeft, lowerRight, colour, subtexture, depth, rotation );
   }
+  else
+  {
+    NE_ASSERT( renderer, "Null renderer passed to RenderWidget" )();
+    NE_ASSERT( m_basicMaterial->GetPassCount() == 1, "Material is expected to have a single pass." )();
 
-//
-// Bind the material pass.
-//
-  Pass* pass = m_basicMaterial->GetPass( 0 );
-  if( NULL == pass ) {
-    return;
-  }
+    // Early out if renderer is not valid.
+    if( !renderer ) {
+      return;
+    }
 
-  renderer->SetOperationType( OT_TRIANGLES );
-  renderer->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
+  //
+  // Bind the material pass.
+  //
+    Pass* pass = m_basicMaterial->GetPass( 0 );
+    if( NULL == pass ) {
+      return;
+    }
+
+    renderer->SetOperationType( OT_TRIANGLES );
+    renderer->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
   
 
-//
-// Bind the Vertex Buffer
-//
-  size_t          offset = 0;
-  size_t          stride = 2*sizeof(float);
-  HardwareBuffer* buffer = renderer->FindBufferByName( "GuiVertexBuffer" );
-  if( buffer ) {
-    renderer->SetVertexBuffers( 0, buffer, stride, offset );
-  }
-
-
-//
-// Bind the vertex input layout.
-//
-  InputLayout* inputLayout = renderer->FindInputLayoutByName( "BasicGuiLayout" );
-  if( inputLayout ) {
-    renderer->SetInputLayout( inputLayout );
-  }
-
-
-//
-// Create the uniform values for current pass.
-//
-  const RenderSystem::WindowPtr window            = renderer->GetWindow();
-  const int                     windowHeight      = window->GetHeight();
-  const Real                    colourModifier    = 1 / 255.f;
-  const Real                    offsetBuffer[2]   = { Real(upperLeft.x), Real(windowHeight) - Real(lowerRight.y) }; //< ll position in render projection.  
-  const Real                    sizeBuffer[2]     = { Real(lowerRight.x) - Real(upperLeft.x), Real(lowerRight.y) - Real(upperLeft.y) };
-  const Real                    colourBuffer[4]   = { colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier, colour.a * colourModifier };
-  Real                          texCoordBuffer[4] = { 0, 0, 1.0f, 1.0f };
-
-  UniformDefinition offsetVarDef   = renderer->GetUniformByName( "offset" );
-  UniformDefinition sizeVarDef     = renderer->GetUniformByName( "size" );
-  UniformDefinition angleVarDef    = renderer->GetUniformByName( "angle" );
-  UniformDefinition diffuseVarDef  = renderer->GetUniformByName( "diffuseTexture" );
-  UniformDefinition colourVarDef   = renderer->GetUniformByName( "colour" );
-  UniformDefinition texCoordVarDef = renderer->GetUniformByName( "texcoord" );
-  UniformDefinition depthVarDef    = renderer->GetUniformByName( "depth" );
-
-  int32 identifier = -1;
-  if( subtexture ) 
-  {
-    identifier = subtexture->GetTexture()->GetIdentifier();
-
-    Vector2 minCoord = subtexture->GetMinCoord();
-    Vector2 maxCoord = subtexture->GetMaxCoord();
-
-    texCoordBuffer[0] = minCoord.x;
-    texCoordBuffer[1] = minCoord.y;
-    texCoordBuffer[2] = maxCoord.x;
-    texCoordBuffer[3] = maxCoord.y;
-  }
-  else 
-  {
-    Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
-    if( !defaultWhiteTexture ) 
-    {
-      defaultWhiteTexture = renderer->CreateTexture( "white.png" );
+  //
+  // Bind the Vertex Buffer
+  //
+    size_t          offset = 0;
+    size_t          stride = 2*sizeof(float);
+    HardwareBuffer* buffer = renderer->FindBufferByName( "GuiVertexBuffer" );
+    if( buffer ) {
+      renderer->SetVertexBuffers( 0, buffer, stride, offset );
     }
-    identifier = defaultWhiteTexture->GetIdentifier();
+
+
+  //
+  // Bind the vertex input layout.
+  //
+    InputLayout* inputLayout = renderer->FindInputLayoutByName( "BasicGuiLayout" );
+    if( inputLayout ) {
+      renderer->SetInputLayout( inputLayout );
+    }
+
+
+  //
+  // Create the uniform values for current pass.
+  //
+    const RenderSystem::WindowPtr window            = renderer->GetWindow();
+    const int                     windowHeight      = window->GetHeight();
+    const Real                    colourModifier    = 1 / 255.f;
+    const Real                    offsetBuffer[2]   = { Real(upperLeft.x), Real(windowHeight) - Real(lowerRight.y) }; //< ll position in render projection.  
+    const Real                    sizeBuffer[2]     = { Real(lowerRight.x) - Real(upperLeft.x), Real(lowerRight.y) - Real(upperLeft.y) };
+    const Real                    colourBuffer[4]   = { colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier, colour.a * colourModifier };
+    Real                          texCoordBuffer[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+
+    UniformDefinition offsetVarDef   = renderer->GetUniformByName( "offset" );
+    UniformDefinition sizeVarDef     = renderer->GetUniformByName( "size" );
+    UniformDefinition angleVarDef    = renderer->GetUniformByName( "angle" );
+    UniformDefinition diffuseVarDef  = renderer->GetUniformByName( "diffuseTexture" );
+    UniformDefinition colourVarDef   = renderer->GetUniformByName( "colour" );
+    UniformDefinition texCoordVarDef = renderer->GetUniformByName( "texcoord" );
+    UniformDefinition depthVarDef    = renderer->GetUniformByName( "depth" );
+
+    int32 identifier = -1;
+    if( subtexture ) 
+    {
+      identifier = subtexture->GetTexture()->GetIdentifier();
+
+      Vector2 minCoord = subtexture->GetMinCoord();
+      Vector2 maxCoord = subtexture->GetMaxCoord();
+
+      texCoordBuffer[0] = minCoord.x;
+      texCoordBuffer[1] = minCoord.y;
+      texCoordBuffer[2] = maxCoord.x;
+      texCoordBuffer[3] = maxCoord.y;
+    }
+    else 
+    {
+      Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
+      if( !defaultWhiteTexture ) 
+      {
+        defaultWhiteTexture = renderer->CreateTexture( "white.png" );
+      }
+      identifier = defaultWhiteTexture->GetIdentifier();
+    }
+
+    renderer->SetUniformBinding( offsetVarDef,   (void*)&offsetBuffer[0] );
+    renderer->SetUniformBinding( sizeVarDef,     (void*)&sizeBuffer[0] );
+    renderer->SetUniformBinding( angleVarDef,    (void*)&rotation );
+    renderer->SetUniformBinding( colourVarDef,   (void*)&colourBuffer[0] );
+    renderer->SetUniformBinding( diffuseVarDef,  (void*)&identifier );
+    renderer->SetUniformBinding( texCoordVarDef, (void*)&texCoordBuffer[0] );
+    renderer->SetUniformBinding( depthVarDef,    (void*)&depth );
+
+  //
+  // Draw geometry.
+  //
+    renderer->Draw( 6, 0 );
   }
-
-  renderer->SetUniformBinding( offsetVarDef,   (void*)&offsetBuffer[0] );
-  renderer->SetUniformBinding( sizeVarDef,     (void*)&sizeBuffer[0] );
-  renderer->SetUniformBinding( angleVarDef,    (void*)&rotation );
-  renderer->SetUniformBinding( colourVarDef,   (void*)&colourBuffer[0] );
-  renderer->SetUniformBinding( diffuseVarDef,  (void*)&identifier );
-  renderer->SetUniformBinding( texCoordVarDef, (void*)&texCoordBuffer[0] );
-  renderer->SetUniformBinding( depthVarDef,    (void*)&depth );
-
-//
-// Draw geometry.
-//
-  renderer->Draw( 6, 0 );
-#else
-  m_batcher->AddQuad( upperLeft, lowerRight, colour, subtexture, depth, rotation );
-#endif
 }
 
 void

@@ -1,44 +1,39 @@
 
 # Sprint {Engine}
+  [2] Remove all xml parsing code and remove the library from the engine.
   [] Simple example with dll render system.
+  [] Reimplement the image codec functionality to load images for the texture class.
+  [] Split the RenderSystems and build them as dll's, creation of render system based upon some enum based to a free function.
+  [] Add all RenderSystems to the build process so that things can be built and tested at once.
 
 # Backlog
 
 ## Build System
-  [] Reimplement unittests
-  [] Reimplmeent the sprite animation descriptor files as json files.
-  [] Reimplement ZipFile so that we can reintroduce the ZipDisk archive
-  [] Reimplement the image codec functionality to load images for the texture class.
-  [] Split the test programs into seperate projects so they can be run independantly
-  [] Split the RenderSystems and build them as dll's, creation of render system based upon some enum based to a free function.
-  [] Add all RenderSystems to the build process so that things can be built and tested at once.
-  [] Possibly change the RenderSystem structure so that shared elements can be shared (ie make them component based rather than system based?)
-  [] Create a UI creation project that works on the json files that are currently used. Editor!
-  [2] Reintroduce the Prefab factory into Beta Library.
-  []{GLES} Implement the correct locking behaviour based upon usage for Buffers.
-  [8] Create a SpriteAnimationViewer application which displays a specific animation sequence.
-  [1] modify sprite animation classes to allow for offsets and rotations of sprites.
-  [1] modify sprite animation classes to allow for multiple sprites per frame of animation.
-  [1] modify sprite aniamtion classes to allow for lerping between transforms of different frames of the animation.
-  [2] Remove all xml parsing code and remove the library from the engine.
-  [2] migrate as many boost libraries to equivalent stl libraries.
+  [] Modify the descriptors so we can specify a prefix/postfix for libraries for debug & release.
+  [] Modify the build system so that there is an option in the libraries file which adds a 'define' to the list so that things like NEBULAE_INLCUDE_GLI will work?
+  [] Add something that allows for public and private library includes;  ie for the glm dependency for gli which really only needs to be included for Alpha.
+  [] Add mechanism that allows for defining dependencies to the libraries
   [20] Change the build process so that it somehow causes the 'install' command to be called; ie rebuild the projects and copy everything to the correct paths before linking the project to our solution?  Better emulate normal flow for linking against libraries so that we can have better support for the project vs static link types.
-  
-  [1]  Determine what to do about the "builds" folder in freetype which contain platform specific files such as the win32 overridden ftdebug.c folder.
   
   (*) b2 variant=debug link=static threading=multi runtime-link=static stage
   (*) b2 address-model=64 architecture=x86 variant=debug link=static threading=multi runtime-link=static stage
 
-  
 ## UnitTests
-  
+  [] Reimplement unittests
+  [] Split the test programs into seperate projects so they can be run independantly
+
 ## Common
+  [2] migrate as many boost libraries to equivalent stl libraries.
+  [] Reimplement ZipFile so that we can reintroduce the ZipDisk archive
   []   Remove the concept of mouse "buttons" for the input listener?  We are a touch based system, only a single touch type?
   []   Restructure the InputListener and the Win32 platform input listener loop and make it part of the common library (so that the Window class is self contained.)
   
 ## Alpha
+  [] Reimplmeent the sprite animation descriptor files as json files.
   [] Ensure that object deletion clears up correctly.  For example the inputLayout objects store pointers to the HardwareShader object which if deleted elsewhere the pointer will dangle.
-  
+  [] Possibly change the RenderSystem structure so that shared elements can be shared (ie make them component based rather than system based?)
+  []{GLES} Implement the correct locking behaviour based upon usage for Buffers.
+
 ## Audio
   [1]  Implement returning the play cursor from an OpenAudioLibraryEmitter.
   [1]  Implement moving the play cursor for an OpenAudioLibraryEmitter.
@@ -48,9 +43,17 @@
   [3]  Let the sound interface hold the ifstream to said sound file and pass this to the decoder probably with the track information when parsing.
 
 ## Beta
-  []   Modify the state system to recieve the input messages?
-  [1]  Dynamic depth for the widgets in "default_gui_vs.glsl"
-  [2]  Handle the relative mouse move coordinates in the GameInputListener class.
+  []  Modify the state system to recieve the input messages?
+  [1] Dynamic depth for the widgets in "default_gui_vs.glsl"
+  [2] Handle the relative mouse move coordinates in the GameInputListener class.
+  [2] Reintroduce the Prefab factory into Beta Library.  
+  [1] modify sprite animation classes to allow for offsets and rotations of sprites.
+  [1] modify sprite animation classes to allow for multiple sprites per frame of animation.
+  [1] modify sprite aniamtion classes to allow for lerping between transforms of different frames of the animation.
+
+## Dreams & Further Projects
+  [] Create a UI creation project that works on the json files that are currently used. Editor!
+  [8] Create a SpriteAnimationViewer application which displays a specific animation sequence.
 
 # Complete
 

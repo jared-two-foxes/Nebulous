@@ -196,13 +196,11 @@ Application::CreatePlatform()
 	{
 		m_pPlatform->Initiate();
 
-//#if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
-//		m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice("..\\..\\UncompressedAssets") );
-//#else
-//		m_pPlatform->GetFileSystem()->Mount( "zip", new ZipFileDevice("..\\..\\Assets", "Assets") );
-//#endif
-
-    m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice( "..\\..\\Samples\\Application" ) );
+#if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
+		m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice("") );
+#else
+		m_pPlatform->GetFileSystem()->Mount( "zip", new ZipFileDevice("", "Assets") );
+#endif
 	}
 
 	return m_pPlatform;

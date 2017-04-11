@@ -1,6 +1,6 @@
 
-#include <Nebulae/Beta/Platform/Platform.h>
-#include <Nebulae/Beta/Platform/Win32/Win32Platform.h>
+#include <Nebulae/Common/Platform/Platform.h>
+#include <Nebulae/Common/Platform/Win32/Win32Platform.h>
 
 #include <Lua/LuaInterpreter.h>
 

@@ -19,7 +19,7 @@ class DebugConsole : public InputListener
 ///
 {
 public:
-  typedef boost::shared_ptr<LuaInterpreter > ScriptInterpreterPtr;
+  typedef std::shared_ptr<LuaInterpreter > ScriptInterpreterPtr;
 
 private:
   ScriptInterpreterPtr      m_scriptInterpreter;

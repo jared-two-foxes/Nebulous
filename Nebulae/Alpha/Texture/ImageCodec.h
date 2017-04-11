@@ -33,13 +33,11 @@ public:
   virtual ~ImageCodec() {}
 
   /// @copydoc Codec::decode
-  virtual ImageCodecData* Decode( File& is ) const override
-  { return NULL; }
+  virtual ImageCodecData* Decode( File& is ) const override = 0;
 
   /** Converts a chunk of data from its current encoding.
     */
-  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width, std::size_t height, std::size_t pitch, uint8 bpp, PixelFormat returnFormat ) const 
-  { return NULL; }
+  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width, std::size_t height, std::size_t pitch, uint8 bpp, PixelFormat returnFormat ) const = 0;
   
 }; //ImageCodec
 

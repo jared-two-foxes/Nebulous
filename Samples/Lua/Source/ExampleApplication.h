@@ -1,38 +1,50 @@
 #ifndef __EXAMPLEAPPLICATION_H__
 #define __EXAMPLEAPPLICATION_H__
 
+
+#define USE_BATCHER
+
+
 #include <Nebulae/Nebulae.h>
 #include <Nebulae/Beta/Application/Application.h>
 
 
 namespace Nebulae {
-  
+
 class AudioManager;
 class DebugConsole;
 class GuiManager;
 class LuaInterpreter;
+class SpriteBatch;
 class WidgetRenderer;
 
 class ExampleApplication : public Application
 {
 public:
-  typedef boost::shared_ptr<AudioManager >   AudioControllerPtr;
-  typedef boost::shared_ptr<GuiManager >     GuiControllerPtr;
-  typedef boost::shared_ptr<LuaInterpreter > ScriptInterpreterPtr;
-   
+  typedef std::shared_ptr<GuiManager >     GuiControllerPtr;
+  typedef std::shared_ptr<WidgetRenderer > WidgetRendererPtr;
+  typedef std::shared_ptr<LuaInterpreter > ScriptInterpreterPtr;
+  typedef std::shared_ptr<DebugConsole >   DebugConsolePtr;
+
 private:
-  AudioControllerPtr   m_audioController;   ///< The Audio controller.
+
+#ifdef NEBULAE_AUDIO
+  typedef std::shared_ptr<AudioManager > AudioManagerPtr;
+  AudioManagerPtr      m_audioManager;
+#endif
+
+#ifdef USE_BATCHER
+  typedef std::shared_ptr<SpriteBatch > SpriteBatcherPtr;
+  SpriteBatcherPtr m_batcher;
+#endif 
+
   GuiControllerPtr     m_guiController;     ///< The Gui controller.
-  WidgetRenderer*      m_widgetRenderer; 
+  WidgetRendererPtr    m_widgetRenderer;
   ScriptInterpreterPtr m_scriptInterpreter; ///< The script interpreter.
-  DebugConsole*        m_debugConsole;      ///< The debug console element.
+  DebugConsolePtr      m_debugConsole;      ///< The debug console element.
   
 
   public:
-    /** \name Structors */ ///@{
-    ExampleApplication();
-    ~ExampleApplication();
-    //@}
 
     /** \name Mutators */ ///@{
     void Init();
