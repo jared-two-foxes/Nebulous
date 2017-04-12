@@ -28,3 +28,6 @@
 [submodule "Externals/glm"]
 	path = Externals/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "Externals/googletest"]
+	path = Externals/googletest
+	url = https://github.com/google/googletest.git
