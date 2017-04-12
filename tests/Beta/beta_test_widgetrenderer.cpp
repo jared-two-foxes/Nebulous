@@ -26,18 +26,19 @@ class WidgetRendererFixture : public ::testing::Test
 {
   
   protected:
-    std::shared_ptr<FileSystem >        fileSystem;
-    std::shared_ptr<Window >            window;
-    std::shared_ptr<MockRenderDevice >  device;
-    WidgetRenderer*                     renderer;
+    std::shared_ptr<FileSystem >                   fileSystem;
+    std::shared_ptr<Window >                       window;
+    std::shared_ptr<NiceMock<MockRenderDevice > >  device;
+    WidgetRenderer*                                renderer;
 
   protected:
     virtual void SetUp() 
     {
-      fileSystem = std::shared_ptr<FileSystem >( new FileSystem() );
+      fileSystem = std::make_shared<FileSystem >();
       fileSystem->Mount( "disk", new DiskFileDevice("../../tests/Assets") );
-      window     = std::shared_ptr<MockWindow >( new MockWindow() );
-      device     = std::shared_ptr<MockRenderDevice >( new NiceMock<MockRenderDevice>(fileSystem, window) );
+      window     = std::make_shared<MockWindow >();
+      
+      device     = std::make_shared<NiceMock<MockRenderDevice > >( fileSystem, window );
 
       device->Initiate();
       
@@ -66,8 +67,8 @@ TEST_F(WidgetRendererFixture, Render_DrawsButtons)
   GuiManager         mgr( fileSystem, device );
   std::list<Widget*> widgetList;
   widgetList.push_back( new ButtonControl(*mgr.GetWidgetFactory(), 0, 0, 1, 1, "caption", std::shared_ptr<Font>(), CLR_BLACK, CLR_WHITE ) );
-  
-  EXPECT_CALL( *device, Draw(_,_) )              // #3
+
+  EXPECT_CALL( *device, Draw(_,_) )
       .Times(5);
 
   //act

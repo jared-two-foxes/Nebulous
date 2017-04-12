@@ -7,15 +7,15 @@
 using namespace Nebulae;
 
 
-TEST(CommandLine, Init_StringWithCorrectSyntax_ShouldReturnNumberOfElementsRead) 
-{
-  //arrange
-  //CommandLine commandLine; 
-  char* argv = {""};  
-  
-  //act
-	std::size_t elementsFound; // = commandLine.Init( 1, argv );
-
-  //assert
-  ASSERT_EQ( 0u, elementsFound );
-}
+//TEST(CommandLine, Init_StringWithCorrectSyntax_ShouldReturnNumberOfElementsRead) 
+//{
+//  //arrange
+//  CommandLine commandLine; 
+//  char* argv = {"--start"};  
+//  
+//  //act
+//	std::size_t elementsFound = commandLine.Init( 1, &argv );
+//
+//  //assert
+//  ASSERT_EQ( 0u, elementsFound );
+//}

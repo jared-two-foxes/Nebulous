@@ -34,7 +34,7 @@ private:
     MOCK_METHOD2( SetIndexBuffer, void(HardwareBuffer*, size_t) );
     MOCK_METHOD2( SetShaders, void( HardwareShader*, HardwareShader*) );
     MOCK_METHOD1( SetOperationType, void(OperationType) );
-    MOCK_METHOD2( Draw, void(int, int) );
+    MOCK_METHOD2( Draw, void(std::size_t, std::size_t) );
     MOCK_METHOD3( DrawIndexed, void(int, int, int) );
 
 

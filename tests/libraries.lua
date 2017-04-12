@@ -3,16 +3,16 @@
 return {
   gmock = {                  
     nil,                                                               
-    'C:/Program Files/googletest-distribution/include',              
-    'C:/Program Files/googletest-distribution/lib',  
+    'googletest/googlemock/include',
+    'googletest/build/googlemock/$(Configuration)',  
     'gmock.lib',
     'gmock.lib',
   },
 
   gtest = {                  
     nil,                                                               
-    'C:/Program Files/googletest-distribution/include',              
-    'C:/Program Files/googletest-distribution/lib',  
+    'googletest/googletest/include',              
+    'googletest/build/googlemock/gtest/$(Configuration)',  
     'gtest.lib',
     'gtest.lib',
   },  

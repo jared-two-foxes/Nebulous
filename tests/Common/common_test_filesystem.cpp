@@ -12,7 +12,7 @@ TEST(FileSystem, Open_RequestsValidFile_ShouldReturnFile)
 {
   //arrange
   FileSystem fs;
-  fs.Mount( "disk", new DiskFileDevice("../../Samples/Media") );
+  fs.Mount( "disk", new DiskFileDevice("../../tests/Assets") );
 
   //act
   File* file = fs.Open( "disk", "entityTemplates.json", IO_MODE_IN );

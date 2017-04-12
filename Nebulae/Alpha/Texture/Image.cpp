@@ -1,7 +1,18 @@
 
 #include "Image.h"
 #include "ImageCodec.h"
+
+#ifdef NEBULAE_INCLUDES_PNG
 #include "PngCodec.h"
+#endif
+
+#ifdef NEBULAE_INCLUDES_GLI
+#include "GliCodec.h"
+#endif
+
+#ifdef NEBULAE_INCLUDES_FREEIMAGE
+#include "FreeImageCodec.h"
+#endif
 
 using namespace Nebulae;
 
@@ -170,26 +181,30 @@ Image::load( File& is )
 ///
 {  
   ImageCodecData* data = nullptr;
-
-  //ImageCodec codec;
-  //data = codec.Decode( is );
-  //if ( !data )
   
-  #ifdef NEBULAE_INCLUDES_PNG
+#ifdef NEBULAE_INCLUDES_PNG
   {
     PngCodec png_codec;
     data = png_codec.Decode( is );
   }
-  #endif
+#endif
 
-  #ifdef NEBULAE_INCLUDES_GLI
+#ifdef NEBULAE_INCLUDES_GLI
   if( !data )
   {
     GliCodec gli_codec;
     data = gli_codec.Decode( is );
   }
-  #endif
-  
+#endif
+
+#ifdef NEBULAE_INCLUDES_FREEIMAGE
+  if (!data)
+  {
+    FreeImageCodec codec;
+    data = codec.Decode(is);
+  }
+#endif
+
   if( data ) 
   {
     m_width      = data->width;

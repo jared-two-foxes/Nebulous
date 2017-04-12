@@ -219,7 +219,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] =
     0, 8, 16, 24,
     },
 //-----------------------------------------------------------------------
-    {"PF_B8G8R8A8",
+    { "PF_B8G8R8A8",
     /* Bytes per element */
     4,
     /* Flags */
@@ -229,8 +229,8 @@ PixelFormatDescription _pixelFormats[PF_COUNT] =
     /* rbits, gbits, bbits, abits */
     8, 8, 8, 8,
     /* Masks and shifts */
-    0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF,
-    8, 16, 24, 0
+    0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000,
+    16, 8, 0, 24
     },
 //-----------------------------------------------------------------------
     {"PF_A2R10G10B10",
