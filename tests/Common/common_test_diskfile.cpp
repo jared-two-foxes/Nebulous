@@ -10,7 +10,7 @@ using namespace Nebulae;
 TEST(DiskFile, Read_ValidFileAndSize_ShouldReturnSize) 
 {
   //arrange
-  DiskFile file( "../../Samples/Media/entityTemplates.json" );
+  DiskFile file( "../../tests/Assets/entityTemplates.json" );
     
   //act
   char buffer[8]; 
@@ -23,7 +23,7 @@ TEST(DiskFile, Read_ValidFileAndSize_ShouldReturnSize)
 TEST(DiskFile, Read_RequestToMuchData_ShouldReturnSizeStreamed) 
 {
   //arrange
-  DiskFile file( "../../Samples/Media/entityTemplates.json" );
+  DiskFile file( "../../tests/Assets/entityTemplates.json" );
   file.SeekToEnd();
 	std::size_t size = file.Tell();
   file.Seek( 0 );  
@@ -40,7 +40,7 @@ TEST(DiskFile, Read_RequestToMuchData_ShouldReturnSizeStreamed)
 TEST(DiskFile, Write_WritesDataToFile_ShouldReturnSizeStreamed) 
 {
   //arrange
-  DiskFile file( "../../Samples/Media/test_output.json", false );
+  DiskFile file( "../../tests/Assets/test_output.json", false );
     
   //act
   char buffer[256];

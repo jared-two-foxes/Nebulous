@@ -29,7 +29,7 @@ class MaterialSerializerFixture : public ::testing::Test
     virtual void SetUp() 
     {
       fileSystem = std::shared_ptr<FileSystem >( new FileSystem() );
-      fileSystem->Mount( "disk", new DiskFileDevice("../../Samples/Media") );
+      fileSystem->Mount( "disk", new DiskFileDevice("../../tests/Assets") );
 
       window = std::shared_ptr<MockWindow >( new MockWindow() );
       device = std::shared_ptr<MockRenderDevice >( new NiceMock<MockRenderDevice>(fileSystem, window) );

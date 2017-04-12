@@ -446,7 +446,7 @@ WidgetRenderer::RenderListBox( const ListBox& control, int32 depth )
     {
       // No need to look for the current selection's top, if it is the
       // same as the bottom of the last iteration.
-      if( boost::next(prev_sel) == curr_sel ) 
+      if( std::next(prev_sel) == curr_sel ) 
       {
         top = bottom;
       } 

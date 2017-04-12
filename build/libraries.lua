@@ -67,21 +67,4 @@ return {
     'lua.lib',
   },
 
-
-  -- gmock = {                  
-  --   nil,                                                               
-  --   'mock/include',              
-  --   'gmock/lib',                        
-  --   'gmock.lib',
-  --   nil
-  -- },
-
-  -- gtest = {                  
-  --   nil,                                                               
-  --   'gtest/include',             
-  --   'gtest/lib/$(Configuration)',                        
-  --   'gtest.lib',
-  --   nil
-  -- },  
-
 }

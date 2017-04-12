@@ -30,20 +30,18 @@ class WidgetRendererFixture : public ::testing::Test
     std::shared_ptr<Window >            window;
     std::shared_ptr<MockRenderDevice >  device;
     WidgetRenderer*                     renderer;
-		SpriteBatch*                        batcher;
 
   protected:
     virtual void SetUp() 
     {
       fileSystem = std::shared_ptr<FileSystem >( new FileSystem() );
-      fileSystem->Mount( "disk", new DiskFileDevice("../../Samples/Media") );
+      fileSystem->Mount( "disk", new DiskFileDevice("../../tests/Assets") );
       window     = std::shared_ptr<MockWindow >( new MockWindow() );
       device     = std::shared_ptr<MockRenderDevice >( new NiceMock<MockRenderDevice>(fileSystem, window) );
-      
-      
+
       device->Initiate();
       
-      renderer = new WidgetRenderer( fileSystem, batcher, device );
+      renderer = new WidgetRenderer( fileSystem, nullptr, device );
     };
 
     virtual void TearDown() 

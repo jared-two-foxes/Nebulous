@@ -19,7 +19,7 @@ protected:
   protected:
     virtual void SetUp() 
     {
-      m_fileSystem.Mount( "disk", new DiskFileDevice("../../Samples/Media") );
+      m_fileSystem.Mount( "disk", new DiskFileDevice("../../tests/Assets") );
     };
 
 };
@@ -57,7 +57,7 @@ TEST_F(ImageFixture, Load_InvalidStreamParameter_ShouldNotContainPixelData)
   Image      image;
 
   //act
-  File* is = m_fileSystem.Open( "disk", "fonts/grobold.ttf" );
+  File* is = m_fileSystem.Open( "disk", "fonts/consola.ttf" );
   EXPECT_TRUE( is != NULL );
   image.load( *is );
   

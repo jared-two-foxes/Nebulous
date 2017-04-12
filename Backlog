@@ -1,11 +1,6 @@
 
-# Sprint {Engine}
-  [] Fix the warning that is shown due to the NE_ASSERT macro and swprintf?
-  [2] Remove all xml parsing code and remove the library from the engine.
-  [] Simple example with dll render system.
-  [] Reimplement the image codec functionality to load images for the texture class.
-  [] Split the RenderSystems and build them as dll's, creation of render system based upon some enum based to a free function.
-  [] Add all RenderSystems to the build process so that things can be built and tested at once.
+# Active {Engine}
+  [] Reimplement ZipFile so that we can reintroduce the ZipDisk archive
 
 # Backlog
 
@@ -19,17 +14,15 @@
   (*) b2 address-model=64 architecture=x86 variant=debug link=static threading=multi runtime-link=static stage
 
 ## UnitTests
-  [] Reimplement unittests
   [] Split the test programs into seperate projects so they can be run independantly
 
 ## Common
   [2] migrate as many boost libraries to equivalent stl libraries.
-  [] Reimplement ZipFile so that we can reintroduce the ZipDisk archive
+
   [] Remove the concept of mouse "buttons" for the input listener?  We are a touch based system, only a single touch type?
   [] Restructure the InputListener and the Win32 platform input listener loop and make it part of the common library (so that the Window class is self contained.)
   
 ## Alpha
-  [] Reimplmeent the sprite animation descriptor files as json files.
   [] Ensure that object deletion clears up correctly.  For example the inputLayout objects store pointers to the HardwareShader object which if deleted elsewhere the pointer will dangle.
   [] Possibly change the RenderSystem structure so that shared elements can be shared (ie make them component based rather than system based?)
   []{GLES} Implement the correct locking behaviour based upon usage for Buffers.
@@ -58,7 +51,14 @@
 # Complete
 
 ## 04-12-2017
+  [] Reimplement unittests.  Engine tests only (some fail)
+  [] Simple example with dll render system.
+  [2] Remove all xml parsing code and remove the library from the engine. 
+    [] Reimplmeent the sprite animation descriptor files as json files.
+  [] Reimplement the image codec functionality to load images for the texture class.  PNG only for now.
   [1] Modify the descriptors so we can specify a prefix/postfix for libraries for debug & release.  
+## Sometime between
+  [] Split the RenderSystems and build them as dll's, creation of render system based upon some enum based to a free function.
 ## 11-09-2015
   [1]   Allow entities to share components (ie placementcomponent)
   [1]   Allow entities to have more than one of a component type.

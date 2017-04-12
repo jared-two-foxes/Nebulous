@@ -1,0 +1,7 @@
+{
+  "player"    : [ "Placement", "PlacementConstraint", "Aspect", "Animation", "Motion", "Collision" ],
+  "amphibian" : [ "Placement", "Aspect", "Animation", "Motion", "Collision", "Score", "Behaviour" ],
+  "static"    : [ "Placement", "Aspect" ],
+  "reef"      : [ "Placement", "Aspect", "Collision" ],
+  "caustic"   : [ "Placement", "Aspect" ]
+}
