@@ -4,8 +4,9 @@
 -- v0.0.1
 --
 
-local utils = require('build.utils')
-local libaries = require('build.libraries')
+local utils     = require('build.utils')
+local libraries = require('build.libraries')
+local tablex    = require('build.tablex')
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -31,7 +32,18 @@ project "Audio"
     'Common'
   }
 
-  utils.addLibrariesToCurrentProject( libaries, dependenciesRoot, platform )
+  local combined_libraries = {}
+  local var                = path.getdirectory( _SCRIPT ) .. '/libraries.lua'
+  local is_file            = os.isfile( var )
+  if is_file then 
+    local project_libraries  = dofile( var )
+    local current_libraries  = tablex.copy( libraries );
+    combined_libraries = tablex.union( current_libraries, project_libraries )
+  else
+    combined_libraries = libraries
+  end
+
+  utils.addLibrariesToCurrentProject( combined_libraries, dependenciesRoot, platform )
 
   filter 'configurations:debug'
     defines { "DEBUG" }

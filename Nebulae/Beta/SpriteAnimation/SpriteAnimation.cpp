@@ -38,54 +38,56 @@ SpriteAnimation::GetFrame( std::size_t idx ) const
 
 
 bool
-SpriteAnimation::Load( File* is )
+SpriteAnimation::Load( File* stream )
 {
-  if( NULL == is ) return false;
+  NE_ASSERT( stream, "Null stream passed to sprite animation." )();
+
 //
-////
-//// Read the contents of stream into a buffer.
-////
-//  is->SeekToEnd();
-//  std::size_t size = is->Tell();
-//  char* buffer = new char[size];
-//  is->Seek( 0 );
-//  is->Read( buffer, size );
+// Read the contents of stream into a json object.
 //
-////
-//// This is actually returning a structure with parse details which is being cast to a boolean.
-////
-//  pugi::xml_document doc; 
-//  bool bSuccess = doc.load(buffer);
-//	if( !bSuccess ) {
-//    delete [] buffer;
-//		return false;
-//	}
+  if( !stream )
+  {
+    return false;
+  }
+
+  Json::Value root;
+  bool success = ParseJSON( *stream, &root );
+	if( !success) {
+		return false;
+	}
+
 //
-////
-//// Grab the frames.
-////
-//	pugi::xml_node root = doc.document_element();
-//	pugi::xml_node_iterator itr;
-//	int i = 0;
-//	SpriteAtlas* pAtlas = NULL;
+// Grab the frames.
 //
-//	for( itr = root.begin(); itr != root.end(); ++itr ) {
-//		std::string strSpriteSheetName = (*itr).attribute("spritesheet").as_string();
-//		pAtlas = m_atlasManager->GetByName( strSpriteSheetName );
-//		if( pAtlas == NULL ) {
-//			pAtlas = m_atlasManager->Create( strSpriteSheetName );
-//		}
-//
-//		// Create the animation frame link.
-//		SpriteAnimationFrame* pAnimationFrame = new SpriteAnimationFrame();
-//		pAnimationFrame->iId          = i++;
-//		pAnimationFrame->pSpriteAtlas = pAtlas;
-//		pAnimationFrame->strFrameName = (*itr).attribute("frame").as_string();
-//
-//		// Store the reference frame.
-//		m_Frames.push_back( pAnimationFrame );
-//	}
-//
-//  delete [] buffer;
+	int i = 0;
+	SpriteAtlas* pAtlas = NULL;
+  Json::Value animation = root["Animation"];
+  NE_ASSERT( !animation.isNull() && animation.isObject(), "Found invalid animation node while parsing sprite animation." )();
+  Json::Value frames    = animation["Frame"];
+  NE_ASSERT( !frames.isNull() && frames.isObject(), "Found invalid Frame node while parsing sprite animation." )();
+
+  for ( int i = 0; i < frames.size(); ++i )
+  {
+    Json::Value frame = frames[i];
+    NE_ASSERT( !frame.isNull() && frame.isObject(), "Found invalid list object while parsing sprite animation." )();
+    std::string strSpriteSheetName = json_cast<const char* >( frame["spritesheet"] );
+    std::string strFrameName       = json_cast<const char* >( frame["frame"] );
+
+    // Grab or create the Sprite Atlas.
+    pAtlas = m_atlasManager->GetByName( strSpriteSheetName );
+    if ( pAtlas == NULL ) {
+      pAtlas = m_atlasManager->Create( strSpriteSheetName );
+    }
+
+    // Create the animation frame link.
+    SpriteAnimationFrame* pAnimationFrame = new SpriteAnimationFrame();
+    pAnimationFrame->iId = i++;
+    pAnimationFrame->pSpriteAtlas = pAtlas;
+    pAnimationFrame->strFrameName = strFrameName;
+
+    // Store the reference frame.
+    m_Frames.push_back(pAnimationFrame);
+  }
+
 	return true;
 }

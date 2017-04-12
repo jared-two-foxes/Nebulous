@@ -26,22 +26,22 @@ using namespace Nebulae;
 
 void PlayButtonPressed( void* pOwner )
 {
-  printf( "The play button was pressed!\n" );
+  printf( "%s", "The play button was pressed!\n" );
 }
 
 void HighScoreButtonPressed( void* pOwner )
 {
-  printf( "The high score button was pressed!\n" );
+  printf( "%s", "The high score button was pressed!\n" );
 }
 
 void OptionsButtonPressed( void* pOwner )
 {
-  printf( "The options button was pressed!\n" );
+  printf( "%s", "The options button was pressed!\n" );
 }
 
 void AboutButtonPressed( void* pOwner )
 {
-  printf( "The about button was pressed!\n" );
+  printf( "%s", "The about button was pressed!\n" );
 }
 
 

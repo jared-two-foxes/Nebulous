@@ -228,7 +228,7 @@ Nebulae::json_cast( const Json::Value& value )
 
 
 template <typename T> T
-Nebulae::json_cast_with_default(const Json::Value& value, const T& defaultValue) 
+Nebulae::json_cast_with_default( const Json::Value& value, const T& defaultValue ) 
 {
   if( value.isNull() ) 
   {

@@ -30,11 +30,6 @@ newoption {
   description = "Add's to the solution the unit test projects.",
 }
 
-newoption {
-  trigger     = "validate",
-  description = "Runs cpplint's validation scripts on the source code as a post build step.",
-}
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -105,7 +100,7 @@ workspace "Nebulae"
     }
 
     architecture ( "x86_64" )
-    buildoptions { "/EHsc", "/MP", "/Wall" }
+    buildoptions { "/EHsc", "/MP" }
     --flags        { 'FatalWarnings' }
 
     -- ignore some warnings
@@ -201,22 +196,4 @@ workspace "Nebulae"
   -- Samples --
   if _OPTIONS["Samples"] then
     include "Samples"
-  end
-
-  -- Add the validation project
-  if platform == 'win' and _OPTIONS["validate"] then
-    -- initial creation of the auxiliary file
-    f = io.open("build/validation.cpp", "w")
-    f:write("int main() { return 0; }")
-    f:close()
-
-    project("Nebulae_Validation")
-      kind "ConsoleApp"
-      targetdir "bin"
-      files { "build/validation.cpp" }
-      location(solutionLocation)
-
-    postbuildcommands { 
-      "\"$(SolutionDir)../build/validate_source.bat\""
-    }
   end
