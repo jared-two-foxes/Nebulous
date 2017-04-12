@@ -1,5 +1,6 @@
 
 # Sprint {Engine}
+  [] Fix the warning that is shown due to the NE_ASSERT macro and swprintf?
   [2] Remove all xml parsing code and remove the library from the engine.
   [] Simple example with dll render system.
   [] Reimplement the image codec functionality to load images for the texture class.
@@ -9,7 +10,6 @@
 # Backlog
 
 ## Build System
-  [] Modify the descriptors so we can specify a prefix/postfix for libraries for debug & release.
   [] Modify the build system so that there is an option in the libraries file which adds a 'define' to the list so that things like NEBULAE_INLCUDE_GLI will work?
   [] Add something that allows for public and private library includes;  ie for the glm dependency for gli which really only needs to be included for Alpha.
   [] Add mechanism that allows for defining dependencies to the libraries
@@ -25,8 +25,8 @@
 ## Common
   [2] migrate as many boost libraries to equivalent stl libraries.
   [] Reimplement ZipFile so that we can reintroduce the ZipDisk archive
-  []   Remove the concept of mouse "buttons" for the input listener?  We are a touch based system, only a single touch type?
-  []   Restructure the InputListener and the Win32 platform input listener loop and make it part of the common library (so that the Window class is self contained.)
+  [] Remove the concept of mouse "buttons" for the input listener?  We are a touch based system, only a single touch type?
+  [] Restructure the InputListener and the Win32 platform input listener loop and make it part of the common library (so that the Window class is self contained.)
   
 ## Alpha
   [] Reimplmeent the sprite animation descriptor files as json files.
@@ -57,6 +57,8 @@
 
 # Complete
 
+## 04-12-2017
+  [1] Modify the descriptors so we can specify a prefix/postfix for libraries for debug & release.  
 ## 11-09-2015
   [1]   Allow entities to share components (ie placementcomponent)
   [1]   Allow entities to have more than one of a component type.

@@ -185,8 +185,6 @@ workspace "Nebulae"
 
   filter {}
 
-  -- utils.addProjectsToCurrentSolution(dependenciesRoot, platform)
-
   -- Engine --
   include "Nebulae"
 

@@ -5,6 +5,7 @@ return {
     nil, 
     nil, 
     nil,
-    "opengl32.lib" 
+    "opengl32.lib",
+    "opengl32.lib",
   },
 }
