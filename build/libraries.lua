@@ -1,68 +1,82 @@
--- Format: { projectPath, includePath, libPath, libname (release), libname (debug)? } 
+-- Format: { rootPath, projectPath, includePath, libPath, libname (release), libname (debug)? } 
 
 return {
-  boost = {       
+  boost = {   
+    'boost',    
     nil,                                                                 
-    'C:/boost',                     
-    'C:/boost/lib',                  
+    'boost/include/boost-1_64',                     
+    'boost/stage/lib',                  
+    'boost.build',
     nil,
-    nil
+    nil,
   },
 
-  jsoncpp = {                                                                                 
+  jsoncpp = {  
+    'jsoncpp',
     nil,                                                               
     'jsoncpp/include',           
-    'jsoncpp/makefiles/msvc2010/x64/$(Configuration)',              
-    'lib_json.lib',
-    'lib_json.lib',
+    'jsoncpp/build/src/lib_json/$(Configuration)',              
+    'cmake',
+    'jsoncpp.lib',
+    'jsoncpp.lib',
   },
 
-  brofiler = {       
+  brofiler = {
+    'Brofiler-1.1.1',       
     nil,                                                                 
     'Brofiler-1.1.1',           
     'Brofiler-1.1.1',              
+    nil,
     'ProfilerCore64.lib',
     'ProfilerCore64.lib',
   },
 
-  -- CMake installed!
   zlib = {
+    'zlib',  
     nil,                                                               
-    'C:/Program Files/zlib/include',                      
-    'C:/Program Files/zlib/lib',                 
-    'zlibstatic.lib',
-    'zlibstaticd.lib',
+    'zlib',                      
+    'zlib/build/$(Configuration)',                 
+    'cmake',
+    'zlib.lib',
+    'zlibd.lib',
   },
 
   libpng = {
+    'libpng',  
     nil, 
-    'C:/Program Files/libpng/include',
-    'C:/Program Files/libpng/lib',
+    'libpng',
+    'libpng/build/$(Configuration)',
+    'cmake',
     'libpng16.lib',
     'libpng16d.lib',
   },
 
   freetype = {   
+    'freetype2',  
     nil,                                                               
     'freetype2/include',          
-    'freetype2/objs/vc2010/x64',             
-    'freetype271MT.lib',
-    'freetype271MTd.lib',
+    'freetype2/build/$(Configuration)',             
+    'cmake',
+    'freetype.lib',
+    'freetyped.lib',
   },
 
   utf8 = {   
+    'utf8',  
     nil,                                                               
     'utf8/source',                      
     nil,                                
     nil,
+    nil,
     nil 
   },
 
-  -- CMake installed!
-  lua = {   
+  lua = {  
+    'luaDist',   
     nil,                                                               
-    'C:/Program Files/lua/include',                   
-    'C:/Program Files/lua/lib',                  
+    'luaDist/src',                   
+    'luaDist/build/$(Configuration)',     
+    'cmake',             
     'lua.lib',
     'lua.lib',
   },

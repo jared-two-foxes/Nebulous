@@ -30,6 +30,11 @@ newoption {
   description = "Add's to the solution the unit test projects.",
 }
 
+newoption {
+  trigger     = "build_dependencies",
+  description = "Builds the dependency projects.",
+}
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -65,6 +70,10 @@ if( false == os.isdir(solutionLocation) ) then
   os.mkdir( solutionLocation )
 end
 
+if _OPTIONS["build_dependencies"] then
+  local build = require 'build.build'
+  build.compile( libaries, dependenciesRoot )
+end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -72,7 +81,7 @@ workspace "Nebulae"
   configurations { "debug", "release" }
   language "C++"
   location( solutionLocation )  
-  flags { "Symbols", "StaticRuntime", "NoMinimalRebuild", "NoEditAndContinue", "FloatFast" }
+  flags { "Symbols", "NoMinimalRebuild", "NoEditAndContinue", "FloatFast" }
 
   defines {
     "PREMAKE5",

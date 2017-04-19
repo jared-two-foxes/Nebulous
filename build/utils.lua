@@ -21,8 +21,12 @@ local function splitExt(path)
   end
 end
 
-local function unpackLibPlatformInfo( libsRootPath, libPlatformInfo )
-  local projectPath, includePath, libPath, libNameRelease, libNameDebug = unpack( libPlatformInfo )
+function utils.unpackLibPlatformInfo( libsRootPath, libPlatformInfo )
+  local rootPath, projectPath, includePath, libPath, buildEngine, libNameRelease, libNameDebug = unpack( libPlatformInfo )
+
+  if rootPath ~= nil and not path.isabsolute( rootPath ) then 
+    rootPath = libsRootPath .. '/' .. rootPath 
+  end
 
   if projectPath ~= nil and not path.isabsolute( projectPath ) then 
     projectPath = libsRootPath .. '/' .. projectPath 
@@ -44,12 +48,12 @@ local function unpackLibPlatformInfo( libsRootPath, libPlatformInfo )
     libPath = libsRootPath .. '/' .. libPath 
   end
 
-  return projectPath, includePath, libPath, libNameRelease, libNameDebug
+  return rootPath, projectPath, includePath, libPath, buildEngine, libNameRelease, libNameDebug
 end
 
 function utils.addLibrariesToCurrentProject( libraries, libsRootPath, platform )
   for libName, libDef in pairs( libraries ) do
-    local projectPath, includePath, libPath, libNameRelease, libNameDebug = unpackLibPlatformInfo( libsRootPath, libDef )
+    local rootPath, projectPath, includePath, libPath, buildEngine, libNameRelease, libNameDebug = utils.unpackLibPlatformInfo( libsRootPath, libDef )
 
     if projectPath ~= nil then
       local fileDir, fileName     = splitPathName( projectPath )
