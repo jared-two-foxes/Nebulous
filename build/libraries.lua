@@ -4,8 +4,8 @@ return {
   boost = {   
     'boost',    
     nil,                                                                 
-    'boost/include/boost-1_64',                     
-    'boost/stage/lib',                  
+    'boost/built/include/boost-1_64',                     
+    'boost/built/lib',                  
     'boost.build',
     nil,
     nil,
@@ -14,11 +14,11 @@ return {
   jsoncpp = {  
     'jsoncpp',
     nil,                                                               
-    'jsoncpp/include',           
-    'jsoncpp/build/src/lib_json/$(Configuration)',              
+    'jsoncpp/build/include',           
+    'jsoncpp/build/lib',              
     'cmake',
     'jsoncpp.lib',
-    'jsoncpp.lib',
+    'jsoncppd.lib',
   },
 
   brofiler = {
@@ -34,8 +34,8 @@ return {
   zlib = {
     'zlib',  
     nil,                                                               
-    'zlib',                      
-    'zlib/build/$(Configuration)',                 
+    'zlib/build/include',                      
+    'zlib/build/lib',                 
     'cmake',
     'zlib.lib',
     'zlibd.lib',
@@ -44,8 +44,8 @@ return {
   libpng = {
     'libpng',  
     nil, 
-    'libpng',
-    'libpng/build/$(Configuration)',
+    'libpng/build/include',
+    'libpng/build/lib',
     'cmake',
     'libpng16.lib',
     'libpng16d.lib',
@@ -54,8 +54,8 @@ return {
   freetype = {   
     'freetype2',  
     nil,                                                               
-    'freetype2/include',          
-    'freetype2/build/$(Configuration)',             
+    'freetype2/build/include/freetype2',          
+    'freetype2/build/lib',             
     'cmake',
     'freetype.lib',
     'freetyped.lib',
@@ -74,11 +74,11 @@ return {
   lua = {  
     'luaDist',   
     nil,                                                               
-    'luaDist/src',                   
-    'luaDist/build/$(Configuration)',     
+    'luaDist/build/include',                   
+    'luaDist/build/lib',     
     'cmake',             
     'lua.lib',
-    'lua.lib',
+    'luad.lib',
   },
 
 }

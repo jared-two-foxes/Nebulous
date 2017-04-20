@@ -16,6 +16,13 @@ project "Simple"
   language "C++"
   location( projectLocation )
   
+  includedirs 
+  {
+    "./",
+    "../../"
+  }
+
+
   files 
   {
     "**.cpp",

@@ -10,18 +10,18 @@ local function SetupEnvironment()
     print( "err: " .. err )
   end
   print( os.getcwd() );
-  os.execute( "vcvarsall x86_amd64" )
+  os.execute( "vcvarsall amd64" )
 end
 
 function build.compile( libraries, libsRootPath )
-  SetupEnvironment()
-
   for libName, libDef in pairs( libraries ) do
     local rootPath, projectPath, includePath, libPath, buildEngine, libNameRelease, libNameDebug = utils.unpackLibPlatformInfo( libsRootPath, libDef )
 
     if ( buildEngine ~= nil ) then
       print( "===========================================================" )
       print( "Building " .. libName )
+
+      SetupEnvironment()
 
       -- Enter the Root directory for this dependency
       ok, err = os.chdir( rootPath )
@@ -43,25 +43,27 @@ function build.compile( libraries, libsRootPath )
           os.chdir( "build" )
 
           -- Run the solution builder process
-          local cmd = buildEngine .. ' -G"Visual Studio 15 2017 Win64" ..'
-          
-          -- Preload the CMake Cache file. (Configure step).
-          print( cmd )
-          os.execute( cmd ) 
-
+          local cmd = buildEngine .. ' -G"Visual Studio 15 2017 Win64"' .. ' -DCMAKE_INSTALL_PREFIX="' .. rootPath .. '/build" -DCMAKE_DEBUG_POSTFIX="d"'
+  
+          -- @todo - Seperate the Preload the CMakeCache file. (Configure step). ??
           -- Generate solution
-          cmd = cmd .. " -DCMAKE_INSTALL_PREFIX=" .. rootPath .. '/build'
-          print( cmd )
-          os.execute( cmd ) -- generate
+          print( cmd .. " .." )
+          os.execute( cmd .. " .." )
 
+          local buildCmd = buildEngine .. " --build . --target install"
+          
           -- Build the project debug and release configurations
-          os.execute( buildEngine .. " --build . --target install --config debug" )
-          os.execute( buildEngine .. " --build . --target install --config release" )
+          print( buildCmd .. " --config debug" )
+          os.execute( buildCmd .. " --config debug" )
+          print( buildCmd .. " --config release" )
+          os.execute( buildCmd .. " --config release" )
         elseif ( buildEngine == "boost.build" ) then
-          -- build both debug and release variants 
-          os.execute( "b2 address-model=64 architecture=x86 variant=debug,release link=static threading=multi --prefix=. headers" )
-          os.execute( "b2 address-model=64 architecture=x86 variant=debug,release link=static threading=multi stage" )
-          os.execute( "b2 address-model=64 architecture=x86 variant=debug,release link=static threading=multi --prefix=. install" )
+          -- Modular boost via git requires that we call this to copy all them headers to the right location.
+          os.execute( "b2 headers" )
+          
+          -- Build and install!
+          os.execute( "b2 --toolset=msvc-14.1 --build-type=complete --address-model=64 --link=static --threading=multi --prefix=built -j8 install" )
+          --os.execute( "b2 --toolset=msvc-14.1 --build-type=complete address-model=64 threading=multi link=static runtime-link=static" )
         end 
       end
       print("")

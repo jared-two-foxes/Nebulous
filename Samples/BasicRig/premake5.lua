@@ -16,6 +16,11 @@ project "BasicRig"
   language "C++"  
   location( projectLocation )
 
+  includedirs {
+    "./",
+    "../../"
+  }
+
   files {
     "**.h",
     "**.cpp"

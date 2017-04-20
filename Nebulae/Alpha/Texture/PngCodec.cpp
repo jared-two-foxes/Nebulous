@@ -231,13 +231,11 @@ PngCodec::Decode( File& is ) const
   // Read in the image into out data buffer.
   for ( int pass = 0; pass < number_passes; ++pass )
   {
-    for ( int row = 0; row < height; ++row )
+    for ( png_uint_32 row = 0; row < height; ++row )
     {
       ptr -= rowSize;
       png_read_row( png_ptr, (png_bytep)ptr, NULL );
     }
-
-    NE_ASSERT( ptr == buffer )();
   }
     
   // Read rest of file, and get additional chunks in info_ptr - REQUIRED 

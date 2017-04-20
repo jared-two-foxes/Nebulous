@@ -17,6 +17,11 @@ project "Entity"
   assert( solutionLocation, 'solutionLocation should be an absolute path set up in the main premake file' )
   location( projectLocation )
 
+  includedirs {
+    "./",
+    "../../"
+  }
+
   files {
     "**.cpp",
     "**.h"

@@ -16,6 +16,11 @@ project "GuiTest"
   language "C++"  
   location( projectLocation )
 
+  includedirs {
+    "./",
+    "../../"
+  }
+
   files {
   	"**.cpp",
   	"**.h"

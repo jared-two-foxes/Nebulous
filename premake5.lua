@@ -2,7 +2,7 @@
 --  Nebulae v0.0.1 build script
 --
 
-dependenciesRoot = 'C:/Users/Jared Watt/Documents/Develop/Nebulous/Externals'
+dependenciesRoot = 'C:/Develop/Nebulous/Externals'
 -- package.path = package.path .. ";" .. dependenciesRoot
 
 local utils    = require('build.utils')

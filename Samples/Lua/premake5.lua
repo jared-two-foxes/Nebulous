@@ -17,6 +17,11 @@ project "lua_sample_lib"
   location( projectLocation )
 
   includedirs {
+    "./",
+    "../../"
+  }
+
+  includedirs {
     "./Source"
   }
 
@@ -62,6 +67,8 @@ project "lua_sample_test"
   location( projectLocation )
 
   includedirs {
+    "./",
+    "../../",
     "./Source",
     "./Test"
   }
@@ -114,7 +121,9 @@ project "lua_sample_app"
   location( projectLocation )
 
   includedirs {
-    "./Source"
+    "./",
+    "../../",
+    "./Source",
   }
 
   files {

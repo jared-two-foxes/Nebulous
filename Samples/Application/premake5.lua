@@ -17,6 +17,11 @@ project "Application"
   language "C++"
   location( projectLocation )
 
+  includedirs {
+    "./",
+    "../../"
+  }
+
   files {
     "**.h",
     "**.cpp"
