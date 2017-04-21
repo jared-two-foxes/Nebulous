@@ -1,27 +1,33 @@
 -- Format: { projectPath, includePath, libPath, libname (release), libname (debug)? } 
 
 return {
+  -- libogg = {  
+  --   'libogg',   
+  --   nil,                                                               
+  --   'libogg/built/include',                   
+  --   'libogg/built/lib',     
+  --   'cmake',             
+  --   'ogg.lib',
+  --   'oggd.lib',
+  -- },
 
-libvorbis = {
-  nil,                                                               
-  'libvorbis/include',         
-  'libvorbis/win32/VS2010/x64/$(Configuration)',            
-  'libvorbis_static.lib;libvorbisfile_static.lib'
-},
+  -- libvorbis = {  
+  --   'libvorbis',   
+  --   nil,                                                               
+  --   'libvorbis/built/include',                   
+  --   'libvorbis/built/lib',     
+  --   'cmake',             
+  --   'libvorbis.lib',
+  --   'libvorbisd.lib',
+  -- },
 
-libogg = {
-  nil,                                   
-  'libogg/include',           
-  'libogg/win32/VS2015/x64/$(Configuration)',               
-  'libvorbis_static.lib'
-},
-
--- CMake installed!
-openal = { 
-  nil,                                                               
-  'C:/Program Files/OpenAL/include',       
-  'C:/Program Files/OpenAL/lib',           
-  'OpenAL32.lib'
-},
-
+  -- openal = {  
+  --   'openal-soft',   
+  --   nil,                                                               
+  --   'openal-soft/built/include',                   
+  --   'openal-soft/built/lib',     
+  --   'cmake',             
+  --   'OpenAL32.lib',
+  --   'OpenAL32d.lib',
+  -- },
 }

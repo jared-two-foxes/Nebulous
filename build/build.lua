@@ -15,7 +15,12 @@ end
 
 -- @todo - Seperate the Preload the CMakeCache file. (Configure step). ??
 -- @todo - Allow for clean building of dependencies by deleting cached files ??
+-- @todo - Seperate the build list from the library list...
 function build.compile( libraries, libsRootPath )
+  
+  -- Setup the build environment
+  SetupEnvironment()
+
   for libName, libDef in pairs( libraries ) do
     local rootPath, projectPath, includePath, libPath, buildEngine, libNameRelease, libNameDebug = utils.unpackLibPlatformInfo( libsRootPath, libDef )
 
@@ -23,9 +28,7 @@ function build.compile( libraries, libsRootPath )
       print( "===========================================================" )
       print( "Building " .. libName )
       print()
-          
-      -- Setup the build environment
-      SetupEnvironment()
+
 
       -- Enter the Root directory for this dependency
       ok, err = os.chdir( rootPath )
@@ -70,7 +73,7 @@ function build.compile( libraries, libsRootPath )
           os.execute( "b2 headers" )
           
           -- Build and install!
-          os.execute( "b2 --toolset=msvc-14.1 --build-type=complete address-model=64 --architecture=ia64 --threading=multi --link=static --prefix=built3 -j8 -a install" )
+          os.execute( "b2 --toolset=msvc-14.1 --build-type=complete address-model=64 --architecture=ia64 --threading=multi --link=static --prefix=built -j8 install" )
           print()
           print( "done" )
         end 
