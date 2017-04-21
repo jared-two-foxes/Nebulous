@@ -1,11 +1,11 @@
--- Format: { rootPath, projectPath, includePath, libPath, libname (release), libname (debug)? } 
+-- Format: { rootPath, projectPath, includePath, libPath, 'buildSystem', libname (release), libname (debug)? } 
 
 return {
   boost = {   
     'boost',    
     nil,                                                                 
     'boost/built/include/boost-1_64',                     
-    'boost/built/lib',                  
+    'boost/built/lib',                    
     'boost.build',
     nil,
     nil,
@@ -14,8 +14,8 @@ return {
   jsoncpp = {  
     'jsoncpp',
     nil,                                                               
-    'jsoncpp/build/include',           
-    'jsoncpp/build/lib',              
+    'jsoncpp/built/include',           
+    'jsoncpp/built/lib',              
     'cmake',
     'jsoncpp.lib',
     'jsoncppd.lib',
@@ -34,8 +34,8 @@ return {
   zlib = {
     'zlib',  
     nil,                                                               
-    'zlib/build/include',                      
-    'zlib/build/lib',                 
+    'zlib/built/include',                      
+    'zlib/built/lib',                 
     'cmake',
     'zlib.lib',
     'zlibd.lib',
@@ -44,8 +44,8 @@ return {
   libpng = {
     'libpng',  
     nil, 
-    'libpng/build/include',
-    'libpng/build/lib',
+    'libpng/built/include',
+    'libpng/built/lib',
     'cmake',
     'libpng16.lib',
     'libpng16d.lib',
@@ -54,8 +54,8 @@ return {
   freetype = {   
     'freetype2',  
     nil,                                                               
-    'freetype2/build/include/freetype2',          
-    'freetype2/build/lib',             
+    'freetype2/built/include/freetype2',          
+    'freetype2/built/lib',             
     'cmake',
     'freetype.lib',
     'freetyped.lib',
@@ -74,8 +74,8 @@ return {
   lua = {  
     'luaDist',   
     nil,                                                               
-    'luaDist/build/include',                   
-    'luaDist/build/lib',     
+    'luaDist/built/include',                   
+    'luaDist/built/lib',     
     'cmake',             
     'lua.lib',
     'luad.lib',

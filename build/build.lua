@@ -9,10 +9,12 @@ local function SetupEnvironment()
   if ( not ok ) then
     print( "err: " .. err )
   end
-  print( os.getcwd() );
-  os.execute( "vcvarsall amd64" )
+  os.execute( "vcvarsall x64" )
+  print()
 end
 
+-- @todo - Seperate the Preload the CMakeCache file. (Configure step). ??
+-- @todo - Allow for clean building of dependencies by deleting cached files ??
 function build.compile( libraries, libsRootPath )
   for libName, libDef in pairs( libraries ) do
     local rootPath, projectPath, includePath, libPath, buildEngine, libNameRelease, libNameDebug = utils.unpackLibPlatformInfo( libsRootPath, libDef )
@@ -20,7 +22,9 @@ function build.compile( libraries, libsRootPath )
     if ( buildEngine ~= nil ) then
       print( "===========================================================" )
       print( "Building " .. libName )
-
+      print()
+          
+      -- Setup the build environment
       SetupEnvironment()
 
       -- Enter the Root directory for this dependency
@@ -28,45 +32,50 @@ function build.compile( libraries, libsRootPath )
       if( not ok ) then
         print( "err:" .. err )
       else
-        print( os.getcwd() )
+
         if( buildEngine == "cmake" ) then
+          -- Only delete the file if we are attempting to do a clean build? 
           -- Delete any existing build directory to make sure that we have a "clean" build
-          if os.isdir( "build" ) then
-            ok, err = os.rmdir( rootPath .. "/build" )
-            -- if( not ok ) then
-            --   print( "err: " .. err )
-            -- end
-          end
+          -- if os.isdir( "build" ) then
+          --   ok, err = os.rmdir( rootPath .. "/build" )
+          -- end
 
           -- create the directory and enter it
-          os.mkdir( "build" )
+          if not os.isdir( "build" ) then 
+            os.mkdir( "build" )
+          end
+
+          -- Navigate to the build directory
           os.chdir( "build" )
 
           -- Run the solution builder process
-          local cmd = buildEngine .. ' -G"Visual Studio 15 2017 Win64"' .. ' -DCMAKE_INSTALL_PREFIX="' .. rootPath .. '/build" -DCMAKE_DEBUG_POSTFIX="d"'
+          -- Attempt to build with the specified compilier
+          -- Set the output directory to install the files.
+          local cmd = buildEngine .. ' -G"Visual Studio 15 2017 Win64"' .. ' -DCMAKE_INSTALL_PREFIX="' .. rootPath .. '/built" -DCMAKE_DEBUG_POSTFIX="d"'
   
-          -- @todo - Seperate the Preload the CMakeCache file. (Configure step). ??
           -- Generate solution
-          print( cmd .. " .." )
           os.execute( cmd .. " .." )
+          print()
 
           local buildCmd = buildEngine .. " --build . --target install"
           
           -- Build the project debug and release configurations
-          print( buildCmd .. " --config debug" )
-          os.execute( buildCmd .. " --config debug" )
-          print( buildCmd .. " --config release" )
-          os.execute( buildCmd .. " --config release" )
+          os.execute( "msbuild install.vcxproj /p:configuration=debug;platform=x64;WarningLevel=0 /v:q" )
+          print()
+          os.execute( "msbuild install.vcxproj /p:configuration=release;platform=x64;WarningLevel=0 /v:q" )
+          print()
+          print( "done" )
         elseif ( buildEngine == "boost.build" ) then
           -- Modular boost via git requires that we call this to copy all them headers to the right location.
           os.execute( "b2 headers" )
           
           -- Build and install!
-          os.execute( "b2 --toolset=msvc-14.1 --build-type=complete --address-model=64 --link=static --threading=multi --prefix=built -j8 install" )
-          --os.execute( "b2 --toolset=msvc-14.1 --build-type=complete address-model=64 threading=multi link=static runtime-link=static" )
+          os.execute( "b2 --toolset=msvc-14.1 --build-type=complete address-model=64 --architecture=ia64 --threading=multi --link=static --prefix=built3 -j8 -a install" )
+          print()
+          print( "done" )
         end 
       end
-      print("")
+      print()
     end
   end
 end
