@@ -97,8 +97,8 @@ return {
     'libvorbis/built/include',                   
     'libvorbis/built/lib',     
     'cmake',             
-    'libvorbis.lib',
-    'libvorbisd.lib',
+    'vorbis.lib;vorbisenc.lib;vorbisfile.lib',
+    'vorbisd.lib;vorbisencd.lib;vorbisfiled.lib',
   },
 
   openal = {  

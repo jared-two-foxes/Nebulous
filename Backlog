@@ -6,6 +6,7 @@
 
 ## Build System
   [] Implement a system that will build and prepare all the internal dependencys
+  [] Implement a system such that the dependencies for each library can be listed for rebuild and then a seconday list to reference these so that not all files are linked by default.
   [] Modify the build system so that there is an option in the libraries file which adds a 'define' to the list so that things like NEBULAE_INLCUDE_GLI will work?
   [] Add something that allows for public and private library includes;  ie for the glm dependency for gli which really only needs to be included for Alpha.
   [] Add mechanism that allows for defining dependencies to the libraries
