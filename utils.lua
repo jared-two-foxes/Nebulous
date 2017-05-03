@@ -34,8 +34,7 @@ function utils.addLibrariesToCurrentProject( dependencies )
       if library ~= nil then
 
         if library.system == "boost.build" then
-          print( _SCRIPT_DIR .. "./include" .. "/" .. library.name .. "-" .. library.version )
-          includedirs { _SCRIPT_DIR .. "./include" .. "/" .. library.name .. "-" .. library.version } 
+          includedirs { root_dir .. "/include" .. "/" .. library.name .. "-" .. library.version } 
         end
 
         -- if libPath ~= nil then     libdirs { libPath } end

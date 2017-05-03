@@ -2,6 +2,8 @@
 --  Nebulae v0.0.1 build script
 --
 
+root_dir = _SCRIPT_DIR
+
 utils = require( 'utils' )
 desc = require( 'project' )
 
