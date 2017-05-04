@@ -19,7 +19,7 @@ private:
 
     // Opens a shared library. The filename is in utf-8. Returns true on success and
     // false on error. Call `SharedLibrary::error()` to get the error message.
-    int Open( const std::string& path );
+    int Open( const std::wstring& path );
     
     void Close();
 

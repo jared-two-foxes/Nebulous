@@ -10,18 +10,18 @@ desc = require( 'project' )
 -- Options & Actions -------------------------------------------------------------------------------------------------------------------------
 
 newoption {
-  trigger     = "plugins",
-  description = "Add's renderer plugin projects to solution."
+  trigger     = "no_plugins",
+  description = "Excludes from the generated solution the project files for the renderer plugins."
 }
 
 newoption {
-  trigger     = "samples",
-  description = "Add's to the solution the project files for the engine samples.",
+  trigger     = "no_samples",
+  description = "Excludes from the generated solution the project files for the engine samples.",
 }
 
 newoption {
-  trigger     = "tests",
-  description = "Add's to the solution the unit test projects.",
+  trigger     = "no_tests",
+  description = "Excludes from the generated solution the unit test projects.",
 }
 
 
@@ -80,7 +80,6 @@ workspace( workspaceName )
   filter "action:vs*"
     systemversion "10.0.14393.0"
     defines{
-      "NOMINMAX",
       "WIN32",
       "_WIN32" 
     }
@@ -93,17 +92,17 @@ workspace( workspaceName )
   -- Engine --
   include "Nebulae"
 
-  -- -- Build plugins --
-  -- if _OPTIONS["plugins"] then
-  --   include "RenderSystems" -- RenderSystem Dynamic Libraries
-  -- end
+  -- Build plugins --
+  if not _OPTIONS["no_plugins"] then
+    include "RenderSystems" -- RenderSystem Dynamic Libraries
+  end
   
-  -- -- Build tests --
-  -- if _OPTIONS["tests"] then
+  -- -- -- Build tests --
+  -- if not _OPTIONS["no_tests"] then
   --   include "tests"
   -- end
 
-  -- -- Samples --
-  -- if _OPTIONS["Samples"] then
+  -- -- -- Samples --
+  -- if not _OPTIONS["no_samples"] then
   --   include "Samples"
   -- end

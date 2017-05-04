@@ -3,7 +3,7 @@
 using namespace Nebulae;
 
 
-Win32Window::Win32Window( const std::string& strClassName, Win32Window* pParent )
+Win32Window::Win32Window( const std::wstring& strClassName, Win32Window* pParent )
 : Window(),
 	m_hWnd( NULL ),
 	m_hDC( NULL ),

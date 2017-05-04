@@ -102,7 +102,7 @@ RenderSystem_OGL::Initiate()
 		//
 		//@todo Reset The Display
 		//
-		MessageBox( NULL, "Can't Create A GL Device Context.", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( NULL, L"Can't Create A GL Device Context.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 	
@@ -112,7 +112,7 @@ RenderSystem_OGL::Initiate()
 		//
 		//@todo Reset The Display
 		//
-		MessageBox( NULL, "Can't Find A Suitable PixelFormat.", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( NULL, L"Can't Find A Suitable PixelFormat.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 
@@ -121,7 +121,7 @@ RenderSystem_OGL::Initiate()
 		//
 		//@todo Reset The Display
 		//
-		MessageBox( NULL, "Can't Set The PixelFormat.", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( NULL, L"Can't Set The PixelFormat.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 	
@@ -131,7 +131,7 @@ RenderSystem_OGL::Initiate()
 		//
 		//@todo Reset The Display
 		//
-		MessageBox( NULL, "Can't Create A GL Rendering Context.", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( NULL, L"Can't Create A GL Rendering Context.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return FALSE;
 	}
 
@@ -140,7 +140,7 @@ RenderSystem_OGL::Initiate()
 		//
 		//@todo Reset The Display
 		//
-		MessageBox( NULL, "Can't Activate The GL Rendering Context.", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( NULL, L"Can't Activate The GL Rendering Context.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 

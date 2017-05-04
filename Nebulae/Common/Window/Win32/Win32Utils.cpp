@@ -6,14 +6,14 @@
 namespace Nebulae
 {
   
-  std::string Win32Utils::ErrorCodeToString( DWORD errorCode )
+  std::wstring Win32Utils::ErrorCodeToString( DWORD errorCode )
   {
-    char* buffer = nullptr;
+    wchar_t* buffer = nullptr;
     FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, errorCode,
-        MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), (char*)&buffer, 0, nullptr );
+        MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), (wchar_t*)&buffer, 0, nullptr );
 
-    const std::string errorMessage( buffer, buffer + strlen( buffer ) );
+    const std::wstring errorMessage( buffer, buffer + wcslen( buffer ) );
 
     LocalFree( buffer );
 

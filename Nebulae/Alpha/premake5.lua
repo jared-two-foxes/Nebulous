@@ -12,5 +12,9 @@ project "Alpha"
     "**.h"
   }
 
+  removefiles {
+    "UnitTests/**"
+  }
+  
   utils.addLibrariesToCurrentProject( desc.dependencies );
 

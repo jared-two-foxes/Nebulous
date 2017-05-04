@@ -14,4 +14,8 @@ project "Audio"
     "**.h"
   }
 
+  removefiles {
+    "UnitTests/**"
+  }
+  
   utils.addLibrariesToCurrentProject( desc.dependencies );

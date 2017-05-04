@@ -13,7 +13,7 @@ SharedLibrary::~SharedLibrary()
 
 
 int 
-SharedLibrary::Open( const std::string& filename ) 
+SharedLibrary::Open( const std::wstring& filename ) 
 {
   handle = LoadLibraryEx( filename.c_str(), NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
   if ( handle == nullptr ) 

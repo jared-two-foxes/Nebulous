@@ -11,7 +11,7 @@ namespace Nebulae
 class Window
 {
 private:
-  std::string                m_caption;
+  std::wstring               m_caption;
   Point                      m_position;
   Point                      m_size;
   std::list<InputListener* > m_listeners;
@@ -24,7 +24,7 @@ private:
     int32 GetHeight() const;
     const Point GetSize() const;
     const Point GetPosition() const;
-    const char* GetCaption() const;
+    const wchar_t* GetCaption() const;
 
     bool IsPointInWindow( const Point& point ) const;
 
@@ -32,7 +32,7 @@ private:
     virtual void Destroy() = 0;
     virtual void Show() = 0;
     virtual void MoveAndResize( int x, int y, int width, int height );
-    virtual void SetCaption( const char* szCaption );
+    virtual void SetCaption( const wchar_t* szCaption );
 
     void AddInputListener( InputListener* inputListener );
     void RemoveInputListener( InputListener* inputListener );

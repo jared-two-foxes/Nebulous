@@ -33,30 +33,40 @@ function utils.addLibrariesToCurrentProject( dependencies )
 
       if library ~= nil then
 
-        if library.system == "boost.build" then
+        if library.includePath ~= nil then
+          includedirs { root_dir .. "/include" .. "/" .. library.includePath } 
+        elseif library.system == "boost.build" then
           includedirs { root_dir .. "/include" .. "/" .. library.name .. "-" .. library.version } 
         end
 
-        -- if libPath ~= nil then     libdirs { libPath } end
+        if library.libPath ~= nil then
+          includedirs { root_dir .. library.libPath } 
+        end
 
         -- Add the libraries.
-        if library.naming ~= "none" then     
+        if library.naming ~= nil and library.naming ~= "none" then     
           local libraryDebugName = library.name
           local libraryReleaseName = library.name
 
           if library.naming == "standard" then
             libraryDebugName = libraryDebugName .. "d.lib"
             libraryReleaseName = libraryReleaseName .. ".lib"
+          elseif library.naming == "versioned" then
+            libraryDebugName = libraryDebugName .. library.version .. "d.lib"
+            libraryReleaseName = libraryReleaseName .. library.version .. ".lib"
+          elseif library.naming == "win32" then
+            libraryDebugName = libraryDebugName .. "32.lib"
+            libraryReleaseName = libraryReleaseName .. "32.lib"
           elseif library.naming == "boost" then
             local toolset = "v141"
             local threading = "mt"
-            local runtime = "" --"s"
+            local runtime = "" --"s"cls
             local debug = "gd"
             local version = "4_2_3"
 
             libraryDebugName = boost_combine_components( 
               library.name, toolset, threading, runtime .. debug,
-              library.version ) .. ".lib"
+              version ) .. ".lib"
 
             libraryReleaseName = boost_combine_components( 
               library.name, toolset, threading, runtime,

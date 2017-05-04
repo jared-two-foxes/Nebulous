@@ -11,7 +11,7 @@ ClassRegisterationUtility::~ClassRegisterationUtility()
 
 
 bool 
-ClassRegisterationUtility::Register( const std::string& strClassName, WNDPROC lpfnWndProc, HINSTANCE hInstance, HICON hIcon )
+ClassRegisterationUtility::Register( const std::wstring& strClassName, WNDPROC lpfnWndProc, HINSTANCE hInstance, HICON hIcon )
 {
   // Check that the class is not already registered?
   NE_ASSERT( !IsClassRegistered(strClassName), "Windows class named %s is already registered", strClassName.c_str() )();
@@ -46,7 +46,7 @@ ClassRegisterationUtility::Register( const std::string& strClassName, WNDPROC lp
 }
 
 void 
-ClassRegisterationUtility::Unregister( const std::string& strClassName )
+ClassRegisterationUtility::Unregister( const std::wstring& strClassName )
 {
   std::vector<OSClassRegistration >::iterator it = std::find_if( m_registeredClasses.begin(), m_registeredClasses.end(), [&](OSClassRegistration& entry) {
     return (entry.name == strClassName);
@@ -60,7 +60,7 @@ ClassRegisterationUtility::Unregister( const std::string& strClassName )
 
 
 bool 
-ClassRegisterationUtility::IsClassRegistered( const std::string& className )
+ClassRegisterationUtility::IsClassRegistered( const std::wstring& className )
 {
   std::vector<OSClassRegistration >::iterator it = std::find_if( m_registeredClasses.begin(), m_registeredClasses.end(), [&](OSClassRegistration& entry) {
     return (entry.name == className);

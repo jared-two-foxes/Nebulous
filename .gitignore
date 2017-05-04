@@ -1,6 +1,7 @@
-Nebulae/Scratch/
-Nebulae/Samples/Media/level/OptionScreen.json
-Flock/Project/
 Project/
 .vs/
 Bin/
+include/
+lib/
+Projects/
+share/

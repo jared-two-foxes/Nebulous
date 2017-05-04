@@ -3,8 +3,6 @@
 
 #include <Nebulae/Common/Common.h>
 
-#include <Nebulae/Common/Window/Win32/Win32Includes.h>
-
 namespace Nebulae
 {
 
@@ -14,7 +12,7 @@ namespace Win32Utils
 	/** Converts an error code to a readable string.
 		*	The error code this function takes is usually gotten from GetLastError().
 		*/
-	std::string ErrorCodeToString( DWORD errorCode );
+	std::wstring ErrorCodeToString( DWORD errorCode );
 
 	/** Fucntion that cycles all the current systems events that are in the message queue and processes them.
     *  @return.

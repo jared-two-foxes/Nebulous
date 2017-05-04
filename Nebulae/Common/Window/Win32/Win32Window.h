@@ -13,11 +13,11 @@ class Win32Window : public Window
 private:
   HWND         m_hWnd;
   HDC          m_hDC;
-  std::string  m_strClassName;
+  std::wstring m_strClassName;
   Win32Window* m_pParent;
     
   public:
-		Win32Window( const std::string& strClassName, Win32Window* pParent );
+		Win32Window( const std::wstring& strClassName, Win32Window* pParent );
 		virtual ~Win32Window();
     virtual bool Initiate( void* creationData );
     virtual void Destroy();

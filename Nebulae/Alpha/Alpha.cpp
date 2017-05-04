@@ -7,28 +7,28 @@
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 
-std::string plugin_names[]= 
+std::wstring plugin_names[]= 
 {
-  "opengl_3",
-  "opengl_3",
-  "vulcan",
-  "gles_2_0"
+  L"opengl_3",
+  L"opengl_3",
+  L"vulcan",
+  L"gles_2_0"
 };
 
 std::shared_ptr<Nebulae::RenderSystem > 
 CreateRenderSystem( RenderSystemType type, std::shared_ptr<Nebulae::FileSystem > fileSystem, std::shared_ptr<Nebulae::Window > window )
 {
   // Set the plugin shared library location
-  std::string path = plugin_names[type];
+  std::wstring path = plugin_names[type];
 
 #if WIN32
 # ifdef _DEBUG
-  path += "_d.dll";
+  path += L"_d.dll";
 # else
-  path += ".dll";
+  path += L".dll";
 # endif
 #else
-  path += ".so";
+  path += L".so";
 #endif
 
   try 

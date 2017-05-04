@@ -49,7 +49,7 @@ NE_FLAGSPEC_IMPL(ModKey);
 
 //constructor
 Window::Window()
-: m_caption( "" ),
+: m_caption( L"" ),
   m_position( Point(0,0) ),
   m_size( Point(-1,-1) )
 { }
@@ -74,7 +74,7 @@ const Point
 Window::GetPosition() const
 { return m_position; }
 
-const char* 
+const wchar_t* 
 Window::GetCaption() const
 { return m_caption.c_str(); }
 
@@ -88,7 +88,7 @@ Window::MoveAndResize( int x, int y, int w, int h )
 }
 
 void 
-Window::SetCaption( const char* szCaption )
+Window::SetCaption( const wchar_t* szCaption )
 {
 	m_caption = szCaption;
 }

@@ -3,8 +3,6 @@
 
 #include <Nebulae/Common/Common.h>
 
-#include <Nebulae/Common/Window/Win32/Win32Includes.h>
-
 namespace Nebulae
 {
 
@@ -19,8 +17,8 @@ namespace Nebulae
   private:
     struct OSClassRegistration
     {
-      std::string name;
-      HINSTANCE   instance;
+      std::wstring name;
+      HINSTANCE    instance;
     };
 
   private:
@@ -52,7 +50,7 @@ namespace Nebulae
        *    https://msdn.microsoft.com/en-us/library/windows/desktop/ms633587(v=vs.85).aspx for reasons why
        *    the registration could fail.
        */
-      bool Register( const std::string& strClassName, WNDPROC lpfnWndProc, HINSTANCE hInstance, HICON hIcon );
+      bool Register( const std::wstring& strClassName, WNDPROC lpfnWndProc, HINSTANCE hInstance, HICON hIcon );
 
       /**
        *  Remove a previously registered HWND template.    
@@ -60,10 +58,10 @@ namespace Nebulae
        *  @param className
        *    The name of the template to deregister.
        */
-		  void Unregister( const std::string& strClassName );
+		  void Unregister( const std::wstring& strClassName );
 
 
-      bool IsClassRegistered( const std::string& className );
+      bool IsClassRegistered( const std::wstring& className );
 
 	}; // ClassRegistrationUtility
 

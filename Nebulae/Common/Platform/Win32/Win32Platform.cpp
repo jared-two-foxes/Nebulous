@@ -442,7 +442,7 @@ Win32Platform::Initiate()
 {
   // Create the registeration utility & register the Nebulae window class.
 	m_pRegisterationUtility = new ClassRegisterationUtility();
-	m_pRegisterationUtility->Register( "NebulaeWindowClass", NebulaeWndProc, ::GetModuleHandle( NULL ), NULL );
+	m_pRegisterationUtility->Register( L"NebulaeWindowClass", NebulaeWndProc, ::GetModuleHandle( NULL ), NULL );
 
   // @note [jared.watt] This is here rather than in Platform::Intiate so that we dont have to call
   // Platform::Initiate() as thats an ugly way of coding and I cant think of a better solution 
@@ -505,10 +505,10 @@ Platform::WindowPtr
 Win32Platform::CreateApplicationWindow(int x, int y, int w, int h, Platform::WindowPtr pParent)
 {
 	// Create new Window.
-	Win32Window* pWindow = new Win32Window( "NebulaeWindowClass", NULL );
+	Win32Window* pWindow = new Win32Window( L"NebulaeWindowClass", NULL );
 	if( pWindow ) {
 	  pWindow->MoveAndResize( x, y, w, h );
-	  pWindow->SetCaption( "Nebulae" );
+	  pWindow->SetCaption( L"Nebulae" );
 	  pWindow->Initiate( this );
 	
     m_windows.push_back( WindowPtr(pWindow) );
