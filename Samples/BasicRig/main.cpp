@@ -75,11 +75,11 @@ WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nCmdShow )
   Win32Utils::InitiateOS();
 
   ClassRegisterationUtility registrationUtility;
-  registrationUtility.Register( "NebulaeWindowClass", WndProc, hInstance, NULL );
+  registrationUtility.Register( L"NebulaeWindowClass", WndProc, hInstance, NULL );
 
-  Platform::WindowPtr pRenderWindow = std::make_shared<Win32Window >( "NebulaeWindowClass", nullptr );
+  Platform::WindowPtr pRenderWindow = std::make_shared<Win32Window >( L"NebulaeWindowClass", nullptr );
   pRenderWindow->MoveAndResize( 0, 0, 960, 640 );
-  pRenderWindow->SetCaption( "render" );
+  pRenderWindow->SetCaption( L"Render" );
   pRenderWindow->Initiate( nullptr );
   pRenderWindow->Show();
 

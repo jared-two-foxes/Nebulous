@@ -25,8 +25,8 @@ function utils.addLibrariesToCurrentProject( dependencies )
 
       -- Grab the named library from the global libraries list.
       local library = nil
-      for _, libObj in pairs( user_libraries ) do
-        if name == libObj.name then
+      for id, libObj in pairs( user_libraries ) do
+        if name == id then
           library = libObj
         end
       end
@@ -57,6 +57,9 @@ function utils.addLibrariesToCurrentProject( dependencies )
           elseif library.naming == "win32" then
             libraryDebugName = libraryDebugName .. "32.lib"
             libraryReleaseName = libraryReleaseName .. "32.lib"
+          elseif library.naming == "architecture" then
+            libraryDebugName = libraryDebugName .. "64.lib"
+            libraryReleaseName = libraryReleaseName .. "64.lib"
           elseif library.naming == "boost" then
             local toolset = "v141"
             local threading = "mt"
@@ -72,7 +75,7 @@ function utils.addLibrariesToCurrentProject( dependencies )
               library.name, toolset, threading, runtime,
               version ) .. ".lib"
           end
-
+          
           filter 'configurations:Release'
             links { libraryReleaseName } 
           filter {}

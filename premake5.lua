@@ -97,12 +97,12 @@ workspace( workspaceName )
     include "RenderSystems" -- RenderSystem Dynamic Libraries
   end
   
-  -- -- -- Build tests --
-  -- if not _OPTIONS["no_tests"] then
-  --   include "tests"
-  -- end
+  -- Samples --
+  if not _OPTIONS["no_samples"] then
+    include "Samples"
+  end
 
-  -- -- -- Samples --
-  -- if not _OPTIONS["no_samples"] then
-  --   include "Samples"
-  -- end
+  -- -- -- Build tests --
+  if not _OPTIONS["no_tests"] then
+    include "tests"
+  end
