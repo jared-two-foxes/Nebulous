@@ -9,6 +9,10 @@ group "Tests"
 project "UnitTests"
   kind "ConsoleApp"
 
+  defines {
+    "GTEST_LINKED_AS_SHARED_LIBRARY"
+  }
+
   files {
     "**.cpp",
     "**.h"
