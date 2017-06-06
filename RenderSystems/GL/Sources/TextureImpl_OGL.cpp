@@ -50,11 +50,11 @@ TextureImpl_OGL::Load( const Image& image )
   GLenum      glformat  = GLPixelConversionUtil::GetClosestGLInternalFormat( m_pixelFormat );
   bool        hasAlpha  = PixelUtil::HasAlpha( m_pixelFormat );
 
-#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-  GLenum      srcFormat = hasAlpha ? GL_RGBA : GL_RGB;
-#else 
+//#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
+//  GLenum      srcFormat = hasAlpha ? GL_RGBA : GL_RGB;
+//#else 
   GLenum      srcFormat = hasAlpha ? GL_BGRA : GL_BGR;
-#endif
+//#endif
 
   // Generate the handle.
   glGenTextures( 1, &m_iHandle );
