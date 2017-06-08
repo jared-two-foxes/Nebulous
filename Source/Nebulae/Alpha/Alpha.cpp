@@ -9,10 +9,10 @@
 
 std::wstring plugin_names[]= 
 {
-  L"opengl_3",
-  L"opengl_3",
-  L"vulcan",
-  L"gles_2_0"
+  L"nebulous_gl3",
+  L"nebulous_gl3",
+  L"nebulous_vulcan",
+  L"nebulous_gles_2_0"
 };
 
 std::shared_ptr<Nebulae::RenderSystem > 
