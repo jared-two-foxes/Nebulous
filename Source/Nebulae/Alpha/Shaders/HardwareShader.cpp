@@ -32,7 +32,7 @@ HardwareShader::SetImpl( HardwareShaderImpl* impl )
 bool
 HardwareShader::LoadImpl_( Nebulae::File* is )
 {
-  return m_impl ? m_impl->Load( *is ) : false;
+  return m_impl && is ? m_impl->Load( *is ) : false;
 }
 
 bool
