@@ -451,22 +451,6 @@ Win32Platform::Initiate()
 
   m_keyboard.Fetch();
 
-  // Create a Console window for us to send debug messages to.
-  int hConHandle;
-  HANDLE lStdHandle;
-  FILE *fp;
-
-  // allocate a console for this app
-  AllocConsole();
-
-  // redirect unbuffered STDOUT to the console
-  lStdHandle = GetStdHandle( STD_OUTPUT_HANDLE );
-  hConHandle = _open_osfhandle( (intptr_t) lStdHandle, _O_TEXT );
-  fp = _fdopen( hConHandle, "w" );
-  *stdout = *fp;
-
-  setvbuf( stdout, NULL, _IONBF, 0 );
-  
 	return true;
 }
 
