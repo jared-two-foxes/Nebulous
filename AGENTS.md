@@ -93,7 +93,6 @@ All managed via BCR modules in MODULE.bazel:
 - **googletest** (gtest + gmock) -- latest
 - **opengl32.lib** (system, GL render system)
 - **user32.lib**, **gdi32.lib** (system, windowing)
-- **brofiler** (stub header in third_party/brofiler/)
 - **utf8** / cpputf8 (header-only in third_party/utfcpp/)
 
 ## Conventions and quirks

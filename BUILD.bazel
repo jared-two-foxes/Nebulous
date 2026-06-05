@@ -52,6 +52,5 @@ filegroup(
     srcs = [
         "README.md",
         "AGENTS.md",
-        "BAZEL_MIGRATION.md",
-    ],
+        ],
 )

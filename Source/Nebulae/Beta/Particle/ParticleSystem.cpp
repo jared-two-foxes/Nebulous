@@ -55,7 +55,6 @@ ParticleSystem::Update( const uint64 elapsed )
 void 
 ParticleSystem::Render()
 {
-  PROFILE;
 
   m_renderDevice->SetDepthTest( false );
   m_renderDevice->SetBlendingState( true );

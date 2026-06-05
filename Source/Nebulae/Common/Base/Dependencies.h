@@ -1,4 +1,4 @@
-#ifndef __NEBULAE_COMMON_DEPENDENCIES_H__
+﻿#ifndef __NEBULAE_COMMON_DEPENDENCIES_H__
 #define __NEBULAE_COMMON_DEPENDENCIES_H__
 
 // Std header includes 
@@ -40,6 +40,5 @@
 // json 
 #include <json/json.h>
 
-#include <Brofiler.h>
 
 #endif // __NEBULAE_COMMON_DEPENDENCIES_H__

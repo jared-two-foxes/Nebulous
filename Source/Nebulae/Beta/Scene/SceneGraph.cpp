@@ -136,7 +136,6 @@ SceneGraph::RemoveSceneNode( SceneNode* pNode )
 void 
 SceneGraph::Render( Camera* pCamera )
 {
-  PROFILE;
 
   // Clear the render queue.
   PrepareRenderQueue_();

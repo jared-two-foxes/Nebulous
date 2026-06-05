@@ -1,4 +1,4 @@
-
+﻿
 #include "Application.h"
 
 #include <Nebulae/Common/Common.h>
@@ -131,7 +131,6 @@ Application::StartGameLoop()
 uint64 
 Application::ProcessApplicationLoop( uint64 elapsed )
 {
-  BROFILER_FRAME( "ThreadName" )
 
   uint64 updatedTime = 0;
 

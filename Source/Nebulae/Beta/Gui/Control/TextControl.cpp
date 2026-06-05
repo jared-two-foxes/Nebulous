@@ -83,7 +83,6 @@ const std::shared_ptr<Font>& TextControl::GetFont() const
 
 void TextControl::SetText(const std::string& str)
 {
-  PROFILE;
 
   m_text = str;
   if( m_font ) {

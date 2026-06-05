@@ -77,7 +77,6 @@ All external dependencies are managed via **BCR (Bazel Central Registry)** modul
 - **opengl32.lib**, **user32.lib**, **gdi32.lib** (system/Win32 SDK)
 
 Header-only stubs in third_party/:
-- **brofiler** -- profiler header stubs
 - **utfcpp** -- UTF-8 library
 
 ## Building the GL Plugin

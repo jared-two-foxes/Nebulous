@@ -136,7 +136,6 @@ DebugUtil::AddCircle( const Vector4& position, const Real radius, const Vector4&
 void 
 DebugUtil::Draw( const CameraPtr& camera )
 {
-  PROFILE;
 
   NE_ASSERT( m_material != NULL, "Material is not set for Debug drawing util." )();
 
