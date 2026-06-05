@@ -37,6 +37,12 @@ CreateRenderSystem( RenderSystemType type, std::shared_ptr<Nebulae::FileSystem >
     Nebulae::SharedLibrary lib;
     int error = lib.Open( path );
     
+    // If bare filename fails, try runfiles-relative path (Bazel run)
+    if (error != 0) {
+      std::wstring runfilesPath = L"RenderSystems/GL/" + path;
+      error = lib.Open(runfilesPath);
+    }
+    
     // Get plugin descriptor and exports
     Nebulae::PluginDetails* info;
     lib.Symbol( "exports", reinterpret_cast<void**>(&info) );

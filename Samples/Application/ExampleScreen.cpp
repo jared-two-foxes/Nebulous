@@ -197,7 +197,7 @@ ExampleScreen::DrawCube( Matrix4& mvp, Matrix4& normal, Vector4& diffuseColour )
 // Setup the render pass and push vertices.
 //
 {
-  PROFILE;
+  // PROFILE;  // TODO: PROFILE macro not defined
 
   // Set the operation type
   m_renderSystem->SetOperationType( OT_TRIANGLES );

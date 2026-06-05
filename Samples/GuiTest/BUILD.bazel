@@ -1,0 +1,22 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+# ============================================================================
+# BUILD.bazel — GuiTest Sample
+# Samples/GuiTest/BUILD.bazel
+# ============================================================================
+
+cc_binary(
+    name = "gui_test",
+    srcs = glob(
+        ["*.cpp", "*.h"],
+        exclude = ["iOS/**"],
+        allow_empty = True,
+    ),
+    data = glob(
+        ["*.glsl", "*.vsh", "*.fsh", "*.png"],
+        exclude = ["iOS/**"],
+        allow_empty = True,
+    ) + ["//RenderSystems/GL:nebulous_gl3"],
+    linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    deps = ["//Source/Nebulae:nebulae"],
+)

@@ -56,7 +56,7 @@ C++ game engine built with **Bazel 7+** (bzlmod/BCR). 4 static libs + plugin DLL
 | Source/Nebulae/Beta/ | StaticLib | Application framework: GUI system, materials, sprites, animations, StateStack, camera |
 | RenderSystems/GL/ | SharedLib (DLL) | OpenGL 3 render plugin, platform Win32 |
 | RenderSystems/GLES2/ | SharedLib (DLL) | OpenGL ES 2 render plugin -- needs ANGLE/Mali SDK (deferred) |
-| Samples/*/ | WindowedApp | Example apps using engine (not yet Bazel-ified) |
+| Samples/*/ | WindowedApp | Example apps using engine (Bazel-ified) |
 | tests/ | ConsoleApp | Google Test unit tests |
 
 **Dependency chain**: Common -> Alpha -> Beta (plus Audio as a sibling to Alpha).

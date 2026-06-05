@@ -1,0 +1,14 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+# ============================================================================
+# BUILD.bazel — Application Sample
+# Samples/Application/BUILD.bazel
+# ============================================================================
+
+cc_binary(
+    name = "application",
+    srcs = glob(["*.cpp", "*.h"]),
+    data = glob(["*.glsl", "*.vsh", "*.fsh", "*.png"]) + ["//RenderSystems/GL:nebulous_gl3"],
+    linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    deps = ["//Source/Nebulae:nebulae"],
+)

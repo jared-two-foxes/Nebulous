@@ -1,0 +1,19 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+# ============================================================================
+# BUILD.bazel — Lua Sample
+# Samples/Lua/BUILD.bazel
+#
+# NOTE: Lua library (lua.hpp) is not yet available in MODULE.bazel.
+# This sample is deferred pending Lua integration.
+# ============================================================================
+
+# Placeholder: Lua sample deferred (requires lua.hpp from external dependency)
+# To enable: add lua BCR module to MODULE.bazel and update srcs/deps below.
+#
+# cc_binary(
+#     name = "lua_sample",
+#     srcs = glob(["Source/**/*.cpp", "Source/**/*.h"], exclude=["Source/Lua/**"]),
+#     data = glob(["Assets/**/*"]),
+#     deps = ["//Source/Nebulae:nebulae"],
+# )

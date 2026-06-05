@@ -1,0 +1,82 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+# ============================================================================
+# BUILD.bazel — Entity Sample
+# Samples/Entity/BUILD.bazel
+#
+# Nested subdirectories are built as intermediate cc_library targets:
+#   entity_components  — header-only component definitions
+#   entity_entities    — header-only entity definitions
+#   entity_core        — core ECS framework (Entity, Component, Manager, Pool, Cache)
+#   entity_systems     — system implementations (motion, rendering, intelligence)
+#   entity_states      — application state (SampleState)
+#   entity             — main binary
+# ============================================================================
+
+# Header-only: component definitions
+cc_library(
+    name = "entity_components",
+    hdrs = glob(["Components/*.h"]),
+    deps = ["//Source/Nebulae:nebulae"],
+    visibility = ["//visibility:public"],
+)
+
+# Header-only: entity definitions
+cc_library(
+    name = "entity_entities",
+    hdrs = glob(["Entities/*.h"]),
+    deps = ["//Source/Nebulae:nebulae"],
+    visibility = ["//visibility:public"],
+)
+
+# Core ECS framework
+cc_library(
+    name = "entity_core",
+    srcs = glob(["Core/*.cpp"]),
+    hdrs = glob(["Core/*.h"]),
+    deps = ["//Source/Nebulae:nebulae"],
+    visibility = ["//visibility:public"],
+)
+
+# System implementations
+cc_library(
+    name = "entity_systems",
+    srcs = glob(["Systems/*.cpp"]),
+    hdrs = glob(["Systems/*.h"]),
+    deps = [
+        ":entity_components",
+        ":entity_core",
+        ":entity_entities",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Application state
+cc_library(
+    name = "entity_states",
+    srcs = glob(["States/*.cpp"]),
+    hdrs = glob(["States/*.h"]),
+    deps = [
+        ":entity_components",
+        ":entity_core",
+        ":entity_entities",
+        ":entity_systems",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Main binary
+cc_binary(
+    name = "entity",
+    srcs = glob(["*.cpp", "*.h"], allow_empty = True),
+    data = glob(["*.glsl", "*.vsh", "*.fsh", "*.png"], allow_empty = True) + ["//RenderSystems/GL:nebulous_gl3"],
+    linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    deps = [
+        ":entity_components",
+        ":entity_core",
+        ":entity_entities",
+        ":entity_states",
+        ":entity_systems",
+        "//Source/Nebulae:nebulae",
+    ],
+)

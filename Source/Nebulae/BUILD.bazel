@@ -1,7 +1,23 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 # ============================================================================
 # BUILD.bazel — Nebulae Library Aggregate
 # Source/Nebulae/BUILD.bazel
 # ============================================================================
+
+# Root Nebulae header that includes all subsystems
+cc_library(
+    name = "nebulae",
+    hdrs = ["Nebulae.h"],
+    includes = ["."],
+    deps = [
+        "//Source/Nebulae/Common:common",
+        "//Source/Nebulae/Alpha:alpha",
+        "//Source/Nebulae/Audio:audio",
+        "//Source/Nebulae/Beta:beta",
+    ],
+    visibility = ["//visibility:public"],
+)
 
 # Use filegroup to aggregate all engine library targets.
 # Audio library excluded: openal-soft not yet integrated (Phase 5).

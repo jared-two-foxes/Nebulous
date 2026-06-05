@@ -6,15 +6,20 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 # ============================================================================
 #
 # Phase 3 of Bazel migration. Contains:
-#   - cc_library "audio" — audio subsystem
+#   - cc_library "audio" — audio subsystem (stub)
 #
 # NOTE: Audio depends on openal-soft (AL/al.h, AL/alc.h), which is NOT
-# available in the Bazel Central Registry. This library is excluded from
-# the full build until openal-soft integration is complete (target Phase 5).
+# available in the Bazel Central Registry. This library is a stub until
+# openal-soft integration is complete (target Phase 5).
 #
 # To restore: add openal-soft via http_archive in MODULE.bazel or
 # third_party/openal-soft/BUILD.bazel with appropriate cc_library target.
 # ============================================================================
 
-# Temporarily empty - audio compilation deferred until openal-soft is integrated.
-# The original sources and headers are still present in this directory.
+cc_library(
+    name = "audio",
+    hdrs = glob(["**/*.h"]),
+    includes = ["../.."],
+    visibility = ["//visibility:public"],
+    # Audio is deferred - no srcs or deps for now
+)

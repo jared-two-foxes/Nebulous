@@ -1,0 +1,14 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+# ============================================================================
+# BUILD.bazel — BasicRig Sample
+# Samples/BasicRig/BUILD.bazel
+# ============================================================================
+
+cc_binary(
+    name = "basic_rig",
+    srcs = glob(["*.cpp", "*.h"], allow_empty = True),
+    data = glob(["*.glsl", "*.vsh", "*.fsh", "*.png"], allow_empty = True) + ["//RenderSystems/GL:nebulous_gl3"],
+    linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    deps = ["//Source/Nebulae:nebulae"],
+)
