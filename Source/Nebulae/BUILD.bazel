@@ -1,0 +1,16 @@
+# ============================================================================
+# BUILD.bazel — Nebulae Library Aggregate
+# Source/Nebulae/BUILD.bazel
+# ============================================================================
+
+# Use filegroup to aggregate all engine library targets.
+# Audio library excluded: openal-soft not yet integrated (Phase 5).
+
+filegroup(
+    name = "all_libs",
+    srcs = [
+        "//Source/Nebulae/Common:common",
+        "//Source/Nebulae/Alpha:alpha",
+    ],
+    visibility = ["//visibility:public"],
+)

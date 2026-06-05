@@ -1,0 +1,10 @@
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -27,6 +27,7 @@
+ genrule(
+     name = "pnglibconf",
+     srcs = ["scripts/pnglibconf.h.prebuilt"],
+     outs = ["pnglibconf.h"],
++    cmd_bat = "copy /Y \"$(location scripts/pnglibconf.h.prebuilt)\" \"$(location pnglibconf.h)\"",
+     cmd = "cp $(location scripts/pnglibconf.h.prebuilt) $(location pnglibconf.h)",
+ )

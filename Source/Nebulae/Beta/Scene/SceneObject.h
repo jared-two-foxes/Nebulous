@@ -2,7 +2,7 @@
 #define SCENEOBJECT_H__
 
 #include <Nebulae/Common/Common.h>
-#include <NEbulae/Beta/Scene/UniformParameters.h>
+#include <Nebulae/Beta/Scene/UniformParameters.h>
 
 namespace Nebulae {
 

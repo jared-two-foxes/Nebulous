@@ -1,0 +1,32 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "beta",
+    srcs = glob(
+        ["**/*.cpp"],
+        exclude = ["**/UnitTests/**"],
+    ),
+    hdrs = glob(["**/*.h"]),
+    includes = ["../.."],
+    copts = [
+        "/std:c++14",
+        "/D_CRT_SECURE_NO_WARNINGS",
+        "/DWIN32",
+    ],
+    defines = [
+        "PREMAKE5=0",
+    ],
+    deps = [
+        "//Source/Nebulae/Common:common",
+        "//Source/Nebulae/Alpha:alpha",
+        "@boost.lexical_cast",
+        "@boost.signals2",
+        "@boost.format",
+        "@boost.xpressive",
+        "@boost.assign",
+        "@freetype",
+        "@jsoncpp",
+        "//third_party/utfcpp:utfcpp",
+    ],
+    visibility = ["//visibility:public"],
+)

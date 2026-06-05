@@ -1,0 +1,128 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+# ============================================================================
+# BUILD.bazel — Nebulous Tests
+# tests/BUILD.bazel
+# ============================================================================
+#
+# Google Test integrated via BCR googletest module.
+#
+# Known issues:
+#   1. Test code uses relative paths like '../../tests/Assets/entityTemplates.json'
+#      which won't resolve in Bazel's runfiles tree. After migration, these
+#      need to be updated to runfiles-relative paths or use Bazel rootpath.
+#      Currently handled by StageRunfilesAndAdjustCwd() in test_main.
+# ============================================================================
+
+# ============================================================================
+# Test Assets
+# ============================================================================
+
+filegroup(
+    name = "test_assets",
+    srcs = glob(["Assets/**"]),
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# Shared test main() — provides RUN_ALL_TESTS() entry point
+# ============================================================================
+
+cc_library(
+    name = "test_main",
+    srcs = ["main.cpp"],
+    deps = ["@googletest//:gtest"],
+    visibility = ["//visibility:private"],
+)
+
+# ============================================================================
+# Mock objects for Beta tests
+# ============================================================================
+# Note: @googletest//:gtest includes both gtest and gmock sources/headers.
+# There is no separate :gmock target in this BCR module version.
+
+cc_library(
+    name = "mocks",
+    hdrs = glob(["Mock/**/*.h"]),
+    includes = ["."],
+    deps = [
+        "//Source/Nebulae/Beta:beta",
+        "@googletest//:gtest",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+# ============================================================================
+# Common Library Tests
+# ============================================================================
+
+cc_test(
+    name = "common_tests",
+    size = "small",
+    srcs = glob(["Common/**/*.cpp"]),
+    deps = [
+        ":test_main",
+        "//Source/Nebulae/Common:common",
+    ],
+    data = [":test_assets"],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# Alpha Library Tests
+# ============================================================================
+
+cc_test(
+    name = "alpha_tests",
+    size = "small",
+    srcs = glob(["Alpha/**/*.cpp"]),
+    deps = [
+        ":test_main",
+        "//Source/Nebulae/Alpha:alpha",
+    ],
+    data = [":test_assets"],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# Beta Library Tests
+# ============================================================================
+
+cc_test(
+    name = "beta_tests",
+    size = "small",
+    srcs = glob(["Beta/**/*.cpp"]),
+    deps = [
+        ":test_main",
+        ":mocks",
+        "//Source/Nebulae/Beta:beta",
+        "@boost.chrono",
+        "@boost.thread",
+    ],
+    data = [":test_assets"],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# Disabled Tests (library not yet built)
+# ============================================================================
+
+filegroup(
+    name = "audio_tests_src",
+    srcs = glob(["Audio/**/*.cpp"]),
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# Aggregator
+# ============================================================================
+
+test_suite(
+    name = "all_tests",
+    tests = [
+        ":common_tests",
+        ":alpha_tests",
+        ":beta_tests",
+    ],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,41 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+# ============================================================================
+# BUILD.bazel — Nebulous GL 3.0 Render Plugin (DLL)
+# RenderSystems/GL/BUILD.bazel
+# ============================================================================
+#
+# Phase 6 of Bazel migration. Produces nebulous_gl3.dll loaded at runtime
+# by Alpha::CreateRenderSystem() for the OPENGL_3 renderer type.
+#
+# Depends on: Common (via Alpha), Alpha, opengl32.lib (Windows SDK)
+# ============================================================================
+
+cc_binary(
+    name = "nebulous_gl3",
+    srcs = glob([
+        "main.cpp",
+        "Sources/**/*.cpp",
+        "Includes/**/*.h",
+    ]) + [
+        "config.h",
+        "glext.h",
+    ],
+    includes = ["."],  # for <Config.h>, <glext.h>, <Includes/...>
+    copts = [
+        "/std:c++14",
+        "/DWIN32",
+        "/DUNICODE",
+        "/D_UNICODE",
+    ],
+    linkopts = [
+        "opengl32.lib",
+        "user32.lib",
+        "gdi32.lib",
+    ],
+    deps = [
+        "//Source/Nebulae/Alpha:alpha",
+    ],
+    linkshared = True,
+    visibility = ["//visibility:public"],
+)

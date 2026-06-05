@@ -1,0 +1,40 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+# ============================================================================
+# BUILD.bazel — Nebulous GLES 2.0 Render Plugin (DLL)
+# RenderSystems/GLES2/BUILD.bazel
+# ============================================================================
+#
+# Phase 6 (deferred): This target CANNOT build yet because it requires the
+# Mali EGL/GLES2 SDK headers/libraries (<EGL/egl.h>, <GLES2/gl2.h>) which
+# are not in BCR and not part of the standard Windows SDK.
+#
+# To build this target, you would need to either:
+#   a) Install the Mali SDK or ANGLE (which provides these headers)
+#   b) Create a third_party/gles2 BUILD.bazel pointing to those headers/libs
+#   c) Add the SDK include/lib paths via --modify_bazelrc or copts
+#
+# When ready, uncomment and adjust this target.
+# ============================================================================
+
+# cc_binary(
+#     name = "nebulous_gles_2_0",
+#     srcs = glob([
+#         "Win32/**/*.cpp",
+#         "Win32/**/*.h",
+#         "Shared/**/*.cpp",
+#         "Shared/**/*.h",
+#     ]) + ["config.h"],
+#     includes = [
+#         ".",          # for <config.h>
+#         "../..",      # for <RenderSystems/GLES2/...>
+#     ],
+#     copts = [
+#         "/std:c++14",
+#     ],
+#     deps = [
+#         "//Source/Nebulae/Alpha:alpha",
+#     ],
+#     linkshared = True,
+#     visibility = ["//visibility:public"],
+# )

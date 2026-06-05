@@ -1,0 +1,51 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# ============================================================================
+# BUILD.bazel — Nebulous Common Library
+# Source/Nebulae/Common/BUILD.bazel
+# ============================================================================
+#
+# Phase 2 of Bazel migration. Contains:
+#   - cc_library "common" — core foundation library
+#
+# External dependencies:
+#   - boost.any, boost.filesystem, boost.lexical_cast (BCR)
+#   - jsoncpp (BCR)
+#   - brofiler (third_party stub — real profiler unavailable)
+# ============================================================================
+
+cc_library(
+    name = "common",
+    srcs = glob(["**/*.cpp"]),
+    hdrs = glob([
+        "**/*.h",
+        "**/*.inl",
+    ]),
+
+    # Add include path for Source/Nebulae to enable #include <Nebulae/...>
+    includes = ["../.."],
+
+    copts = [
+        "/std:c++14",
+        "/DUNICODE",
+        "/D_UNICODE",
+    ],
+
+    defines = [
+        "PREMAKE5=0",
+    ],
+
+    linkopts = [
+        "user32.lib",
+    ],
+
+    deps = [
+        "@boost.any",
+        "@boost.filesystem",
+        "@boost.lexical_cast",
+        "@jsoncpp", "@zlib",
+        "//third_party/brofiler:brofiler",
+    ],
+
+    visibility = ["//visibility:public"],
+)

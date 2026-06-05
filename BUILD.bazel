@@ -1,0 +1,57 @@
+# Root BUILD.bazel - Nebulous workspace root (Bazel 7+ / bzlmod)
+
+# This file defines the overall workspace targets and aggregates library exports.
+
+# ============================================================================
+# WORKSPACE DEFAULTS
+# ============================================================================
+
+exports_files([
+    "vcpkg.json",
+    ".bazelrc",
+])
+
+# ============================================================================
+# AGGREGATE TARGETS
+# ============================================================================
+
+# Build all engine libraries (Common, Alpha)
+# Audio deferred until openal-soft integration (Phase 5)
+filegroup(
+    name = "engine_libs",
+    srcs = [
+        "//Source/Nebulae:all_libs",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Build all tests
+alias(
+    name = "all_tests",
+    actual = "//tests:all_tests",
+    visibility = ["//visibility:public"],
+)
+
+# Top-level aggregator: bazel build //... builds everything available
+# RenderSystems plugins and Samples will be added in Phases 5 and 6.
+filegroup(
+    name = "all",
+    srcs = [
+        ":engine_libs",
+        ":all_tests",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# DOCUMENTATION TARGETS (Reference only, not compiled)
+# ============================================================================
+
+filegroup(
+    name = "docs",
+    srcs = [
+        "README.md",
+        "AGENTS.md",
+        "BAZEL_MIGRATION.md",
+    ],
+)

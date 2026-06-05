@@ -8,7 +8,7 @@
 #include <Nebulae/Common/Window/Win32/Win32Window.h>
 #include <Nebulae/Common/Window/Win32/Win32Utils.h>
 
-#include <Nebulae/Beta/Gui/WidgetEvent.h>
+
 
 #include <direct.h>   //for _chdir
 #include <fcntl.h>

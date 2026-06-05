@@ -6,3 +6,18 @@ lib/
 Projects/
 share/
 _build/
+
+# Bazel build system
+bazel-bin
+bazel-out
+bazel-testlogs
+bazel-genfiles
+bazel-nebulous
+.bazel/
+bazel-*
+MODULE.bazel.lock
+
+# Bazel user cache directory (in repo root, not %USERPROFILE% env var)
+%userprofile%.bazel/
+
+# User-level Bazel cache (set up in global gitignore)

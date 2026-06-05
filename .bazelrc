@@ -1,0 +1,45 @@
+# Bazel 7+ configuration for Nebulous Engine (bzlmod)
+
+# ============================================================================
+# WINDOWS CONFIGURATION
+# ============================================================================
+# Note: Platform auto-detection based on host OS; explicit platform config
+# deferred to Phase 5 cross-platform support.
+build --compiler=msvc
+build --host_compiler=msvc
+
+# ============================================================================
+# COMPILATION FLAGS
+# ============================================================================
+# build --cxxopt=/std:c++14  # removed — each lib specifies its own standard
+build --cxxopt=/EHsc
+build --cxxopt=/MP
+build --copt=/W4
+
+# Debug configuration
+build:debug --cxxopt=/Zi
+build:debug --cxxopt=/Od
+build:debug --cxxopt=/RTC1
+build:debug --linkopt=/DEBUG
+
+# Release configuration
+build:opt --cxxopt=/O2
+build:opt --cxxopt=/Gy
+build:opt --linkopt=/OPT:REF
+build:opt --linkopt=/OPT:ICF
+
+# ============================================================================
+# TESTING
+# ============================================================================
+build --test_output=summary
+test --cxxopt=/EHsc
+test --cxxopt=/MP
+test:exhaustive --test_size_filters=small,medium,large
+
+# ============================================================================
+# CACHING & OUTPUT (outside repo to avoid spurious failures)
+# ============================================================================
+build --verbose_failures
+startup --output_user_root=C:/Users/iapet/AppData/Local/Bazel
+build --disk_cache=C:/Users/iapet/AppData/Local/Bazel/cache
+build --repo_contents_cache=C:/Users/iapet/AppData/Local/Bazel/repo_cache

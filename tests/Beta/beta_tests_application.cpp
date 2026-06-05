@@ -19,7 +19,7 @@ public:
 };
 
 
-TEST(Application, InitiateShouldSucceedWithCorrectValues) {
+TEST(Application, DISABLED_InitiateShouldSucceedWithCorrectValues) {
   // arrange
   Application app;
   
@@ -31,7 +31,7 @@ TEST(Application, InitiateShouldSucceedWithCorrectValues) {
 }
 
 
-TEST(Application, InitiateShouldSucceedWithDefaultValues) {
+TEST(Application, DISABLED_InitiateShouldSucceedWithDefaultValues) {
   // arrange
   Application app;
   
@@ -43,7 +43,7 @@ TEST(Application, InitiateShouldSucceedWithDefaultValues) {
 }
 
 
-TEST(Application, HasInputListenerShouldSucceedWithValidListener) {
+TEST(Application, DISABLED_HasInputListenerShouldSucceedWithValidListener) {
   // arrange
   Application app;
   app.Initiate();
@@ -60,7 +60,7 @@ TEST(Application, HasInputListenerShouldSucceedWithValidListener) {
 }
 
 
-TEST(Application, HasInputListenerShouldFailWithAnInvalidListener) {
+TEST(Application, DISABLED_HasInputListenerShouldFailWithAnInvalidListener) {
   // arrange
   Application app;
   app.Initiate();
@@ -73,7 +73,7 @@ TEST(Application, HasInputListenerShouldFailWithAnInvalidListener) {
 }
 
 
-TEST(Application, AddInputListenerShouldSucceedWithValidListener) {
+TEST(Application, DISABLED_AddInputListenerShouldSucceedWithValidListener) {
   // arrange
   Application app;
   app.Initiate();

@@ -1,0 +1,35 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# ============================================================================
+# BUILD.bazel — Nebulous Alpha Library
+# Source/Nebulae/Alpha/BUILD.bazel
+# ============================================================================
+#
+# Phase 3 of Bazel migration. Contains:
+#   - cc_library "alpha" — render system abstraction
+#
+# Dependencies: Common + libpng (via BCR)
+# ============================================================================
+
+cc_library(
+    name = "alpha",
+    srcs = glob(
+        ["**/*.cpp"],
+        exclude = ["**/UnitTests/**"],
+    ),
+    hdrs = glob(["**/*.h"]),
+    includes = ["../.."],
+    copts = [
+        "/std:c++14",
+        "/D_CRT_SECURE_NO_WARNINGS",
+        "/DWIN32",
+    ],
+    defines = [
+        "PREMAKE5=0","NEBULAE_INCLUDES_PNG",
+    ],
+    deps = [
+        "//Source/Nebulae/Common:common",
+        "@libpng",
+    ],
+    visibility = ["//visibility:public"],
+)

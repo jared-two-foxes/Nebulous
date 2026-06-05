@@ -1,0 +1,12 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# Header-only UTF-8 CPP library (utfcpp)
+# https://github.com/nemtrif/utfcpp
+# Downloaded v4.0.6 from upstream
+
+cc_library(
+    name = "utfcpp",
+    hdrs = glob(["utf8/**/*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
