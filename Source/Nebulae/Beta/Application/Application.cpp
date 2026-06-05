@@ -3,6 +3,7 @@
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/FileSystem/DiskFileDevice.h>
+#include <Nebulae/Common/FileSystem/ManifestDiskFileDevice.h>
 #include <Nebulae/Common/FileSystem/ZipFileDevice.h>
 
   
@@ -197,7 +198,7 @@ Application::CreatePlatform()
 		m_pPlatform->Initiate();
 
 #if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
-		m_pPlatform->GetFileSystem()->Mount( "disk", new DiskFileDevice("") );
+		m_pPlatform->GetFileSystem()->Mount( "disk", new ManifestDiskFileDevice("") );
 #else
 		m_pPlatform->GetFileSystem()->Mount( "zip", new ZipFileDevice("", "Assets") );
 #endif

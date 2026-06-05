@@ -3,6 +3,7 @@
 #include <Nebulae/Alpha/Alpha.h>
 
 #include <Nebulae/Common/Platform/SharedLibrary.h>
+#include <Nebulae/Common/FileSystem/ManifestDiskFileDevice.h>
 
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
@@ -41,28 +42,13 @@ CreateRenderSystem( RenderSystemType type, std::shared_ptr<Nebulae::FileSystem >
     Nebulae::SharedLibrary lib;
     int error = -1;
 
-    // First, try RUNFILES_MANIFEST_FILE (Bazel manifest-only runfiles on Windows)
+    // Use ManifestDiskFileDevice to resolve DLL via Bazel runfiles manifest
     {
-      wchar_t* manifestPath = _wgetenv(L"RUNFILES_MANIFEST_FILE");
-      if (manifestPath != nullptr && manifestPath[0] != L'\0') {
-        std::ifstream manifest(manifestPath);
-        if (manifest.is_open()) {
-          // Convert DLL filename to narrow string for manifest search
-          std::string searchStr(path.begin(), path.end());
-          std::string line;
-          while (std::getline(manifest, line)) {
-            // Manifest format: "workspace_relative_path absolute_path"
-            if (line.find(searchStr) != std::string::npos) {
-              size_t spacePos = line.find(' ');
-              if (spacePos != std::string::npos) {
-                std::string absPath = line.substr(spacePos + 1);
-                std::wstring widePath(absPath.begin(), absPath.end());
-                error = lib.Open(widePath);
-                if (error == 0) break; // Success!
-              }
-            }
-          }
-        }
+      std::string narrowPath(path.begin(), path.end());
+      std::string absPath = Nebulae::ManifestDiskFileDevice::ResolveRunfile(narrowPath);
+      if (!absPath.empty()) {
+        std::wstring widePath(absPath.begin(), absPath.end());
+        error = lib.Open(widePath);
       }
     }
 
