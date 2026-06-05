@@ -50,7 +50,7 @@ Camera::SetLookAt( const Vector4& at )
 }
 
 void
-Camera::SetPerspective( const Real fFovY, const Real fAspectRatio, const Real near_, const Real far_ )
+Camera::SetPerspective( [[maybe_unused]] const Real fov, [[maybe_unused]] const Real aspect, [[maybe_unused]] const Real near_, [[maybe_unused]] const Real far_ )
 {
   //const Real height = tanf( M_PI_2 - (fFovY*0.5f) );
   //const Real width  = height * fAspectRatio;

@@ -124,7 +124,7 @@ public:
 	
   /**@brief Set from an array 
    * @param m A pointer to a 15 element array (12 rotation(row major padded on the right by 1), and 3 translation */
-	void setFromOpenGLMatrix( const Real *m )
+	void setFromOpenGLMatrix( [[maybe_unused]] const Real *m )
 	{
 		//m_basis.setFromOpenGLSubMatrix( m );
 		//m_origin.setValue( m[12], m[13], m[14] );

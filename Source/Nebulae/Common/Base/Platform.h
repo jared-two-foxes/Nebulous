@@ -127,9 +127,15 @@
   #include "CoreFoundation/CoreFoundation.h"
   //#include <mach/mach_host.h>
 #elif NE_PLATFORM == NE_PLATFORM_WIN32
+  #ifndef WIN32_LEAN_AND_MEAN
   #define WIN32_LEAN_AND_MEAN
+  #endif
+  #ifndef VC_EXTRALEAN
   #define VC_EXTRALEAN
+  #endif
+  #ifndef NOMINMAX
   #define NOMINMAX
+  #endif
   #include <windows.h>
 #endif // NE_PLATFORM
 

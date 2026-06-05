@@ -209,7 +209,7 @@ Slider::EventFilter( Widget* w, const WidgetEvent& event )
 
 
 void
-Slider::Clicked( const Point& pt, Flags<ModKey> mod_keys)
+Slider::Clicked( const Point& pt, [[maybe_unused]] Flags<ModKey> mod_keys )
 {
   SlideToImpl( m_posn < PtToPosn(pt) ? m_posn + GetPageSize() : m_posn - GetPageSize(), true );
 }

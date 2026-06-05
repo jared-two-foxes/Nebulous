@@ -43,12 +43,12 @@ class InputListener
 public:
   virtual ~InputListener() {}
 
-  virtual void KeyPressed( KeyCode keyCode, uint32 key_code_point, Flags<ModKey> modKeys ) {}
-  virtual void KeyReleased( KeyCode keyCode, uint32 key_code_point, Flags<ModKey> modKeys ) {}
+  virtual void KeyPressed( [[maybe_unused]] KeyCode code, [[maybe_unused]] uint32 repeat, [[maybe_unused]] Flags<ModKey> mod_keys ) {}
+  virtual void KeyReleased( [[maybe_unused]] KeyCode code, [[maybe_unused]] uint32 repeat, [[maybe_unused]] Flags<ModKey> mod_keys ) {}
 
-  virtual void MousePressed( MouseButton button, int32 x, int32 y, Flags<ModKey> modKeys ) {}
-  virtual void MouseReleased( MouseButton button, int32 x, int32 y, Flags<ModKey> modKeys ) {}
-  virtual void MouseMove( MouseButton button, int32 x, int32 y, Flags<ModKey> modKeys ) {}
+  virtual void MousePressed( [[maybe_unused]] MouseButton button, [[maybe_unused]] int32 x, [[maybe_unused]] int32 y, [[maybe_unused]] Flags<ModKey> mod_keys ) {}
+  virtual void MouseReleased( [[maybe_unused]] MouseButton button, [[maybe_unused]] int32 x, [[maybe_unused]] int32 y, [[maybe_unused]] Flags<ModKey> mod_keys ) {}
+  virtual void MouseMove( [[maybe_unused]] MouseButton button, [[maybe_unused]] int32 x, [[maybe_unused]] int32 y, [[maybe_unused]] Flags<ModKey> mod_keys ) {}
 
 }; //InputListener
 

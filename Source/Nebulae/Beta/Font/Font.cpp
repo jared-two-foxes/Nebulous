@@ -306,7 +306,7 @@ Font::TextElement& Font::TextElement::operator=(const TextElement&)
   return *this; 
 }  // Copy assignment operator
 
-Font::TextElement& Font::TextElement::operator=(Font::TextElement&& other)  // Move assignment operator
+Font::TextElement& Font::TextElement::operator=([[maybe_unused]] Font::TextElement&& other)  // Move assignment operator
 { 
   //whitespace = other.whitespace;
   //newline    = other.newline;
@@ -477,7 +477,7 @@ Nebulae::Point Font::TextExtent( const std::string& text, const std::vector<Line
 
 Nebulae::Point Font::DetermineLinesImpl( const std::string& text,
                                          Flags<TextFormat>& format,
-                                         int box_width,
+                                         [[maybe_unused]] int box_width,
                                          std::vector<LineData>& line_data,
                                          std::vector<std::shared_ptr<TextElement> >* text_elements_ptr ) const
 {
@@ -520,9 +520,8 @@ Nebulae::Point Font::DetermineLinesImpl( const std::string& text,
     }
   }
 
-  int       tab_width              = 4;                         // default tab width
-  int       tab_pixel_width        = tab_width * m_space_width; // get the length of a tab stop
-  bool      expand_tabs            = format & FORMAT_LEFT;      // tab expansion only takes place when the lines are left-justified (otherwise, tabs are just spaces)
+  // int       tab_pixel_width        = 4 * m_space_width; // get the length of a tab stop
+  // bool      expand_tabs            = format & FORMAT_LEFT;      // tab expansion only takes place when the lines are left-justified (otherwise, tabs are just spaces)
   bool      last_line_of_curr_just = false;                     // is this the last line of the current justification? (for instance when a </right> tag is encountered)
   Alignment orig_just              = ALIGN_NONE;
   if( format & FORMAT_LEFT )   orig_just = ALIGN_LEFT;

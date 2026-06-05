@@ -131,6 +131,7 @@ Application::StartGameLoop()
 uint64 
 Application::ProcessApplicationLoop( uint64 elapsed )
 {
+  if (!m_pRenderSystem) { return 0; }
 
   uint64 updatedTime = 0;
 
@@ -154,7 +155,7 @@ Application::ProcessApplicationLoop( uint64 elapsed )
 }
 
 void 
-Application::ProcessSimulation( uint64 elapsed )
+Application::ProcessSimulation( [[maybe_unused]] uint64 fTimeElapsed )
 ///
 /// Called each loop iteration a number of times with a fixed time step and contains the 
 /// core logic for the application.
@@ -168,7 +169,7 @@ Application::ProcessSimulation( uint64 elapsed )
 {}
 
 void 
-Application::ProcessFrame( uint64 elapsed )
+Application::ProcessFrame( [[maybe_unused]] uint64 fTimeElapsed )
 ///
 /// Called each frame and should be used to render the current snapshot of the applications
 /// visual state.

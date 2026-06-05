@@ -7,6 +7,10 @@
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 
+#include <cstdlib>
+#include <fstream>
+#include <string>
+
 std::wstring plugin_names[]= 
 {
   L"nebulous_gl3",
@@ -35,12 +39,60 @@ CreateRenderSystem( RenderSystemType type, std::shared_ptr<Nebulae::FileSystem >
   {
     // Load the shared library        
     Nebulae::SharedLibrary lib;
-    int error = lib.Open( path );
+    int error = -1;
+
+    // First, try RUNFILES_MANIFEST_FILE (Bazel manifest-only runfiles on Windows)
+    {
+      wchar_t* manifestPath = _wgetenv(L"RUNFILES_MANIFEST_FILE");
+      if (manifestPath != nullptr && manifestPath[0] != L'\0') {
+        std::ifstream manifest(manifestPath);
+        if (manifest.is_open()) {
+          // Convert DLL filename to narrow string for manifest search
+          std::string searchStr(path.begin(), path.end());
+          std::string line;
+          while (std::getline(manifest, line)) {
+            // Manifest format: "workspace_relative_path absolute_path"
+            if (line.find(searchStr) != std::string::npos) {
+              size_t spacePos = line.find(' ');
+              if (spacePos != std::string::npos) {
+                std::string absPath = line.substr(spacePos + 1);
+                std::wstring widePath(absPath.begin(), absPath.end());
+                error = lib.Open(widePath);
+                if (error == 0) break; // Success!
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // If manifest lookup failed, try bare filename
+    if (error != 0) {
+      error = lib.Open( path );
+    }
     
     // If bare filename fails, try runfiles-relative path (Bazel run)
     if (error != 0) {
       std::wstring runfilesPath = L"RenderSystems/GL/" + path;
       error = lib.Open(runfilesPath);
+    }
+
+    // If runfiles path also fails, try exe-directory path (manual deployment)
+    if (error != 0) {
+      wchar_t exePath[MAX_PATH];
+      if (GetModuleFileNameW(NULL, exePath, MAX_PATH) > 0) {
+        std::wstring exeDir = exePath;
+        size_t pos = exeDir.find_last_of(L"\\/");
+        if (pos != std::wstring::npos) {
+          exeDir = exeDir.substr(0, pos + 1);
+          error = lib.Open(exeDir + path);
+        }
+      }
+    }
+
+    // If all attempts failed, return nullptr gracefully instead of crashing
+    if (error != 0) {
+      return std::shared_ptr<Nebulae::RenderSystem>();
     }
     
     // Get plugin descriptor and exports

@@ -61,9 +61,9 @@ namespace Nebulae
     {
       QuadVertex() {}
 
-      QuadVertex( const Point& point, float depth, const Colour& color, const Vector4& textureCoordinates )
+      QuadVertex( const Point& point, [[maybe_unused]] float depth, const Colour& color, const Vector4& textureCoordinates )
         : position( point.x, point.y, -10/*depth*/, 1.0f ),
-        colour( color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f ),
+        colour( static_cast<float>(color.r) / 255.f, static_cast<float>(color.g) / 255.f, static_cast<float>(color.b) / 255.f, static_cast<float>(color.a) / 255.f ),
         textureCoordinates( textureCoordinates )
       {}
 

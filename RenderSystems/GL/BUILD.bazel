@@ -23,7 +23,7 @@ cc_binary(
     ],
     includes = ["."],  # for <Config.h>, <glext.h>, <Includes/...>
     copts = [
-        "/std:c++14",
+        "/std:c++17",
         "/DWIN32",
         "/DUNICODE",
         "/D_UNICODE",

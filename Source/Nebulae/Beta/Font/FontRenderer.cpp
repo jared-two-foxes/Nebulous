@@ -293,10 +293,10 @@ FontRenderer::RenderText( const Point& ul, const Point& lr, const std::string& t
   {
     y_origin = lr.y - (static_cast<int>(end_line - begin_line - 1) * m_font->Lineskip() + m_font->Height());
   } 
-  else if ( format & FORMAT_VCENTER ) 
-  {
-    y_origin = ul.y + ((lr.y - ul.y) - (static_cast<int>(end_line - begin_line - 1) * m_font->Lineskip() + m_font->Height())) / 2.0f;
-  }
+   else if ( format & FORMAT_VCENTER ) 
+   {
+     y_origin = ul.y + static_cast<int>(((lr.y - ul.y) - (static_cast<int>(end_line - begin_line - 1) * m_font->Lineskip() + m_font->Height())) / 2.0f);
+   }
 
 
   std::string::const_iterator     str_begin_it  = text.begin();
@@ -326,10 +326,10 @@ FontRenderer::RenderText( const Point& ul, const Point& lr, const std::string& t
     {
       x_origin = lr.x - line.Width();
     }
-    else if ( line.justification == ALIGN_CENTER )
-    {
-      x_origin = ul.x + ((lr.x - ul.x) - line.Width()) / 2.0f;
-    }
+     else if ( line.justification == ALIGN_CENTER )
+     {
+       x_origin = ul.x + static_cast<int>(((lr.x - ul.x) - line.Width()) / 2.0f);
+     }
 
     pt.x = x_origin;
     pt.y = y_origin + static_cast<int>(i - begin_line) * m_font->Lineskip();

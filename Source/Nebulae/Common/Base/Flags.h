@@ -215,6 +215,9 @@ public:
             bool insert_successful =
 #endif
                 m_flags.insert(flag).second;
+#ifndef NDEBUG
+            (void)insert_successful;
+#endif
             if (permanent)
                 m_permanent.insert(flag);
             m_strings[flag] = name;

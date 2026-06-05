@@ -124,7 +124,7 @@ FontFaceProxy::GetUnderlineOffset() const
 double
 FontFaceProxy::GetUnderlineHeight() const
 {
-  return std::max<int>( 1.0, std::ceil(FT_MulFix(m_face->underline_thickness, m_face->size->metrics.y_scale) / 64.0) );
+  return std::max<int>( 1, static_cast<int>(std::ceil(FT_MulFix(m_face->underline_thickness, m_face->size->metrics.y_scale) / 64.0)) );
 }
 
 
@@ -217,8 +217,8 @@ FontFaceProxy::GetBitmapHeight() const
 
 
 void
-FontFaceProxy::CheckFace( FT_Error error )
+FontFaceProxy::CheckFace( [[maybe_unused]] FT_Error error )
 {
-  NE_ASSERT( error == 0 && m_face != NULL, "Face object created from %s was invalid" )();
+  NE_ASSERT( 0 && m_face != NULL, "Face object created from %s was invalid" )();
   NE_ASSERT( FT_IS_SCALABLE(m_face), "Attempted to create font %s with unscalable font face" )();
 }
