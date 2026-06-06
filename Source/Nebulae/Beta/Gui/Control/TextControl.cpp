@@ -239,13 +239,13 @@ void TextControl::RecomputeTextBounds()
   if( m_format & FORMAT_BOTTOM ) {
     m_text_ul.y = GetSize().y - text_sz.y;
   } else if( m_format & FORMAT_VCENTER ) {
-    m_text_ul.y = (GetSize().y - text_sz.y) / 2.0;
+    m_text_ul.y = static_cast<int>((GetSize().y - text_sz.y) / 2.0); // double-to-int, truncation intended for pixel alignment
   }
   m_text_ul.x = 0; // default for FORMAT_LEFT
   if( m_format & FORMAT_RIGHT ) {
     m_text_ul.x = GetSize().x - text_sz.x;
   } else if( m_format & FORMAT_CENTER ) {
-    m_text_ul.x = (GetSize().x - text_sz.x) / 2.0;
+    m_text_ul.x = static_cast<int>((GetSize().x - text_sz.x) / 2.0); // double-to-int, truncation intended for pixel alignment
   }
   m_text_lr = m_text_ul + text_sz;
 }

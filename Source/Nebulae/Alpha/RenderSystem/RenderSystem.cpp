@@ -72,15 +72,15 @@ RenderSystem::IsInitialized() const
 }
 
 void 
-RenderSystem::SetBlendingState( bool enable )
+RenderSystem::SetBlendingState( bool /*enable*/ )
 {}
 
 void
-RenderSystem::SetDepthTest( bool enable )
+RenderSystem::SetDepthTest( bool /*enable*/ )
 {}
 
 void 
-RenderSystem::BeginScissorClipping( Point ul, Point lr )
+RenderSystem::BeginScissorClipping( Point /*ul*/, Point /*lr*/ )
 {}
 
 void 
@@ -88,7 +88,7 @@ RenderSystem::EndScissorClipping()
 {}
 
 void 
-RenderSystem::BeginStencilClipping( Point inner_ul, Point inner_lr, Point outer_ul, Point outer_lr )
+RenderSystem::BeginStencilClipping( Point /*inner_ul*/, Point /*inner_lr*/, Point /*outer_ul*/, Point /*outer_lr*/ )
 {}
 
 void 
@@ -229,7 +229,7 @@ RenderSystem::FindTextureByIdentifier( int32 identifier ) const
 { return m_textureFactory->FindByIdentifier( identifier ); }
 
 void 
-RenderSystem::SetClearColour( float r, float g, float b, float a ) 
+RenderSystem::SetClearColour( float /*r*/, float /*g*/, float /*b*/, float /*a*/ ) 
 {}
 
 void 
@@ -237,70 +237,70 @@ RenderSystem::SwapBuffers()
 {}
 
 void 
-RenderSystem::SetVertexBuffers( int iSlot, /*int iCount,*/ HardwareBuffer* pBufferImpl, std::size_t iStride, std::size_t iOffset )
+RenderSystem::SetVertexBuffers( int /*iSlot*/, /*int iCount,*/ HardwareBuffer* /*pBufferImpl*/, std::size_t /*iStride*/, std::size_t /*iOffset*/ )
 {}
 
 void 
-RenderSystem::SetInputLayout( InputLayout* pInputLayoutImpl )
+RenderSystem::SetInputLayout( InputLayout* /*pInputLayoutImpl*/ )
 {}
 
 void 
-RenderSystem::SetIndexBuffer( HardwareBuffer* pBuffer, size_t iOffset )
+RenderSystem::SetIndexBuffer( HardwareBuffer* /*pBuffer*/, size_t /*iOffset*/ )
 {}
 
 void
-RenderSystem::SetRenderTexture( RenderTexture* pRenderTexture )
+RenderSystem::SetRenderTexture( RenderTexture* /*pRenderTexture*/ )
 {}
 
 void 
-RenderSystem::SetShaders( HardwareShader* vertexShader, HardwareShader* fragmentShader )
+RenderSystem::SetShaders( HardwareShader* /*vertexShader*/, HardwareShader* /*fragmentShader*/ )
 {}
 
 void 
-RenderSystem::SetOperationType( OperationType eType )
+RenderSystem::SetOperationType( OperationType /*eType*/ )
 {}
 
 void 
-RenderSystem::Draw( std::size_t iVertexCount, std::size_t iStartVertexLocation )
+RenderSystem::Draw( std::size_t /*iVertexCount*/, std::size_t /*iStartVertexLocation*/ )
 {}
 
 void 
-RenderSystem::DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation, std::size_t iBaseVertexLocation )
+RenderSystem::DrawIndexed( std::size_t /*iIndexCount*/, std::size_t /*iStartIndexLocation*/, std::size_t /*iBaseVertexLocation*/ )
 {}
 
 UniformDefinition 
-RenderSystem::GetUniformByName( const char* name ) const
+RenderSystem::GetUniformByName( const char* /*name*/ ) const
 { return UniformDefinition(); }
 
 void 
-RenderSystem::SetBufferBinding( uint32 iTarget, uint32 iIndex, HardwareBuffer* pImpl )
+RenderSystem::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, HardwareBuffer* /*pImpl*/ )
 {}
 
 void 
-RenderSystem::SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* sampler )
+RenderSystem::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Sampler* /*sampler*/ )
 {}
 
 void
-RenderSystem::SetTextureBinding( uint32 iTarget, uint32 iIndex, Texture* texture )
+RenderSystem::SetTextureBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Texture* /*texture*/ )
 {}
 
-void RenderSystem::SetUniformBinding( UniformDefinition& definition, void* value )
+void RenderSystem::SetUniformBinding( UniformDefinition& /*definition*/, void* /*value*/ )
 {}
 
 HardwareBufferImpl* 
-RenderSystem::CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, std::size_t sizeInBytes, HardwareBufferBinding bindFlags, void* sysMem )
+RenderSystem::CreateBufferImpl( const Flags<HardwareBufferUsage>& /*usage*/, std::size_t /*sizeInBytes*/, HardwareBufferBinding /*bindFlags*/, void* /*sysMem*/ )
 { return nullptr; }
 
 RenderTextureImpl*
-RenderSystem::CreateRenderTextureImpl( int32 width, int32 height )
+RenderSystem::CreateRenderTextureImpl( int32 /*width*/, int32 /*height*/ )
 { return nullptr; }
 
 HardwareShaderImpl*
-RenderSystem::CreateShaderImpl( const std::string& strFileName, HardwareShaderType eType )
+RenderSystem::CreateShaderImpl( const std::string& /*strFileName*/, HardwareShaderType /*eType*/ )
 { return nullptr; }
 
 InputLayoutImpl* 
-RenderSystem::CreateInputLayoutImpl( const VertexDeceleration* pVertexDecl, const HardwareShader* pVertexShader )
+RenderSystem::CreateInputLayoutImpl( const VertexDeceleration* /*pVertexDecl*/, const HardwareShader* /*pVertexShader*/ )
 { return nullptr; }
 
 Sampler::Impl* 
@@ -308,5 +308,5 @@ RenderSystem::CreateSamplerImpl()
 { return nullptr; }
 
 TextureImpl* 
-RenderSystem::CreateTextureImpl( const std::string& strName )
+RenderSystem::CreateTextureImpl( const std::string& /*strName*/ )
 { return nullptr; }

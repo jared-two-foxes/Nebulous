@@ -170,7 +170,7 @@ CubeLoader::Create( float width, float height, float depth, int rows, int column
 }
 
 void 
-CubeLoader::UpdateVertexBuffer( HardwareBuffer* vb, int rows, int columns, int slices, float dx, float dy, float dz )
+CubeLoader::UpdateVertexBuffer( HardwareBuffer* vb, int /*rows*/, int /*columns*/, int /*slices*/, float /*dx*/, float /*dy*/, float /*dz*/ )
 {
 	const int NUM_VERTICES           = 4 * 6; // 4 vertices per side * 6 sides
 	const int NUM_ENTRIES_PER_VERTEX = 6;
@@ -243,7 +243,7 @@ CubeLoader::UpdateVertexBuffer( HardwareBuffer* vb, int rows, int columns, int s
 }
 
 void 
-CubeLoader::UpdateIndexBuffer( HardwareBuffer* ibuf, int rows, int columns, int slices )
+CubeLoader::UpdateIndexBuffer( HardwareBuffer* ibuf, int /*rows*/, int /*columns*/, int /*slices*/ )
 {
 	const int NUM_INDICES = 3 * 2 * 6; // 3 indices per face * 2 faces per side * 6 sides
 

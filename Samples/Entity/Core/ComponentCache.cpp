@@ -88,6 +88,7 @@ ComponentCache::Init( int count )
 ///   of each type are actually required.
 ///
 {
+  (void)count;
   //m_AnimationComponent.resize( count );
   //m_AspectComponent.resize( count );
   //m_CollisionComponent.resize( count );
@@ -101,13 +102,14 @@ ComponentCache::Init( int count )
 void 
 ComponentCache::AddPoolForComponentType( ComponentType type )
 {
-  ComponentPool* pool = NULL; //new ComponentPoolImpl<type>();
+  (void)type;
+  //ComponentPool* pool = NULL; //new ComponentPoolImpl<type>();
 }
 
 ComponentPool* 
 ComponentCache::GetComponentPool( ComponentType type ) const
 {
-  for( uint32 i = 0, n = m_pools.size(); i < n; ++i )
+  for( uint32 i = 0, n = static_cast<uint32>(m_pools.size()); i < n; ++i )
   {
     if( m_pools[i]->GetType() == type )
     {

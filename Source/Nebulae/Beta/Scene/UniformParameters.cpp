@@ -156,12 +156,12 @@ UniformParameters::SetNamedUniform( const std::string& name, const Colour& colou
 }
 
 void 
-UniformParameters::SetNamedUniform( const std::string& name, const Matrix4& m )
+UniformParameters::SetNamedUniform( const std::string& /*name*/, const Matrix4& /*m*/ )
 { /*SetNamedUniform( name, m[0], 16 );*/ }
 
 
 void 
-UniformParameters::SetNamedUniform( const std::string& name, const Matrix4* m, std::size_t numEntries )
+UniformParameters::SetNamedUniform( const std::string& /*name*/, const Matrix4* /*m*/, std::size_t /*numEntries*/ )
 { /*SetNamedUniform( name, m[0][0], 16 * numEntries );*/ }
 
 

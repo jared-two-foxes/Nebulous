@@ -172,7 +172,7 @@ WidgetRenderer::BeginClipping( const Widget& widget )
 }
 
 void 
-WidgetRenderer::EndClipping( const Widget& widget )
+WidgetRenderer::EndClipping( const Widget& /*widget*/ )
 {
   //switch (mode) {
   //  case DontClip:
@@ -288,7 +288,7 @@ WidgetRenderer::RenderButton( const ButtonControl& control, int32 depth )
     BeveledRectangle( control.GetUpperLeft(), control.GetLowerRight(),
                       control.IsDisabled() ? GetDisabledColour(control.GetColour()) : control.GetColour(),
                       control.IsDisabled() ? GetDisabledColour(control.GetColour()) : control.GetColour(),
-                      (control.GetState() != ButtonControl::BN_PRESSED), 1);
+                      (control.GetState() != ButtonControl::BN_PRESSED), static_cast<uint32>(1)); // int-to-uint32, small constant
   }
 
   if( control.GetText().length() > 0 )
@@ -348,13 +348,13 @@ WidgetRenderer::RenderEditControl( const EditControl& control, int32 depth )
     fontRenderer = AddFont( control.GetFont() );
   }
 
-  BeveledRectangle( ul, lr, color_to_use/*int_color_to_use*/, color_to_use, false, 2 );
+  BeveledRectangle( ul, lr, color_to_use/*int_color_to_use*/, color_to_use, false, static_cast<uint32>(2) ); // int-to-uint32, small constant
 
   //BeginScissorClipping( Point(client_ul.x - 1, client_ul.y), client_lr );
 
   const std::vector<Font::LineData::CharData>& char_data = control.GetLineData()[0].char_data;
   int32 first_char_offset = control.FirstCharOffset();
-  int32 text_y_pos(ul.y + ((lr.y - ul.y) - control.GetFont()->Height()) / 2.0 + 0.5);
+  int32 text_y_pos(static_cast<int32>(ul.y + ((lr.y - ul.y) - control.GetFont()->Height()) / 2.0 + 0.5)); // double-to-int32, truncation intended for pixel alignment
   CPSize last_visible_char = control.LastVisibleChar();
   const StrSize INDEX_0   = StringIndexOf(0, control.FirstCharShown(), control.GetLineData());
   const StrSize INDEX_END = StringIndexOf(0, last_visible_char, control.GetLineData());
@@ -366,7 +366,7 @@ WidgetRenderer::RenderEditControl( const EditControl& control, int32 depth )
     // draw hiliting
     Point hilite_ul(client_ul.x + (low_cursor_pos < 1 ? 0 : char_data[Value(low_cursor_pos - 1)].extent) - first_char_offset, client_ul.y);
     Point hilite_lr(client_ul.x + char_data[Value(high_cursor_pos - 1)].extent - first_char_offset, client_lr.y);
-    FlatRectangle(hilite_ul, hilite_lr, hilite_color_to_use, CLR_ZERO, 0);
+    FlatRectangle(hilite_ul, hilite_lr, hilite_color_to_use, CLR_ZERO, static_cast<uint32>(0)); // int-to-uint32, zero border
 
     // INDEX_0 to INDEX_1 is unhilited, INDEX_1 to
     // INDEX_2 is hilited, and INDEX_2 to INDEX_3 is
@@ -463,7 +463,7 @@ WidgetRenderer::RenderListBox( const ListBox& control, int32 depth )
         bottom = cl_lr.y;
       }
       FlatRectangle( Point(cl_ul.x, cl_ul.y + top), Point(cl_lr.x, cl_ul.y + bottom),
-                      hilite_color_to_use, CLR_ZERO, 0 );
+                      hilite_color_to_use, CLR_ZERO, static_cast<uint32>(0) ); // int-to-uint32, zero border
       prev_sel = curr_sel;
     }
   }
@@ -479,7 +479,7 @@ WidgetRenderer::RenderListBox( const ListBox& control, int32 depth )
     Point row_ul = (*control.Caret())->GetUpperLeft();
     Point row_lr = (*control.Caret())->GetLowerRight();
     row_lr.x = control.GetClientLowerRight().x;
-    FlatRectangle( row_ul, row_lr, CLR_ZERO, CLR_SHADOW, 2 );
+    FlatRectangle( row_ul, row_lr, CLR_ZERO, CLR_SHADOW, static_cast<uint32>(2) ); // int-to-uint32, small constant
   }
 
   EndClipping( control );
@@ -536,15 +536,15 @@ WidgetRenderer::RenderSlider( const Slider& control, int32 depth )
   Point ul, lr;
 
   //horizontal only
-  ul.x = UL.x + tabWidth / 2;
-  lr.x = LR.x - tabWidth / 2;
+  ul.x = static_cast<int>(UL.x + tabWidth / 2);  // uint32-to-int, tab width is small
+  lr.x = static_cast<int>(LR.x - tabWidth / 2);  // uint32-to-int, tab width is small
   ul.y = ((LR.y + UL.y) - static_cast<int>(lineWidth)) / 2;
   lr.y = ul.y + static_cast<int>(lineWidth);
 
   switch( control.GetLineStyle() ) 
   {
   case FLAT:
-    FlatRectangle( ul, lr, colourToUse, CLR_BLACK, 1 );
+    FlatRectangle( ul, lr, colourToUse, CLR_BLACK, static_cast<uint32>(1) ); // int-to-uint32, small constant
     break;
   case RAISED:
     BeveledRectangle( ul, lr, colourToUse, colourToUse, true, control.GetLineWidth() / 2 );

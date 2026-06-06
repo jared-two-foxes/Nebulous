@@ -59,7 +59,6 @@ SpriteAnimation::Load( File* stream )
 //
 // Grab the frames.
 //
-	int i = 0;
 	SpriteAtlas* pAtlas = NULL;
   Json::Value animation = root["Animation"];
   NE_ASSERT( !animation.isNull() && animation.isObject(), "Found invalid animation node while parsing sprite animation." )();

@@ -99,8 +99,8 @@ LayoutAssistant::Adjust( Widget* widget, const Rect& old_bounds, const Rect& new
   Real   width      = widget->GetWidth() * new_scale;
   Real   height     = widget->GetHeight() * new_scale;
 
-  Point upperLeft(x_pos, y_pos);
-  Point lowerRight( x_pos + width, y_pos + height );
+  Point upperLeft(static_cast<int>(x_pos), static_cast<int>(y_pos)); // float-to-int, values are pixel-aligned
+  Point lowerRight( static_cast<int>(x_pos + width), static_cast<int>(y_pos + height) ); // float-to-int, values are pixel-aligned
   widget->SizeMove( upperLeft, lowerRight );
 }
 
@@ -112,7 +112,7 @@ LayoutAssistant::Scale( Widget* widget, Real x_scale, Real y_scale )
   Real  width    = widget->GetWidth() * x_scale;
   Real  height   = widget->GetHeight() * y_scale; 
   
-  widget->SizeMove( position, position + Point(width,height) );
+  widget->SizeMove( position, position + Point(static_cast<int>(width),static_cast<int>(height)) ); // float-to-int, values are pixel-aligned
 
   // Iterate all the child widgets and SizeMove them appropriately.
   std::list<Widget* > children = widget->GetChildren();
@@ -124,11 +124,11 @@ LayoutAssistant::Scale( Widget* widget, Real x_scale, Real y_scale )
       Real  original_height   = child->GetHeight(); 
 
       // Apply the scale to the position & dimensions.
-      Point scaled_position( relative_position.x * x_scale, relative_position.y * y_scale );
+      Point scaled_position( static_cast<int>(relative_position.x * x_scale), static_cast<int>(relative_position.y * y_scale) ); // float-to-int, values are pixel-aligned
       Real width  = x_scale * original_width;
       Real height = y_scale * original_height;
 
       // Set the scaled width and height to the object.
-      child->SizeMove( scaled_position, scaled_position + Point(width,height) );
+      child->SizeMove( scaled_position, scaled_position + Point(static_cast<int>(width),static_cast<int>(height)) ); // float-to-int, values are pixel-aligned
     } );
 }

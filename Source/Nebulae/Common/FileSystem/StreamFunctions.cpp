@@ -51,7 +51,7 @@ Nebulae::file_seek( void *datasource, long offset, int whence )
         }
         else
         {
-          int breakpoint = 12;
+          //@todo implement seeking from end with non-zero offset
         }
       }
       break;

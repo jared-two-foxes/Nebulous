@@ -222,7 +222,7 @@ ListBox::Row::Row(const WidgetFactory& factory, int w, int h, const std::string&
 ListBox::Row::~Row()
 {}
 
-std::string ListBox::Row::SortKey(std::size_t column) const
+std::string ListBox::Row::SortKey(std::size_t /*column*/) const
 {
   //const TextControl* text_control = dynamic_cast<const TextControl*>(at(column));
   //return text_control ? text_control->Text() : "";
@@ -256,7 +256,7 @@ unsigned int ListBox::Row::Margin() const
 Control* ListBox::Row::CreateControl(const std::string& str, const std::shared_ptr<Font>& font, Colour color) const
 { return GetWidgetFactory().CreateTextControl(0, 0, str, font, color); }
 
-Control* ListBox::Row::CreateControl(const Texture& st) const
+Control* ListBox::Row::CreateControl(const Texture& /*st*/) const
 { return NULL; /*return new StaticGraphic(0, 0, st.Width(), st.Height(), st, GRAPHIC_SHRINKFIT);*/ }
 
 //void ListBox::Row::Render()
@@ -277,8 +277,8 @@ void ListBox::Row::push_back(const std::string& str, const std::shared_ptr<Font>
                              Colour color)
 { push_back(CreateControl(str, font, color)); }
 
-void ListBox::Row::push_back(const std::string& str, const std::string& font_filename, unsigned int pts,
-                             Colour color)
+void ListBox::Row::push_back(const std::string& /*str*/, const std::string& /*font_filename*/, unsigned int /*pts*/,
+                             Colour /*color*/)
 { /*push_back(CreateControl(str, GUI::GetGUI()->GetFont(font_filename, pts), color));*/ }
 
 void ListBox::Row::push_back(const Texture& st)
@@ -896,7 +896,7 @@ void ListBox::AutoScrollDuringDragDrops(bool auto_scroll)
 void ListBox::SetAutoScrollMargin(unsigned int margin)
 { m_auto_scroll_margin = margin; }
 
-void ListBox::SetAutoScrollInterval(unsigned int interval)
+void ListBox::SetAutoScrollInterval(unsigned int /*interval*/)
 { assert( 0 ); }
 
 int ListBox::RightMargin() const
@@ -1459,7 +1459,7 @@ void ListBox::ValidateStyle()
         m_style &= ~(LIST_NOSEL | LIST_SINGLESEL | LIST_QUICKSEL);
 }
 
-void ListBox::VScrolled(int tab_low, int tab_high, int low, int high)
+void ListBox::VScrolled(int tab_low, int /*tab_high*/, int /*low*/, int /*high*/)
 {
     m_first_row_shown = m_rows.empty() ? m_rows.end() : m_rows.begin();
     int accum(0);
@@ -1480,7 +1480,7 @@ void ListBox::VScrolled(int tab_low, int tab_high, int low, int high)
     }
 }
 
-void ListBox::HScrolled(int tab_low, int tab_high, int low, int high)
+void ListBox::HScrolled(int tab_low, int /*tab_high*/, int /*low*/, int /*high*/)
 {
     m_first_col_shown = 0;
     int accum(0);

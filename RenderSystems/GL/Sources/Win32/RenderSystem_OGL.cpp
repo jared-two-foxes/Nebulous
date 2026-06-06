@@ -2,6 +2,9 @@
 #include "Includes/RenderSystem_OGL.h"
 
 #include <Nebulae/Common/Window/Win32/Win32Window.h>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
 
 #include <Nebulae/Alpha/Shaders/UniformDefinition.h>
 
@@ -264,7 +267,7 @@ RenderSystem_OGL::CreateTextureImpl( const std::string& strName )
 
 
 void
-RenderSystem_OGL::SetVertexBuffers( int iSlot, HardwareBuffer* pBufferImpl, size_t iStride, size_t iOffset )
+RenderSystem_OGL::SetVertexBuffers( int /*iSlot*/, HardwareBuffer* pBufferImpl, size_t /*iStride*/, size_t /*iOffset*/ )
 {
 	// @note [jared.watt] Should check that this is actually a vertex buffer.
   static_cast< HardwareBufferImpl_OGL* >( pBufferImpl->GetImpl() )->Bind();
@@ -280,7 +283,7 @@ RenderSystem_OGL::SetInputLayout( InputLayout* inputLayout )
 
 
 void
-RenderSystem_OGL::SetIndexBuffer( HardwareBuffer* pBufferImpl, size_t iOffset )
+RenderSystem_OGL::SetIndexBuffer( HardwareBuffer* pBufferImpl, size_t /*iOffset*/ )
 {
 	// @note [jared.watt] Should check that this is actually a vertex buffer.
 	static_cast< HardwareBufferImpl_OGL* >( pBufferImpl->GetImpl() )->Bind();
@@ -343,12 +346,12 @@ RenderSystem_OGL::Draw( std::size_t iVertexCount, std::size_t iStartVertexLocati
 
 
 void
-RenderSystem_OGL::DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation, std::size_t iBaseVertexLocation )
+RenderSystem_OGL::DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation, std::size_t /*iBaseVertexLocation*/ )
 { glDrawElements( m_OperationMode, (int)iIndexCount, GL_UNSIGNED_SHORT, BUFFER_OFFSET(iStartIndexLocation) ); }
 
 
 void
-RenderSystem_OGL::SetBufferBinding( uint32 iTarget, uint32 iIndex, HardwareBuffer* pImpl )
+RenderSystem_OGL::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, HardwareBuffer* /*pImpl*/ )
 {
 	//@todo Not yet implemented.
 	NE_BREAKPOINT;
@@ -368,12 +371,12 @@ RenderSystem_OGL::GetUniformByName( const char* name ) const
 
 
 void
-RenderSystem_OGL::SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* pImpl )
+RenderSystem_OGL::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Sampler* /*pImpl*/ )
 {}
 
 
 void
-RenderSystem_OGL::SetTextureBinding( uint32 iTarget, uint32 iIndex, Texture* pImpl )
+RenderSystem_OGL::SetTextureBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Texture* /*pImpl*/ )
 {}
 
 
@@ -409,12 +412,27 @@ RenderSystem_OGL::SetUniformBinding( UniformDefinition& definition, void* value 
 
   case UT_MATRIX_3X3: {
       GLfloat* buffer = static_cast<GLfloat* >( value );
-			glUniformMatrix3fv( location, 1, GL_FALSE, buffer );
+			glUniformMatrix3fv( location, 1, GL_TRUE, buffer );
     } break;
 
 	case UT_MATRIX_4X4: {
 			GLfloat* buffer = static_cast<GLfloat* >( value );
-			glUniformMatrix4fv( location, 1, GL_FALSE, buffer );
+			
+			// Debug output: print MVP matrix in 4x4 column-major format
+			std::ofstream log("C:\\Users\\iapet\\AppData\\Local\\Temp\\nebulous_debug.log", std::ios::app);
+			if( log.is_open() ) {
+				log << "=== MVP MATRIX ===" << std::endl;
+				for( int row = 0; row < 4; ++row ) {
+					for( int col = 0; col < 4; ++col ) {
+						log << std::setw(12) << std::setprecision(6) << std::fixed << buffer[col * 4 + row];
+					}
+					log << std::endl;
+				}
+				log << std::endl;
+				log.close();
+			}
+			
+			glUniformMatrix4fv( location, 1, GL_TRUE, buffer );
 		} break;
 
   case UT_SAMPLER2D: {

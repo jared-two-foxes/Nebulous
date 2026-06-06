@@ -130,12 +130,12 @@ SpriteBatch::AddQuad( GlyphState* state, std::size_t count )
     float ty2 = maxCoord.y;
 
     //todo: Handle case where Vertex fails to add due to exceeding past count bounds. 
-    array.AddVertex( QuadVertex(Point(x1,y1), state[i].depth, state[i].colour, Vector4(tx1,ty1,0,0)) );
-    array.AddVertex( QuadVertex(Point(x2,y1), state[i].depth, state[i].colour, Vector4(tx2,ty1,0,0)) );
-    array.AddVertex( QuadVertex(Point(x1,y2), state[i].depth, state[i].colour, Vector4(tx1,ty2,0,0)) );
-    array.AddVertex( QuadVertex(Point(x2,y1), state[i].depth, state[i].colour, Vector4(tx2,ty1,0,0)) );
-    array.AddVertex( QuadVertex(Point(x2,y2), state[i].depth, state[i].colour, Vector4(tx2,ty2,0,0)) );
-    array.AddVertex( QuadVertex(Point(x1,y2), state[i].depth, state[i].colour, Vector4(tx1,ty2,0,0)) );
+    array.AddVertex( QuadVertex(Point(static_cast<int>(x1),static_cast<int>(y1)), state[i].depth, state[i].colour, Vector4(tx1,ty1,0,0)) ); // float-to-int, pixel coordinates
+    array.AddVertex( QuadVertex(Point(static_cast<int>(x2),static_cast<int>(y1)), state[i].depth, state[i].colour, Vector4(tx2,ty1,0,0)) ); // float-to-int, pixel coordinates
+    array.AddVertex( QuadVertex(Point(static_cast<int>(x1),static_cast<int>(y2)), state[i].depth, state[i].colour, Vector4(tx1,ty2,0,0)) ); // float-to-int, pixel coordinates
+    array.AddVertex( QuadVertex(Point(static_cast<int>(x2),static_cast<int>(y1)), state[i].depth, state[i].colour, Vector4(tx2,ty1,0,0)) ); // float-to-int, pixel coordinates
+    array.AddVertex( QuadVertex(Point(static_cast<int>(x2),static_cast<int>(y2)), state[i].depth, state[i].colour, Vector4(tx2,ty2,0,0)) ); // float-to-int, pixel coordinates
+    array.AddVertex( QuadVertex(Point(static_cast<int>(x1),static_cast<int>(y2)), state[i].depth, state[i].colour, Vector4(tx1,ty2,0,0)) ); // float-to-int, pixel coordinates
   }
 }
 

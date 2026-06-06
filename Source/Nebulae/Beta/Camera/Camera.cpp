@@ -50,20 +50,9 @@ Camera::SetLookAt( const Vector4& at )
 }
 
 void
-Camera::SetPerspective( [[maybe_unused]] const Real fov, [[maybe_unused]] const Real aspect, [[maybe_unused]] const Real near_, [[maybe_unused]] const Real far_ )
+Camera::SetPerspective( const Real fov, const Real aspect, const Real near_, const Real far_ )
 {
-  //const Real height = tanf( M_PI_2 - (fFovY*0.5f) );
-  //const Real width  = height * fAspectRatio;
-  //const Real right  = 0.5f*width;
-  //const Real top    = 0.5f*height;
-
-  //memset( &m_fProjection[0], 0, 16*sizeof(Real) );
-
-  //m_fProjection[0]  = near_ / right;
-  //m_fProjection[5]  = near_ / top;
-  //m_fProjection[10] = ( - ( far_ + near_ ) ) / ( far_ - near_ );
-  //m_fProjection[11] = -1.0f;
-  //m_fProjection[14] = ( -2.0f * far_ * near_ ) / ( far_ - near_ );
+  m_projection.MakePerspectiveMatrix( fov, near_, far_, aspect );
 }
 
 void 

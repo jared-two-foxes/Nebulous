@@ -24,7 +24,7 @@ struct Nebulae::GUIImpl
     m_doubleClickInterval(500),
     m_minDragTime(50),   //m_minDragTime(250),
     m_minDragDistance(1),//m_minDragDistance(5),
-    m_prevButtonPressTime(-1),
+    m_prevButtonPressTime(static_cast<uint64>(-1)),
     m_prevWidgetUnderCursor(0),
     m_prevWidgetUnderCursorTime(-1),
     m_currWidgetUnderCursor(0),
@@ -122,7 +122,7 @@ GUIImpl::HandlePress( GuiManager* mgr, uint32 mouseButton, const Point& pos, uin
 
   // if this window is not a disabled Control window, it becomes the focus window
   Control* control = 0;
-  if( m_dragWidgets[mouseButton] && (!(control = dynamic_cast<Control*>(m_dragWidgets[mouseButton])) || !control->IsDisabled())) {
+  if( m_dragWidgets[mouseButton] && (!((control = dynamic_cast<Control*>(m_dragWidgets[mouseButton]))) || !control->IsDisabled())) {
     mgr->SetFocusWidget(m_dragWidgets[mouseButton]);
   }
 

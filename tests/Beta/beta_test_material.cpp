@@ -32,6 +32,7 @@ TEST(Material, RemovePass_ValidIndex_ShouldReducePassCountBy1) {
   // arrange
   Material* material = new Material( "material_01" );
   Pass*     pass     = material->CreatePass();
+  (void)pass;
 
   //act
   material->RemovePass( 0 );
@@ -44,10 +45,11 @@ TEST(Material, RemovePass_InvalidIndex_ShouldNotReducePassCount) {
   // arrange
   Material*   material  = new Material( "material_01" );
   Pass*       pass      = material->CreatePass();
+  (void)pass;
   std::size_t passCount = material->GetPassCount();
 
   //act
-  material->RemovePass( -1 );
+  material->RemovePass( static_cast<unsigned short>(-1) );
   
   //assert
   ASSERT_EQ( passCount, material->GetPassCount() );
@@ -57,6 +59,7 @@ TEST(Material, RemovePass_IndexOutOfBounds_ShouldNotReducePassCount) {
   // arrange
   Material*   material  = new Material( "material_01" );
   Pass*       pass      = material->CreatePass();
+  (void)pass;
   std::size_t passCount = material->GetPassCount();
 
   //act

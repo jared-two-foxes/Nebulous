@@ -489,12 +489,12 @@ RenderSystem_GLES2_Win32::SetUniformBinding( UniformDefinition& definition, void
 
   case UT_MATRIX_3X3: {
       GLfloat* buffer = static_cast<GLfloat* >( value );
-      glUniformMatrix3fv( location, 1, GL_FALSE, buffer );
+      glUniformMatrix3fv( location, 1, GL_TRUE, buffer );
     } break;
 
   case UT_MATRIX_4X4: {
       GLfloat* buffer = static_cast<GLfloat* >( value );
-      glUniformMatrix4fv( location, 1, GL_FALSE, buffer );
+      glUniformMatrix4fv( location, 1, GL_TRUE, buffer );
     } break;
 
   case UT_SAMPLER2D: {

@@ -60,7 +60,7 @@ EntityRenderSystem::Init( uint32 count )
   for( uint32 i = 0; i < count; ++i )
   {
     Actor& actor     = actorArray[i];
-    actor.identifier = -1;
+    actor.identifier = static_cast<uint32>(-1);
     actor.node       = m_sceneGraph->GetRootSceneNode()->CreateChild();
     actor.node->SetVisible( false );
     actor.processed  = false;

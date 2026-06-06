@@ -81,9 +81,8 @@ IntelligenceSystem::Seek( Entity& entity, const Vector4& position ) const
 ///   The force to apply to the entity.
 ///
 {
-  Boid&               boid            = *static_cast<Boid*>(&entity);
-  PlacementComponent& placement       = boid.GetPlacement();
-  MotionComponent&    motion          = boid.GetMotion();
+  PlacementComponent& placement       = static_cast<Boid*>(&entity)->GetPlacement();
+  MotionComponent&    motion          = static_cast<Boid*>(&entity)->GetMotion();
   Vector4             desiredVelocity = (position - placement.position).normalize() * motion.maximumVelocity;
 
   return (desiredVelocity - motion.velocity);
@@ -105,9 +104,8 @@ IntelligenceSystem::Flee( Entity& entity, const Vector4& position ) const
 ///   The force to apply to the entity.
 ///
 {
-  Boid&               boid            = *static_cast<Boid*>(&entity);
-  PlacementComponent& placement       = boid.GetPlacement();
-  MotionComponent&    motion          = boid.GetMotion();
+  PlacementComponent& placement       = static_cast<Boid*>(&entity)->GetPlacement();
+  MotionComponent&    motion          = static_cast<Boid*>(&entity)->GetMotion();
   Vector4             desiredVelocity = (placement.position - position).normalize() * motion.maximumVelocity;
 
   return (desiredVelocity - motion.velocity);
@@ -118,9 +116,7 @@ Vector4
 IntelligenceSystem::Alignment( Entity& entity, const std::vector<Entity*>& neighbors ) const
 /// @todo [jared.watt 14-08-2013] This function needs documentation.
 {
-  Boid&               boid            = *static_cast<Boid*>(&entity);
-  PlacementComponent& placement       = boid.GetPlacement();
-  MotionComponent&    motion          = boid.GetMotion();
+  PlacementComponent& placement       = static_cast<Boid*>(&entity)->GetPlacement();
   Vector4             steeringForce   = Vector4(0,0,0,0);
   Quaternion          averageHeading  = Quaternion(0,0,0,1);
   int                 neighborCount   = 0;
@@ -154,9 +150,6 @@ Vector4
 IntelligenceSystem::Cohesion( Entity& entity, const std::vector<Entity*>& neighbors ) const
 /// @todo [jared.watt 14-08-2013] This function needs documentation.
 {
-  Boid&               boid            = *static_cast<Boid*>(&entity);
-  PlacementComponent& placement       = boid.GetPlacement();
-  MotionComponent&    motion          = boid.GetMotion();
   Vector4             steeringForce   = Vector4(0,0,0,0);
   Vector4             centerOfMass    = Vector4(0,0,0,0);
   int                 neighborCount   = 0;
@@ -188,9 +181,7 @@ Vector4
 IntelligenceSystem::Separation( Entity& entity, const std::vector<Entity*> &neighbors ) const
 /// @todo [jared.watt 14-08-2013] This function needs documentation.
 {  
-  Boid&               boid            = *static_cast<Boid*>(&entity);
-  PlacementComponent& placement       = boid.GetPlacement();
-  MotionComponent&    motion          = boid.GetMotion();
+  PlacementComponent& placement       = static_cast<Boid*>(&entity)->GetPlacement();
   Vector4             steeringForce   = Vector4(0,0,0,0);
 
   for( uint32 a = 0; a < neighbors.size(); ++a )

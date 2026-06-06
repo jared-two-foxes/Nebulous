@@ -70,7 +70,7 @@ ButtonControl::SetPressedGraphic( const SubTexture& texture )
 }
 
 void 
-ButtonControl::TouchDown( const Point& pt, Flags<ModKey> mod_keys )
+ButtonControl::TouchDown( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 ///
 /// A touch down was detected within the bounds of the Control.
 ///
@@ -93,7 +93,7 @@ ButtonControl::TouchDown( const Point& pt, Flags<ModKey> mod_keys )
 }
 
 void 
-ButtonControl::TouchDrag( const Point& pt, Flags<ModKey> mod_keys )
+ButtonControl::TouchDrag( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 ///
 /// A touch was moved while contained within the bounds of the Control.
 ///
@@ -111,7 +111,7 @@ ButtonControl::TouchDrag( const Point& pt, Flags<ModKey> mod_keys )
 }
 
 void
-ButtonControl::TouchUp( const Point& pt, Flags<ModKey> mod_keys )
+ButtonControl::TouchUp( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 ///
 /// A touch was released over this control.  If the touch began over the
 /// control then trigger the onClicked callback.
@@ -130,7 +130,7 @@ ButtonControl::TouchUp( const Point& pt, Flags<ModKey> mod_keys )
 }
 
 void
-ButtonControl::Clicked( const Point& pt, Flags<ModKey> mod_keys )
+ButtonControl::Clicked( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 ///
 /// A touch was released over this control.  If the touch began over the
 /// control then trigger the onClicked callback.

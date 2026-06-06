@@ -67,7 +67,7 @@ DiskFile::Write( const void* buffer, size_t length )
 { 
   std::size_t initial = m_stream->tellp();
   m_stream->write( (const char*)buffer, length );
-  if( m_stream->bad() ) return -1; // if write fails then tellp is going to fail (return -1)
+  if( m_stream->bad() ) return static_cast<std::size_t>(-1); // if write fails then tellp is going to fail (return -1)
   return static_cast<std::size_t>(m_stream->tellp()) - initial;
 }
    

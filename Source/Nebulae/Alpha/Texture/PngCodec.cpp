@@ -252,7 +252,7 @@ PngCodec::Decode( File& is ) const
   codecData->height     = height;
   codecData->size       = width * height * bytesPerPixel;
   codecData->format     = EnginePixelFormatFromPng( colorType, bitDepth );
-  codecData->bpp        = bytesPerPixel;
+  codecData->bpp        = static_cast<uint8>(bytesPerPixel); // int-to-uint8, max 8 bytes per pixel (4 channels * 2 bytes)
   codecData->datastream = (uint8*)buffer;
 
   // return image data.

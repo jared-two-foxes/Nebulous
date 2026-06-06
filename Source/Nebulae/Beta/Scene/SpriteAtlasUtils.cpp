@@ -90,8 +90,8 @@ SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem > renderer, Materia
   UniformParameters& parameters = pObj->GetUniformParameters();
   Real pBuf[8];
 
-  pBuf[0] = subTexture->GetWidth();
-  pBuf[1] = subTexture->GetHeight();
+  pBuf[0] = static_cast<Real>(subTexture->GetWidth());  // int-to-Real, subtexture width fits in float
+  pBuf[1] = static_cast<Real>(subTexture->GetHeight()); // int-to-Real, subtexture height fits in float
   parameters.SetNamedUniform( "size", &pBuf[0], 2 );
 
   pBuf[2] = 0;  //m_pSpriteModule->Offset.x; 
@@ -157,16 +157,16 @@ SpriteAtlasUtils::CheckForPixelCollision( SubTexture& subtexture1, int flags1, S
     image2.flipAroundX();
   }
 
-  min1 *= Vector2(image1Width, image1Height);
-  min2 *= Vector2(image2Width, image2Height);
+  min1 *= Vector2(static_cast<float>(image1Width), static_cast<float>(image1Height)); // size_t-to-float, image dimensions fit in float
+  min2 *= Vector2(static_cast<float>(image2Width), static_cast<float>(image2Height)); // size_t-to-float, image dimensions fit in float
 
   for( int32 x = 0; x <= width; x++ ) {
     for( int32 y = 0; y <= height; y++ ) { 
-      Vector2 obj1adjusted = min1 + Vector2(x,y);
-      Vector2 obj2adjusted = min2 + Vector2(x,y);
+      Vector2 obj1adjusted = min1 + Vector2(static_cast<float>(x),static_cast<float>(y)); // int-to-float, pixel coordinates fit in float
+      Vector2 obj2adjusted = min2 + Vector2(static_cast<float>(x),static_cast<float>(y)); // int-to-float, pixel coordinates fit in float
 
-      Colour  colour1     = image1.getColourAt( obj1adjusted.x, obj1adjusted.y );
-      Colour  colour2     = image2.getColourAt( obj2adjusted.x, obj2adjusted.y );
+      Colour  colour1     = image1.getColourAt( static_cast<std::size_t>(obj1adjusted.x), static_cast<std::size_t>(obj1adjusted.y) ); // float-to-size_t, pixel coordinates are non-negative
+      Colour  colour2     = image2.getColourAt( static_cast<std::size_t>(obj2adjusted.x), static_cast<std::size_t>(obj2adjusted.y) ); // float-to-size_t, pixel coordinates are non-negative
 
       if( colour1.a >= alphaValue && colour2.a >= alphaValue ) 
       {

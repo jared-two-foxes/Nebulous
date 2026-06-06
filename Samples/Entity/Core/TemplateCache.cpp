@@ -83,7 +83,7 @@ TemplateCache::Load( Nebulae::File& stream )
   // Iterate each pass and load it from data
   //
   Json::Value::Members templates = root.getMemberNames();
-  for( uint32 i = 0, n = templates.size(); i < n; ++i )
+  for( uint32 i = 0, n = static_cast<uint32>(templates.size()); i < n; ++i )
   {
     const char*        name         = templates[i].c_str();
     const Json::Value& templateData = root[name];
@@ -159,7 +159,7 @@ TemplateCache::GetTemplateIdentifier( const char* templateName ) const
 ///   The insertion id.
 ///
 {
-  uint32_t id = -1; 
-  FNV( templateName, strlen(templateName), 0, &id );
+  uint32_t id = static_cast<uint32_t>(-1); 
+  FNV( templateName, static_cast<int>(strlen(templateName)), 0, &id );
   return id;
 }

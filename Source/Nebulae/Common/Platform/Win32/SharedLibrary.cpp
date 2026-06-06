@@ -18,8 +18,7 @@ SharedLibrary::Open( const std::wstring& filename )
   handle = LoadLibraryEx( filename.c_str(), NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
   if ( handle == nullptr ) 
   {
-		DWORD   error = GetLastError();
-		HRESULT hr    = HRESULT_FROM_WIN32( error );
+ 		DWORD   error = GetLastError();
 
     return error;
   }

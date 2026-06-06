@@ -38,8 +38,8 @@ SubTexture::SubTexture()
 
 SubTexture::SubTexture( const Texture* texture, Real x1, Real y1, Real x2, Real y2 )  
   : m_texture(texture),
-    m_width(x2 - x1),
-    m_height(y2 - y1),
+    m_width(static_cast<int>(x2 - x1)), // float-to-int, pixel coordinates are non-negative and fit in int
+    m_height(static_cast<int>(y2 - y1)), // float-to-int, pixel coordinates are non-negative and fit in int
     m_tex_coords()
 {
   NE_ASSERT( m_texture != NULL, "Attempted to construct subtexture from invalid texture" )();
@@ -50,8 +50,8 @@ SubTexture::SubTexture( const Texture* texture, Real x1, Real y1, Real x2, Real 
   m_tex_coords[2] = x2; //Value(x2 * 1.0f / texture->GetWidth());
   m_tex_coords[3] = y2; //Value(y2 * 1.0f / texture->GetHeight());
 
-  m_width  = (x2 - x1) * texture->GetWidth();
-  m_height = (y2 - y1) * texture->GetHeight();
+  m_width  = static_cast<int>((x2 - x1) * static_cast<Real>(texture->GetWidth()));   // size_t-to-Real-to-int, subtexture width fits in int
+  m_height = static_cast<int>((y2 - y1) * static_cast<Real>(texture->GetHeight()));  // size_t-to-Real-to-int, subtexture height fits in int
 }
 
 

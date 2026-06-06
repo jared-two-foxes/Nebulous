@@ -232,12 +232,11 @@ Keyboard::ToUnicode( KeyCode keycode, uint32* unicodeChar )
 
     if( a != b )
     {
-      int breakpoint = 12;
+      //@todo investigate difference between internal and system keyboard state
     }
   }
 
   WCHAR  uc[5]          = {};
-  uint32 key_code_point = 0;
   UINT   virtualKey     = WindowsKeyFromVirtualKey( keycode );
   UINT   scan_code      = MapVirtualKey( virtualKey, MAPVK_VK_TO_VSC );
 

@@ -129,7 +129,7 @@ Widget::GetDragDropDataType() const
 void 
 Widget::DropsAcceptable( DropsAcceptableIter first,
                          DropsAcceptableIter last,
-                         const Point& pt ) const
+                         const Point& /*pt*/ ) const
 {
   for( std::map<const Widget*, bool>::iterator it = first; it != last; ++it ) {
     it->second = false;
@@ -356,25 +356,25 @@ Widget::SetDragDropDataType( const std::string& dataType )
 
 
 void
-Widget::StartingChildDragDrop( const Widget* wnd, const Point& offset )
+Widget::StartingChildDragDrop( const Widget* /*wnd*/, const Point& /*offset*/ )
 {
 }
 
 
 void 
-Widget::AcceptDrops( const std::vector<Widget*>& widgets, const Point& pt )
+Widget::AcceptDrops( const std::vector<Widget*>& /*widgets*/, const Point& /*pt*/ )
 {
 }
 
 
 void 
-Widget::CancellingChildDragDrop( const std::vector<const Widget*>& widgets ) 
+Widget::CancellingChildDragDrop( const std::vector<const Widget*>& /*widgets*/ ) 
 {
 }
 
 
 void 
-Widget::ChildrenDraggedAway( const std::vector<Widget*>& widgets, const Widget* destination )
+Widget::ChildrenDraggedAway( const std::vector<Widget*>& widgets, const Widget* /*destination*/ )
 {
   for( std::vector<Widget*>::const_iterator it = widgets.begin(); it != widgets.end(); ++it ) {
     DetachChild(*it);
@@ -614,7 +614,7 @@ Widget::RemoveEventFilter(Widget* widget)
 
 
 void 
-Widget::TouchDown( const Point& pt, Flags<ModKey> mod_keys )
+Widget::TouchDown( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 {
   if( !IsInteractive() ) {
     ForwardEventToParent(); 
@@ -623,7 +623,7 @@ Widget::TouchDown( const Point& pt, Flags<ModKey> mod_keys )
 
 
 void 
-Widget::TouchDrag( const Point& pt, const Point& move, Flags<ModKey> mod_keys )
+Widget::TouchDrag( const Point& /*pt*/, const Point& move, Flags<ModKey> /*mod_keys*/ )
 {
   if( IsDragable() ) {
     OffsetMove(move);
@@ -634,7 +634,7 @@ Widget::TouchDrag( const Point& pt, const Point& move, Flags<ModKey> mod_keys )
 
 
 void 
-Widget::TouchUp( const Point& pt, Flags<ModKey> mod_keys )
+Widget::TouchUp( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 {
   if( !IsInteractive() ) {
    ForwardEventToParent(); 
@@ -643,7 +643,7 @@ Widget::TouchUp( const Point& pt, Flags<ModKey> mod_keys )
 
 
 void 
-Widget::Clicked( const Point& pt, Flags<ModKey> mod_keys )
+Widget::Clicked( const Point& /*pt*/, Flags<ModKey> /*mod_keys*/ )
 { 
   if( !IsInteractive() ) {
     ForwardEventToParent(); 
@@ -652,7 +652,7 @@ Widget::Clicked( const Point& pt, Flags<ModKey> mod_keys )
 
 
 void
-Widget::DragDropEnter( const Point& pt, const std::map<Widget*, Point>& dragDropWidgets, Flags<ModKey> mod_keys )
+Widget::DragDropEnter( const Point& /*pt*/, const std::map<Widget*, Point>& /*dragDropWidgets*/, Flags<ModKey> /*mod_keys*/ )
 {
   if( !IsInteractive() ) {
     ForwardEventToParent(); 
@@ -661,7 +661,7 @@ Widget::DragDropEnter( const Point& pt, const std::map<Widget*, Point>& dragDrop
 
 
 void 
-Widget::DragDropHere( const Point& pt, const std::map<Widget*, Point>& dragDropWidgets, Flags<ModKey> mod_keys )
+Widget::DragDropHere( const Point& /*pt*/, const std::map<Widget*, Point>& /*dragDropWidgets*/, Flags<ModKey> /*mod_keys*/ )
 { 
   if( !IsInteractive() ) {
     ForwardEventToParent(); 
@@ -679,7 +679,7 @@ Widget::DragDropLeave()
 
 
 void
-Widget::KeyPress( KeyCode key, uint32 key_code_point, Flags<ModKey> mod_keys )
+Widget::KeyPress( KeyCode /*key*/, uint32 /*key_code_point*/, Flags<ModKey> /*mod_keys*/ )
 {
   if( !IsInteractive() ) {
     ForwardEventToParent(); 
@@ -688,7 +688,7 @@ Widget::KeyPress( KeyCode key, uint32 key_code_point, Flags<ModKey> mod_keys )
 
 
 void
-Widget::KeyRelease( KeyCode key, uint32 key_code_point, Flags<ModKey> mod_keys )
+Widget::KeyRelease( KeyCode /*key*/, uint32 /*key_code_point*/, Flags<ModKey> /*mod_keys*/ )
 { 
   if( !IsInteractive() ) {
     ForwardEventToParent();
@@ -740,7 +740,7 @@ Widget::HandleEvent( const WidgetEvent& event )
 
 
 bool 
-Widget::EventFilter( Widget* widget, const WidgetEvent& event )
+Widget::EventFilter( Widget* /*widget*/, const WidgetEvent& /*event*/ )
 { 
   return false; 
 }

@@ -210,7 +210,7 @@ OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& upper
 void
 OverlayRenderer::DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::Point& ul, const Nebulae::Point& ur,
                                const Nebulae::Point& ll, const Nebulae::Point& lr, const Colour& colour,
-                               const SubTexture* subtexture, float depth, float rotation) const
+                               const SubTexture* subtexture, float depth, float /*rotation*/) const
 {
   // Early out if renderer is not valid.
   NE_ASSERT( renderer, "Null renderer passed to RenderWidget" )();
@@ -368,9 +368,9 @@ OverlayRenderer::GetLightColour( Colour clr ) const
 {
   const double scale_factor = 2.0;   // factor by which the color is lightened
   Colour retval = clr;
-  retval.r = std::min(static_cast<int>(retval.r * scale_factor), 255);
-  retval.g = std::min(static_cast<int>(retval.g * scale_factor), 255);
-  retval.b = std::min(static_cast<int>(retval.b * scale_factor), 255);
+  retval.r = static_cast<unsigned char>(std::min(static_cast<int>(retval.r * scale_factor), 255)); // int-to-uchar, clamped to [0,255]
+  retval.g = static_cast<unsigned char>(std::min(static_cast<int>(retval.g * scale_factor), 255)); // int-to-uchar, clamped to [0,255]
+  retval.b = static_cast<unsigned char>(std::min(static_cast<int>(retval.b * scale_factor), 255)); // int-to-uchar, clamped to [0,255]
   return retval;
 }
 
@@ -379,9 +379,9 @@ OverlayRenderer::GetDarkColour( Colour clr ) const
 {
   const double scale_factor = 2.0;   // factor by which the color is darkened
   Colour retval = clr;
-  retval.r = static_cast<int>(retval.r / scale_factor);
-  retval.g = static_cast<int>(retval.g / scale_factor);
-  retval.b = static_cast<int>(retval.b / scale_factor);
+  retval.r = static_cast<unsigned char>(static_cast<int>(retval.r / scale_factor)); // int-to-uchar, result is in [0,127]
+  retval.g = static_cast<unsigned char>(static_cast<int>(retval.g / scale_factor)); // int-to-uchar, result is in [0,127]
+  retval.b = static_cast<unsigned char>(static_cast<int>(retval.b / scale_factor)); // int-to-uchar, result is in [0,127]
   return retval;
 }
 
@@ -390,8 +390,8 @@ OverlayRenderer::GetDisabledColour( Colour clr ) const
 {
   Colour retval = clr;
   const double gray_factor = 0.75; // amount to move clr in the direction of gray
-  retval.r = static_cast<int>(retval.r + (CLR_GRAY.r - retval.r) * gray_factor);
-  retval.g = static_cast<int>(retval.g + (CLR_GRAY.g - retval.g) * gray_factor);
-  retval.b = static_cast<int>(retval.b + (CLR_GRAY.b - retval.b) * gray_factor);
+  retval.r = static_cast<unsigned char>(static_cast<int>(retval.r + (CLR_GRAY.r - retval.r) * gray_factor)); // int-to-uchar, result is in [0,255]
+  retval.g = static_cast<unsigned char>(static_cast<int>(retval.g + (CLR_GRAY.g - retval.g) * gray_factor)); // int-to-uchar, result is in [0,255]
+  retval.b = static_cast<unsigned char>(static_cast<int>(retval.b + (CLR_GRAY.b - retval.b) * gray_factor)); // int-to-uchar, result is in [0,255]
   return retval;
 }

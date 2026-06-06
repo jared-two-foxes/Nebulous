@@ -74,13 +74,13 @@ Control::SetDisabled( bool disabled )
 
 
 void
-Control::KeyPress( KeyCode key, uint32 keyCodePoint, Flags<ModKey> mod_keys )
+Control::KeyPress( KeyCode /*key*/, uint32 /*keyCodePoint*/, Flags<ModKey> /*mod_keys*/ )
 { 
   ForwardEventToParent(); 
 }
 
 void 
-Control::KeyRelease( KeyCode key, uint32 key_code_point, Flags<ModKey> mod_keys )
+Control::KeyRelease( KeyCode /*key*/, uint32 /*key_code_point*/, Flags<ModKey> /*mod_keys*/ )
 { 
   ForwardEventToParent(); 
 }

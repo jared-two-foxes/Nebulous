@@ -52,8 +52,8 @@ RenderTexture::BindColourBuffer( int32 index, int32 width, int32 height )
 {
   //@todo handle multiple index binding!
 
-  if( width == -1 )  width  = GetWidth();
-  if( height == -1 ) height = GetHeight();
+  if( width == -1 )  width  = static_cast<int32>(GetWidth());   // size_t-to-int32, range safe as texture dimensions fit in int32
+  if( height == -1 ) height = static_cast<int32>(GetHeight());  // size_t-to-int32, range safe as texture dimensions fit in int32
 
   if( m_impl != nullptr && m_impl->BindColourBuffer(index, width, height) )
   {

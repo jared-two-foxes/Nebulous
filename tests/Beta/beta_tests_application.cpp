@@ -10,12 +10,12 @@ using namespace Nebulae;
 
 class MockInputListener : public InputListener {
 public:
-  virtual void KeyPressed( KeyCode keyCode, Flags<ModKey> modKeys ) {}
-  virtual void KeyReleased( KeyCode keyCode, Flags<ModKey> modKeys ) {}
+  virtual void KeyPressed( KeyCode /*keyCode*/, Flags<ModKey> /*modKeys*/ ) {}
+  virtual void KeyReleased( KeyCode /*keyCode*/, Flags<ModKey> /*modKeys*/ ) {}
 
-  virtual void MousePressed( MouseButton button, int32 x, int32 y, Flags<ModKey> modKeys ) {}
-  virtual void MouseReleased( MouseButton button, int32 x, int32 y, Flags<ModKey> modKeys ) {}
-  virtual void MouseMove( MouseButton button, int32 x, int32 y, Flags<ModKey> modKeys ) {}
+  virtual void MousePressed( MouseButton /*button*/, int32 /*x*/, int32 /*y*/, Flags<ModKey> /*modKeys*/ ) {}
+  virtual void MouseReleased( MouseButton /*button*/, int32 /*x*/, int32 /*y*/, Flags<ModKey> /*modKeys*/ ) {}
+  virtual void MouseMove( MouseButton /*button*/, int32 /*x*/, int32 /*y*/, Flags<ModKey> /*modKeys*/ ) {}
 };
 
 

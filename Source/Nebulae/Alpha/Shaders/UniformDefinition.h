@@ -115,10 +115,10 @@ struct UniformDefinition
           return 4;
         //case UT_MATRIX_2X3:
         //case UT_MATRIX_3X2:
-          return 6;
+        //  return 6;
         //case UT_MATRIX_2X4:
         //case UT_MATRIX_4X2:
-          return 8; 
+        //  return 8; 
         case UT_MATRIX_3X3:
           return 9;
         //case UT_MATRIX_3X4:

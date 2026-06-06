@@ -82,13 +82,14 @@ namespace Sample
   void 
   SimpleState::Exit( Nebulae::StateStack* caller )
   {
-
+    (void)caller;
   }
 
   void 
   SimpleState::Update( float fDeltaTimeStep, Nebulae::StateStack* pCaller )
   {
-
+    (void)fDeltaTimeStep;
+    (void)pCaller;
   } 
 
   void
@@ -112,9 +113,9 @@ namespace Sample
     m_pRenderSystem->SetInputLayout(pInputLayout);
 
     // Create projection variable from desc.
-    UniformDefinition& worldVarDesc       = m_pRenderSystem->GetUniformByName( "world" );
-    UniformDefinition& viewVarDesc        = m_pRenderSystem->GetUniformByName( "view" );
-    UniformDefinition& projectionVarDesc  = m_pRenderSystem->GetUniformByName( "projection" );
+    UniformDefinition worldVarDesc       = m_pRenderSystem->GetUniformByName( "world" );
+    UniformDefinition viewVarDesc        = m_pRenderSystem->GetUniformByName( "view" );
+    UniformDefinition projectionVarDesc  = m_pRenderSystem->GetUniformByName( "projection" );
 
     // Calculate the local transform of the particle
     Matrix4 worldMatrix;

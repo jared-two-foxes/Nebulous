@@ -87,19 +87,19 @@ ExampleScreen::~ExampleScreen()
 
 
 void 
-ExampleScreen::Enter( StateStack* caller )
+ExampleScreen::Enter( StateStack* /*caller*/ )
 {
 //
 // Setup camera.
 //
-  Vector4 vCameraEye( 0.75f, 0.0f, 0.75f );
+  Vector4 vCameraEye( 3.0f, 3.0f, 3.0f );
   Vector4 vLookAt( 0.0f, 0.0f, 0.0f );
   Vector4 vUp( 0.0f, 1.0f, 0.0f );
   
   m_camera = std::make_shared<Camera >();
   m_camera->LookAt( vCameraEye, vLookAt, vUp );
   //m_camera->SetOrtho( 2.0f, 3.0f, 0.1f, 100.0f );
-  Real aspect = fabsf(640.f / 960.f);
+  Real aspect = fabsf(800.f / 600.f);
   m_camera->SetPerspective( gDegreesToRadians*90.0f, aspect, 0.1f, 1000.0f );
 
   HardwareBuffer* buffer = m_renderSystem->FindBufferByName( "CubeBuffer" );
@@ -136,14 +136,14 @@ ExampleScreen::Enter( StateStack* caller )
 
 
 void 
-ExampleScreen::Exit( StateStack* caller )
+ExampleScreen::Exit( StateStack* /*caller*/ )
 {
 
 }
 
 
 void 
-ExampleScreen::Update( float fDeltaTimeStep, StateStack* pCaller )
+ExampleScreen::Update( float fDeltaTimeStep, StateStack* /*pCaller*/ )
 {
 
   m_rotation += fDeltaTimeStep * 5.0f; 
@@ -164,27 +164,11 @@ ExampleScreen::Render() const
   {
     Matrix4 model;
     model.SetIdentity();
-    model *= MatrixMakeTranslation( -1.5f, 0, 0 );
-    model *= MatrixMakeRotation( gDegreesToRadians*m_rotation, Vector4(0,1,0) );
 
     Matrix4 mv  = view * model;
     Matrix4 mvp = proj * view * model;
 
     Vector4 diffuse(1.0f, 0.4f, 0.4f, 1.0f);
-
-    DrawCube( mvp, mv, diffuse );
-  }
-
-  {
-    Matrix4 model;
-    model.SetIdentity();
-    model *= MatrixMakeTranslation( 1.5f, 0, 0 );
-    model *= MatrixMakeRotation( -gDegreesToRadians*m_rotation, Vector4(0,1,0) );
-
-    Matrix4 mv  = view * model;
-    Matrix4 mvp = proj * view * model;
-
-    Vector4 diffuse(0.4f, 1.0f, 0.4f, 1.0f);
 
     DrawCube( mvp, mv, diffuse );
   }
