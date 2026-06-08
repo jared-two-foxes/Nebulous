@@ -119,21 +119,21 @@ namespace Nebulae
 	//ToInt
 	int Variant::ToInt() const
 	{
-		NE_ASSERT( m_Type == Variant::Int, "Expected type Int" )( m_Type );
+		NE_ASSERT( m_Type == Variant::Int, "Expected type Int" );
 		return m_iValue;
 	}
 
 	//ToFloat
 	float Variant::ToFloat() const
 	{
-    NE_ASSERT( m_Type == Variant::Float, "Expected type Float" )( m_Type );
+    NE_ASSERT( m_Type == Variant::Float, "Expected type Float" );
 		return m_fValue;
 	}
 
 	//ToString
 	const char* Variant::ToString() const
 	{
-    NE_ASSERT( m_Type == Variant::Int, "Expected type String" )( m_Type );
+    NE_ASSERT( m_Type == Variant::Int, "Expected type String" );
 		return m_szValue;
 	}
 }

@@ -195,7 +195,7 @@ GUIImpl::HandleDrag( GuiManager* mgr, uint32 mouseButton, const Point& pos, uint
       std::map<Widget*, Point>& dragDropWidgetsToUse = unregisteredDrag ? dragDropWidgets : m_dragDropWidgets;
       if( m_currWidgetUnderCursor && m_prevWidgetUnderCursor == m_currWidgetUnderCursor ) {
           if( m_currDragDropHereWidget ) {
-            NE_ASSERT( m_currWidgetUnderCursor == m_currDragDropHereWidget, "" )( );
+            NE_ASSERT( m_currWidgetUnderCursor == m_currDragDropHereWidget, "" );
             m_currWidgetUnderCursor->HandleEvent( WidgetEvent(WidgetEvent::DragDropHere, pos, dragDropWidgetsToUse, m_modKeys) );
             m_currWidgetUnderCursor->DropsAcceptable(m_dragDropWidgetsAcceptable.begin(),
                                                      m_dragDropWidgetsAcceptable.end(),
@@ -385,7 +385,7 @@ GuiManager::GuiManager( FileArchivePtr fileSystem, RenderSystemPtr renderDevice 
 /// Constructor
 ///
 {
-  NE_ASSERT(!m_impl,"")();
+  NE_ASSERT(!m_impl,"");
 
   m_impl.reset( new GUIImpl(fileSystem, renderDevice) );
 }
@@ -750,7 +750,7 @@ GuiManager::MoveDown( Widget* widget )
 void 
 GuiManager::RegisterDragDropWidget( Widget* widget, const Point& offset, Widget* originatingWidget )
 {
-  NE_ASSERT(widget,"")();
+  NE_ASSERT(widget,"");
   if( !m_impl->m_dragDropWidgets.empty() && originatingWidget != m_impl->m_dragDropOriginatingWidget ) {
     throw std::runtime_error("GuiManager::RegisterDragDropWnd() : Attempted to register a drag drop item dragged from "
                              "one window, when another window already has items being dragged from it.");

@@ -44,7 +44,7 @@ GLES2HardwareBufferImpl::Load()
 	}
 	else if( m_BindFlags == HBB_CONSTANT )
 	{
-    NE_ASSERT( false, "Opengl ES 2.0 doesn't support uniform buffers!" )();
+    NE_ASSERT( false, "Opengl ES 2.0 doesn't support uniform buffers!" );
 		//m_iOpenGlBindFlags = GL_UNIFORM_BUFFER;
 	}
 
@@ -100,7 +100,7 @@ GLES2HardwareBufferImpl::Lock( std::size_t offset, size_t length, LockOptions op
 //	void* pBuffer = glMapBuffer( GL_ARRAY_BUFFER, access );
 //  CheckForGLESError();
 //
-//	NE_ASSERT( pBuffer != nullptr, "Vertex Buffer: Out of memory" )();
+//	NE_ASSERT( pBuffer != nullptr, "Vertex Buffer: Out of memory" );
 //	
 //	// return offsetted data
 //	retptr = static_cast<void*>(

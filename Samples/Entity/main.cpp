@@ -23,7 +23,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCm
   Platform::FileSystemPtr fileSystem = app.GetPlatform()->GetFileSystem();
   fileSystem->Mount( "disk", new DiskFileDevice("..//..//Samples//Entity//Assets") );
 #else
-  NE_ASSERT( false, "Zip device is not supported for example." )();
+  NE_ASSERT( false, "Zip device is not supported for example." );
 #endif
 
   app.PushState( new SampleState() );

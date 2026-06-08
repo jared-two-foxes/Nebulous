@@ -161,7 +161,11 @@ RenderSystem::CreateShader( const std::string& identifier, HardwareShaderType eT
   if( shader && !shader->IsLoaded() ) {
     shader->SetImpl( CreateShaderImpl( identifier, eType ) );
     if( shouldLoad ) {
-      shader->Load( m_fileSystem->Open(NE_DEFAULT_ROOTDEVICE, identifier) );
+      File* file = m_fileSystem->Open(NE_DEFAULT_ROOTDEVICE, identifier);
+      if( !file ) {
+        NE_LOG( "CreateShader: failed to open file '%s'", identifier.c_str() );
+      }
+      shader->Load( file );
     }
   }
 

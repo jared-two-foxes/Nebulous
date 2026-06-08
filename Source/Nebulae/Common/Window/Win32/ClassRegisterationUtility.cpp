@@ -14,7 +14,7 @@ bool
 ClassRegisterationUtility::Register( const std::wstring& strClassName, WNDPROC lpfnWndProc, HINSTANCE hInstance, HICON hIcon )
 {
   // Check that the class is not already registered?
-  NE_ASSERT( !IsClassRegistered(strClassName), "Windows class named %s is already registered", strClassName.c_str() )();
+  NE_ASSERT( !IsClassRegistered(strClassName), "Windows class named %s is already registered", strClassName.c_str() );
   if( IsClassRegistered(strClassName) )
   {
     // Haven't done any form of checking of the contents of the currently registered window class.

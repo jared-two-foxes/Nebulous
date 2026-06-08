@@ -21,7 +21,7 @@ CompressionFile::CompressionFile( File* file )
 
 	// Check
 	int ret = inflateInit( &m_z_stream );
-	NE_ASSERT( ret == Z_OK, "Failed to aquire zlib buffer" )();
+	NE_ASSERT( ret == Z_OK, "Failed to aquire zlib buffer" );
 }
 
 CompressionFile::~CompressionFile()
@@ -66,7 +66,7 @@ CompressionFile::Read( void* buffer, size_t length )
   inflateEnd(&m_z_stream);
 
 	// Check
-	NE_ASSERT( ret != Z_STREAM_END, "Exception in zlib stream" )();
+	NE_ASSERT( ret != Z_STREAM_END, "Exception in zlib stream" );
 
 	// Recover memory
 	outVector.shrink_to_fit();

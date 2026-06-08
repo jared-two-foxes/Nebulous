@@ -72,7 +72,7 @@ StateStack::PopState()
 ///   Nothing
 ///
 {
-  NE_ASSERT( !m_States.empty(), "Tried to pop a state when there was no state ontop of the stack" )();
+  NE_ASSERT( !m_States.empty(), "Tried to pop a state when there was no state ontop of the stack" );
 
   m_States.back()->Exit( this );
   delete m_States.back();

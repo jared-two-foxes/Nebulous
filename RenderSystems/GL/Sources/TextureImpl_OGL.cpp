@@ -126,7 +126,7 @@ TextureImpl_OGL::LoadFromMemory( unsigned char* pImageData, uint8 srcDataType, u
   case 8: dataType = GL_UNSIGNED_SHORT;   break;
 
   default:
-    NE_ASSERT( false, "Src Data type not recognized." )( srcDataType );
+    NE_ASSERT( false, "Src Data type not recognized." );
     dataType = GL_UNSIGNED_BYTE;
     break;
   };
@@ -138,7 +138,7 @@ TextureImpl_OGL::LoadFromMemory( unsigned char* pImageData, uint8 srcDataType, u
   case 4: srcStructure = GL_BGRA;             break; 
 
   default: 
-    NE_ASSERT( false, "Unsupported number of channels.  Unknown src structure." )();
+    NE_ASSERT( false, "Unsupported number of channels.  Unknown src structure." );
     srcStructure = GL_RGB;
     break;
   }
@@ -160,3 +160,4 @@ TextureImpl_OGL::LoadFromMemory( unsigned char* pImageData, uint8 srcDataType, u
 
 	return true;
 }
+

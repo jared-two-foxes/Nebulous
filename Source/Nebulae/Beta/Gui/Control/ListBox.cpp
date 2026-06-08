@@ -312,7 +312,7 @@ void ListBox::Row::resize(std::size_t n)
 
 void ListBox::Row::SetCell(std::size_t n, Control* c)
 {
-  NE_ASSERT(c != m_cells[n], "")();
+  NE_ASSERT(c != m_cells[n], "");
   delete m_cells[n];
   m_cells[n] = c;
   AdjustLayout();
@@ -517,7 +517,7 @@ ListBox::const_reverse_iterator ListBox::rend() const
 
 const ListBox::Row& ListBox::GetRow(std::size_t n) const
 {
-  NE_ASSERT(n < m_rows.size(), "")();
+  NE_ASSERT(n < m_rows.size(), "");
   return **boost::next(m_rows.begin(), n);
 }
 
@@ -616,9 +616,9 @@ void ListBox::StartingChildDragDrop(const Widget* wnd, const Point& offset)
 
   int vertical_offset = offset.y;
   iterator wnd_it = std::find(m_rows.begin(), m_rows.end(), wnd);
-  NE_ASSERT(wnd_it != m_rows.end(), "Could not find Widget in list")();
+  NE_ASSERT(wnd_it != m_rows.end(), "Could not find Widget in list");
   SelectionSet::iterator wnd_sel_it = m_selections.find(wnd_it);
-  NE_ASSERT(wnd_sel_it != m_selections.end(), "Could not find Widget in Selection")();
+  NE_ASSERT(wnd_sel_it != m_selections.end(), "Could not find Widget in Selection");
   for (SelectionSet::iterator sel_it = m_selections.begin(); sel_it != wnd_sel_it; ++sel_it) {
     vertical_offset += (**sel_it)->GetHeight();
   }    
@@ -649,7 +649,7 @@ void ListBox::ChildrenDraggedAway(const std::vector<Widget*>& wnds, const Widget
     for (std::vector<Widget*>::const_iterator it = wnds.begin(); it != wnds.end(); ++it) {
       Row* row = boost::polymorphic_downcast<Row*>(*it);
       iterator row_it = std::find(m_rows.begin(), m_rows.end(), row);
-      NE_ASSERT(row_it != m_rows.end(), "Could not find row in rows.")();
+      NE_ASSERT(row_it != m_rows.end(), "Could not find row in rows.");
       Erase(row_it, false, true);
     }
   }
@@ -749,7 +749,7 @@ ListBox::reverse_iterator ListBox::rend()
 
 ListBox::Row& ListBox::GetRow(std::size_t n)
 {
-  NE_ASSERT(n < m_rows.size(), "index is out of bounds")( n, m_rows.size() );
+  NE_ASSERT(n < m_rows.size(), "index is out of bounds");
   return **boost::next(m_rows.begin(), n);
 }
 
@@ -1123,7 +1123,7 @@ void ListBox::DragDropLeave()
 
 bool ListBox::EventFilter(Widget* w, const WidgetEvent& event)
 {
-    NE_ASSERT(w == this || dynamic_cast<Row*>(w), "")();
+    NE_ASSERT(w == this || dynamic_cast<Row*>(w), "");
 
     if (!IsDisabled()) {
         Point pt = event.GetPoint();
@@ -1502,8 +1502,8 @@ void ListBox::HScrolled(int tab_low, int /*tab_high*/, int /*low*/, int /*high*/
 
 void ListBox::ClickAtRow(iterator it, Flags<ModKey> mod_keys)
 {
-    NE_ASSERT(it != m_rows.end(),"")();
-    NE_ASSERT(!m_rows.empty(),"")();
+    NE_ASSERT(it != m_rows.end(),"");
+    NE_ASSERT(!m_rows.empty(),"");
 
     SelectionSet previous_selections = m_selections;
     if (m_style & LIST_SINGLESEL) {
@@ -1606,3 +1606,4 @@ std::size_t ListBox::FirstColShownWhenRightIs(std::size_t right_col, int client_
     }
     return i;
 }
+

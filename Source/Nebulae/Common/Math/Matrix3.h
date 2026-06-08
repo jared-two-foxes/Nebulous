@@ -52,7 +52,7 @@ public:
    */
 	const Vector4& getRow( uint32 i ) const
 	{
-		NE_ASSERT( i < 3, "Invalid row index" )( i );
+		NE_ASSERT( i < 3, "Invalid row index" );
 		return m_el[i];
 	}
 
@@ -61,7 +61,7 @@ public:
    */
 	Vector4& operator[]( uint32 i )
 	{ 
-		NE_ASSERT( i < 3, "Invalid row index" )( i );
+		NE_ASSERT( i < 3, "Invalid row index" );
 		return m_el[i]; 
 	}
 
@@ -70,7 +70,7 @@ public:
    */
 	const Vector4& operator[]( uint32 i ) const
 	{
-		NE_ASSERT( i < 3, "Invalid row index" )( i );
+		NE_ASSERT( i < 3, "Invalid row index" );
 		return m_el[i]; 
 	}
 
@@ -160,7 +160,7 @@ public:
   void setRotation( const Quaternion& q )
   { 
     Real d = q.length2();
-	  NE_ASSERT( d != Real(0.), "Length of Quaternion is 0" )( d );
+	  NE_ASSERT( d != Real(0.), "Length of Quaternion is 0" );
 	  Real s = Real( 2. ) / d;
 	  Real xs = q.m_vec.x * s,   ys = q.m_vec.y * s,   zs = q.m_vec.z * s;
 	  Real wx = q.m_vec.w * xs,  wy = q.m_vec.w * ys,  wz = q.m_vec.w * zs;

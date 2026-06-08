@@ -78,7 +78,7 @@ FileSystem::Open( const char* devices, const std::string& path, Mode mode )
   {
     DeviceList& deviceList = m_devices[ *list_itr ];
     
-    NE_ASSERT( !deviceList.empty(), "Unable to find a Device of type '%s'" )( elems.back() );
+    NE_ASSERT( !deviceList.empty(), "Unable to find a Device of type '%s'" );
 
     for( DeviceList::iterator device_itr = deviceList.begin(); device_itr != deviceList.end(); ++device_itr )
     {
@@ -101,7 +101,7 @@ FileSystem::Open( const char* devices, const std::string& path, Mode mode )
     }
   }
 
-  NE_ASSERT( file, "Attempting to open file '%s' failed", path.c_str() )();
+  NE_ASSERT( file, "Attempting to open file '%s' failed", path.c_str() );
   return file;
 }
 
@@ -110,7 +110,7 @@ FileSystem::Mount( const std::string& type, FileDevice* device )
 {
   // Add to DeviceList if it is not already registered.
   DeviceList::iterator it = std::find( m_devices[type].begin(), m_devices[type].end(), device );
-  NE_ASSERT( it == m_devices[type].end(), "Specified device is not registered for this device type" )();
+  NE_ASSERT( it == m_devices[type].end(), "Specified device is not registered for this device type" );
   if( it == m_devices[type].end() )
   {
     m_devices[type].push_back( device );
@@ -122,7 +122,7 @@ FileSystem::Unmount( const std::string& type, FileDevice* device )
 {
   // Remove from the FileDevice list.
   DeviceList::iterator it = std::find( m_devices[type].begin(), m_devices[type].end(), device );
-  NE_ASSERT( it != m_devices[type].end(), "Specified device is not registered for this device type" )();
+  NE_ASSERT( it != m_devices[type].end(), "Specified device is not registered for this device type" );
   if( it != m_devices[type].end() )
   {
     m_devices[type].erase( it );

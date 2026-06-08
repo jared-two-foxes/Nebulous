@@ -107,7 +107,11 @@ File* ManifestDiskFileDevice::Open( const std::string& path, FileSystem::Mode mo
   }
 
   // Fall back to wrapped DiskFileDevice
-  return m_fallback->Open( path, mode );
+  File* result = m_fallback->Open( path, mode );
+  if( !result ) {
+    NE_LOG( "ManifestDiskFileDevice::Open: failed to resolve '%s' (manifest and fallback both failed)", path.c_str() );
+  }
+  return result;
 }
 
 File* ManifestDiskFileDevice::Open( File* file )

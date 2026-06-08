@@ -21,11 +21,11 @@ ZipFile::ZipFile( /*unzFile stream*/ )
   m_pos( 0 )
 {
   //int32 err = ExtractFileData( stream, m_buffer );
-  //NE_ASSERT( err == UNZ_OK, "Error %d with ZipFile while extracting file data", err )();
+  //NE_ASSERT( err == UNZ_OK, "Error %d with ZipFile while extracting file data", err );
   //if( err == UNZ_OK )
   //{
   //  err = unzCloseCurrentFile( m_stream );
-  //  NE_ASSERT( err == UNZ_OK, "Error %d with ZipFile in unzCloseCurrentFile\n", err )();
+  //  NE_ASSERT( err == UNZ_OK, "Error %d with ZipFile in unzCloseCurrentFile\n", err );
   //}
   //else
   //{
@@ -96,7 +96,7 @@ ZipFile::Tell() const
 //  uLong           ratio     = 0;
 //  uint32          total_out = 0;
 //  int32           err       = unzGetCurrentFileInfo64(uf, &file_info, filename_inzip, sizeof(filename_inzip), NULL, 0, NULL, 0 );
-//  NE_ASSERT( err == UNZ_OK, "Error %d with zipfile in unzGetCurrentFileInfo\n", err)();
+//  NE_ASSERT( err == UNZ_OK, "Error %d with zipfile in unzGetCurrentFileInfo\n", err);
 //  if( err != UNZ_OK )
 //  {
 //    return err;
@@ -113,14 +113,14 @@ ZipFile::Tell() const
 //  }
 //
 //  err = unzOpenCurrentFile( uf );
-//  NE_ASSERT( err == UNZ_OK, "Error %d with ZipFile in unzOpenCurrentFilePassword\n", err)();
+//  NE_ASSERT( err == UNZ_OK, "Error %d with ZipFile in unzOpenCurrentFilePassword\n", err);
 // 
 //	char outBuffer[k_zlibBufferSize];
 //
 //  do
 //  {
 //    err = unzReadCurrentFile( uf, &outBuffer[0], k_zlibBufferSize );
-//    NE_ASSERT( err >= 0, "Error %d with zipfile in unzReadCurrentFile\n", err)();
+//    NE_ASSERT( err >= 0, "Error %d with zipfile in unzReadCurrentFile\n", err);
 //    if( err < 0 )
 //    {
 //      break;

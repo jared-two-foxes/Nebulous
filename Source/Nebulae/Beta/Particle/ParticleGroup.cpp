@@ -49,7 +49,7 @@ ParticleGroup::~ParticleGroup()
 bool
 ParticleGroup::Load( File& is )
 {
-  NE_ASSERT( m_pMaterial == 0, "Material already initiated." )();
+  NE_ASSERT( m_pMaterial == 0, "Material already initiated." );
   
 //
 // Read in the material file.
@@ -106,7 +106,7 @@ ParticleGroup::Load( File& is )
       texture = m_renderDevice->CreateTexture( texture_name );
     }
 
-    NE_ASSERT( texture != nullptr, "Unable to find or create the Texture named '%s'", texture_name )();
+    NE_ASSERT( texture != nullptr, "Unable to find or create the Texture named '%s'", texture_name );
     m_pTexture = new SubTexture( texture, 0, 0, 1.0f, 1.0f );
   }
   else if( atlas_name != nullptr )
@@ -117,11 +117,11 @@ ParticleGroup::Load( File& is )
       atlas = m_atlasManager->Create( atlas_name );
     }
 
-    NE_ASSERT( atlas != nullptr, "Unable to find or create the SpriteAtlas named '%s'", atlas_name )();
+    NE_ASSERT( atlas != nullptr, "Unable to find or create the SpriteAtlas named '%s'", atlas_name );
     if( atlas != nullptr )
     {
       m_pTexture = atlas->FindModuleSubTexture( frame_name );  
-      NE_ASSERT( m_pTexture != nullptr, "Unable to find frame named '%s'", frame_name )( atlas_name );
+      NE_ASSERT( m_pTexture != nullptr, "Unable to find frame named '%s'", frame_name );
     }
   }
 
@@ -144,7 +144,7 @@ ParticleGroup::GetParticleCount() const
 const 
 Particle* ParticleGroup::GetParticle( std::size_t idx ) const
 {
-  NE_ASSERT( idx < m_particles.size(), "particle buffer overflow." )();
+  NE_ASSERT( idx < m_particles.size(), "particle buffer overflow." );
   return m_particles[idx];
 }
 
@@ -253,8 +253,8 @@ ParticleGroup::PreRender( Camera* camera )
 void 
 ParticleGroup::Render( Camera* camera ) const
 {
-  NE_ASSERT( m_renderDevice != NULL, "Invalid renderer found." )();
-  NE_ASSERT( m_pMaterial->GetPassCount() == 1, "Material is expected to have a single pass." )();
+  NE_ASSERT( m_renderDevice != NULL, "Invalid renderer found." );
+  NE_ASSERT( m_pMaterial->GetPassCount() == 1, "Material is expected to have a single pass." );
 
   // Set the operation type
   m_renderDevice->SetOperationType( OT_TRIANGLES );
@@ -292,7 +292,7 @@ ParticleGroup::Render( Camera* camera ) const
 void 
 ParticleGroup::RenderParticle( RenderSystemPtr renderer, Camera* camera, const Particle& particle ) const
 {
-  NE_ASSERT( renderer != NULL, "Invalid renderer found." )();
+  NE_ASSERT( renderer != NULL, "Invalid renderer found." );
 
 //
 // Grab references to the PassVariables.
@@ -346,4 +346,5 @@ ParticleGroup::RenderParticle( RenderSystemPtr renderer, Camera* camera, const P
   renderer->Draw( 6, 0 );
 
 }
+
 

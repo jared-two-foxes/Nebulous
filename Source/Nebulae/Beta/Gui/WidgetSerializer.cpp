@@ -121,7 +121,7 @@ WidgetSerializer::LoadElement( const Json::Value& elementData, std::shared_ptr<N
   const char*        text           = json_cast_with_default<const char*>( elementData["text"], "" ); 
   const Json::Value& childArrayData = elementData["children"];
 
-  NE_ASSERT(type, "Type value not present")();
+  NE_ASSERT(type, "Type value not present");
 
   SubTexture* image = NULL;
   Control*    element = NULL;
@@ -134,7 +134,7 @@ WidgetSerializer::LoadElement( const Json::Value& elementData, std::shared_ptr<N
       atlas = m_atlasManager->Create( atlas_name );
     }
 
-    NE_ASSERT( atlas, "Unable to find an atlas named %s", atlas_name )();
+    NE_ASSERT( atlas, "Unable to find an atlas named %s", atlas_name );
     if( atlas )
     {
       image = atlas->FindModuleSubTexture( frame_name );
@@ -148,7 +148,7 @@ WidgetSerializer::LoadElement( const Json::Value& elementData, std::shared_ptr<N
       texture = m_renderDevice->CreateTexture( image_name );
     }
 
-    NE_ASSERT( texture, "Unable to find a texture named %s", image_name )();
+    NE_ASSERT( texture, "Unable to find a texture named %s", image_name );
     if( texture )
     {
       image = new SubTexture( texture, 0, 0, 1.0f, 1.0f );
@@ -226,7 +226,7 @@ WidgetSerializer::LoadElement( const Json::Value& elementData, std::shared_ptr<N
   } 
   else 
   {
-  	NE_ASSERT( false, "Unknown widget type detected" )();
+  	NE_ASSERT( false, "Unknown widget type detected" );
   	return NULL;
   }
   

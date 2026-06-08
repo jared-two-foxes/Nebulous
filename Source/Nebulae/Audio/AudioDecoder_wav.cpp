@@ -39,7 +39,7 @@ WavAudioDecoder::Parse( File* datastream )
   m_stream->Read( buffer, 4 );
   if( strncmp( buffer, "RIFF", 4 ) != 0 )
   {
-    NE_ASSERT( false, "Expected 'RIFF' in file header" )();
+    NE_ASSERT( false, "Expected 'RIFF' in file header" );
     return false;
   }
 
@@ -96,3 +96,4 @@ WavAudioDecoder::Stream( uint32 start, uint32 size, char* data )
   // Success, return how much was read.
   return amountRead;
 }
+

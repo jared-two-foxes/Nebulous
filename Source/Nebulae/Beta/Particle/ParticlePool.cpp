@@ -8,7 +8,7 @@ using namespace Nebulae;
 
 ParticlePool::ParticlePool( uint32 capacity )
 {
-  NE_ASSERT( capacity > 0, "Invalid capacity" )();
+  NE_ASSERT( capacity > 0, "Invalid capacity" );
 
 	m_capacity = capacity;
 	m_pParticles = new Particle[ capacity ];
@@ -47,3 +47,4 @@ void ParticlePool::replace( Particle* pParticle )
   // Store particle index so we know that we can use it again.
   m_UnusedIndices.push( pParticle->m_index );
 }
+

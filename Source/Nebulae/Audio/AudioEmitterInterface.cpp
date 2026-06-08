@@ -51,7 +51,7 @@ AudioEmitterInterface::Update( const Real elapsed )
   bool   queuedEmptied   =  buffersStreamed > 0 && buffersStreamed >= m_queued_buffers.size();
   if( buffersStreamed > 0 ) {
     // Unqueue some buffers?
-    NE_ASSERT( m_queued_buffers.size() >= buffersStreamed, "" )( buffersStreamed );
+    NE_ASSERT( m_queued_buffers.size() >= buffersStreamed, "" );
     while( buffersStreamed > 0 ) {
       AudioBufferInterface* buffer = m_queued_buffers.front();
       _UnqueueBuffer( buffer );
@@ -200,12 +200,12 @@ AudioEmitterInterface::StreamBuffer()
   }
 
   QueuedEmitterSound& queuedSound = m_queuedSounds.front();
-  NE_ASSERT( queuedSound.sound != NULL, "" )();
+  NE_ASSERT( queuedSound.sound != NULL, "" );
 
   char data[ BUFFER_SIZE ];
   memset( data, 0, BUFFER_SIZE );
   int bytes = queuedSound.sound->Sample( m_total_buffered, BUFFER_SIZE, data );
-  NE_ASSERT( bytes >= 0, "Failed to sample data from sound." )( bytes, m_total_buffered );
+  NE_ASSERT( bytes >= 0, "Failed to sample data from sound." );
   if( bytes == -1 ) {
     return false; //Something bad happened
   } else if( bytes == 0 ) {
@@ -236,7 +236,7 @@ AudioEmitterInterface::StreamBuffer()
     } else if( params.numChannels == 2 && params.bitsPerSample == 16 ) {
       format = AUDIO_FORMAT_STEREO16;
     } else {
-      NE_ASSERT( false, "Channel cound and bitsPerSample are not compatable" )( params.numChannels, params.bitsPerSample );
+      NE_ASSERT( false, "Channel cound and bitsPerSample are not compatable" );
       return false;
     }
 
@@ -252,7 +252,7 @@ AudioEmitterInterface::StreamBuffer()
       m_total_buffered += bytes;
     } else { //Shit. Something went wrong binding that data to the buffer?
       m_buffers.push_back( buffer ); // Push buffer back onto the buffer list.
-      NE_ASSERT( false, "Failed to fill the audio buffer with data." )();
+      NE_ASSERT( false, "Failed to fill the audio buffer with data." );
       return false;
     }
   }

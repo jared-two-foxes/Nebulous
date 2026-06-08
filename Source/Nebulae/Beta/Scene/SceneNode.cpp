@@ -62,7 +62,7 @@ SceneNode::GetChildCount() const
 SceneNode* 
 SceneNode::GetChild( size_t idx )
 {
-  NE_ASSERT( idx < m_ChildNodes.size(), "Requested index is out of bounds." )( idx, m_ChildNodes.size() );
+  NE_ASSERT( idx < m_ChildNodes.size(), "Requested index is out of bounds." );
   return m_ChildNodes[idx];
 }
 
@@ -70,7 +70,7 @@ SceneNode::GetChild( size_t idx )
 const SceneNode* 
 SceneNode::GetChild( size_t idx ) const
 {
-  NE_ASSERT( idx < m_ChildNodes.size(), "Requested index is out of bounds." )( idx, m_ChildNodes.size() );
+  NE_ASSERT( idx < m_ChildNodes.size(), "Requested index is out of bounds." );
   return m_ChildNodes[idx];
 }
 

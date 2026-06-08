@@ -126,7 +126,7 @@ private:
       //  return m_constant_curve_distribution.Value();
       }
 
-      NE_ASSERT( false, "Unknown distribution type found" )();
+      NE_ASSERT( false, "Unknown distribution type found" );
       return m_constant_distribution.Value();
     }
 

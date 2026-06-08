@@ -150,7 +150,7 @@ GLES2TextureImpl::LoadFromMemory( unsigned char* szBuffer, uint8 srcDataType, ui
   case 8: dataType = GL_UNSIGNED_SHORT;   break;
 
   default:
-    NE_ASSERT( false, "Src Data type not recognized." )();
+    NE_ASSERT( false, "Src Data type not recognized." );
     dataType = GL_UNSIGNED_BYTE;
     break;
   };
@@ -161,7 +161,7 @@ GLES2TextureImpl::LoadFromMemory( unsigned char* szBuffer, uint8 srcDataType, ui
   case 4: srcStructure = GL_RGBA;             break;
 
   default: 
-    NE_ASSERT( false, "Unsupported number of channels.  Unknown src structure." )();
+    NE_ASSERT( false, "Unsupported number of channels.  Unknown src structure." );
     srcStructure = GL_RGB;
     break;
   }

@@ -83,7 +83,7 @@ WidgetRenderer::Render( const std::list<Widget* >& widgets )
 ///
 {
   const RenderSystem::WindowPtr window = m_renderDevice->GetWindow();
-  NE_ASSERT( window, "Unable to retrieve the window object that the RenderDevice is bound to." )();
+  NE_ASSERT( window, "Unable to retrieve the window object that the RenderDevice is bound to." );
   if( !window || widgets.empty() ) return;
   
   const Real fLeft   = 0.0f;

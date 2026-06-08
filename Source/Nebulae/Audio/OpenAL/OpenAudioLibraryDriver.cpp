@@ -15,7 +15,7 @@ list_audio_devices( const ALCchar *devices )
   //Check for enumeration support.
   ALboolean enumeration = alcIsExtensionPresent( NULL, "ALC_ENUMERATION_EXT" );
 
-	NE_ASSERT( enumeration != AL_FALSE, "enumeration extension not available." )( enumeration );
+	NE_ASSERT( enumeration != AL_FALSE, "enumeration extension not available." );
 
   if( enumeration )
   {
@@ -83,7 +83,7 @@ OpenAudioLibraryDriver::Init()
 // Create Audio device for use.
 //
 	m_device = alcOpenDevice( defaultDeviceName );
-	NE_ASSERT( m_device, "Unable to open audio device %s", defaultDeviceName )();
+	NE_ASSERT( m_device, "Unable to open audio device %s", defaultDeviceName );
 	if( !m_device ) 
 	{
 		return false;

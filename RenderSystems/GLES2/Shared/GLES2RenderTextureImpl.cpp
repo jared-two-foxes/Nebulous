@@ -46,7 +46,7 @@ GLES2RenderTextureImpl::BindColourBuffer( int32 index, int32 width, int32 height
 bool 
 GLES2RenderTextureImpl::BindColourTexture( int32 index, Texture* texture )
 { 
-  NE_ASSERT( m_colourBuffer == nullptr, "Attempting to set a texture to a colour slot which is already occupied" )( index );
+  NE_ASSERT( m_colourBuffer == nullptr, "Attempting to set a texture to a colour slot which is already occupied" );
 
   m_colourBuffer = new GLES2RenderBuffer();
   m_colourBuffer->Load(); //glGenRenderbuffers( 1, &m_colourRenderBuffer );
@@ -70,7 +70,7 @@ GLES2RenderTextureImpl::BindColourTexture( int32 index, Texture* texture )
 bool 
 GLES2RenderTextureImpl::BindDepthBuffer( int32 index, int32 width, int32 height )
 {
-  NE_ASSERT( m_depthBuffer == nullptr, "Attempting to set a texture to the depth slot which is already occupied" )();
+  NE_ASSERT( m_depthBuffer == nullptr, "Attempting to set a texture to the depth slot which is already occupied" );
 
   m_depthBuffer = new GLES2RenderBuffer();
   m_depthBuffer->Load();
@@ -90,8 +90,8 @@ GLES2RenderTextureImpl::BindDepthBuffer( int32 index, int32 width, int32 height 
 bool 
 GLES2RenderTextureImpl::BindDepthTexture( Texture* texture )
 { 
-  NE_ASSERT( m_depthBuffer == nullptr, "Attempting to set a texture to the depth slot which is already occupied" )();
-  NE_ASSERT( texture->GetTextureType() == TextureType::TEX_TYPE_2D, "Attempting to set a texture to the depth slot which is the incorrect format" )();
+  NE_ASSERT( m_depthBuffer == nullptr, "Attempting to set a texture to the depth slot which is already occupied" );
+  NE_ASSERT( texture->GetTextureType() == TextureType::TEX_TYPE_2D, "Attempting to set a texture to the depth slot which is the incorrect format" );
 
   m_depthBuffer = new GLES2RenderBuffer();
   m_depthBuffer->Load();

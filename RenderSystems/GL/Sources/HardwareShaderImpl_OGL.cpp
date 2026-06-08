@@ -1,5 +1,6 @@
 #include "Includes/HardwareShaderImpl_OGL.h"
 
+#include <Nebulae/Common/Log.h>
 #include <Nebulae/Common/FileSystem/FileSystem.h>
 #include <Nebulae/Alpha/Texture/Texture.h>
 
@@ -88,15 +89,17 @@ HardwareShaderImpl_OGL::Load( File& is )
   GLint iStatus;
   glGetShaderiv( m_iHandle, GL_COMPILE_STATUS, &iStatus );
   if( iStatus == GL_FALSE ) {
-    fprintf( stderr, "Failed to compile %s:\n", m_fileName.c_str() );
+    std::string msg = "Failed to compile shader '" + m_fileName + "':\n";
 
     GLint iLen;
     glGetShaderiv( m_iHandle, GL_INFO_LOG_LENGTH, &iLen );
 
     char* szLog = new char[iLen];
     glGetShaderInfoLog( m_iHandle, iLen, NULL, szLog );
-    fprintf( stderr, "%s", szLog );
+    msg += szLog;
     delete [] szLog;
+
+    Nebulae::Log("%s", msg.c_str());
 
     glDeleteShader( m_iHandle );
 

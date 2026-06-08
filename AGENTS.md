@@ -4,6 +4,18 @@
 
 C++ game engine built with **Bazel 7+** (bzlmod/BCR). 4 static libs + plugin DLLs + Google Test unit tests. Windows MSVC toolchain.
 
+## Toolchain
+
+| Command | Value |
+|---|---|
+| `BUILD_CMD` | `bazel build //...` |
+| `TEST_CMD` | `bazel test //... --test_output=errors` |
+| `FMT_CHECK_CMD` | `_(none)_` |
+| `FMT_FIX_CMD` | `_(none)_` |
+| `LINT_CMD` | `_(none)_` |
+| `TYPECHECK_CMD` | `_(none)_` |
+| `GIT_WORKFLOW` | `trunk-based` |
+
 ## Build system
 
 - **Root entrypoint**: MODULE.bazel defines all external dependencies via BCR modules.

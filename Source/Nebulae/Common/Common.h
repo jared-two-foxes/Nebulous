@@ -2,6 +2,7 @@
 #define __NEBULAE_COMMON_H__
 
 #include <Nebulae/Common/Config.h>
+#include <Nebulae/Common/Log.h>
 #include <Nebulae/Common/Base/Base.h>
 
 #include <Nebulae/Common/Math/Math.h>

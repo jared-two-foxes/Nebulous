@@ -628,7 +628,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] =
 static inline const PixelFormatDescription& getDescriptionFor(const PixelFormat fmt)
 {
   const int ord = (int)fmt;
-  NE_ASSERT( ord>=0 && ord<PF_COUNT, "Invalid PixelFormat." )(fmt);
+  NE_ASSERT( ord>=0 && ord<PF_COUNT, "Invalid PixelFormat." );
 
   return _pixelFormats[ord];
 }
@@ -661,17 +661,17 @@ PixelUtil::GetMemorySize(std::size_t width, std::size_t height, std::size_t dept
     // Basically, 32 bytes is the minimum texture size.  Smaller textures are padded up to 32 bytes
     case PF_PVRTC_RGB2:
     case PF_PVRTC_RGBA2:
-		  NE_ASSERT( depth == 1, "PVRTC expects single depth channel" )(depth);
+		  NE_ASSERT( depth == 1, "PVRTC expects single depth channel" );
       return (std::max((int)width, 16) * std::max((int)height, 8) * 2 + 7) / 8;
 
     case PF_PVRTC_RGB4:
     case PF_PVRTC_RGBA4:
-	    NE_ASSERT( depth == 1, "PVRTC expects single depth channel" )(depth);
+	    NE_ASSERT( depth == 1, "PVRTC expects single depth channel" );
       return (std::max((int)width, 8) * std::max((int)height, 8) * 4 + 7) / 8;
 
 	  default:
     break;
-      NE_ASSERT(false, "Invalid compressed pixel format")();
+      NE_ASSERT(false, "Invalid compressed pixel format");
 	  }
 	} else {
 	  return width*height*depth*GetNumElemBytes(format);

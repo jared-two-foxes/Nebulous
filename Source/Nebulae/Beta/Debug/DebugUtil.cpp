@@ -137,7 +137,7 @@ void
 DebugUtil::Draw( const CameraPtr& camera )
 {
 
-  NE_ASSERT( m_material != NULL, "Material is not set for Debug drawing util." )();
+  NE_ASSERT( m_material != NULL, "Material is not set for Debug drawing util." );
 
   if( m_material )
   {

@@ -92,7 +92,7 @@ ResourceFactory<T>::Create( const char* name )
   // Attempt to find a resource with the matching name, returning it if found.
   T* resource = FindByName( adjustedName.c_str() );
   if( resource ) {
-    NE_ASSERT( resource != NULL, "Resource with name already exists." )( adjustedName );
+    NE_ASSERT( resource != NULL, "Resource with name already exists." );
     return resource;
   }
 

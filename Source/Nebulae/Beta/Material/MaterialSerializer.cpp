@@ -65,7 +65,7 @@ MaterialSerializer::Serialize( File& stream, Material* material )
   }
 
   Json::Value passes = root["passes"];
-  NE_ASSERT( passes.isArray(), "Processing '%s' failed.  Unable to find an array of passes", filename )();
+  NE_ASSERT( passes.isArray(), "Processing '%s' failed.  Unable to find an array of passes", filename );
   if( !passes.isArray() ) {
     return false;
   }
@@ -73,7 +73,7 @@ MaterialSerializer::Serialize( File& stream, Material* material )
   Json::ArrayIndex index = 0u;
   while( passes.isValidIndex(index) ) {
     bool success = ProcessPass( passes[index], material );
-    NE_ASSERT( success, "Failed to load shaders. Check log for details." )();
+    NE_ASSERT( success, "Failed to load shaders. Check log for details." );
     index++;
   }
   
@@ -110,7 +110,7 @@ MaterialSerializer::ProcessShader( Json::Value& shader, HardwareShaderType shade
   } else if( shaderType == PIXEL_SHADER ) {
     pass->SetPixelShader( hardwareShader );
   } else {
-    NE_ASSERT( false, "Shader type not yet supported" )();
+    NE_ASSERT( false, "Shader type not yet supported" );
   }
   
   Json::Value uniforms = shader["uniforms"];

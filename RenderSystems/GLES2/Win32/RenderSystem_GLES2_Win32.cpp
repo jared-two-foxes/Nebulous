@@ -43,7 +43,7 @@ bool CheckForGLESError()
 {
   GLuint error = glGetError();
 
-  NE_ASSERT( error == GL_NO_ERROR, "OpenGL error 0x%x (%u) detected", error, error )();
+  NE_ASSERT( error == GL_NO_ERROR, "OpenGL error 0x%x (%u) detected", error, error );
   
   return error == GL_NO_ERROR;
 }
@@ -202,7 +202,7 @@ RenderSystem_GLES2_Win32::BeginScissorClipping( Point ul, Point lr )
 void 
 RenderSystem_GLES2_Win32::EndScissorClipping()
 {
-  NE_ASSERT( !m_scissor_clipping_rects.empty(), "" )();
+  NE_ASSERT( !m_scissor_clipping_rects.empty(), "" );
 
   m_scissor_clipping_rects.pop_back();
   if( m_scissor_clipping_rects.empty() )
@@ -327,11 +327,11 @@ RenderSystem_GLES2_Win32::SetInputLayout( InputLayout* pInputLayout )
 { 
   if( m_inputLayout != pInputLayout )
   {
-    NE_ASSERT( m_boundProgram, "A program object must be bound before an InputLayout can be set!" )();
+    NE_ASSERT( m_boundProgram, "A program object must be bound before an InputLayout can be set!" );
     
     if( m_inputLayout != nullptr )
     {
-      NE_ASSERT( m_inputLayout->GetImpl(), "Found an input layout that doesnt have a valid implementation" )();
+      NE_ASSERT( m_inputLayout->GetImpl(), "Found an input layout that doesnt have a valid implementation" );
       static_cast<GLES2InputLayoutImpl* >(m_inputLayout->GetImpl())->Unbind();
     }
 
@@ -339,7 +339,7 @@ RenderSystem_GLES2_Win32::SetInputLayout( InputLayout* pInputLayout )
 
     if( m_inputLayout != nullptr )
     {
-      NE_ASSERT( m_inputLayout->GetImpl(), "Found an input layout that doesnt have a valid implementation" )();
+      NE_ASSERT( m_inputLayout->GetImpl(), "Found an input layout that doesnt have a valid implementation" );
       static_cast<GLES2InputLayoutImpl* >(m_inputLayout->GetImpl())->Bind( m_boundProgram );
     }
   }
@@ -365,8 +365,8 @@ RenderSystem_GLES2_Win32::SetRenderTexture( RenderTexture* renderTexture )
 void 
 RenderSystem_GLES2_Win32::SetShaders( HardwareShader* vertexShader, HardwareShader* fragmentShader )
 {
-  NE_ASSERT( vertexShader->GetImpl()->GetType() == VERTEX_SHADER, "Shader passed in the vertexShader slot is not a Vertex Shader" )();
-  NE_ASSERT( fragmentShader->GetImpl()->GetType() == PIXEL_SHADER, "Shader passed in the fragmentShader slot is not a Fragement Shader" )();
+  NE_ASSERT( vertexShader->GetImpl()->GetType() == VERTEX_SHADER, "Shader passed in the vertexShader slot is not a Vertex Shader" );
+  NE_ASSERT( fragmentShader->GetImpl()->GetType() == PIXEL_SHADER, "Shader passed in the fragmentShader slot is not a Fragement Shader" );
 
   m_vertexShader   = vertexShader;
   m_fragmentShader = fragmentShader;
@@ -390,7 +390,7 @@ RenderSystem_GLES2_Win32::SetShaders( HardwareShader* vertexShader, HardwareShad
     CheckForGLESError();
   }
 
-  NE_ASSERT( m_boundProgram, "Failed to create or find a valid Program" )( vertexShader, fragmentShader );
+  NE_ASSERT( m_boundProgram, "Failed to create or find a valid Program" );
 
   // Bind the program to be used.
   m_boundProgram->UseProgram();
@@ -411,7 +411,7 @@ RenderSystem_GLES2_Win32::SetOperationType( OperationType eType )
     
     case OT_UNKNOWN:
     default:
-      NE_ASSERT( false, "Unknown operation type detected." )();
+      NE_ASSERT( false, "Unknown operation type detected." );
       break;
   }
 }
@@ -433,13 +433,13 @@ RenderSystem_GLES2_Win32::DrawIndexed( std::size_t iIndexCount, std::size_t iSta
 void
 RenderSystem_GLES2_Win32::SetBufferBinding( uint32 iTarget, uint32 iIndex, HardwareBuffer* pImpl )
 {
-  NE_ASSERT( false, "Not yet implemented!" )();
+  NE_ASSERT( false, "Not yet implemented!" );
 }
 
 UniformDefinition 
 RenderSystem_GLES2_Win32::GetUniformByName( const char* name ) const
 {
-  NE_ASSERT( m_boundProgram != NULL, "Expected a ProgramObject to be bound." )();
+  NE_ASSERT( m_boundProgram != NULL, "Expected a ProgramObject to be bound." );
 
   if( NULL == m_boundProgram ) 
   {
@@ -462,7 +462,7 @@ RenderSystem_GLES2_Win32::SetUniformBinding( UniformDefinition& definition, void
 {
   GLint location = (GLint)definition.logicalIndex; 
   if( location == -1 ) {
-    NE_ASSERT( location != -1, "Invalid uniform location found." )();
+    NE_ASSERT( location != -1, "Invalid uniform location found." );
     return;
   }
 

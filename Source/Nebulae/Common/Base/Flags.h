@@ -186,7 +186,7 @@ public:
     const std::string& ToString(FlagType flag) const
         {
           typename std::map<FlagType, std::string>::const_iterator it = m_strings.find(flag);
-          NE_ASSERT( it != m_strings.end(), "Could not find string corresponding to unknown flag" )();
+          NE_ASSERT( it != m_strings.end(), "Could not find string corresponding to unknown flag" );
           return it->second;
         }
     /** Returns the flag whose stringification is \a str.  \throw Throws

@@ -1,4 +1,4 @@
-﻿
+
 #include "Application.h"
 
 #include <Nebulae/Common/Common.h>
@@ -213,12 +213,12 @@ Application::Setup( int w, int h )
 /// Sets up all of the sub systems being required to run the Application. 
 ///
 {
-  NE_ASSERT( m_pPlatform != NULL, "Platform is uninitialized." )();
+  NE_ASSERT( m_pPlatform != NULL, "Platform is uninitialized." );
 
   // Create the window
   if( m_pMainWindow == NULL ) {
     m_pMainWindow = CreateApplicationWindow( w, h );
-    NE_ASSERT( m_pMainWindow != NULL, "Unable to create application window" )();
+    NE_ASSERT( m_pMainWindow != NULL, "Unable to create application window" );
     if( m_pMainWindow == NULL ) {
       return; // Crap! Window creation failed, exit.
     }
@@ -287,8 +287,8 @@ Application::AddInputListener( InputListener* listener )
 ///   Nothing.
 ///
 {
-  NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" )();
-  NE_ASSERT( listener != NULL, "Invalid listener." )();
+  NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" );
+  NE_ASSERT( listener != NULL, "Invalid listener." );
     
   if( m_pMainWindow != NULL ) 
   {
@@ -302,8 +302,8 @@ Application::RemoveInputListener( InputListener* listener )
 /// Removes /param listener from the listener list of the application's main window.
 ///
 {
-  NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" )();
-  NE_ASSERT( listener != NULL, "Invalid listener." )();
+  NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" );
+  NE_ASSERT( listener != NULL, "Invalid listener." );
     
   if( m_pMainWindow != NULL ) 
   {
@@ -329,7 +329,7 @@ Application::HasInputListener( InputListener* listener ) const
 /// Checks the main window if it has a specified InputListener.
 ///
 {
-  NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" )();
+  NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" );
     
   if( m_pMainWindow ) {
     return m_pMainWindow->HasInputListener( listener );
@@ -337,3 +337,4 @@ Application::HasInputListener( InputListener* listener ) const
 
   return false;
 }
+

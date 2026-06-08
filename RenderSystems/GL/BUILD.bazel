@@ -22,6 +22,7 @@ cc_binary(
         "glext.h",
     ],
     includes = ["."],  # for <Config.h>, <glext.h>, <Includes/...>
+    features = ["-layering_check"],
     copts = [
         "/std:c++17",
         "/DWIN32",

@@ -116,7 +116,7 @@ Slider::SetColour( const Colour& c )
 void
 Slider::SizeSlider( Real min, Real max )
 {
-  NE_ASSERT( m_rangeMin != m_rangeMax, "")( m_rangeMin, m_rangeMax );
+  NE_ASSERT( m_rangeMin != m_rangeMax, "");
 
   m_rangeMin = min;
   m_rangeMax = max;
@@ -253,7 +253,7 @@ Slider::KeyPress( KeyCode key, uint32 key_code_point, Flags<ModKey> mod_keys )
 void
 Slider::MoveTabToPosn()
 {
-  NE_ASSERT( m_rangeMin <= m_posn && m_posn <= m_rangeMax || m_rangeMax <= m_posn && m_posn <= m_rangeMin, "" )( m_rangeMin, m_rangeMax, m_posn );
+  NE_ASSERT( m_rangeMin <= m_posn && m_posn <= m_rangeMax || m_rangeMax <= m_posn && m_posn <= m_rangeMin, "" );
 
   double fractionalDistance = static_cast<double>(m_posn - m_rangeMin) / (m_rangeMax - m_rangeMin);
   int    tabWidth           = m_tab->GetWidth();
@@ -296,3 +296,4 @@ Slider::SlideToImpl( Real p, bool signal )
     SlidAndStoppedSignal( m_posn, m_rangeMin, m_rangeMax );
   }
 }
+

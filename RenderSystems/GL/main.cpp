@@ -1,6 +1,7 @@
 // main.cpp
 
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
+#include <Nebulae/Common/Log.h>
 
 #include <Includes/RenderSystem_OGL.h>
 
@@ -19,4 +20,10 @@ DestroyRenderer( Nebulae::RenderSystem* renderer )
 {
   delete renderer;
   renderer = nullptr;
+}
+
+NE_PLUGIN_EXPORT void 
+SetLogCallback( Nebulae::LogCallback cb )
+{
+  Nebulae::SetLogCallback(cb);
 }

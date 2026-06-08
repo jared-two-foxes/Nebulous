@@ -175,7 +175,7 @@ OggAudioDecoder::Stream( uint32 start, uint32 size, char* data )
     }
   }
 
-  NE_ASSERT( errorcount == 0, "Encountered an error streaming audio file." )( errorcount );
+  NE_ASSERT( errorcount == 0, "Encountered an error streaming audio file." );
 
   return totalread;
 }

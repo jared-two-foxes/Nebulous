@@ -75,6 +75,7 @@ DiskFileDevice::Open( const std::string& path, FileSystem::Mode mode )
       }
     }
     
+    NE_LOG( "DiskFileDevice::Open: file not found '%s' (tried disk and manifest)", path.c_str() );
     return nullptr;
   }
 }
@@ -82,7 +83,7 @@ DiskFileDevice::Open( const std::string& path, FileSystem::Mode mode )
 File* 
 DiskFileDevice::Open( File* file )
 {
-  NE_ASSERT( false, "Attempting to create a piggyback device for a 'root' file type [Disk]" )();
+  NE_ASSERT( false, "Attempting to create a piggyback device for a 'root' file type [Disk]" );
   return nullptr;
 }
 
@@ -91,3 +92,4 @@ DiskFileDevice::Close( File* file )
 {
   delete file;
 }
+

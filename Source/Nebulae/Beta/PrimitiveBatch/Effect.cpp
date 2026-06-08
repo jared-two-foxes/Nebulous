@@ -33,8 +33,8 @@ Effect::~Effect()
 void
 Effect::Init( RenderSystemPtr renderDevice )
 {
-  NE_ASSERT( !m_vertexShader, "Init called but vertex shader already exists." )();
-  NE_ASSERT( !m_pixelShader, "Init called but pixel shader already exists." )();
+  NE_ASSERT( !m_vertexShader, "Init called but vertex shader already exists." );
+  NE_ASSERT( !m_pixelShader, "Init called but pixel shader already exists." );
 
   m_vertexShader = renderDevice->CreateShader( "debug_vs.glsl", VERTEX_SHADER );
   m_pixelShader  = renderDevice->CreateShader( "debug_fs.glsl", PIXEL_SHADER );

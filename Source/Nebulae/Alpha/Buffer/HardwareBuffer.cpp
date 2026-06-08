@@ -108,7 +108,7 @@ HardwareBuffer::UnloadImpl_()
 void
 HardwareBuffer::WriteData( std::size_t offset, std::size_t length, const void* pSource, bool discardWholeBuffer )
 {
-  NE_ASSERT( m_pImpl != nullptr, "Attempting to load data to a buffer which has no impl pointer." )();
+  NE_ASSERT( m_pImpl != nullptr, "Attempting to load data to a buffer which has no impl pointer." );
 
   if( m_pImpl != nullptr ) 
   {
@@ -123,8 +123,8 @@ HardwareBuffer::IsLocked() const
 void*
 HardwareBuffer::Lock( std::size_t offset, size_t length, LockOptions options )
 {
-  NE_ASSERT( m_pImpl != nullptr, "Attempting to lock a buffer which has no impl pointer." )();
-  NE_ASSERT( !IsLocked(), "Cannot lock this buffer, it is already locked!" )();
+  NE_ASSERT( m_pImpl != nullptr, "Attempting to lock a buffer which has no impl pointer." );
+  NE_ASSERT( !IsLocked(), "Cannot lock this buffer, it is already locked!" );
   //NE_ASSERT( (length + offset) < mSizeInBytes, "Lock request out of bounds." )();
 	
   void* ret = NULL;
@@ -145,7 +145,7 @@ HardwareBuffer::Lock( std::size_t offset, size_t length, LockOptions options )
 void* 
 HardwareBuffer::Lock( LockOptions options )
 {
-  NE_ASSERT( m_pImpl != nullptr, "Attempting to lock a buffer which has no impl pointer." )();
+  NE_ASSERT( m_pImpl != nullptr, "Attempting to lock a buffer which has no impl pointer." );
 
   if( m_pImpl ) 
   {
@@ -158,8 +158,8 @@ HardwareBuffer::Lock( LockOptions options )
 void 
 HardwareBuffer::Unlock()
 {
-  NE_ASSERT( m_pImpl != NULL, "Attempting to unlock a buffer which has no impl pointer." )();
-  NE_ASSERT( IsLocked(), "Cannot unlock this buffer, it is not locked!" )();
+  NE_ASSERT( m_pImpl != NULL, "Attempting to unlock a buffer which has no impl pointer." );
+  NE_ASSERT( IsLocked(), "Cannot unlock this buffer, it is not locked!" );
 
   if( m_pImpl ) 
   {

@@ -89,7 +89,7 @@ SpriteAnimationController::Stop()
 void 
 SpriteAnimationController::Play( const SpriteAnimation* pAnimation, int iDisplayFlags )
 {
-  NE_ASSERT( pAnimation, "Attempting to play a NULL animation." )();
+  NE_ASSERT( pAnimation, "Attempting to play a NULL animation." );
 
 	if( pAnimation == m_pCurrentAnimation )
 	{
@@ -126,3 +126,4 @@ SpriteAnimationController::SetPlaybackSpeed( float seconds_per_frame )
   // I dont really like this concept.
 	m_fSecondsPerFrame = seconds_per_frame; 
 }
+

@@ -37,7 +37,7 @@ struct Box
       front(0),
       back(1)
   {
-    NE_ASSERT(right >= left && bottom >= top && back >= front, "Invalid box shape" )( right, left, top, bottom, front, back );
+    NE_ASSERT(right >= left && bottom >= top && back >= front, "Invalid box shape" );
   }
     
   /** Define a box from left, top, front, right, bottom and back
@@ -59,7 +59,7 @@ struct Box
       front(ff),
       back(bb)
   {
-    NE_ASSERT(right >= left && bottom >= top && back >= front, "Invalid box shape" )( right, left, top, bottom, front, back );
+    NE_ASSERT(right >= left && bottom >= top && back >= front, "Invalid box shape" );
   }
     
   /// Return true if the other box is a part of this one
@@ -82,3 +82,4 @@ struct Box
 }
 
 #endif // __NEBULAE_COMMON_BOX_H__
+

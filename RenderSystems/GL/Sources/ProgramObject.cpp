@@ -1,6 +1,7 @@
 
 #include "Includes/ProgramObject.h"
 #include "Includes/HardwareShaderImpl_OGL.h"
+#include <Nebulae/Common/Log.h>
 
 PFNGLATTACHSHADERPROC       glAttachShader      = NULL;
 PFNGLCREATEPROGRAMPROC      glCreateProgram     = NULL;
@@ -113,13 +114,13 @@ ProgramObject::Load()
 
 	// Attach the vertex shader.
 	HardwareShaderImpl_OGL* shaderImpl = static_cast< HardwareShaderImpl_OGL* >( m_vertexShader->GetImpl() );
-	NE_ASSERT( shaderImpl != NULL, "VertexShader has no Implementation object" )();
+	NE_ASSERT( shaderImpl != NULL, "VertexShader has no Implementation object" );
 	glAttachShader( m_handle, shaderImpl->GetHandle() );
 	CheckForGLError();
 
 	// Attach the pixel shader.
 	shaderImpl = static_cast< HardwareShaderImpl_OGL* >( m_fragmentShader->GetImpl() );
-	NE_ASSERT( shaderImpl != NULL, "PixelShader has no Implementation object" )();
+	NE_ASSERT( shaderImpl != NULL, "PixelShader has no Implementation object" );
 	glAttachShader( m_handle, shaderImpl->GetHandle() );
 	CheckForGLError();
 
@@ -132,15 +133,17 @@ ProgramObject::Load()
 	glGetProgramiv( m_handle, GL_LINK_STATUS, &iStatus );
 	if ( iStatus == GL_FALSE )
 	{
-		fprintf( stderr, "Failed to link Pass\n");
+		std::string msg = "Failed to link program:\n";
 
 		GLint iLen;
 		glGetProgramiv( m_handle, GL_INFO_LOG_LENGTH, &iLen );
 
 		char* szLog = new char[iLen];
 		glGetProgramInfoLog( m_handle, iLen, NULL, szLog );
-		fprintf( stderr, "%s", szLog );
+		msg += szLog;
 		delete [] szLog;
+
+		Nebulae::Log("%s", msg.c_str());
 
     return false;
 	}
@@ -166,7 +169,7 @@ ProgramObject::Load()
     name[nameLen]   = 0;
 
     GLuint location = glGetUniformLocation( m_handle, name );
-    NE_ASSERT( location != -1, "Unable to find a valid location for uniform." )( name );
+    NE_ASSERT( location != -1, "Unable to find a valid location for uniform." );
  
     UniformDefinition definition;
     definition.type         = ConvertGLUnformTypeToNebulaeType( type );
@@ -184,7 +187,7 @@ ProgramObject::Load()
 void 
 ProgramObject::UseProgram()
 {
-	NE_ASSERT( m_handle != 0, "Attempting to set a ProgramObject which is not intialized" )();
+	NE_ASSERT( m_handle != 0, "Attempting to set a ProgramObject which is not intialized" );
 	glUseProgram( m_handle );
 	CheckForGLError();
 }

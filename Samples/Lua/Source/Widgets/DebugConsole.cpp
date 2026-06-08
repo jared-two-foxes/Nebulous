@@ -221,7 +221,7 @@ DebugConsole::InsertOutputFromLua( lua_State *L )
   if( console != NULL )
   {
     const char* message = lua_tostring( L, -1 );
-    NE_ASSERT( message != NULL, "Tried to print a null message." )();
+    NE_ASSERT( message != NULL, "Tried to print a null message." );
     if( message != nullptr )
     { 
       console->AddLine( message );

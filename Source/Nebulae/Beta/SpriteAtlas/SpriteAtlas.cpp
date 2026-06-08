@@ -49,12 +49,12 @@ SpriteAtlas::Load( File* is )
 		texture = m_renderDevice->CreateTexture( image_file );
   }
 	
-  NE_ASSERT( texture != nullptr, "Unable to find the image '%s'", image_file )();
-  NE_ASSERT( texture != nullptr && texture->GetWidth() == image_width, "Image width does not match specified width in atlas desc file." )();
-  NE_ASSERT( texture != nullptr && texture->GetHeight() == image_height, "Image height does not match specified height in atlas desc file." )();
+  NE_ASSERT( texture != nullptr, "Unable to find the image '%s'", image_file );
+  NE_ASSERT( texture != nullptr && texture->GetWidth() == image_width, "Image width does not match specified width in atlas desc file." );
+  NE_ASSERT( texture != nullptr && texture->GetHeight() == image_height, "Image height does not match specified height in atlas desc file." );
 
   Json::Value frames = root["frames"];
-  NE_ASSERT( frames.isArray(), "Processing texture atlas failed.  Unable to find an array of frames" )();
+  NE_ASSERT( frames.isArray(), "Processing texture atlas failed.  Unable to find an array of frames" );
   if( !frames.isArray() ) 
   {
     return false;
@@ -102,7 +102,7 @@ SpriteAtlas::FindModuleSubTexture( const std::string& moduleName ) const
 		}
 	}
   if( pModule ) {
-    NE_ASSERT( pModule->m_subTexture, "" )();
+    NE_ASSERT( pModule->m_subTexture, "" );
 	  return pModule->m_subTexture;
   }
   return NULL;
@@ -116,7 +116,7 @@ SpriteAtlas::ProcessFrame( Json::Value& data, Texture* texture )
   bool        rotated = json_cast_with_default<bool>( data["rotated"], false );
   bool        trimmed = json_cast_with_default<bool>( data["trimmed"], false );
 
-  NE_ASSERT( !rotated, "We dont currently support rotated textures." )();
+  NE_ASSERT( !rotated, "We dont currently support rotated textures." );
 
   Real x, y, dx, dy;
   Json::Value frame = data["frame"];

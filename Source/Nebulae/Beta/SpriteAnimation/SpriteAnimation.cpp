@@ -40,7 +40,7 @@ SpriteAnimation::GetFrame( std::size_t idx ) const
 bool
 SpriteAnimation::Load( File* stream )
 {
-  NE_ASSERT( stream, "Null stream passed to sprite animation." )();
+  NE_ASSERT( stream, "Null stream passed to sprite animation." );
 
 //
 // Read the contents of stream into a json object.
@@ -61,14 +61,14 @@ SpriteAnimation::Load( File* stream )
 //
 	SpriteAtlas* pAtlas = NULL;
   Json::Value animation = root["Animation"];
-  NE_ASSERT( !animation.isNull() && animation.isObject(), "Found invalid animation node while parsing sprite animation." )();
+  NE_ASSERT( !animation.isNull() && animation.isObject(), "Found invalid animation node while parsing sprite animation." );
   Json::Value frames    = animation["Frame"];
-  NE_ASSERT( !frames.isNull() && frames.isObject(), "Found invalid Frame node while parsing sprite animation." )();
+  NE_ASSERT( !frames.isNull() && frames.isObject(), "Found invalid Frame node while parsing sprite animation." );
 
   for ( int i = 0; i < frames.size(); ++i )
   {
     Json::Value frame = frames[i];
-    NE_ASSERT( !frame.isNull() && frame.isObject(), "Found invalid list object while parsing sprite animation." )();
+    NE_ASSERT( !frame.isNull() && frame.isObject(), "Found invalid list object while parsing sprite animation." );
     std::string strSpriteSheetName = json_cast<const char* >( frame["spritesheet"] );
     std::string strFrameName       = json_cast<const char* >( frame["frame"] );
 
@@ -90,3 +90,4 @@ SpriteAnimation::Load( File* stream )
 
 	return true;
 }
+

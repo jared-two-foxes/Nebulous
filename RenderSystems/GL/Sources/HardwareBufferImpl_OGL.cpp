@@ -135,7 +135,7 @@ HardwareBufferImpl_OGL::Lock( std::size_t offset, size_t length, LockOptions opt
 	void* pBuffer = glMapBuffer( GL_ARRAY_BUFFER, access );
 	CheckForGLError();
 	
-	NE_ASSERT( pBuffer != nullptr, "Vertex Buffer: Out of memory" )();
+	NE_ASSERT( pBuffer != nullptr, "Vertex Buffer: Out of memory" );
 		
 	// return offsetted data
 	retptr = static_cast<void*>(

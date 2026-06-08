@@ -45,7 +45,7 @@ ZipFileDevice::Open( const std::string& path, FileSystem::Mode mode )
 File* 
 ZipFileDevice::Open( File* file )
 {
-  NE_ASSERT( false, "Attempting to create a piggyback file type for a 'root' device type [Zip]" )();
+  NE_ASSERT( false, "Attempting to create a piggyback file type for a 'root' device type [Zip]" );
   return nullptr;
 }
 
@@ -54,3 +54,4 @@ ZipFileDevice::Close( File* file )
 {
   delete file;
 }
+

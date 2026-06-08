@@ -31,7 +31,7 @@ struct json_caster<bool>
 {
   static bool to_value( const Json::Value& value, bool valueOnError ) 
   { 
-    NE_ASSERT( value.isBool(), "Bad json_cast; expected boolean, found %s", value.toStyledString().c_str() )();
+    NE_ASSERT( value.isBool(), "Bad json_cast; expected boolean, found %s", value.toStyledString().c_str() );
     if( value.isBool() )
     {
       return value.asBool();
@@ -48,7 +48,7 @@ struct json_caster<int>
 {
   static int to_value( const Json::Value& value, int valueOnError ) 
   { 
-    NE_ASSERT( value.isInt(), "Bad json_cast; expected integer, found %s", value.toStyledString().c_str())();
+    NE_ASSERT( value.isInt(), "Bad json_cast; expected integer, found %s", value.toStyledString().c_str());
     if( value.isInt() )
     {
       return value.asInt();
@@ -65,8 +65,8 @@ struct json_caster<uint32>
 {
   static uint32 to_value( const Json::Value& value, uint32 valueOnError ) 
   { 
-    NE_ASSERT( value.isUInt() || value.isInt(), "Bad json_cast; expected unsigned integer, got '%s'", value.toStyledString().c_str() )();
-    NE_ASSERT( value.asInt() >= 0, "Bad json_cast; expected unsigned integer, got signed integer '%d'", value.asInt() )();
+    NE_ASSERT( value.isUInt() || value.isInt(), "Bad json_cast; expected unsigned integer, got '%s'", value.toStyledString().c_str() );
+    NE_ASSERT( value.asInt() >= 0, "Bad json_cast; expected unsigned integer, got signed integer '%d'", value.asInt() );
 
     if( value.isUInt() )
     {
@@ -84,8 +84,8 @@ struct json_caster<Real>
 {
   static float to_value( const Json::Value& value, Real valueOnError ) 
   { 
-    NE_ASSERT( value.isNumeric(), "Bad json_cast; expected float, found '%s'", value.toStyledString().c_str() )();
-    NE_ASSERT( value.asDouble() <= std::numeric_limits<float>::max(), "Bad json_cast; real value is out of range for a float, value may not be larger than '%f'", std::numeric_limits<float>::max() )();
+    NE_ASSERT( value.isNumeric(), "Bad json_cast; expected float, found '%s'", value.toStyledString().c_str() );
+    NE_ASSERT( value.asDouble() <= std::numeric_limits<float>::max(), "Bad json_cast; real value is out of range for a float, value may not be larger than '%f'", std::numeric_limits<float>::max() );
 
     if( value.isNumeric() && value.asDouble() <= std::numeric_limits<float>::max() )
     {
@@ -103,7 +103,7 @@ struct json_caster<const char*>
 {
   static const char* to_value( const Json::Value& value, const char* valueOnError ) 
   { 
-    NE_ASSERT( value.isString(), "Bad json_cast; expected string, got '%s'", value.toStyledString().c_str() )();
+    NE_ASSERT( value.isString(), "Bad json_cast; expected string, got '%s'", value.toStyledString().c_str() );
     const char* string = value.asCString();
     return string ? string : valueOnError;
   }
@@ -114,7 +114,7 @@ struct json_caster<std::string>
 {
   static std::string to_value( const Json::Value& value, const std::string& valueOnError ) 
   { 
-    NE_ASSERT( value.isString(), "Bad json_cast; expected string, got '%s'", value.toStyledString().c_str() )();
+    NE_ASSERT( value.isString(), "Bad json_cast; expected string, got '%s'", value.toStyledString().c_str() );
     const char* string = value.asCString();
     return string ? string : valueOnError;
   }
@@ -125,8 +125,8 @@ struct json_caster<Vector2>
 {
   static Vector2 to_value( const Json::Value& value, const Vector2& valueOnError )
   {
-    NE_ASSERT( value.isArray() , "Bad json_cast; expected array, found '%s'", value.toStyledString().c_str() )();
-    NE_ASSERT( value.size() <= 2, "Invalid vector array in json data. Expected 2 dimensions, found %d", value.size() )();
+    NE_ASSERT( value.isArray() , "Bad json_cast; expected array, found '%s'", value.toStyledString().c_str() );
+    NE_ASSERT( value.size() <= 2, "Invalid vector array in json data. Expected 2 dimensions, found %d", value.size() );
 
     if( value.isArray() && value.size() <= 2 )
     {
@@ -148,8 +148,8 @@ struct json_caster<Vector4>
 {
   static Vector4 to_value( const Json::Value& value, const Vector4& valueOnError ) 
   {
-    NE_ASSERT( value.isArray(), "Bad json_cast; expected array, found '%s'", value.toStyledString().c_str() )();
-    NE_ASSERT( value.size() <= 4, "Invalid vector array in json data. We do not support %d-dimensional vectors", value.size() )();
+    NE_ASSERT( value.isArray(), "Bad json_cast; expected array, found '%s'", value.toStyledString().c_str() );
+    NE_ASSERT( value.size() <= 4, "Invalid vector array in json data. We do not support %d-dimensional vectors", value.size() );
 
     if( value.size() <= 4 )
     {
@@ -172,8 +172,8 @@ struct json_caster<Quaternion>
 {
   static Quaternion to_value( const Json::Value& value, const Quaternion& valueOnError ) 
   {
-    NE_ASSERT( value.isArray(), "Bad json_cast; expected array, found '%s'", value.toStyledString().c_str() )();
-    NE_ASSERT( value.size() <= 4, "Invalid vector array in json data. We do not support %d-dimensional vectors", value.size() )();
+    NE_ASSERT( value.isArray(), "Bad json_cast; expected array, found '%s'", value.toStyledString().c_str() );
+    NE_ASSERT( value.size() <= 4, "Invalid vector array in json data. We do not support %d-dimensional vectors", value.size() );
 
     if( value.size() <= 4 )
     {
@@ -196,7 +196,7 @@ struct json_caster<std::vector<T> >
 {
   static std::vector<T> to_value( const Json::Value& value, const std::vector<T>& valueOnError )
   {
-    NE_ASSERT( value.isArray(), "Bad json_cast: expected array, found '%s'", value.toStyledString().c_str() )();
+    NE_ASSERT( value.isArray(), "Bad json_cast: expected array, found '%s'", value.toStyledString().c_str() );
 
     if( value.isArray() )
     {

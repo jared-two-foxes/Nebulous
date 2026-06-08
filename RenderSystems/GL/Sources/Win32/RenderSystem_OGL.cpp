@@ -1,6 +1,7 @@
  
 #include "Includes/RenderSystem_OGL.h"
 
+#include <Nebulae/Common/Log.h>
 #include <Nebulae/Common/Window/Win32/Win32Window.h>
 #include <iostream>
 #include <fstream>
@@ -48,7 +49,7 @@ bool CheckForGLError()
 {
   GLuint error = glGetError();
 
-  NE_ASSERT( error == GL_NO_ERROR, "OpenGL error 0x%x (%u) detected", error, error )();
+  NE_ASSERT( error == GL_NO_ERROR, "OpenGL error 0x%x (%u) detected", error, error );
   
   return error == GL_NO_ERROR;
 }
@@ -75,6 +76,7 @@ RenderSystem_OGL::GetName() const
 bool
 RenderSystem_OGL::Initiate()
 {
+	Nebulae::Log( "RenderSystem_OGL::Initiate() entered" );
 	BYTE bits = 32;
 	
 	// pfd Tells Windows How We Want Things To Be
@@ -277,7 +279,7 @@ RenderSystem_OGL::SetVertexBuffers( int /*iSlot*/, HardwareBuffer* pBufferImpl, 
 void
 RenderSystem_OGL::SetInputLayout( InputLayout* inputLayout )
 { 
-  NE_ASSERT( m_boundProgram != NULL, "Cannot set InputLayout before setting shaders" )();
+  NE_ASSERT( m_boundProgram != NULL, "Cannot set InputLayout before setting shaders" );
 	static_cast< InputLayoutImpl_OGL* >( inputLayout->GetImpl() )->Bind( m_boundProgram );
 }
 
@@ -293,8 +295,8 @@ RenderSystem_OGL::SetIndexBuffer( HardwareBuffer* pBufferImpl, size_t /*iOffset*
 void 
 RenderSystem_OGL::SetShaders( HardwareShader* vertexShader, HardwareShader* fragmentShader )
 {
-  NE_ASSERT( vertexShader->GetImpl()->GetType() == VERTEX_SHADER, "Shader in VertexShader slot is not a VertexShader" )();
-  NE_ASSERT( fragmentShader->GetImpl()->GetType() == PIXEL_SHADER, "Shader in PixelShader slot is not a PixelShader" )();
+  NE_ASSERT( vertexShader->GetImpl()->GetType() == VERTEX_SHADER, "Shader in VertexShader slot is not a VertexShader" );
+  NE_ASSERT( fragmentShader->GetImpl()->GetType() == PIXEL_SHADER, "Shader in PixelShader slot is not a PixelShader" );
 
   m_vertexShader   = vertexShader;
   m_fragmentShader = fragmentShader;
@@ -361,7 +363,7 @@ RenderSystem_OGL::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Hardw
 UniformDefinition 
 RenderSystem_OGL::GetUniformByName( const char* name ) const
 {
-  NE_ASSERT( m_boundProgram != NULL, "Attempting to find a uniform before any shaders are bound" )( name );
+  NE_ASSERT( m_boundProgram != NULL, "Attempting to find a uniform before any shaders are bound" );
   if( NULL == m_boundProgram ) {
     return UniformDefinition();
   }
@@ -385,7 +387,7 @@ RenderSystem_OGL::SetUniformBinding( UniformDefinition& definition, void* value 
 {
   GLint location = (GLint)definition.logicalIndex;  //< this is bad... since this value shouldnt even be -1...
 	if( location == -1 ) {
-    NE_ASSERT( location != -1, "Invalid uniform found." )( location );
+    NE_ASSERT( location != -1, "Invalid uniform found." );
     return;
   }
 

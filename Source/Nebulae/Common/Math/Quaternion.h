@@ -220,7 +220,7 @@ inline void Quaternion::setValue( Real _x, Real _y, Real _z, Real _w )
 inline void Quaternion::setRotation( const Vector4& axis, const Real& _angle )
 {
 	Real d = axis.length();
-	NE_ASSERT( d != Real(0.), "Length of axis cannot be zero" )( axis, d );
+	NE_ASSERT( d != Real(0.), "Length of axis cannot be zero" );
 	Real s = sin( _angle * Real( 0.5 )) / d;
 	setValue( axis.x * s, axis.y * s, axis.z * s, 
 		cos( _angle * Real( 0.5 ) ) );
@@ -333,13 +333,13 @@ inline Quaternion Quaternion::operator*( const Real& s ) const
 
 inline Quaternion Quaternion::operator/(const Real& s) const
 {
-	NE_ASSERT( s != Real(0.), "Cannot divide by zero, undefined behaviour" )(s);
+	NE_ASSERT( s != Real(0.), "Cannot divide by zero, undefined behaviour" );
 	return *this * (Real(1.0) / s);
 }
 
 inline Quaternion& Quaternion::operator/=( const Real& s ) 
 {
-	NE_ASSERT( s != Real(0.), "Cannot divide by zero, undefined behaviour" )(s);
+	NE_ASSERT( s != Real(0.), "Cannot divide by zero, undefined behaviour" );
 	return *this *= Real(1.0) / s;
 }
 
@@ -351,7 +351,7 @@ inline Quaternion Quaternion::normalized() const
 inline Real Quaternion::angle( const Quaternion& q ) const 
 {
 	Real s = sqrt( length2() * q.length2() );
-	NE_ASSERT( s != Real(0.), "Cannot divide by zero, undefined behaviour" )( q, s );
+	NE_ASSERT( s != Real(0.), "Cannot divide by zero, undefined behaviour" );
 	return acos( dot( q ) / s );
 }
 
@@ -399,7 +399,7 @@ inline Quaternion Quaternion::operator-() const
 inline Quaternion Quaternion::slerp( const Quaternion& q, const Real& t ) const
 {
 	Real magnitude = sqrt( length2() * q.length2() ); 
-	NE_ASSERT( magnitude != Real(0.), "Cannot divide by zero, undefined behaviour" )( q, magnitude );
+	NE_ASSERT( magnitude != Real(0.), "Cannot divide by zero, undefined behaviour" );
 
   Real product = dot(q) / magnitude;
   if ( fabs(product) != Real(1) )

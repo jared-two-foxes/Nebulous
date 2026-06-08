@@ -13,7 +13,7 @@ Nebulae::ParseJSON( File& file, Json::Value* root )
 ///   Whether the parsing was successful.
 ///
 {
-  NE_ASSERT( root, "Invalid root object received" )(root);
+  NE_ASSERT( root, "Invalid root object received" );
 
   Json::Reader reader;
   bool         parsingSuccessful = false;
@@ -48,7 +48,8 @@ Nebulae::ParseJSON( File& file, Json::Value* root )
     }
   }
 
-  NE_ASSERT( parsingSuccessful, "Failed to parse stream with error: %s", reader.getFormattedErrorMessages().c_str() )();
+  NE_ASSERT( parsingSuccessful, "Failed to parse stream with error: %s", reader.getFormattedErrorMessages().c_str() );
 
   return parsingSuccessful;
 }
+

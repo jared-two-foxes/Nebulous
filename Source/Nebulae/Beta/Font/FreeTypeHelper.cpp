@@ -10,7 +10,7 @@ namespace {
     FTLibraryWrapper() : m_library(0)
     {
       if( !m_library && FT_Init_FreeType(&m_library) ) { // if no library exists and we can't create one...
-        NE_ASSERT( false, "Unable to initialize FreeType font library object" )();
+        NE_ASSERT( false, "Unable to initialize FreeType font library object" );
       }
     }
 
@@ -81,7 +81,7 @@ FontFaceProxy::SetCharSize( int size )
 {
   // Set the character size
   if( FT_Set_Char_Size(m_face, 0, size * 64, 0, 0) ) { // if error is returned
-    NE_ASSERT( false, "Could not set font size while attempting to create font" )();
+    NE_ASSERT( false, "Could not set font size while attempting to create font" );
     return false;
   }
   return true;
@@ -139,20 +139,20 @@ FontFaceProxy::GenerateGlyph( boost::uint32_t ch )
   bool retval = true;
 
   // load the glyph
-  NE_ASSERT( m_face != NULL, "Invalid font or font face" )();
+  NE_ASSERT( m_face != NULL, "Invalid font or font face" );
   
   //using boost::lexical_cast;
   FT_UInt index = FT_Get_Char_Index(m_face, ch);
   if( index ) {
     if( FT_Load_Glyph(m_face, index, FT_LOAD_DEFAULT) ) {
-      NE_ASSERT( false, "Freetype could not load the glyph for character '%i'", ch )();
+      NE_ASSERT( false, "Freetype could not load the glyph for character '%i'", ch );
     }
 
     FT_GlyphSlot glyph = m_face->glyph;
 
     // render the glyph
     if( FT_Render_Glyph(glyph, ft_render_mode_normal) ) {
-      NE_ASSERT( false, "Freetype could not render the glyph for character '%i'", ch )();
+      NE_ASSERT( false, "Freetype could not render the glyph for character '%i'", ch );
     }
   } else {
     retval = false;
@@ -219,6 +219,6 @@ FontFaceProxy::GetBitmapHeight() const
 void
 FontFaceProxy::CheckFace( [[maybe_unused]] FT_Error error )
 {
-  NE_ASSERT( 0 && m_face != NULL, "Face object created from %s was invalid" )();
-  NE_ASSERT( FT_IS_SCALABLE(m_face), "Attempted to create font %s with unscalable font face" )();
+  NE_ASSERT( 0 && m_face != NULL, "Face object created from %s was invalid" );
+  NE_ASSERT( FT_IS_SCALABLE(m_face), "Attempted to create font %s with unscalable font face" );
 }

@@ -94,7 +94,7 @@ private:
 
     void Flush()
     {
-      NE_ASSERT( m_count > 0, "" )();
+      NE_ASSERT( m_count > 0, "" );
       
       m_boundEffect->Apply( m_renderSystem );
 

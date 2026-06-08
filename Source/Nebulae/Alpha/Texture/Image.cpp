@@ -62,7 +62,7 @@ Image::operator =( const Image &img ) {
 Image& 
 Image::flipAroundY() {
   if( !m_buffer ) {
-    NE_ASSERT( false, "Can not flip an unitialized texture" )();
+    NE_ASSERT( false, "Can not flip an unitialized texture" );
   }
   
   //mNumMipmaps = 0; // Image operations lose precomputed mipmaps
@@ -136,7 +136,7 @@ Image::flipAroundY() {
     break;
 
   default:
-    NE_ASSERT( false, "Unknown pixel depth" )();
+    NE_ASSERT( false, "Unknown pixel depth" );
     break;
   }
 
@@ -150,7 +150,7 @@ Image::flipAroundX()
 {
   if( !m_buffer )
   {
-    NE_ASSERT( false, "Can not flip an unitialized texture" )();
+    NE_ASSERT( false, "Can not flip an unitialized texture" );
   }
       
   //mNumMipmaps = 0; // Image operations lose precomputed mipmaps

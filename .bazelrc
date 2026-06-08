@@ -16,12 +16,6 @@ build --cxxopt=/EHsc
 build --cxxopt=/MP
 build --copt=/W4
 
-# Debug configuration
-build:debug --cxxopt=/Zi
-build:debug --cxxopt=/Od
-build:debug --cxxopt=/RTC1
-build:debug --linkopt=/DEBUG
-
 # Release configuration
 build:opt --cxxopt=/O2
 build:opt --cxxopt=/Gy

@@ -159,7 +159,7 @@ ToImageType( PixelFormat formatType )
     case PF_DXT3:
     case PF_DXT4:
     case PF_DXT5:
-      NE_ASSERT( false, "Unsupport pixel format found!" ) ();
+      NE_ASSERT( false, "Unsupport pixel format found!" );
   }
 
   return type;
@@ -251,7 +251,7 @@ GenerateImageDataFromBitmap( FIBITMAP* bitmap )
     case FIT_INT32:
     case FIT_DOUBLE:
     default:
-      NE_ASSERT( false, "Unknown or unsupported image format" )();
+      NE_ASSERT( false, "Unknown or unsupported image format" );
       break;
 
     case FIT_BITMAP: // Standard image type
@@ -394,7 +394,7 @@ FreeImageCodec::Decode( File& is ) const
 
   // check the file signature and deduce its format
   FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromHandle( &io, &is );
-  NE_ASSERT( fif != FIF_UNKNOWN, "Unknown or unsupported image format" )( fif );
+  NE_ASSERT( fif != FIF_UNKNOWN, "Unknown or unsupported image format" );
   if( fif == FIF_UNKNOWN ) {
     return NULL;
   }

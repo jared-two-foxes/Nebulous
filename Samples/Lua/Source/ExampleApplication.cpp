@@ -35,7 +35,7 @@ ExampleApplication::Init()
 #if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
   fileSystem->Mount( "disk", new DiskFileDevice("..//..//Samples//Lua//Assets") );
 #else
-  NE_ASSERT( false, "Zip device is not supported for example." )();
+  NE_ASSERT( false, "Zip device is not supported for example." );
 #endif
 
   // Setup Audio if included
@@ -97,3 +97,4 @@ ExampleApplication::ProcessFrame( uint64 elapsed )
   m_debugConsole->PushToGui();
   m_widgetRenderer->Render( m_guiController->GetRegisteredWidgets() );
 }
+

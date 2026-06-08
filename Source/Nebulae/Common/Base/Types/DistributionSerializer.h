@@ -39,7 +39,7 @@ DistributionSerializer::Serialize<Vector4 >( const Json::Value& value, Distribut
       points.push_back( point );
     }
 
-    NE_ASSERT( points.size() > 0, "An invalid number of points were streamed into the points array" )( points.size() );
+    NE_ASSERT( points.size() > 0, "An invalid number of points were streamed into the points array" );
 
     if( points.size() == 1 )
     {
@@ -51,7 +51,7 @@ DistributionSerializer::Serialize<Vector4 >( const Json::Value& value, Distribut
     }
     else // points.size() > 2
     {
-      NE_ASSERT( false, "Curve types not yet supported" )();
+      NE_ASSERT( false, "Curve types not yet supported" );
     }
   }
 }

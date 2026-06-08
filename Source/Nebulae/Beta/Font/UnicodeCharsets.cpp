@@ -47,10 +47,10 @@ UnicodeCharset::UnicodeCharset( std::string script_name, boost::uint32_t first_c
   m_first_char( first_char ),
   m_last_char( last_char + 1 )
 {
-  NE_ASSERT( script_name != "", "")();
-  NE_ASSERT( m_first_char % BLOCK_SIZE == 0, "")();
-  NE_ASSERT( m_last_char % BLOCK_SIZE == 0, "")();
-  NE_ASSERT( m_first_char < m_last_char, "")();
+  NE_ASSERT( script_name != "", "");
+  NE_ASSERT( m_first_char % BLOCK_SIZE == 0, "");
+  NE_ASSERT( m_last_char % BLOCK_SIZE == 0, "");
+  NE_ASSERT( m_first_char < m_last_char, "");
 }
 
 bool Nebulae::operator==(const UnicodeCharset& lhs, const UnicodeCharset& rhs)
@@ -246,3 +246,4 @@ const UnicodeCharset* Nebulae::CharsetWithName(const std::string& name)
   std::map<std::string, const UnicodeCharset*>::const_iterator it = s_name_map.find( name );
   return it == s_name_map.end() ? 0 : it->second;
 }
+

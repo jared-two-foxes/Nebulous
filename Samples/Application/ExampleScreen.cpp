@@ -2,6 +2,7 @@
 #include "ExampleScreen.h"
 
 #include <Nebulae/Common/Common.h>
+#include <fstream>
 //#include <Nebulae/Common/FileSystem/FileSystemArchive.h>
 #include <Nebulae/Common/Platform/Platform.h>
 #include <Nebulae/Common/Window/Window.h>
@@ -101,6 +102,11 @@ ExampleScreen::Enter( StateStack* /*caller*/ )
   //m_camera->SetOrtho( 2.0f, 3.0f, 0.1f, 100.0f );
   Real aspect = fabsf(800.f / 600.f);
   m_camera->SetPerspective( gDegreesToRadians*90.0f, aspect, 0.1f, 1000.0f );
+
+  static std::ofstream logFile("nebulous_debug.log");
+  logFile << std::unitbuf;
+  Logger::Get().Register(logFile, true);
+  NE_LOG("NE_LOG: Debug logging initialized. Logging to nebulous_debug.log");
 
   HardwareBuffer* buffer = m_renderSystem->FindBufferByName( "CubeBuffer" );
   if( NULL == buffer )

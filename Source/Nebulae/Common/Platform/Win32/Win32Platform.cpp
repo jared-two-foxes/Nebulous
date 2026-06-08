@@ -190,7 +190,7 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 // Grab the window object for this handle from the platform object.
 // 
   Window* window = platform->FindWindowFromHandle( hWnd ).get();
-  NE_ASSERT( window != NULL, "Unable to find the Win32Window associated with this handle" )(); 
+  NE_ASSERT( window != NULL, "Unable to find the Win32Window associated with this handle" ); 
   if( !window )
   {
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
@@ -529,3 +529,4 @@ Win32Platform::FindWindowFromHandle( HWND handle )
 
   return WindowPtr( NULL );
 }
+

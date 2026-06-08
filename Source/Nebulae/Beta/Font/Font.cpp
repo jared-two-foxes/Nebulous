@@ -440,7 +440,7 @@ Nebulae::Point Font::DetermineLines( const std::string& text, Flags<TextFormat>&
                             std::vector<LineData>& line_data,
                             std::vector<std::shared_ptr<TextElement> >& text_elements ) const
 {
-  NE_ASSERT(text_elements.empty(), "")();
+  NE_ASSERT(text_elements.empty(), "");
 
   return DetermineLinesImpl( text, format, box_width, line_data, &text_elements );
 }
@@ -449,7 +449,7 @@ Nebulae::Point Font::DetermineLines( const std::string& text, Flags<TextFormat>&
                             const std::vector<std::shared_ptr<TextElement> >& text_elements,
                             std::vector<LineData>& line_data ) const
 {
-  NE_ASSERT(!text_elements.empty(), "")();
+  NE_ASSERT(!text_elements.empty(), "");
   return DetermineLinesImpl( text,
                              format,
                              box_width,
@@ -594,7 +594,7 @@ Nebulae::Point Font::DetermineLinesImpl( const std::string& text,
 
 bool Font::Load( File* is )
 {
-  NE_ASSERT( m_pt_sz != 0, "Attempted to create font %s with 0 point size", m_font_filename.c_str() )();
+  NE_ASSERT( m_pt_sz != 0, "Attempted to create font %s with 0 point size", m_font_filename.c_str() );
 
   if( !m_pt_sz ) {  
     return false;
@@ -651,7 +651,7 @@ bool Font::Load( File* is )
 
   // record the width of the space character
   GlyphMap::const_iterator glyph_it = m_glyphs.find(WIDE_SPACE);
-  NE_ASSERT(glyph_it != m_glyphs.end(), "Unable to find the WIDE_SPACE gliph for font %s", m_font_filename.c_str() )();
+  NE_ASSERT(glyph_it != m_glyphs.end(), "Unable to find the WIDE_SPACE gliph for font %s", m_font_filename.c_str() );
   m_space_width = glyph_it->second.advance;
 
   return true;

@@ -125,7 +125,7 @@ Texture::LoadFromMemory( unsigned char* pData, uint8 srcDataType, uint8 channels
   m_loadingStatus = LoadingStatus::Loading;
 
   bool bRet = m_impl->LoadFromMemory( pData, srcDataType, channels, iWidth, iHeight ); 
-  NE_ASSERT( bRet, "Failed to load texture." )(); 
+  NE_ASSERT( bRet, "Failed to load texture." ); 
   if( !bRet ) {  
     return false;
   }

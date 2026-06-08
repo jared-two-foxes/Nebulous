@@ -550,12 +550,12 @@ private:
 template <class Cont>
 Nebulae::ListBox::RowPtrIteratorLess<Cont>::RowPtrIteratorLess() :
     m_container()
-{ NE_ASSERT(m_container, "")(); }
+{ NE_ASSERT(m_container, ""); }
 
 template <class Cont>
 Nebulae::ListBox::RowPtrIteratorLess<Cont>::RowPtrIteratorLess(Cont* c) :
     m_container(c)
-{ NE_ASSERT(m_container, "")(); }
+{ NE_ASSERT(m_container, ""); }
 
 template <class Cont>
 bool Nebulae::ListBox::RowPtrIteratorLess<Cont>::operator()(Iter lhs, Iter rhs) const
@@ -583,3 +583,4 @@ bool Nebulae::ListBox::DefaultRowCmp<RowType>::operator()(const Nebulae::ListBox
 }
 
 #endif //_NEBULAE_GUI_CONTROL_LISTBOX_h_
+

@@ -43,7 +43,7 @@ bool CheckForAudioErrors( const char* message )
       break;
   }
    
-  NE_ASSERT( error == AL_NO_ERROR, "OpenAL error 0x%x (%u) detected", error, error )( errorMessage.c_str() );
+   NE_ASSERT( error == AL_NO_ERROR, "OpenAL error 0x%x (%u) detected", error, error );
 
   return error == AL_NO_ERROR;
 }
@@ -159,8 +159,8 @@ AudioBackend::CreateSound( const char* filename )
 ///   Need to determine the correct decoder to attach based upon file type, fallback on extension?
 ///
 {
-  NE_ASSERT( m_pDriver != NULL, "Sound driver is uninitialized." )();
-  NE_ASSERT( m_fileSystem != NULL, "FileSystem is uninitialized." )();
+  NE_ASSERT( m_pDriver != NULL, "Sound driver is uninitialized." );
+  NE_ASSERT( m_fileSystem != NULL, "FileSystem is uninitialized." );
 
   if( m_pDriver != NULL ) 
   {
@@ -186,7 +186,7 @@ AudioBackend::CreateSound( const char* filename )
     }
     else
     {
-      NE_ASSERT( false, "Unknown decoder type found." )( extension );
+      NE_ASSERT( false, "Unknown decoder type found." );
     }
 
     // Create sound data structure & initialize it.
@@ -229,7 +229,7 @@ AudioBackend::CreateEmitter()
 ///   take a position of where the emitter is.
 ///
 {
-  NE_ASSERT( m_pDriver, "Sound driver is uninitialized." )();
+  NE_ASSERT( m_pDriver, "Sound driver is uninitialized." );
 
   if( m_pDriver != NULL ) 
   {
@@ -411,7 +411,7 @@ AudioBackend::SetMasterVolume( float volume )
 ///   Nothing.
 ///
 {
-  NE_ASSERT( m_pDriver, "Sound driver is uninitialized." )();
+  NE_ASSERT( m_pDriver, "Sound driver is uninitialized." );
 
   if( m_pDriver != NULL )
   {
@@ -434,3 +434,4 @@ AudioBackend::GetMasterVolume() const
 {
   return m_volume;
 }
+

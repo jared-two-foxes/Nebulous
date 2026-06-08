@@ -29,21 +29,21 @@ RenderTexture::GetImpl() const
 std::size_t 
 RenderTexture::GetWidth() const 
 { 
-  NE_ASSERT( m_colour != nullptr, "Attempting to access an invalid RenderTextureImpl." )();
+  NE_ASSERT( m_colour != nullptr, "Attempting to access an invalid RenderTextureImpl." );
   return m_colour->GetWidth(); 
 }
 
 std::size_t 
 RenderTexture::GetHeight() const  
 { 
-  NE_ASSERT( m_colour != nullptr, "Attempting to access an invalid RenderTextureImpl." )();
+  NE_ASSERT( m_colour != nullptr, "Attempting to access an invalid RenderTextureImpl." );
   return m_colour->GetHeight(); 
 }
 
 void  
 RenderTexture::SetImpl( Nebulae::RenderTextureImpl* impl ) 
 { 
-  NE_ASSERT( impl != nullptr, "Attempting to set an invalid RenderTextureImpl." )();
+  NE_ASSERT( impl != nullptr, "Attempting to set an invalid RenderTextureImpl." );
   m_impl = impl; 
 }
 
@@ -112,13 +112,14 @@ RenderTexture::BindDepthTexture( Nebulae::Texture* texture )
 bool 
 RenderTexture::LoadImpl_( Nebulae::File* is ) 
 {
-  NE_ASSERT( m_impl != nullptr, "Attempting to load a RenderTexture without a valid RenderTextureImpl present" )();
+  NE_ASSERT( m_impl != nullptr, "Attempting to load a RenderTexture without a valid RenderTextureImpl present" );
   return (m_impl ? m_impl->Load() : false);
 }
 
 bool 
 RenderTexture::UnloadImpl_() 
 {
-  NE_ASSERT( m_impl != nullptr, "Attempting to unload a RenderTexture without a valid RenderTextureImpl present" )();
+  NE_ASSERT( m_impl != nullptr, "Attempting to unload a RenderTexture without a valid RenderTextureImpl present" );
   return (m_impl ? m_impl->Unload() : false);
 }
+

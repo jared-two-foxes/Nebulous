@@ -26,7 +26,7 @@ VertexDeceleration::VertexDeceleration( int elementCount )
 	: m_iElementCount( elementCount )
 	, m_iInternalCount( 0 )
 {
-	NE_ASSERT( elementCount > 0, "Element count must be greater than zero" )( elementCount );
+	NE_ASSERT( elementCount > 0, "Element count must be greater than zero" );
 
 	m_Elements = new VertexElement[ elementCount ];
 }
@@ -44,7 +44,7 @@ const VertexElement& VertexDeceleration::AddElement( VertexElementType format, V
   std::size_t iAlignedByteOffset = GetVertexSize();
   int32  idx                = m_iInternalCount++;
 
-  NE_ASSERT( idx <= m_iElementCount, "idx is out of bounds" )( idx, m_iElementCount );
+  NE_ASSERT( idx <= m_iElementCount, "idx is out of bounds" );
 
   //m_Elements[idx].iInputSlot = 0;
   m_Elements[idx].AlignedByteOffset = iAlignedByteOffset;
@@ -57,7 +57,7 @@ const VertexElement& VertexDeceleration::AddElement( VertexElementType format, V
 
 VertexElement* VertexDeceleration::GetVertexElement( uint32 idx ) const
 {
-  NE_ASSERT( idx <= m_iInternalCount, "idx is out of bounds" )( idx, m_iInternalCount );
+  NE_ASSERT( idx <= m_iInternalCount, "idx is out of bounds" );
 
 	return &m_Elements[ idx ];
 }

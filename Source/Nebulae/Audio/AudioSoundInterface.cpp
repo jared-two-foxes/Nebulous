@@ -109,7 +109,7 @@ AudioSoundInterface::GetDataSize() const
 void  
 AudioSoundInterface::Seek( float time )
 {
-  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." )();
+  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." );
 
   if( m_decoder ) {
     m_decoder->Seek( time );
@@ -120,7 +120,7 @@ AudioSoundInterface::Seek( float time )
 double 
 AudioSoundInterface::Tell() const
 {
-  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." )();
+  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." );
 
   if( m_decoder ) {
     return m_decoder->Tell();
@@ -132,7 +132,7 @@ AudioSoundInterface::Tell() const
 double 
 AudioSoundInterface::GetDuration() const
 {
-  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." )();
+  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." );
 
   if( m_decoder ) {
     return m_decoder->GetDuration();
@@ -159,7 +159,7 @@ AudioSoundInterface::Sample( uint32 start, uint32 size, char* buffer )
 ///   The number of bytes that were sampled
 ///
 {
-  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." )();
+  NE_ASSERT( m_decoder, "Attempting to sample a sound that hasn't been properly setup." );
 
   int32 bytesread = 0;
   if( m_decoder ) {

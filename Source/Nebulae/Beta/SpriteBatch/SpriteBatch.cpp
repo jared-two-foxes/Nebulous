@@ -22,7 +22,7 @@ SpriteBatch::SpriteBatch( const RenderSystemPtr& renderDevice )
 bool 
 SpriteBatch::Init()
 {
-  NE_ASSERT( m_renderDevice, "Valid RenderDevice is not set for the SpriteBatch Init function" )();
+  NE_ASSERT( m_renderDevice, "Valid RenderDevice is not set for the SpriteBatch Init function" );
 
   if( !m_renderDevice || !m_renderDevice->IsInitialized() ) 
   {
@@ -100,7 +100,7 @@ SpriteBatch::AddQuad( GlyphState* state, std::size_t count )
     {
       // Push new VertexList pair into array.
       auto result = m_quads.insert( std::make_pair( const_cast<Texture* >(texture), VertexArray() ) );
-      NE_ASSERT( result.second, "Failed to insert List for texture." )();
+      NE_ASSERT( result.second, "Failed to insert List for texture." );
       it = result.first;
     }
 
@@ -155,8 +155,8 @@ SpriteBatch::AddQuad( const Nebulae::Point& upperLeft, const Nebulae::Point& low
 void
 SpriteBatch::Draw()
 {
-  NE_ASSERT( m_renderDevice, "Null renderer passed to RenderWidget" )();
-  NE_ASSERT( m_material->GetPassCount() == 1, "Material is expected to have a single pass." )();
+  NE_ASSERT( m_renderDevice, "Null renderer passed to RenderWidget" );
+  NE_ASSERT( m_material->GetPassCount() == 1, "Material is expected to have a single pass." );
 
   size_t          offset      = 0;
   size_t          stride      = sizeof(QuadVertex);
@@ -176,7 +176,7 @@ SpriteBatch::Draw()
   m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
 
   const RenderSystem::WindowPtr window = m_renderDevice->GetWindow();
-  NE_ASSERT( window, "Unable to retrieve the window object that the RenderDevice is bound to." )();
+  NE_ASSERT( window, "Unable to retrieve the window object that the RenderDevice is bound to." );
   
   const Real fLeft   = 0.0f;
   const Real fRight  = (Real)window->GetWidth();
@@ -205,7 +205,7 @@ SpriteBatch::Draw()
   // Create the uniform values for current pass.
   //
     UniformDefinition diffuseVarDef  = m_renderDevice->GetUniformByName( "diffuseTexture" );
-    NE_ASSERT( it->first, "VertexList is not associated with a valid Texture" )();
+    NE_ASSERT( it->first, "VertexList is not associated with a valid Texture" );
     int32 identifier = it->first->GetIdentifier();
     m_renderDevice->SetUniformBinding( diffuseVarDef,  (void*)&identifier );
   

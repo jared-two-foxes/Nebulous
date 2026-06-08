@@ -12,8 +12,8 @@ InputLayoutImpl::InputLayoutImpl( const Nebulae::VertexDeceleration* vertexDecl,
 : m_vertexDecl(vertexDecl->Clone()),
   m_vertexShader(vertexShader)
 {
-  NE_ASSERT( vertexDecl, "VertexDeceleration is null" )();
-  NE_ASSERT( vertexShader, "VertexShader is null" )();
+  NE_ASSERT( vertexDecl, "VertexDeceleration is null" );
+  NE_ASSERT( vertexShader, "VertexShader is null" );
 
   // Make a local copy of the vertex deceleration.
   //if( vertexDecl != nullptr )

@@ -31,7 +31,7 @@ OverlayRenderer::OverlayRenderer( RenderSystemPtr renderSystem, SpriteBatch* bat
 bool 
 OverlayRenderer::Init()
 {
-  NE_ASSERT( m_renderDevice, "Valid RenderDevice is not set for the OverlayRenderer Initiation function" )();
+  NE_ASSERT( m_renderDevice, "Valid RenderDevice is not set for the OverlayRenderer Initiation function" );
 
   if( !m_renderDevice || !m_renderDevice->IsInitialized() ) {
     return false;
@@ -110,8 +110,8 @@ OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& upper
   }
   else
   {
-    NE_ASSERT( renderer, "Null renderer passed to RenderWidget" )();
-    NE_ASSERT( m_basicMaterial->GetPassCount() == 1, "Material is expected to have a single pass." )();
+    NE_ASSERT( renderer, "Null renderer passed to RenderWidget" );
+    NE_ASSERT( m_basicMaterial->GetPassCount() == 1, "Material is expected to have a single pass." );
 
     // Early out if renderer is not valid.
     if( !renderer ) {
@@ -213,7 +213,7 @@ OverlayRenderer::DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::Point
                                const SubTexture* subtexture, float depth, float /*rotation*/) const
 {
   // Early out if renderer is not valid.
-  NE_ASSERT( renderer, "Null renderer passed to RenderWidget" )();
+  NE_ASSERT( renderer, "Null renderer passed to RenderWidget" );
 
   if( !renderer ) {
     return;
@@ -231,8 +231,8 @@ OverlayRenderer::DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::Point
 //
 // Bind the material pass.
 //
-  NE_ASSERT( m_complexMaterial->GetPassCount() == 1, "Invalid number of passes found?" )();
-  NE_ASSERT( m_complexMaterial->GetPass( 0 ) != NULL, "Unable to find a pass for binding?" )();
+  NE_ASSERT( m_complexMaterial->GetPassCount() == 1, "Invalid number of passes found?" );
+  NE_ASSERT( m_complexMaterial->GetPass( 0 ) != NULL, "Unable to find a pass for binding?" );
     
   Pass* pass = m_complexMaterial->GetPass( 0 );
   if( NULL == pass ) {

@@ -30,7 +30,7 @@ void ParticleEmitter::Clear()
 void 
 ParticleEmitter::Start()
 {
-  NE_ASSERT( !IsEmpty(), "Attempting to start an Emitter that has no particles left in the reservoir." )();
+  NE_ASSERT( !IsEmpty(), "Attempting to start an Emitter that has no particles left in the reservoir." );
   
   m_active = true;
 }
@@ -89,7 +89,7 @@ ParticleEmitter::Update( const uint64 elapsed )
     {
       Particle* particle = group->SpawnParticle();
       
-      NE_ASSERT( particle != NULL, "Unable to spawn new particle." )();
+      NE_ASSERT( particle != NULL, "Unable to spawn new particle." );
 
       if( particle ) 
       {
@@ -160,4 +160,5 @@ ParticleEmitter::AddParticlesToReservoir( ParticleGroup* group, uint32 count, Re
 
   m_reservoir.push_back( elem );
 }
+
 

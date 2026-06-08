@@ -44,10 +44,10 @@ SpriteAtlasUtils::AttachFrameToNode( std::weak_ptr<RenderSystem > renderer, Mate
 void 
 SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem > renderer, Material* material, SceneObject* pObj, SpriteAtlas* pSpriteAtlas, const std::string& strFrameName, int iFlags )
 {
-  NE_ASSERT( !renderer.expired(), "" )();
-  NE_ASSERT( material, "")();
-  NE_ASSERT( pObj, "")();
-  NE_ASSERT( pSpriteAtlas, "")();
+  NE_ASSERT( !renderer.expired(), "" );
+  NE_ASSERT( material, "");
+  NE_ASSERT( pObj, "");
+  NE_ASSERT( pSpriteAtlas, "");
   
   // Early out if there are any issues with the parameters.
   if( renderer.expired() || material == NULL || pObj == NULL || pSpriteAtlas == NULL ) return;
@@ -57,7 +57,7 @@ SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem > renderer, Materia
 // Grab the specific frame that we are attempting to add to the scene.
 //
   SubTexture* subTexture = pSpriteAtlas->FindModuleSubTexture( strFrameName );
-  NE_ASSERT( subTexture, "")();
+  NE_ASSERT( subTexture, "");
   if( subTexture == NULL ) return;
 
 //

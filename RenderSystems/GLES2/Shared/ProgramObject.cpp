@@ -80,21 +80,21 @@ ProgramObject::FindUniformByName( const char* name ) const
 bool
 ProgramObject::Load()
 {
-  NE_ASSERT( m_vertexShader != NULL, "Vertex Shader is not set for program" )();
-  NE_ASSERT( m_fragmentShader != NULL, "Fragment Shader is not set for program" )();
+  NE_ASSERT( m_vertexShader != NULL, "Vertex Shader is not set for program" );
+  NE_ASSERT( m_fragmentShader != NULL, "Fragment Shader is not set for program" );
 
 	m_handle = glCreateProgram();
 	CheckForGLESError();
 
 	// Attach the vertex shader.
 	GLES2HardwareShaderImpl* shaderImpl = static_cast< GLES2HardwareShaderImpl* >( m_vertexShader->GetImpl() );
-	NE_ASSERT( shaderImpl != NULL, "Vertex Shader does not have a valid Impl object" )( m_vertexShader );
+	NE_ASSERT( shaderImpl != NULL, "Vertex Shader does not have a valid Impl object" );
 	glAttachShader( m_handle, shaderImpl->GetHandle() );
   CheckForGLESError();
 
 	// Attach the pixel shader.
 	shaderImpl = static_cast< GLES2HardwareShaderImpl* >( m_fragmentShader->GetImpl() );
-	NE_ASSERT( shaderImpl != NULL, "Fragment Shader does not have a valid Impl object" )( m_fragmentShader );
+	NE_ASSERT( shaderImpl != NULL, "Fragment Shader does not have a valid Impl object" );
 	glAttachShader( m_handle, shaderImpl->GetHandle() );
   CheckForGLESError();
 
@@ -140,7 +140,7 @@ ProgramObject::Load()
     name[nameLen]   = 0;
 
     GLuint location = glGetUniformLocation( m_handle, name );
-    NE_ASSERT( location != -1, "Unable to find the location of uniform %s", name )();
+    NE_ASSERT( location != -1, "Unable to find the location of uniform %s", name );
  
     UniformDefinition definition;
     definition.type         = ConvertGLUnformTypeToNebulaeType( type );
@@ -158,6 +158,6 @@ ProgramObject::Load()
 void 
 ProgramObject::UseProgram()
 {
-	NE_ASSERT( m_handle != 0, "Handle for ProgramObject is invalid" )();
+	NE_ASSERT( m_handle != 0, "Handle for ProgramObject is invalid" );
 	glUseProgram( m_handle );
 }

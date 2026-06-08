@@ -25,7 +25,7 @@ LayoutAssistant::SetResolution( const Point& resolution )
 bool
 LayoutAssistant::Process( Widget* widget )
 {
-  NE_ASSERT(widget,"")();
+  NE_ASSERT(widget,"");
   if( widget == NULL ) return false;
   
   float deviceScale  = 1.0f;
@@ -66,7 +66,7 @@ LayoutAssistant::GetAspectRatio() const
 void
 LayoutAssistant::Adjust( Widget* widget, const Rect& old_bounds, const Rect& new_bounds )
 {
-  NE_ASSERT(widget,"")();
+  NE_ASSERT(widget,"");
 
   Rect                my_old_bounds = GetBounds( widget );
   Real x_pos, y_pos;
@@ -132,3 +132,4 @@ LayoutAssistant::Scale( Widget* widget, Real x_scale, Real y_scale )
       child->SizeMove( scaled_position, scaled_position + Point(static_cast<int>(width),static_cast<int>(height)) ); // float-to-int, values are pixel-aligned
     } );
 }
+

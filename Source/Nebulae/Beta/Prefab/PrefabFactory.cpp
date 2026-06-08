@@ -61,7 +61,7 @@ PlaneLoader::Create( float width, float depth, int rows, int columns )
 void 
 PlaneLoader::UpdateVertexBuffer( HardwareBuffer* vb, int numRows, int numColumns, float dx, float dz  )
 {
-	NE_ASSERT( vb != nullptr, "UpdateVertexBuffer recieved a null buffer parameter" )();
+	NE_ASSERT( vb != nullptr, "UpdateVertexBuffer recieved a null buffer parameter" );
 
 	// Create the vertex scratch.
 	int32 vertexCount   = numRows*numColumns;
@@ -97,7 +97,7 @@ PlaneLoader::UpdateVertexBuffer( HardwareBuffer* vb, int numRows, int numColumns
 void 
 PlaneLoader::UpdateIndexBuffer( HardwareBuffer* ib, int rows, int columns )
 {
-	NE_ASSERT( ib != nullptr, "UpdateVertexBuffer recieved a null buffer parameter" )();
+	NE_ASSERT( ib != nullptr, "UpdateVertexBuffer recieved a null buffer parameter" );
 
 	// Create the index scratch
 	int32   indexCount   = (rows*2)*(columns-1);
@@ -271,3 +271,4 @@ CubeLoader::UpdateIndexBuffer( HardwareBuffer* ibuf, int /*rows*/, int /*columns
 
 	ibuf->WriteData( 0, NUM_INDICES*sizeof(uint16), indexScratch );
 }
+

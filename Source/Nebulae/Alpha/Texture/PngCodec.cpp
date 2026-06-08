@@ -20,7 +20,7 @@ namespace
     }
      
     Nebulae::File* pFile = static_cast<Nebulae::File* >(  read_io_ptr );
-    NE_ASSERT( pFile, "Unable to retrieve the File pointer while attempting to read texture file." )();
+    NE_ASSERT( pFile, "Unable to retrieve the File pointer while attempting to read texture file." );
     const std::size_t bytesRead = pFile->Read( data, length );
 
     if( bytesRead != length)
