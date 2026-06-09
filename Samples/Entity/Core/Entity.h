@@ -5,7 +5,8 @@
 
 #include "ComponentType.h"
 
-namespace Sample {
+namespace Sample
+{
 
 class Entity
 ///
@@ -15,34 +16,33 @@ class Entity
 private:
   struct ComponentLink
   {
-    ComponentType type;       ///< String to describe the type of component.
-    int32         identifier; ///< The identifier of the component.
+    ComponentType type; ///< String to describe the type of component.
+    int32 identifier;   ///< The identifier of the component.
   };
 
 private:
-  int32                       m_identifier; ///< A system identifier.
-  std::string                 m_uniqueName; ///< An optional human readable name identifer. 
-  bool                        m_enabled;    ///< Is the entity currently valid.
-  std::vector<ComponentLink > m_components;
-  
-  public:
-    Entity( uint32 identifier );
-    virtual     ~Entity();
-  
-    int32       GetIdentifier() const;
-    const char* GetUniqueName() const;
-    bool        IsEnabled() const;
-    int32       GetLinkedComponentIndices( ComponentType componentType, std::vector<int32 >* indices ) const;
-     
-    void        SetUniqueName( const char* uniqueName );
-    void        SetEnabled( bool enabled );
-    bool        AddComponent( ComponentType componentType, int32 identifier );
+  int32 m_identifier;       ///< A system identifier.
+  std::string m_uniqueName; ///< An optional human readable name identifer.
+  bool m_enabled;           ///< Is the entity currently valid.
+  std::vector<ComponentLink> m_components;
 
-  private:
-    bool        HasComponentLinkage( ComponentType componentType, int32 identifier ) const;
+public:
+  Entity( uint32 identifier );
+  virtual ~Entity();
 
+  int32 GetIdentifier() const;
+  const char* GetUniqueName() const;
+  bool IsEnabled() const;
+  int32 GetLinkedComponentIndices( ComponentType componentType, std::vector<int32>* indices ) const;
+
+  void SetUniqueName( const char* uniqueName );
+  void SetEnabled( bool enabled );
+  bool AddComponent( ComponentType componentType, int32 identifier );
+
+private:
+  bool HasComponentLinkage( ComponentType componentType, int32 identifier ) const;
 };
 
-}
+} // namespace Sample
 
 #endif // __CORE_ENTITY_H__

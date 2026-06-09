@@ -30,11 +30,7 @@ test --cxxopt=/EHsc
 test --cxxopt=/MP
 test:exhaustive --test_size_filters=small,medium,large
 
-# ============================================================================
-# STATIC ANALYSIS (MSVC /analyze)
-# ============================================================================
-# Opt-in lint: bazel build --config=lint //...
-build:lint --copt=/analyze
+
 
 # ============================================================================
 # CACHING & OUTPUT (outside repo to avoid spurious failures)

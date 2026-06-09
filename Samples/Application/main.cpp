@@ -1,8 +1,8 @@
 
 #include "ExampleScreen.h"
 
-#include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/StateStack/StateStack.h>
+#include <Nebulae/Common/Common.h>
 
 
 using namespace Nebulae;
@@ -11,7 +11,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCm
 {
   StateStack app;
   app.Initiate( 800, 600 );
-  app.PushState( new ExampleScreen("Application", app.GetRenderSystem()) );
+  app.PushState( new ExampleScreen( "Application", app.GetRenderSystem() ) );
   app.Run();
   return 0;
 }

@@ -3,32 +3,21 @@
 using namespace Nebulae;
 
 HardwareShaderImpl::HardwareShaderImpl( const std::string& strFileName, HardwareShaderType eType )
-  : m_fileName( strFileName ),
-    m_type( eType )
+  : m_fileName( strFileName ), m_type( eType )
 {
 }
 
 
-HardwareShaderImpl::~HardwareShaderImpl()
-{
-}
+HardwareShaderImpl::~HardwareShaderImpl() {}
 
 
-HardwareShaderType 
-HardwareShaderImpl::GetType() const 
-{ return m_type; }
+HardwareShaderType HardwareShaderImpl::GetType() const { return m_type; }
 
 
-const UniformDefinitionMap& 
-HardwareShaderImpl::GetUniformDefinitions() const
-{ return m_uniformDefinitions; }
+const UniformDefinitionMap& HardwareShaderImpl::GetUniformDefinitions() const { return m_uniformDefinitions; }
 
 
-bool 
-HardwareShaderImpl::Load( File& is )
-{ return false; }
+bool HardwareShaderImpl::Load( File& is ) { return false; }
 
 
-bool 
-HardwareShaderImpl::Unload()
-{ return false; }
+bool HardwareShaderImpl::Unload() { return false; }

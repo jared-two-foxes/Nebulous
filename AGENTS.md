@@ -1,4 +1,4 @@
-﻿# Nebulous (Nebulae Engine) -- Agent Guide
+# Nebulous (Nebulae Engine) -- Agent Guide
 
 ## One-liner
 
@@ -10,10 +10,11 @@ C++ game engine built with **Bazel 7+** (bzlmod/BCR). 4 static libs + plugin DLL
 |---|---|
 | `BUILD_CMD` | `bazel build //...` |
 | `TEST_CMD` | `bazel test //... --test_output=errors` |
-| `FMT_CHECK_CMD` | `bazel test //:buildifier_check` |
-| `FMT_FIX_CMD` | `bazel run //:buildifier_fix` |
-| `LINT_CMD` | `bazel build --config=lint //...` |
+| `FMT_CHECK_CMD` | `bazel run //tools/lint:format_check` |
+| `FMT_FIX_CMD` | `bazel run //tools/lint:format_fix` |
+| `LINT_CMD` | `bazel run //tools/lint:clang_tidy` |
 | `TYPECHECK_CMD` | `_(none)_` — subsumed by BUILD_CMD |
+| `IWYU_CMD` | `bazel run //tools/lint:include_what_you_use` |
 | `GIT_WORKFLOW` | `trunk-based` |
 
 ## Build system

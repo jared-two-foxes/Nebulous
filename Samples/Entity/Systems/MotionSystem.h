@@ -5,8 +5,9 @@
 
 #include "BoundingBox.h"
 
-namespace Nebulae {
-  class DebugUtil;
+namespace Nebulae
+{
+class DebugUtil;
 }
 
 namespace Sample
@@ -19,13 +20,13 @@ class MotionSystem
 private:
   BoundingBox m_boundingBox; ///< Constraining area for motion.
 
-  public:
-    MotionSystem();
-    
-    void Process( Real elapsed, std::vector<Entity*>& entities );
-    void DebugDraw( Nebulae::DebugUtil& renderer );
+public:
+  MotionSystem();
+
+  void Process( Real elapsed, std::vector<Entity*>& entities );
+  void DebugDraw( Nebulae::DebugUtil& renderer );
 };
 
-}
+} // namespace Sample
 
 #endif // __ENTITY_SYSTEMS_MOTIONSYSTEM_H__

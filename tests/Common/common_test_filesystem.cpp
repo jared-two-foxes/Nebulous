@@ -8,15 +8,15 @@
 using namespace Nebulae;
 
 
-TEST(FileSystem, Open_RequestsValidFile_ShouldReturnFile) 
+TEST( FileSystem, Open_RequestsValidFile_ShouldReturnFile )
 {
-  //arrange
+  // arrange
   FileSystem fs;
-  fs.Mount( "disk", new DiskFileDevice("../../tests/Assets") );
+  fs.Mount( "disk", new DiskFileDevice( "../../tests/Assets" ) );
 
-  //act
+  // act
   File* file = fs.Open( "disk", "entityTemplates.json", IO_MODE_IN );
 
-  //assert
+  // assert
   ASSERT_NE( nullptr, file );
 }

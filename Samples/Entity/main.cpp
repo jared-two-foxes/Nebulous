@@ -16,12 +16,12 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCm
 {
   int retVal = 0;
 
-	StateStack app;
+  StateStack app;
   app.Initiate();
 
-#if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
+#if !defined( USE_ZIPDEVICE_AS_DEFAULT_ROOT )
   Platform::FileSystemPtr fileSystem = app.GetPlatform()->GetFileSystem();
-  fileSystem->Mount( "disk", new DiskFileDevice("..//..//Samples//Entity//Assets") );
+  fileSystem->Mount( "disk", new DiskFileDevice( "..//..//Samples//Entity//Assets" ) );
 #else
   NE_ASSERT( false, "Zip device is not supported for example." );
 #endif

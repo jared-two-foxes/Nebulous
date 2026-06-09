@@ -5,12 +5,12 @@
 
 namespace Sample
 {
-  
+
 class Entity;
 
 class EntityManager
 ///
-/// Can be considered the interface to the 'Model' layer of the application.  
+/// Can be considered the interface to the 'Model' layer of the application.
 ///
 {
 public:
@@ -24,8 +24,8 @@ public:
   };
 
 private:
-  std::vector< Entity* >      m_entities;   ///< A list of all of the Entities in the universe.
-  std::map< int, Allocator* > m_allocators; ///< A list of the allocators used to create the various entities.
+  std::vector<Entity*> m_entities;        ///< A list of all of the Entities in the universe.
+  std::map<int, Allocator*> m_allocators; ///< A list of the allocators used to create the various entities.
 
 public:
   EntityManager();
@@ -33,27 +33,23 @@ public:
 
   void RegisterAllocator( int type, Allocator* allocator );
 
-  template <class T>
-  T* SpawnEntity( int type );
+  template <class T> T* SpawnEntity( int type );
 
   void GetEntities( std::vector<Entity*>* entitiesOut ) const;
-  
 };
 
-template <class T>
-T* 
-EntityManager::SpawnEntity( int type )
+template <class T> T* EntityManager::SpawnEntity( int type )
 {
-  //todo assert if T is not an Entity type.
+  // todo assert if T is not an Entity type.
 
   // T::GetType(); ???
-  Allocator* allocator = m_allocators[ type ];
+  Allocator* allocator = m_allocators[type];
   assert( allocator );
-  T* obj = static_cast<T*>(allocator->Create());
+  T* obj = static_cast<T*>( allocator->Create() );
   m_entities.push_back( obj );
   return obj;
 }
 
-}
+} // namespace Sample
 
 #endif // __CORE_ENTITYMANAGER_H__

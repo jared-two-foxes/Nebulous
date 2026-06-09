@@ -11,37 +11,38 @@
 #ifdef __OBJC__
 
 #include <Nebulae/Common/Common.h>
-#import  <UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
-#define MAX_TOUCHES     5
+#define MAX_TOUCHES 5
 
 class Window;
 
 class TouchesDelegate
 {
 private:
-  Window*  m_window;
-  float    m_scaleFactor;
-  int      m_touchCount; 
+  Window* m_window;
+  float m_scaleFactor;
+  int m_touchCount;
   UITouch* m_touchPoints[MAX_TOUCHES];
-  CGPoint  m_lastSingleTouch;
+  CGPoint m_lastSingleTouch;
 
-  public:
-    TouchesDelegate( Window* window, float scalefactor );
+public:
+  TouchesDelegate( Window* window, float scalefactor );
 
-    void Clear();
-    void TouchesBegan( NSSet* touches, UIEvent* event );
-    void TouchesMoved( NSSet* touches, UIEvent* event );
-    void TouchesEnded( NSSet* touches, UIEvent* event );
-    void TouchesCancelled( NSSet* touches, UIEvent* event );
+  void Clear();
+  void TouchesBegan( NSSet* touches, UIEvent* event );
+  void TouchesMoved( NSSet* touches, UIEvent* event );
+  void TouchesEnded( NSSet* touches, UIEvent* event );
+  void TouchesCancelled( NSSet* touches, UIEvent* event );
 
-  private:
-    void ProcessTouchEnd( UITouch* touch );
+private:
+  void ProcessTouchEnd( UITouch* touch );
 };
-  
-}
+
+} // namespace Nebulae
 
 #endif
 

@@ -9,12 +9,12 @@
 #include <Nebulae/Beta/Scene/SceneObject.h>
 
 using namespace Nebulae;
-  
+
 
 class SceneObjectGreater
 {
 public:
-  bool operator() ( const SceneObject* pObj1, const SceneObject* pObj2 ) const
+  bool operator()( const SceneObject* pObj1, const SceneObject* pObj2 ) const
   {
     float a = pObj1->GetNode()->GetPosition().z;
     float b = pObj2->GetNode()->GetPosition().z;
@@ -23,46 +23,39 @@ public:
 };
 
 
-//constructor
+// constructor
 SceneGraph::SceneGraph( RenderSystemPtr pRenderSystem )
-  : m_pRenderQueue( NULL )
-  , m_pRenderSystem( pRenderSystem )
-  , m_pCameraInProgress( NULL )
-  , m_RootSceneNode( NULL )
-{}
+  : m_pRenderQueue( NULL ), m_pRenderSystem( pRenderSystem ), m_pCameraInProgress( NULL ), m_RootSceneNode( NULL )
+{
+}
 
 
 SceneGraph::~SceneGraph()
 {
   Clear();
 
-  if( m_pRenderQueue ) {
+  if ( m_pRenderQueue )
+  {
     delete m_pRenderQueue;
   }
-      
+
   m_pRenderSystem.reset();
 }
 
 
-RenderQueue*
-SceneGraph::GetRenderQueue() const
-{ return m_pRenderQueue; }
+RenderQueue* SceneGraph::GetRenderQueue() const { return m_pRenderQueue; }
 
 
-SceneGraph::RenderSystemPtr
-SceneGraph::GetRenderSystem() const
-{ return m_pRenderSystem; }
+SceneGraph::RenderSystemPtr SceneGraph::GetRenderSystem() const { return m_pRenderSystem; }
 
 
-SceneNode* 
-SceneGraph::GetRootSceneNode() const
-{ return m_RootSceneNode; }
+SceneNode* SceneGraph::GetRootSceneNode() const { return m_RootSceneNode; }
 
 
-void 
-SceneGraph::Clear()
+void SceneGraph::Clear()
 {
-  for( std::size_t i = 0, n = m_Nodes.size(); i<n; ++i ) {
+  for ( std::size_t i = 0, n = m_Nodes.size(); i < n; ++i )
+  {
     delete m_Nodes[i];
   }
   m_Nodes.clear();
@@ -72,8 +65,7 @@ SceneGraph::Clear()
 }
 
 
-bool 
-SceneGraph::Initialize()
+bool SceneGraph::Initialize()
 {
   // Create root SceneNode
   m_RootSceneNode = CreateSceneNode( "root" );
@@ -85,18 +77,16 @@ SceneGraph::Initialize()
 }
 
 
-SceneNode* 
-SceneGraph::CreateSceneNode()
+SceneNode* SceneGraph::CreateSceneNode()
 {
   SceneNode* node = new SceneNode( this );
-  //node->SetTransform( Transform::getIdentity() );
-  m_Nodes.push_back(node);
+  // node->SetTransform( Transform::getIdentity() );
+  m_Nodes.push_back( node );
   return node;
 }
 
 
-SceneNode* 
-SceneGraph::CreateSceneNode( const std::string& name )
+SceneNode* SceneGraph::CreateSceneNode( const std::string& name )
 {
   SceneNode* node = CreateSceneNode();
   node->SetName( name );
@@ -104,26 +94,29 @@ SceneGraph::CreateSceneNode( const std::string& name )
 }
 
 
-void 
-SceneGraph::RemoveSceneNode( SceneNode* pNode )
+void SceneGraph::RemoveSceneNode( SceneNode* pNode )
 {
   // Remove all its child nodes.
-  for( std::size_t i = 0, n = pNode->GetChildCount(); i < n; ++i ) {
+  for ( std::size_t i = 0, n = pNode->GetChildCount(); i < n; ++i )
+  {
     SceneNode* pChildNode = pNode->GetChild( i );
     RemoveSceneNode( pChildNode );
   }
 
   // If it has a parent remove it from its parent.
   SceneNode* pParent = pNode->GetParent();
-  if( pParent ) {
+  if ( pParent )
+  {
     pParent->RemoveChild( pNode );
   }
   pNode->SetParent( NULL );
 
   // Remove it from node list.
   std::vector<SceneNode*>::iterator end_it = m_Nodes.end();
-  for( std::vector<SceneNode*>::iterator it = m_Nodes.begin(); it != end_it; ++it ) {
-    if( (*it) == pNode ) {
+  for ( std::vector<SceneNode*>::iterator it = m_Nodes.begin(); it != end_it; ++it )
+  {
+    if ( ( *it ) == pNode )
+    {
       m_Nodes.erase( it );
       break;
     }
@@ -133,10 +126,8 @@ SceneGraph::RemoveSceneNode( SceneNode* pNode )
 }
 
 
-void 
-SceneGraph::Render( Camera* pCamera )
+void SceneGraph::Render( Camera* pCamera )
 {
-
   // Clear the render queue.
   PrepareRenderQueue_();
   // Populate the list.
@@ -146,53 +137,52 @@ SceneGraph::Render( Camera* pCamera )
 }
 
 
-void 
-SceneGraph::PrepareRenderQueue_()
-{ m_pRenderQueue->Clear(); }
+void SceneGraph::PrepareRenderQueue_() { m_pRenderQueue->Clear(); }
 
 
-void 
-SceneGraph::FindVisibleObjects_( Camera* pCamera )
-{ m_RootSceneNode->FindVisibleObjects_( pCamera, m_pRenderQueue ); }
+void SceneGraph::FindVisibleObjects_( Camera* pCamera )
+{
+  m_RootSceneNode->FindVisibleObjects_( pCamera, m_pRenderQueue );
+}
 
 
-void 
-SceneGraph::RenderVisibleObjects_( Camera* pCamera )
+void SceneGraph::RenderVisibleObjects_( Camera* pCamera )
 {
   // Render each separate queue
   RenderQueue::LayersList layers = m_pRenderQueue->GetQueueLayers_();
-      
-  for( std::size_t i = 0, n = layers.size(); i<n; ++i ) {
+
+  for ( std::size_t i = 0, n = layers.size(); i < n; ++i )
+  {
     // Skip this one if not to be processed
     RenderQueueLayer* layer = layers[i];
-//	if( !layer->IsRenderQueueToBeProcessed(qId) )
-//	{
-//		continue;
-//	}
+    //	if( !layer->IsRenderQueueToBeProcessed(qId) )
+    //	{
+    //		continue;
+    //	}
 
     RenderQueueGroupObjects_( layer, pCamera );
   }
 }
 
 
-void 
-SceneGraph::RenderQueueGroupObjects_( RenderQueueLayer* group, Camera* pCamera )
-{	
+void SceneGraph::RenderQueueGroupObjects_( RenderQueueLayer* group, Camera* pCamera )
+{
   // Do Solids
   RenderObjects_( group->GetRenderables(), pCamera );
-  // Do transparents (alwas decending) 
-  //RenderObjects_(group->getTransparents());
+  // Do transparents (alwas decending)
+  // RenderObjects_(group->getTransparents());
 }
 
 
-void 
-SceneGraph::RenderObjects_( std::vector<SceneObject*>& objects, Camera* camera )
+void SceneGraph::RenderObjects_( std::vector<SceneObject*>& objects, Camera* camera )
 {
-  if( objects.size() > 0 ) {
-    //Sort by z depth.
+  if ( objects.size() > 0 )
+  {
+    // Sort by z depth.
     std::sort( objects.begin(), objects.end(), SceneObjectGreater() );
-      
-    for( std::size_t i = 0, n = objects.size(); i<n; ++i ) {
+
+    for ( std::size_t i = 0, n = objects.size(); i < n; ++i )
+    {
       objects[i]->PreRender( camera );
       objects[i]->Render( m_pRenderSystem );
     }

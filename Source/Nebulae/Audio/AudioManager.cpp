@@ -8,22 +8,13 @@
 using namespace Nebulae;
 
 
-AudioManager::AudioManager( FileSystemPtr fileSystem )
-: m_fileSystem( fileSystem ),
-  m_pAudioBackend( NULL )
-{
-    
-}
+AudioManager::AudioManager( FileSystemPtr fileSystem ) : m_fileSystem( fileSystem ), m_pAudioBackend( NULL ) {}
 
 
-AudioManager::~AudioManager()
-{
-  Destroy();
-}
+AudioManager::~AudioManager() { Destroy(); }
 
 
-bool 
-AudioManager::Initiate()
+bool AudioManager::Initiate()
 ///
 /// Initializes the Audio System including creating & setting up instance driver
 ///
@@ -32,7 +23,7 @@ AudioManager::Initiate()
 ///
 {
   m_pAudioBackend = new AudioBackend( m_fileSystem );
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->Initiate();
 
@@ -43,8 +34,7 @@ AudioManager::Initiate()
 }
 
 
-void 
-AudioManager::Destroy()
+void AudioManager::Destroy()
 ///
 /// Tear down the Audio system including driver and resources
 ///
@@ -52,7 +42,7 @@ AudioManager::Destroy()
 ///   Nothing.
 ///
 {
-  if( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != NULL )
   {
     delete m_pAudioBackend;
   }
@@ -60,27 +50,25 @@ AudioManager::Destroy()
 }
 
 
-void 
-AudioManager::Update( const Real elapsed )
+void AudioManager::Update( const Real elapsed )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->Update( elapsed );
   }
 }
 
 
-SoundHandle 
-AudioManager::CreateSound( const char* szSoundName )
+SoundHandle AudioManager::CreateSound( const char* szSoundName )
 /// @todo [jared.watt 04.04.2013]
 ///   Check if this sound already exists, if so return reference to that sound?
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
   SoundHandle handle;
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     handle = m_pAudioBackend->CreateSound( szSoundName );
   }
@@ -89,12 +77,11 @@ AudioManager::CreateSound( const char* szSoundName )
 }
 
 
-Real
-AudioManager::GetDuration( SoundHandle sound ) const
+Real AudioManager::GetDuration( SoundHandle sound ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != NULL )
   {
     return m_pAudioBackend->GetDuration( sound );
   }
@@ -103,13 +90,12 @@ AudioManager::GetDuration( SoundHandle sound ) const
 }
 
 
-EmitterHandle 
-AudioManager::CreateEmitter()
+EmitterHandle AudioManager::CreateEmitter()
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
   EmitterHandle handle;
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     handle = m_pAudioBackend->CreateEmitter();
   }
@@ -117,13 +103,12 @@ AudioManager::CreateEmitter()
 }
 
 
-SoundHandle 
-AudioManager::GetCurrentSound( EmitterHandle& handle )
+SoundHandle AudioManager::GetCurrentSound( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
   SoundHandle sound;
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     sound = m_pAudioBackend->GetCurrentSound( handle );
   }
@@ -131,96 +116,89 @@ AudioManager::GetCurrentSound( EmitterHandle& handle )
 }
 
 
-void 
-AudioManager::AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, const int32 loops, const Real faceTime )
+void AudioManager::AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, const int32 loops,
+                                      const Real faceTime )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->AddSoundToEmitter( emitter, sound, loops, faceTime );
   }
 }
 
-void 
-AudioManager::Play( EmitterHandle& handle )
+void AudioManager::Play( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->Play( handle, 0.0f );
   }
 }
 
 
-void 
-AudioManager::Stop( EmitterHandle& handle )
+void AudioManager::Stop( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
-  
-  if( m_pAudioBackend != NULL ) 
+
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->Stop( handle, 0.0f );
   }
 }
 
 
-void 
-AudioManager::Pause( EmitterHandle& handle )
+void AudioManager::Pause( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->Pause( handle, 0.0f );
   }
 }
 
 
-void 
-AudioManager::Resume( EmitterHandle& handle )
+void AudioManager::Resume( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->Resume( handle, 0.0f );
   }
 }
 
 
-Real
-AudioManager::GetPlayCursor( EmitterHandle &handle ) const
+Real AudioManager::GetPlayCursor( EmitterHandle& handle ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     return m_pAudioBackend->GetPlayCursor( handle );
   }
-  return 0.0f; 
+  return 0.0f;
 }
 
 
-void
-AudioManager::SetPlayCursor( EmitterHandle &handle, Real time )
+void AudioManager::SetPlayCursor( EmitterHandle& handle, Real time )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->SetPlayCursor( handle, time );
   }
 }
 
 
-bool
-AudioManager::IsPlaying( const EmitterHandle& handle ) const
+bool AudioManager::IsPlaying( const EmitterHandle& handle ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     return m_pAudioBackend->IsPlaying( handle );
   }
@@ -228,12 +206,11 @@ AudioManager::IsPlaying( const EmitterHandle& handle ) const
 }
 
 
-bool 
-AudioManager::IsPaused( const EmitterHandle& handle ) const
+bool AudioManager::IsPaused( const EmitterHandle& handle ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     return m_pAudioBackend->IsPaused( handle );
   }
@@ -241,29 +218,24 @@ AudioManager::IsPaused( const EmitterHandle& handle ) const
 }
 
 
-void
-AudioManager::SetMasterVolume( float volume )
+void AudioManager::SetMasterVolume( float volume )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     m_pAudioBackend->SetMasterVolume( volume );
   }
 }
 
 
-float 
-AudioManager::GetMasterVolume() const
+float AudioManager::GetMasterVolume() const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if( m_pAudioBackend != NULL ) 
+  if ( m_pAudioBackend != NULL )
   {
     return m_pAudioBackend->GetMasterVolume();
   }
   return 0.0f;
 }
-
-
-

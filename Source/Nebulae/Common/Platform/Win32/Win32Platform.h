@@ -7,32 +7,32 @@
 namespace Nebulae
 {
 
-	class ClassRegisterationUtility;
-	
-	/**
-	 * Win32Platform. 
-	 */
-	class Win32Platform : public Platform
-	{
-	private:
-		ClassRegisterationUtility* m_pRegisterationUtility;
-    std::vector<WindowPtr >    m_windows;
+class ClassRegisterationUtility;
 
-	  public:
-		  Win32Platform();
-		  virtual ~Win32Platform();
+/**
+ * Win32Platform.
+ */
+class Win32Platform : public Platform
+{
+private:
+  ClassRegisterationUtility* m_pRegisterationUtility;
+  std::vector<WindowPtr> m_windows;
 
-		  virtual bool Initiate();
-		  virtual void Destroy();
-		  virtual bool MessagePump();
-		  virtual void SetWorkingDirectory( const char* directory );
+public:
+  Win32Platform();
+  virtual ~Win32Platform();
 
-      virtual WindowPtr CreateApplicationWindow( int x, int y, int w, int h, WindowPtr pParent = NULL );
-      virtual void DestroyWindow( WindowPtr window );
-      WindowPtr FindWindowFromHandle( HWND handle );
+  virtual bool Initiate();
+  virtual void Destroy();
+  virtual bool MessagePump();
+  virtual void SetWorkingDirectory( const char* directory );
 
-	}; //Win32Platform
+  virtual WindowPtr CreateApplicationWindow( int x, int y, int w, int h, WindowPtr pParent = NULL );
+  virtual void DestroyWindow( WindowPtr window );
+  WindowPtr FindWindowFromHandle( HWND handle );
 
-} //Nebulae
+}; // Win32Platform
+
+} // namespace Nebulae
 
 #endif // __NEBULAE_WIN32_PLATFORM_H__

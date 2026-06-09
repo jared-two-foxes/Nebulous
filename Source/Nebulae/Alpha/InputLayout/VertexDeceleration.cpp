@@ -2,55 +2,52 @@
 
 using namespace Nebulae;
 
-bool Nebulae::operator ==( const VertexDeceleration& lhs, const VertexDeceleration& rhs )
+bool Nebulae::operator==( const VertexDeceleration& lhs, const VertexDeceleration& rhs )
 {
-  if( lhs.GetElementCount() != rhs.GetElementCount() ) return false;
-  
-  for( int32 i = 0; i < lhs.GetElementCount(); ++i )
+  if ( lhs.GetElementCount() != rhs.GetElementCount() )
+    return false;
+
+  for ( int32 i = 0; i < lhs.GetElementCount(); ++i )
   {
-    if( lhs.GetVertexElement(i)->AlignedByteOffset != rhs.GetVertexElement(i)->AlignedByteOffset || 
-        lhs.GetVertexElement(i)->Format            != rhs.GetVertexElement(i)->Format || 
-        lhs.GetVertexElement(i)->InputSlot         != rhs.GetVertexElement(i)->InputSlot ||
-        lhs.GetVertexElement(i)->Semantic          != rhs.GetVertexElement(i)->Semantic ||
-        lhs.GetVertexElement(i)->SemanticIndex     != rhs.GetVertexElement(i)->SemanticIndex )
-    { 
-      return false; 
-    }  
+    if ( lhs.GetVertexElement( i )->AlignedByteOffset != rhs.GetVertexElement( i )->AlignedByteOffset ||
+         lhs.GetVertexElement( i )->Format != rhs.GetVertexElement( i )->Format ||
+         lhs.GetVertexElement( i )->InputSlot != rhs.GetVertexElement( i )->InputSlot ||
+         lhs.GetVertexElement( i )->Semantic != rhs.GetVertexElement( i )->Semantic ||
+         lhs.GetVertexElement( i )->SemanticIndex != rhs.GetVertexElement( i )->SemanticIndex )
+    {
+      return false;
+    }
   }
 
   return true;
 }
 
-//constructor
-VertexDeceleration::VertexDeceleration( int elementCount )
-	: m_iElementCount( elementCount )
-	, m_iInternalCount( 0 )
+// constructor
+VertexDeceleration::VertexDeceleration( int elementCount ) : m_iElementCount( elementCount ), m_iInternalCount( 0 )
 {
-	NE_ASSERT( elementCount > 0, "Element count must be greater than zero" );
+  NE_ASSERT( elementCount > 0, "Element count must be greater than zero" );
 
-	m_Elements = new VertexElement[ elementCount ];
+  m_Elements = new VertexElement[elementCount];
 }
 
-//destructor
-VertexDeceleration::~VertexDeceleration()
-{
-	delete [] m_Elements;
-}
+// destructor
+VertexDeceleration::~VertexDeceleration() { delete[] m_Elements; }
 
-//SetElement
+// SetElement
 //@todo Should do a _DEBUG check that iSemanticIndex is correct (ie not repeated and consistent).
-const VertexElement& VertexDeceleration::AddElement( VertexElementType format, VertexElementSemantic semantic, int semanticIndex, unsigned short index )
-{	
+const VertexElement& VertexDeceleration::AddElement( VertexElementType format, VertexElementSemantic semantic,
+                                                     int semanticIndex, unsigned short index )
+{
   std::size_t iAlignedByteOffset = GetVertexSize();
-  int32  idx                = m_iInternalCount++;
+  int32 idx = m_iInternalCount++;
 
   NE_ASSERT( idx <= m_iElementCount, "idx is out of bounds" );
 
-  //m_Elements[idx].iInputSlot = 0;
+  // m_Elements[idx].iInputSlot = 0;
   m_Elements[idx].AlignedByteOffset = iAlignedByteOffset;
   m_Elements[idx].Format = format;
-	m_Elements[idx].Semantic = semantic;
-	m_Elements[idx].SemanticIndex = semanticIndex;
+  m_Elements[idx].Semantic = semantic;
+  m_Elements[idx].SemanticIndex = semanticIndex;
 
   return m_Elements[idx];
 }
@@ -59,52 +56,50 @@ VertexElement* VertexDeceleration::GetVertexElement( uint32 idx ) const
 {
   NE_ASSERT( idx <= m_iInternalCount, "idx is out of bounds" );
 
-	return &m_Elements[ idx ];
+  return &m_Elements[idx];
 }
 
-VertexDeceleration* 
-VertexDeceleration::Clone() const
+VertexDeceleration* VertexDeceleration::Clone() const
 {
   VertexDeceleration* out = new VertexDeceleration( m_iElementCount );
   std::copy( m_Elements, m_Elements + m_iInternalCount, out->m_Elements ); // Copy the elements.
-  out->m_iInternalCount = m_iInternalCount; // Store the internal count.
-  return out; // return
+  out->m_iInternalCount = m_iInternalCount;                                // Store the internal count.
+  return out;                                                              // return
 }
 
-size_t GetTypeSize(VertexElementType etype )
+size_t GetTypeSize( VertexElementType etype )
 {
-  switch(etype)
+  switch ( etype )
   {
   case VET_FLOAT1:
-    return sizeof(float);
+    return sizeof( float );
   case VET_FLOAT2:
-    return sizeof(float)*2;
+    return sizeof( float ) * 2;
   case VET_FLOAT3:
-    return sizeof(float)*3;
+    return sizeof( float ) * 3;
   case VET_FLOAT4:
-    return sizeof(float)*4;
+    return sizeof( float ) * 4;
   case VET_SHORT1:
-    return sizeof(short);
+    return sizeof( short );
   case VET_SHORT2:
-    return sizeof(short)*2;
+    return sizeof( short ) * 2;
   case VET_SHORT3:
-    return sizeof(short)*3;
+    return sizeof( short ) * 3;
   case VET_SHORT4:
-    return sizeof(short)*4;
+    return sizeof( short ) * 4;
   case VET_UBYTE4:
-    return sizeof(unsigned char)*4;
+    return sizeof( unsigned char ) * 4;
   }
   return 0;
 }
 
-//GetVertexSize
-std::size_t 
-VertexDeceleration::GetVertexSize() const
+// GetVertexSize
+std::size_t VertexDeceleration::GetVertexSize() const
 {
-	std::size_t size = 0;
-	for( std::size_t i = 0; i < m_iInternalCount; ++i )
-	{
-		size += GetTypeSize( m_Elements[i].Format );
-	}
-	return size;
+  std::size_t size = 0;
+  for ( std::size_t i = 0; i < m_iInternalCount; ++i )
+  {
+    size += GetTypeSize( m_Elements[i].Format );
+  }
+  return size;
 }

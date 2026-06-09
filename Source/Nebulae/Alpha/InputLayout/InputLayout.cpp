@@ -6,36 +6,21 @@
 using Nebulae::InputLayout;
 
 InputLayout::InputLayout( const std::string& name, Nebulae::RenderSystem* renderDevice )
-: Resource( name, renderDevice ),
-  m_impl( nullptr )
-{}
+  : Resource( name, renderDevice ), m_impl( nullptr )
+{
+}
 
 InputLayout::~InputLayout()
 {
-	if( m_impl ) delete m_impl;
-	m_impl = nullptr;
+  if ( m_impl )
+    delete m_impl;
+  m_impl = nullptr;
 }
 
-void  
-InputLayout::SetImpl( Nebulae::InputLayoutImpl* impl )
-{ 
-  m_impl = impl; 
-}
+void InputLayout::SetImpl( Nebulae::InputLayoutImpl* impl ) { m_impl = impl; }
 
-Nebulae::InputLayoutImpl* 
-InputLayout::GetImpl() const 
-{ 
-  return m_impl; 
-}
+Nebulae::InputLayoutImpl* InputLayout::GetImpl() const { return m_impl; }
 
-bool 
-InputLayout::LoadImpl_( Nebulae::File* is )
-{
-  return m_impl ? m_impl->Load() : false;
-}
+bool InputLayout::LoadImpl_( Nebulae::File* is ) { return m_impl ? m_impl->Load() : false; }
 
-bool
-InputLayout::UnloadImpl_()
-{
-  return m_impl ? m_impl->Unload() : false;
-}
+bool InputLayout::UnloadImpl_() { return m_impl ? m_impl->Unload() : false; }

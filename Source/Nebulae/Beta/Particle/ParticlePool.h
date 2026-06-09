@@ -5,28 +5,28 @@
 
 namespace Nebulae
 {
-  
+
 struct Particle;
 
 ///
-/// An object representing a pool of Particle objects. 
+/// An object representing a pool of Particle objects.
 ///
 class ParticlePool
-{  
+{
 private:
-  int                  m_capacity;
-  Particle*            m_pParticles;
-  std::queue< size_t > m_UnusedIndices;
+  int m_capacity;
+  Particle* m_pParticles;
+  std::queue<size_t> m_UnusedIndices;
 
-  public:
-    ParticlePool( uint32 capacity );
-    ~ParticlePool();
+public:
+  ParticlePool( uint32 capacity );
+  ~ParticlePool();
 
-    Particle* fetch();
-    void replace( Particle* pParticle );
+  Particle* fetch();
+  void replace( Particle* pParticle );
 
-}; //ParticlePool
+}; // ParticlePool
 
-}
+} // namespace Nebulae
 
 #endif // __PARTICLEPOOL_H__

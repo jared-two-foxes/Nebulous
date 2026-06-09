@@ -16,21 +16,20 @@ class EntityTemplate
 ///   Change the component identification to something less 'stringy'? :)
 ///
 {
-private: 
-  int                      m_id;
-  std::string              m_name;
-  std::vector<std::string> m_components; 
+private:
+  int m_id;
+  std::string m_name;
+  std::vector<std::string> m_components;
 
-  public:
-    EntityTemplate( int id, const char* name, const std::vector<std::string>& components );
+public:
+  EntityTemplate( int id, const char* name, const std::vector<std::string>& components );
 
-    int GetId() const;
-    const std::string& GetName() const;
+  int GetId() const;
+  const std::string& GetName() const;
 
-    bool ContainsComponent( const std::string& component ) const;
-
+  bool ContainsComponent( const std::string& component ) const;
 };
 
-}
+} // namespace Sample
 
 #endif // __MODEL_CORE_ENTITYTEMPLATE_H__

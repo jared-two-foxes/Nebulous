@@ -1,7 +1,8 @@
 #ifndef MODEL_CORE_COMPONENTTYPE_H__
 #define MODEL_CORE_COMPONENTTYPE_H__
 
-namespace Sample {
+namespace Sample
+{
 
 enum ComponentType
 {
@@ -12,7 +13,7 @@ enum ComponentType
   COMPONENT_TYPE_PARTICLE,
   COMPONENT_TYPE_PLACEMENT,
   COMPONENT_TYPE_PLACEMENTCONSTRAINT,
-  COMPONENT_TYPE_SCORE       
+  COMPONENT_TYPE_SCORE
 };
 
 }

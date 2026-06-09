@@ -7,116 +7,120 @@
 #include <Nebulae/Beta/Material/Material.h>
 #include <Nebulae/Beta/Overlay/OverlayRenderer.h>
 
-#include <Mock/MockWindow.h>
 #include <Mock/MockRenderSystem.h>
 #include <Mock/MockWidget.h>
+#include <Mock/MockWindow.h>
 
-#include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include "gtest/gtest.h"
 
 using namespace Nebulae;
 
 using ::testing::NiceMock;
 
 
-class OverlayRendererFixture : public ::testing::Test {
-  
-  protected:
-    std::shared_ptr<FileSystem >        fileSystem;
-    std::shared_ptr<Window >            window;
-    std::shared_ptr<RenderSystem >      device;
-    OverlayRenderer*                    renderer;
+class OverlayRendererFixture : public ::testing::Test
+{
+protected:
+  std::shared_ptr<FileSystem> fileSystem;
+  std::shared_ptr<Window> window;
+  std::shared_ptr<RenderSystem> device;
+  OverlayRenderer* renderer;
 
-  protected:
-    virtual void SetUp() 
-    {
-			fileSystem = std::shared_ptr<FileSystem >( new FileSystem() );
-			fileSystem->Mount( "disk", new DiskFileDevice("../../tests/Assets") );
-			window     = std::shared_ptr<MockWindow >( new MockWindow() );
-			device     = std::shared_ptr<MockRenderDevice >( new NiceMock<MockRenderDevice>(fileSystem, window) );
-      
-			device->Initiate();
-			SpriteBatch* batcher = nullptr;
-      
-			renderer = new OverlayRenderer( device, batcher );
-    };
+protected:
+  virtual void SetUp()
+  {
+    fileSystem = std::shared_ptr<FileSystem>( new FileSystem() );
+    fileSystem->Mount( "disk", new DiskFileDevice( "../../tests/Assets" ) );
+    window = std::shared_ptr<MockWindow>( new MockWindow() );
+    device = std::shared_ptr<MockRenderDevice>( new NiceMock<MockRenderDevice>( fileSystem, window ) );
 
-    virtual void TearDown() 
-    {
-      delete renderer; renderer = nullptr;
-      device.reset(); device = nullptr; 
-      window.reset(); window = nullptr;
-      fileSystem.reset(); fileSystem = nullptr;
-    }
+    device->Initiate();
+    SpriteBatch* batcher = nullptr;
 
+    renderer = new OverlayRenderer( device, batcher );
+  };
+
+  virtual void TearDown()
+  {
+    delete renderer;
+    renderer = nullptr;
+    device.reset();
+    device = nullptr;
+    window.reset();
+    window = nullptr;
+    fileSystem.reset();
+    fileSystem = nullptr;
+  }
 };
 
 
-TEST_F(OverlayRendererFixture, Init_ValidDevice_ShouldSucceed) 
+TEST_F( OverlayRendererFixture, Init_ValidDevice_ShouldSucceed )
 {
-  //act
-  bool result = renderer->Init();  
+  // act
+  bool result = renderer->Init();
 
-  //assert
+  // assert
   ASSERT_TRUE( result );
 }
 
 
-TEST_F(OverlayRendererFixture, Init_ShouldSetupBuffer) 
+TEST_F( OverlayRendererFixture, Init_ShouldSetupBuffer )
 {
   const std::string bufferName = "GuiVertexBuffer";
 
-  //act
-  bool result = renderer->Init();  
+  // act
+  bool result = renderer->Init();
   EXPECT_TRUE( result );
   HardwareBuffer* buffer = device->FindBufferByName( bufferName.c_str() );
 
-  //assert
+  // assert
   ASSERT_TRUE( buffer != NULL );
-  //ASSERT_EQ( HBT_VERTEX, buffer->GetType() );
+  // ASSERT_EQ( HBT_VERTEX, buffer->GetType() );
 }
 
 
-TEST_F(OverlayRendererFixture, Init_ShouldSetupInputLayout) 
+TEST_F( OverlayRendererFixture, Init_ShouldSetupInputLayout )
 {
   const std::string layoutName = "BasicGuiLayout";
 
-  //act
-  bool result = renderer->Init();  
+  // act
+  bool result = renderer->Init();
   EXPECT_TRUE( result );
-  InputLayout*   layout = device->FindInputLayoutByName( layoutName.c_str() );
+  InputLayout* layout = device->FindInputLayoutByName( layoutName.c_str() );
 
-  //assert
+  // assert
   ASSERT_TRUE( layout != NULL );
 }
 
 
-TEST(OverlayRenderer, Init_NullRenderDevice_ShouldReturnFalse) 
+TEST( OverlayRenderer, Init_NullRenderDevice_ShouldReturnFalse )
 {
-  //arrange
+  // arrange
   OverlayRenderer renderer( nullptr, nullptr );
-  
-  //act
-  bool result = renderer.Init();  
-  
-  //assert
+
+  // act
+  bool result = renderer.Init();
+
+  // assert
   ASSERT_TRUE( !result );
 }
 
 
-TEST(OverlayRenderer, DISABLED_Init_UninitializedRenderDevice_ShouldReturnFalse) 
+TEST( OverlayRenderer, DISABLED_Init_UninitializedRenderDevice_ShouldReturnFalse )
 {
-  //arrange
-  std::shared_ptr<Platform >     platform   = CreateAndInitiatePlatform();
-  std::shared_ptr<Window >       window     = platform->CreateApplicationWindow( 0, 0, 800, 600 );
-  std::shared_ptr<RenderSystem > device     = std::shared_ptr<RenderSystem >( CreateRenderSystem( OPENGL_3, platform->GetFileSystem(), window ) ); //< manually create rendersystem so that it does not get initiated/
+  // arrange
+  std::shared_ptr<Platform> platform = CreateAndInitiatePlatform();
+  std::shared_ptr<Window> window = platform->CreateApplicationWindow( 0, 0, 800, 600 );
+  std::shared_ptr<RenderSystem> device = std::shared_ptr<RenderSystem>( CreateRenderSystem(
+    OPENGL_3, platform->GetFileSystem(), window ) ); //< manually create rendersystem so that it does not get initiated/
 
-	SpriteBatch* batcher = nullptr;
+  SpriteBatch* batcher = nullptr;
   OverlayRenderer renderer( device, batcher );
 
-  //act
-  bool result = renderer.Init();  
+  // act
+  bool result = renderer.Init();
 
-  //assert
+  // assert
   ASSERT_TRUE( !result );
 }

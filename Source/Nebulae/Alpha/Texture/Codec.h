@@ -6,28 +6,27 @@
 namespace Nebulae
 {
 
-  class CodecData
-  {
-  public:
-    virtual ~CodecData() {}
+class CodecData
+{
+public:
+  virtual ~CodecData() {}
+};
 
-  };
+/** Serialisation class.
+ */
+class Codec
+{
+public:
+  virtual ~Codec() {}
 
-  /** Serialisation class.
+  /** Codes the data from the input chunk into the output chunk.
+      @param
+        input Stream containing the encoded data
   */
-  class Codec
-  {
-  public:
-    virtual ~Codec() {}
+  virtual CodecData* Decode( File& is ) const = 0;
 
-    /** Codes the data from the input chunk into the output chunk.
-        @param 
-          input Stream containing the encoded data
-    */
-    virtual CodecData* Decode( File& is ) const = 0;
+}; // Codec
 
-  }; //Codec
-
-} //Nebulae
+} // namespace Nebulae
 
 #endif //__NEBULAE_CODEC_H__

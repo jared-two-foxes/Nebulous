@@ -5,13 +5,12 @@
 
 namespace Sample
 {
-  
+
 EntityManager::EntityManager()
 ///
 /// Default Constructor.  Does nothing interesting.
 ///
 {
-  
 }
 
 EntityManager::~EntityManager()
@@ -19,12 +18,9 @@ EntityManager::~EntityManager()
 /// Destructor
 ///
 {
-  
-
 }
 
-void
-EntityManager::RegisterAllocator( int type, Allocator* allocator )
+void EntityManager::RegisterAllocator( int type, Allocator* allocator )
 ///
 /// Associates an Allocator object with an entity type enumeration.
 ///
@@ -42,8 +38,7 @@ EntityManager::RegisterAllocator( int type, Allocator* allocator )
   m_allocators[type] = allocator;
 }
 
-void 
-EntityManager::GetEntities( std::vector<Entity*>* entitiesOut ) const
+void EntityManager::GetEntities( std::vector<Entity*>* entitiesOut ) const
 ///
 ///
 ///
@@ -52,10 +47,10 @@ EntityManager::GetEntities( std::vector<Entity*>* entitiesOut ) const
 ///
 {
   std::vector<Entity*>::const_iterator end_it = m_entities.end();
-  for( std::vector<Entity*>::const_iterator it = m_entities.begin(); it != end_it; ++it )
+  for ( std::vector<Entity*>::const_iterator it = m_entities.begin(); it != end_it; ++it )
   {
     entitiesOut->push_back( *it );
   }
 }
 
-}
+} // namespace Sample

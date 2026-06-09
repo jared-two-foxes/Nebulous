@@ -3,13 +3,12 @@
 #include "Entity.h"
 
 using namespace Sample;
-  
+
 EntityPool::EntityPool()
 ///
 /// Default Constructor.  Does nothing interesting.
 ///
 {
-  
 }
 
 
@@ -18,14 +17,14 @@ EntityPool::~EntityPool()
 /// Destructor
 ///
 {
-  while( !m_availableEntities.empty() )
+  while ( !m_availableEntities.empty() )
   {
     Entity* obj = m_availableEntities.back();
     delete obj;
     m_availableEntities.pop_back();
   }
 
-  while( !m_usedEntities.empty() )
+  while ( !m_usedEntities.empty() )
   {
     Entity* obj = m_usedEntities.back();
     delete obj;
@@ -34,27 +33,25 @@ EntityPool::~EntityPool()
 }
 
 
-void
-EntityPool::Init( uint32 entityCount )
+void EntityPool::Init( uint32 entityCount )
 ///
 /// Creates the entities that will exist in this pool and places them in the available list.
 ///
 /// @param entityCount
 ///   number of entities to create.
 ///
-/// @return 
+/// @return
 ///   Nothing.
 ///
 {
-  for( uint32 i = 0; i < entityCount; ++ i )
+  for ( uint32 i = 0; i < entityCount; ++i )
   {
     m_availableEntities.push_back( new Entity( i ) );
   }
 }
 
 
-void
-EntityPool::Clear()
+void EntityPool::Clear()
 ///
 /// Returns all "used" entities back to the available list effectively releaeing all of the
 /// currently used entities for reuse.
@@ -63,7 +60,7 @@ EntityPool::Clear()
 ///   Nothing.
 ///
 {
-  while( !m_usedEntities.empty() )
+  while ( !m_usedEntities.empty() )
   {
     Entity* obj = m_usedEntities.back();
     m_availableEntities.push_back( obj );
@@ -72,8 +69,7 @@ EntityPool::Clear()
 }
 
 
-Entity* 
-EntityPool::SpawnEntity( const char* uniqueName )
+Entity* EntityPool::SpawnEntity( const char* uniqueName )
 ///
 /// Creates a new entity.
 ///
@@ -88,35 +84,37 @@ EntityPool::SpawnEntity( const char* uniqueName )
 ///
 {
   assert( !m_availableEntities.empty() );
-  if( m_availableEntities.empty() ) {
+  if ( m_availableEntities.empty() )
+  {
     return NULL;
   }
 
   Entity* obj = m_availableEntities.front();
   m_availableEntities.pop_front();
   m_usedEntities.push_back( obj );
-  if( uniqueName != NULL ) {
+  if ( uniqueName != NULL )
+  {
     obj->SetUniqueName( uniqueName );
   }
   return obj;
 }
 
 
-Entity*
-EntityPool::FindEntityByIdentifier( const char* uniqueName ) const
+Entity* EntityPool::FindEntityByIdentifier( const char* uniqueName ) const
 {
   std::vector<Entity*>::const_iterator end = m_usedEntities.end();
-  for( std::vector<Entity*>::const_iterator iter = m_usedEntities.begin(); iter != end; ++iter ) {
-    if( strcmp((*iter)->GetUniqueName(), uniqueName) == 0 ) {
-      return (*iter);
+  for ( std::vector<Entity*>::const_iterator iter = m_usedEntities.begin(); iter != end; ++iter )
+  {
+    if ( strcmp( ( *iter )->GetUniqueName(), uniqueName ) == 0 )
+    {
+      return ( *iter );
     }
   }
   return NULL;
 }
 
 
-const std::vector<Entity*>&
-EntityPool::GetEntities() const
+const std::vector<Entity*>& EntityPool::GetEntities() const
 ///
 /// Retrieves the list of all used entities.
 ///

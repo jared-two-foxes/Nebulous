@@ -13,28 +13,27 @@ class HardwareShader;
 class ProgramObject
 {
 protected:
-	GLuint               m_handle;
-  HardwareShader*      m_vertexShader;
-  HardwareShader*      m_fragmentShader;
+  GLuint m_handle;
+  HardwareShader* m_vertexShader;
+  HardwareShader* m_fragmentShader;
   UniformDefinitionMap m_uniformDefinitions;
 
-  public:
-	  ProgramObject( HardwareShader* vertexShader, HardwareShader* fragmentShader );
-	  virtual ~ProgramObject();
+public:
+  ProgramObject( HardwareShader* vertexShader, HardwareShader* fragmentShader );
+  virtual ~ProgramObject();
 
-	  GLuint          GetHandle() const;
-    HardwareShader* GetVertexShader() const;
-    HardwareShader* GetFragmentShader() const;
-    
-    const UniformDefinition FindUniformByName( const char* name ) const;
+  GLuint GetHandle() const;
+  HardwareShader* GetVertexShader() const;
+  HardwareShader* GetFragmentShader() const;
 
-	  bool Load();
-	  void UseProgram();
+  const UniformDefinition FindUniformByName( const char* name ) const;
 
-    static void  initiateFunctions();
-	  
+  bool Load();
+  void UseProgram();
+
+  static void initiateFunctions();
 };
 
-}
+} // namespace Nebulae
 
 #endif // __PASSIMPL_OPENGL_H__

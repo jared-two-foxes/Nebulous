@@ -1,26 +1,26 @@
 #ifndef __NEBULAE_IMAGECODEC_H__
 #define __NEBULAE_IMAGECODEC_H__
 
-#include "Nebulae/Common/Common.h"
 #include "Nebulae/Alpha/Texture/Codec.h"
+#include "Nebulae/Common/Common.h"
 
 namespace Nebulae
 {
 
 /** Codec return class for images. Has information about the size and the
-    pixel format of the image. 
+    pixel format of the image.
  */
 class ImageCodecData : public CodecData
 {
 public:
-  ImageCodecData() : height(0), width(0), size(0), format(PF_UNKNOWN), bpp(0), datastream(NULL) {}
+  ImageCodecData() : height( 0 ), width( 0 ), size( 0 ), format( PF_UNKNOWN ), bpp( 0 ), datastream( NULL ) {}
 
   std::size_t height;
   std::size_t width;
   std::size_t size;
   PixelFormat format;
-  uint8       bpp;
-  uint8*      datastream;
+  uint8 bpp;
+  uint8* datastream;
 
 }; // ImageCodecData
 
@@ -36,11 +36,13 @@ public:
   virtual ImageCodecData* Decode( File& is ) const override = 0;
 
   /** Converts a chunk of data from its current encoding.
-    */
-  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width, std::size_t height, std::size_t pitch, uint8 bpp, PixelFormat returnFormat ) const = 0;
-  
-}; //ImageCodec
+   */
+  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width,
+                                              std::size_t height, std::size_t pitch, uint8 bpp,
+                                              PixelFormat returnFormat ) const = 0;
 
-}
+}; // ImageCodec
+
+} // namespace Nebulae
 
 #endif //__NEBULAE_IMAGECODEC_H__

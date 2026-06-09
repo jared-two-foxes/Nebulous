@@ -6,24 +6,24 @@
 namespace Nebulae
 {
 
-	class KeyframedAnimation : public Animation
-	{
-	protected:
-		std::vector< Transform > m_Transforms;
+class KeyframedAnimation : public Animation
+{
+protected:
+  std::vector<Transform> m_Transforms;
 
-	public:
-		KeyframedAnimation();
-		virtual ~KeyframedAnimation();
+public:
+  KeyframedAnimation();
+  virtual ~KeyframedAnimation();
 
-		virtual void sampleTracks( Real time, Transform* transformTracksOut ) const;
-		virtual std::size_t getNumOriginalFrames() const;
-		virtual void read( std::istream& is );
-		virtual void write( std::ostream& os ) const;
+  virtual void sampleTracks( Real time, Transform* transformTracksOut ) const;
+  virtual std::size_t getNumOriginalFrames() const;
+  virtual void read( std::istream& is );
+  virtual void write( std::ostream& os ) const;
 
-		void addKeyFrame( Transform* transformTracks );
+  void addKeyFrame( Transform* transformTracks );
 
-	}; //KeyframedAnimation
+}; // KeyframedAnimation
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // KEYFRAMEDANIMATION_H__

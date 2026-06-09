@@ -1,26 +1,31 @@
 #ifndef NEBULAE_FONT_H__
 #define NEBULAE_FONT_H__
 
-#include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/Font/AlignmentFlags.h>
 #include <Nebulae/Beta/Font/UnicodeCharsets.h>
+#include <Nebulae/Common/Common.h>
 
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 
 /** Text formatting flags. */
-NE_FLAG_TYPE(TextFormat);
-extern const TextFormat FORMAT_NONE;        ///< Default format selected.
-extern const TextFormat FORMAT_VCENTER;     ///< Centers text vertically.
-extern const TextFormat FORMAT_TOP;         ///< Top-justifies text.
-extern const TextFormat FORMAT_BOTTOM;      ///< Justifies the text to the bottom of the rectangle.
-extern const TextFormat FORMAT_CENTER;      ///< Centers text horizontally in the rectangle.
-extern const TextFormat FORMAT_LEFT;        ///< Aligns text to the left. 
-extern const TextFormat FORMAT_RIGHT;       ///< Aligns text to the right. 
-extern const TextFormat FORMAT_WORDBREAK;   ///< Breaks words. Lines are automatically broken between words if a word would extend past the edge of the control's bounding rectangle.  As always, a '\\n' also breaks the line.
-extern const TextFormat FORMAT_LINEWRAP;    ///< Lines are automatically broken when the next glyph would be drawn outside the the text rectangle.  As always, a '\\n' also breaks the line.
-extern const TextFormat FORMAT_IGNORETAGS;  ///< Text formatting tags (e.g. <rgba 0 0 0 255>) are treated as regular text.
+NE_FLAG_TYPE( TextFormat );
+extern const TextFormat FORMAT_NONE;    ///< Default format selected.
+extern const TextFormat FORMAT_VCENTER; ///< Centers text vertically.
+extern const TextFormat FORMAT_TOP;     ///< Top-justifies text.
+extern const TextFormat FORMAT_BOTTOM;  ///< Justifies the text to the bottom of the rectangle.
+extern const TextFormat FORMAT_CENTER;  ///< Centers text horizontally in the rectangle.
+extern const TextFormat FORMAT_LEFT;    ///< Aligns text to the left.
+extern const TextFormat FORMAT_RIGHT;   ///< Aligns text to the right.
+extern const TextFormat
+  FORMAT_WORDBREAK; ///< Breaks words. Lines are automatically broken between words if a word would extend past the edge
+                    ///< of the control's bounding rectangle.  As always, a '\\n' also breaks the line.
+extern const TextFormat FORMAT_LINEWRAP; ///< Lines are automatically broken when the next glyph would be drawn outside
+                                         ///< the the text rectangle.  As always, a '\\n' also breaks the line.
+extern const TextFormat
+  FORMAT_IGNORETAGS; ///< Text formatting tags (e.g. <rgba 0 0 0 255>) are treated as regular text.
 
 
 /** \class Nebulae::StrSize
@@ -28,7 +33,7 @@ extern const TextFormat FORMAT_IGNORETAGS;  ///< Text formatting tags (e.g. <rgb
 
     Such values refer to indices into UTF-8 encoded strings, \a not code
     points.  \see NE_STRONG_SIZE_TYPEDEF */
-NE_STRONG_SIZE_TYPEDEF(StrSize);
+NE_STRONG_SIZE_TYPEDEF( StrSize );
 
 /** \class Nebulae::CPSize
     \brief The code point size and index value type.
@@ -36,30 +41,30 @@ NE_STRONG_SIZE_TYPEDEF(StrSize);
     Such values refer to indices of code points in Unicode strings, \a not
     indices into underlying UTF-8 encoded strings.  \see
     NE_STRONG_SIZE_TYPEDEF */
-NE_STRONG_SIZE_TYPEDEF(CPSize);
+NE_STRONG_SIZE_TYPEDEF( CPSize );
 
 
 // some useful size constants
-extern const StrSize         S0;
-extern const StrSize         S1;
-extern const StrSize         INVALID_STR_SIZE;
-extern const CPSize          CP0;
-extern const CPSize          CP1;
-extern const CPSize          INVALID_CP_SIZE;
+extern const StrSize S0;
+extern const StrSize S1;
+extern const StrSize INVALID_STR_SIZE;
+extern const CPSize CP0;
+extern const CPSize CP1;
+extern const CPSize INVALID_CP_SIZE;
 
 extern const boost::uint32_t WIDE_SPACE;
 extern const boost::uint32_t WIDE_NEWLINE;
 extern const boost::uint32_t WIDE_CR;
 extern const boost::uint32_t WIDE_FF;
 extern const boost::uint32_t WIDE_TAB;
-                             
-extern const std::string     ALIGN_LEFT_TAG;
-extern const std::string     ALIGN_CENTER_TAG;
-extern const std::string     ALIGN_RIGHT_TAG;
-extern const std::string     PRE_TAG;
 
-extern const std::vector<std::pair<boost::uint32_t, boost::uint32_t> > PRINTABLE_ASCII_ALPHA_RANGES;
-extern const std::vector<std::pair<boost::uint32_t, boost::uint32_t> > PRINTABLE_ASCII_NONALPHA_RANGES;
+extern const std::string ALIGN_LEFT_TAG;
+extern const std::string ALIGN_CENTER_TAG;
+extern const std::string ALIGN_RIGHT_TAG;
+extern const std::string PRE_TAG;
+
+extern const std::vector<std::pair<boost::uint32_t, boost::uint32_t>> PRINTABLE_ASCII_ALPHA_RANGES;
+extern const std::vector<std::pair<boost::uint32_t, boost::uint32_t>> PRINTABLE_ASCII_NONALPHA_RANGES;
 
 
 /** \brief A bitmapped font rendering class.
@@ -111,11 +116,17 @@ extern const std::vector<std::pair<boost::uint32_t, boost::uint32_t> > PRINTABLE
   <br>The supported tags are:
   - \verbatim<i></i> \endverbatim                 Italics
   - \verbatim<u></u> \endverbatim                 Underline
-  - \verbatim<rgba r g b a></rgba> \endverbatim   Color. Sets current rendering color to that specified by parameters.  Parameters may be either floating point values in the range [0.0, 1.0], or integer values in the range [0, 255].  All parameters must be in one format or the other.  The \</rgba> tag restores the previously set \<rgba> color, or restores the default color used to render the text when there are no other \<rgba> tags in effect.  Example tag: \<rgba 0.4 0.5 0.6 0.7>.
+  - \verbatim<rgba r g b a></rgba> \endverbatim   Color. Sets current rendering color to that specified by parameters.
+  Parameters may be either floating point values in the range [0.0, 1.0], or integer values in the range [0, 255].  All
+  parameters must be in one format or the other.  The \</rgba> tag restores the previously set \<rgba> color, or
+  restores the default color used to render the text when there are no other \<rgba> tags in effect.  Example tag:
+  \<rgba 0.4 0.5 0.6 0.7>.
   - \verbatim<left></left> \endverbatim           Left-justified text.
   - \verbatim<center></center> \endverbatim       Centered text.
   - \verbatim<right></right> \endverbatim         Right-justified text.
-  - \verbatim<pre></pre> \endverbatim             Preformatted.  Similar to HTML \<pre> tag, except this one only causes all tags to be ignored until a subsequent \</pre> tag is seen.  Note that due to their semantics, \<pre> tags cannot be nested.
+  - \verbatim<pre></pre> \endverbatim             Preformatted.  Similar to HTML \<pre> tag, except this one only causes
+  all tags to be ignored until a subsequent \</pre> tag is seen.  Note that due to their semantics, \<pre> tags cannot
+  be nested.
 
   <p>Users of Font may wish to create their own tags as well.  Though Font
   will know nothing about the semantics of the new tags, it is possible to
@@ -134,14 +145,14 @@ public:
       from the texture(s) created at Font creation time. */
   struct Glyph
   {
-    Glyph(); ///< Default ctor
+    Glyph();                                        ///< Default ctor
     Glyph( int w, int h, int lb, int vb, int adv ); ///< Ctor
 
     int width;            ///< The width of the glyph only.
     int height;           ///< The height of the glyph only.
     int left_bearing;     ///< The space that should remain before the glyph.
     int vertical_bearing; ///< The distance from the baseline to the top of the glyph.
-    int advance;          ///< The amount of space the glyph should occupy, including glyph graphic and inter-glyph spacing.
+    int advance; ///< The amount of space the glyph should occupy, including glyph graphic and inter-glyph spacing.
   };
 
   /** \brief Used to encapsulate a token-like piece of text to be rendered
@@ -150,7 +161,8 @@ public:
   {
     /** The types of token-like entities that can be represented by a
         TextElement. */
-    enum TextElementType {
+    enum TextElementType
+    {
       TEXT,       ///< Some non-whitespace text (e.g. "The").
       WHITESPACE, ///< Some whitespace text (e.g. "  \n").
 
@@ -163,14 +175,14 @@ public:
 
     /** Ctor.  \a ws indicates that the element contains only whitespace;
         \a nl indicates that it is a newline element. */
-    TextElement(bool ws, bool nl);
+    TextElement( bool ws, bool nl );
 
     virtual ~TextElement(); ///< Virtual dtor.
 
-    TextElement(const TextElement&);            // Copy constructor
-    TextElement(TextElement&&);                 // Move constructor
-    TextElement& operator=(const TextElement&); // Copy assignment operator
-    TextElement& operator=(TextElement&&);      // Move assignment operator
+    TextElement( const TextElement& );            // Copy constructor
+    TextElement( TextElement&& );                 // Move constructor
+    TextElement& operator=( const TextElement& ); // Copy assignment operator
+    TextElement& operator=( TextElement&& );      // Move assignment operator
 
     /** Returns the width of the element. */
     int Width() const;
@@ -183,18 +195,17 @@ public:
         element represents. */
     CPSize CodePointSize() const;
 
-    
-    std::string       text;       ///< The text from the original string represented by the element.
-    std::vector<int > widths;     ///< The widths of the glyphs in \a text.
-    const bool        whitespace; ///< True iff this is a whitespace element.
-    const bool        newline;    ///< True iff this is a newline element.
+
+    std::string text;        ///< The text from the original string represented by the element.
+    std::vector<int> widths; ///< The widths of the glyphs in \a text.
+    const bool whitespace;   ///< True iff this is a whitespace element.
+    const bool newline;      ///< True iff this is a newline element.
 
   protected:
     TextElement();
 
   private:
     mutable int cached_width;
-
   };
 
 
@@ -240,151 +251,142 @@ public:
       CPSize code_point_index;
     };
 
-    int  Width() const; ///< Returns the width of the line.
+    int Width() const;  ///< Returns the width of the line.
     bool Empty() const; ///< Returns true iff char_data has size 0.
 
     /** FORMAT_LEFT, FORMAT_CENTER, or FORMAT_RIGHT; derived from text
         format flags and/or formatting tags in the text. */
     Alignment justification;
-    
+
     /** Data on each individual glyph. */
-    std::vector<CharData > char_data;
+    std::vector<CharData> char_data;
   };
 
-  
-  typedef std::unordered_map<boost::uint32_t, Glyph> GlyphMap;    
 
-  typedef GlyphMap::iterator       iterator;
+  typedef std::unordered_map<boost::uint32_t, Glyph> GlyphMap;
+
+  typedef GlyphMap::iterator iterator;
   typedef GlyphMap::const_iterator const_iterator;
 
 private:
-  std::string                  m_font_filename;
-  unsigned int                 m_pt_sz;
-  std::vector<UnicodeCharset > m_charsets;         ///< The sets of glyphs that are covered by this font object
-  int                          m_ascent;           ///< Maximum amount above the baseline the text can go
-  int                          m_descent;          ///< Maximum amount below the baseline the text can go
-  int                          m_height;           ///< Ascent - descent
-  int                          m_lineskip;         ///< Distance that should be placed between lines
-  int                          m_space_width;      ///< The width of the glyph for the space character
-  GlyphMap                     m_glyphs;           ///< The locations of the images of each glyph within the textures
+  std::string m_font_filename;
+  unsigned int m_pt_sz;
+  std::vector<UnicodeCharset> m_charsets; ///< The sets of glyphs that are covered by this font object
+  int m_ascent;                           ///< Maximum amount above the baseline the text can go
+  int m_descent;                          ///< Maximum amount below the baseline the text can go
+  int m_height;                           ///< Ascent - descent
+  int m_lineskip;                         ///< Distance that should be placed between lines
+  int m_space_width;                      ///< The width of the glyph for the space character
+  GlyphMap m_glyphs;                      ///< The locations of the images of each glyph within the textures
 
-  public:
-    /** \name Structors */ ///@{
-    /** Ctor.  Construct a font using only the printable ASCII characters.
-        \throw Font::Exception Throws a subclass of Font::Exception if the
-        condition specified for the subclass is met. */
-    Font( const std::string& font_filename, uint32 pts );
+public:
+  /** \name Structors */ ///@{
+  /** Ctor.  Construct a font using only the printable ASCII characters.
+      \throw Font::Exception Throws a subclass of Font::Exception if the
+      condition specified for the subclass is met. */
+  Font( const std::string& font_filename, uint32 pts );
 
-    ~Font();
-    //@}
+  ~Font();
+  //@}
 
-    bool Load( File* file );
+  bool Load( File* file );
 
-    /** \name Accessors */ ///@{
-    const_iterator  begin() const;               ///< returns an iterator to the first list row
-    const_iterator  end() const;                 ///< returns an iterator to the imaginary row one past the last
-    
-    iterator        find( const boost::uint32_t& );
-    const_iterator  find( const boost::uint32_t& ) const;
+  /** \name Accessors */        ///@{
+  const_iterator begin() const; ///< returns an iterator to the first list row
+  const_iterator end() const;   ///< returns an iterator to the imaginary row one past the last
 
-    /** Returns the name of the file from which this font was created. */
-    const std::string& FontName() const;
+  iterator find( const boost::uint32_t& );
+  const_iterator find( const boost::uint32_t& ) const;
 
-    /** Returns the point size in which the characters in the font object are
-        rendered. */
-    uint32 PointSize() const;
+  /** Returns the name of the file from which this font was created. */
+  const std::string& FontName() const;
 
-    /** Returns the range(s) of code points rendered in the font */
-    const std::vector<UnicodeCharset >& UnicodeCharsets() const;
+  /** Returns the point size in which the characters in the font object are
+      rendered. */
+  uint32 PointSize() const;
 
-    /** Returns the maximum amount above the baseline the text can go. */
-    int Ascent() const;
+  /** Returns the range(s) of code points rendered in the font */
+  const std::vector<UnicodeCharset>& UnicodeCharsets() const;
 
-    /** Returns the maximum amount below the baseline the text can go. */
-    int Descent() const;
+  /** Returns the maximum amount above the baseline the text can go. */
+  int Ascent() const;
 
-    /** Returns (Ascent() - Descent()). */
-    int Height() const;
+  /** Returns the maximum amount below the baseline the text can go. */
+  int Descent() const;
 
-    /** Returns the distance that should be placed between lines.  This is
-        usually not equal to Height(). */
-    int Lineskip() const;
+  /** Returns (Ascent() - Descent()). */
+  int Height() const;
 
-    /** Returns the width of the glyph for the space character. */
-    int SpaceWidth() const;
+  /** Returns the distance that should be placed between lines.  This is
+      usually not equal to Height(). */
+  int Lineskip() const;
 
-    /** Returns the maximum dimensions of the string in x and y, and populates
-        \a line_data. */
-    Point DetermineLines( const std::string& text, Flags<TextFormat>& format, int box_width,
-                          std::vector<LineData>& line_data ) const;
+  /** Returns the width of the glyph for the space character. */
+  int SpaceWidth() const;
 
-    /** Returns the maximum dimensions of the string in x and y, and populates
-        \a line_data and \a text_elements.  Note that \a text_elements must be
-        empty. */
-    Point DetermineLines( const std::string& text, Flags<TextFormat>& format, int box_width,
-                          std::vector<LineData>& line_data,
-                          std::vector<std::shared_ptr<TextElement> >& text_elements ) const;
+  /** Returns the maximum dimensions of the string in x and y, and populates
+      \a line_data. */
+  Point DetermineLines( const std::string& text, Flags<TextFormat>& format, int box_width,
+                        std::vector<LineData>& line_data ) const;
 
-    /** Returns the maximum dimensions of the string in x and y, and populates
-        \a line_data.  The contents of \a text_elements will be used, and the
-        equivalent work done by DetermineLines() will be skipped.  Supplying a
-        \a text and a \a text_elements that are incompatible will result in
-        undefined behavior. */
-    Point DetermineLines( const std::string& text, Flags<TextFormat>& format, int box_width,
-                          const std::vector<std::shared_ptr<TextElement> >& text_elements,
-                          std::vector<LineData>& line_data) const;
+  /** Returns the maximum dimensions of the string in x and y, and populates
+      \a line_data and \a text_elements.  Note that \a text_elements must be
+      empty. */
+  Point DetermineLines( const std::string& text, Flags<TextFormat>& format, int box_width,
+                        std::vector<LineData>& line_data,
+                        std::vector<std::shared_ptr<TextElement>>& text_elements ) const;
 
-    /** Returns the maximum dimensions of the string in x and y.  Provided as
-        a convenience; it just calls DetermineLines with the given
-        parameters. */
-    Point TextExtent( const std::string& text, Flags<TextFormat> format = FORMAT_NONE,
-                      int box_width = 0 ) const;
+  /** Returns the maximum dimensions of the string in x and y, and populates
+      \a line_data.  The contents of \a text_elements will be used, and the
+      equivalent work done by DetermineLines() will be skipped.  Supplying a
+      \a text and a \a text_elements that are incompatible will result in
+      undefined behavior. */
+  Point DetermineLines( const std::string& text, Flags<TextFormat>& format, int box_width,
+                        const std::vector<std::shared_ptr<TextElement>>& text_elements,
+                        std::vector<LineData>& line_data ) const;
 
-    /** Returns the maximum dimensions of the text in x and y. */
-    Point TextExtent( const std::string& text, const std::vector<LineData>& line_data ) const;
-    //@}
-  
-  private:
-    /** \name Accessors */ ///@{
-    Point DetermineLinesImpl( const std::string& text,
-                              Flags<TextFormat>& format,
-                              int box_width,
-                              std::vector<LineData>& line_data,
-                              std::vector<std::shared_ptr<TextElement> >* text_elements_ptr) const;
+  /** Returns the maximum dimensions of the string in x and y.  Provided as
+      a convenience; it just calls DetermineLines with the given
+      parameters. */
+  Point TextExtent( const std::string& text, Flags<TextFormat> format = FORMAT_NONE, int box_width = 0 ) const;
 
-    void ValidateFormat( Flags<TextFormat>& format ) const;
-    //@}
+  /** Returns the maximum dimensions of the text in x and y. */
+  Point TextExtent( const std::string& text, const std::vector<LineData>& line_data ) const;
+  //@}
 
+private:
+  /** \name Accessors */ ///@{
+  Point DetermineLinesImpl( const std::string& text, Flags<TextFormat>& format, int box_width,
+                            std::vector<LineData>& line_data,
+                            std::vector<std::shared_ptr<TextElement>>* text_elements_ptr ) const;
+
+  void ValidateFormat( Flags<TextFormat>& format ) const;
+  //@}
 };
-    
+
 CPSize CodePointIndexOf( std::size_t line, CPSize index, const std::vector<Font::LineData>& line_data );
 
 StrSize StringIndexOf( std::size_t line, CPSize index, const std::vector<Font::LineData>& line_data );
-    
-std::pair<std::size_t,CPSize> LinePositionOf( CPSize index, const std::vector<Font::LineData>& line_data );
 
-namespace detail {
-  template <class CharT, bool CharIsSigned = std::is_signed<CharT>::value>
-  struct ValidUTFChar;
-    
-  template <class CharT>
-  struct ValidUTFChar<CharT, true>
-  {
-      bool operator()(CharT c)
-      { return 0x0 <= c; }
-  };
-    
-  template <class CharT>
-  struct ValidUTFChar<CharT, false>
-  {
-      bool operator()(CharT c)
-      { return c <= 0x7f; }
-  };
-}
-    
-}
+std::pair<std::size_t, CPSize> LinePositionOf( CPSize index, const std::vector<Font::LineData>& line_data );
 
-inline boost::uint32_t CharToUint32_t(char c)
-{ return c < 0 ? 256 + c : c; }
+namespace detail
+{
+template <class CharT, bool CharIsSigned = std::is_signed<CharT>::value> struct ValidUTFChar;
+
+template <class CharT> struct ValidUTFChar<CharT, true>
+{
+  bool operator()( CharT c ) { return 0x0 <= c; }
+};
+
+template <class CharT> struct ValidUTFChar<CharT, false>
+{
+  bool operator()( CharT c ) { return c <= 0x7f; }
+};
+} // namespace detail
+
+} // namespace Nebulae
+
+inline boost::uint32_t CharToUint32_t( char c ) { return c < 0 ? 256 + c : c; }
 
 #endif // NEBULAE_FONT_H__

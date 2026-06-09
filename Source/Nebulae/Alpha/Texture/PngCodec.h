@@ -3,13 +3,14 @@
 
 #include "Nebulae/Alpha/Texture/ImageCodec.h"
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class PngCodec : public ImageCodec
 {
 public:
   /** Standard Constructor.
-   */  
+   */
   PngCodec();
 
   /** Standard Destructor.
@@ -20,11 +21,13 @@ public:
   virtual ImageCodecData* Decode( File& is ) const override;
 
   /** Converts a chunk of data from its current encoding.
-    */
-  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width, std::size_t height, std::size_t pitch, uint8 bpp, PixelFormat returnFormat ) const ;
-  
-}; //ImageCodec
+   */
+  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width,
+                                              std::size_t height, std::size_t pitch, uint8 bpp,
+                                              PixelFormat returnFormat ) const;
 
-}
+}; // ImageCodec
+
+} // namespace Nebulae
 
 #endif //__NEBULAE_PNGCODEC_H__

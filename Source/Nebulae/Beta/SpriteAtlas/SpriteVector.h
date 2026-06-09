@@ -5,14 +5,14 @@
 
 namespace Nebulae
 {
-	/** SpriteVector.  POD struct representing a 2 component vector.
-	 */
-	struct SpriteVector
-	{
-		float x;
-		float y;
-	};
+/** SpriteVector.  POD struct representing a 2 component vector.
+ */
+struct SpriteVector
+{
+  float x;
+  float y;
+};
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // __SPRITEVECTOR_H__

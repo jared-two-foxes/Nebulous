@@ -5,72 +5,73 @@
 
 namespace Nebulae
 {
-  
-//Forward Decelerations
+
+// Forward Decelerations
 class AudioBackend;
 class SoundHandle;
 class EmitterHandle;
 
 /** AudioManager.
- *  Basically represents a single "view" object in a Model-View-Controller system for 
+ *  Basically represents a single "view" object in a Model-View-Controller system for
  *  an audio engine.  All playback of audio can be executed using this class.
  */
 class AudioManager
 {
 public:
-  typedef std::shared_ptr<FileSystem > FileSystemPtr;
+  typedef std::shared_ptr<FileSystem> FileSystemPtr;
 
 private:
   FileSystemPtr m_fileSystem;
   AudioBackend* m_pAudioBackend;
 
-  public:
-    AudioManager( FileSystemPtr fileSystem );
-    virtual ~AudioManager();
+public:
+  AudioManager( FileSystemPtr fileSystem );
+  virtual ~AudioManager();
 
-    bool  Initiate();
-    void  Destroy();
-    void  Update( const float elapsed );
+  bool Initiate();
+  void Destroy();
+  void Update( const float elapsed );
 
-    virtual void  SetMasterVolume( float volume );
-    virtual float GetMasterVolume() const;
+  virtual void SetMasterVolume( float volume );
+  virtual float GetMasterVolume() const;
 
-    virtual SoundHandle CreateSound( const char* szSoundName );
+  virtual SoundHandle CreateSound( const char* szSoundName );
 
-    virtual Real GetDuration( SoundHandle sound ) const;
+  virtual Real GetDuration( SoundHandle sound ) const;
 
-    virtual EmitterHandle CreateEmitter();
+  virtual EmitterHandle CreateEmitter();
 
-    
-    virtual void AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, const int32 loops = 0, const Real faceTime = 0.0f );
 
-    virtual SoundHandle GetCurrentSound( EmitterHandle& handle );
-    
-    virtual void  Play( EmitterHandle& handle );
-    virtual void  Stop( EmitterHandle& handle );
-    virtual void  Pause( EmitterHandle& handle );
-    virtual void  Resume( EmitterHandle& handle );
+  virtual void AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, const int32 loops = 0,
+                                  const Real faceTime = 0.0f );
 
-    /** Return the current playback position of a cursor. */
-    virtual Real GetPlayCursor( EmitterHandle &handle ) const;
+  virtual SoundHandle GetCurrentSound( EmitterHandle& handle );
 
-    /** Set the current playback cursor position. */
-    virtual void SetPlayCursor( EmitterHandle &handle, Real time = 0.0f );
+  virtual void Play( EmitterHandle& handle );
+  virtual void Stop( EmitterHandle& handle );
+  virtual void Pause( EmitterHandle& handle );
+  virtual void Resume( EmitterHandle& handle );
 
-    bool IsReady( const EmitterHandle& emitter ) const;
+  /** Return the current playback position of a cursor. */
+  virtual Real GetPlayCursor( EmitterHandle& handle ) const;
 
-    bool IsValid( const EmitterHandle& emitter ) const;
+  /** Set the current playback cursor position. */
+  virtual void SetPlayCursor( EmitterHandle& handle, Real time = 0.0f );
 
-    bool IsAlive( const EmitterHandle& emitter ) const;
+  bool IsReady( const EmitterHandle& emitter ) const;
 
-    /** Test if an emitter is currently playing. */
-    bool IsPlaying( const EmitterHandle& handle ) const;
+  bool IsValid( const EmitterHandle& emitter ) const;
 
-    /** Test if an emitter is currently paused. */
-    bool IsPaused( const EmitterHandle& handle ) const;
+  bool IsAlive( const EmitterHandle& emitter ) const;
 
-}; //AudioManager
+  /** Test if an emitter is currently playing. */
+  bool IsPlaying( const EmitterHandle& handle ) const;
 
-} //Nebulae
+  /** Test if an emitter is currently paused. */
+  bool IsPaused( const EmitterHandle& handle ) const;
+
+}; // AudioManager
+
+} // namespace Nebulae
 
 #endif // __NEBULAE_AUDIOMANAGER_H__

@@ -7,17 +7,17 @@ namespace Nebulae
 {
 
 /// Vertex element semantics, used to identify the meaning of vertex buffer contents
-enum VertexElementSemantic 
+enum VertexElementSemantic
 {
-  VES_POSITION,             ///< Position coordinates (local space)
-  VES_BLEND_WEIGHTS,        ///< Blending weights
-  VES_BLEND_INDICES,        ///< Blending indices
-  VES_NORMAL,               ///< Normal, 3 reals per vertex
-  VES_DIFFUSE,              ///< Diffuse colours
-  VES_SPECULAR,             ///< Specular colours
-  VES_TEXTURE_COORDINATES,  ///< Texture coordinates
-  VES_BINORMAL,             ///< Binormal (Y axis if normal is Z)
-  VES_TANGENT,              ///< Tangent (X axis if normal is Z)
+  VES_POSITION,            ///< Position coordinates (local space)
+  VES_BLEND_WEIGHTS,       ///< Blending weights
+  VES_BLEND_INDICES,       ///< Blending indices
+  VES_NORMAL,              ///< Normal, 3 reals per vertex
+  VES_DIFFUSE,             ///< Diffuse colours
+  VES_SPECULAR,            ///< Specular colours
+  VES_TEXTURE_COORDINATES, ///< Texture coordinates
+  VES_BINORMAL,            ///< Binormal (Y axis if normal is Z)
+  VES_TANGENT,             ///< Tangent (X axis if normal is Z)
 };
 
 /// Vertex element type, used to identify the base types of the vertex contents
@@ -36,19 +36,19 @@ enum VertexElementType
 
 struct VertexElement
 {
-  size_t                InputSlot;         ///< The source vertex buffer, as bound to an index using VertexBufferBinding
-  size_t                AlignedByteOffset; ///< The offset in the buffer that this element starts at
-  VertexElementType     Format;            ///< The type of element
-  VertexElementSemantic Semantic;          ///< The meaning of the element
-  size_t                SemanticIndex;     ///< Index of the item, only applicable for some elements like texture coords
+  size_t InputSlot;               ///< The source vertex buffer, as bound to an index using VertexBufferBinding
+  size_t AlignedByteOffset;       ///< The offset in the buffer that this element starts at
+  VertexElementType Format;       ///< The type of element
+  VertexElementSemantic Semantic; ///< The meaning of the element
+  size_t SemanticIndex;           ///< Index of the item, only applicable for some elements like texture coords
 };
 
 class VertexDeceleration
 {
 protected:
-  int32          m_iElementCount;   ///< The size of the vertex deceleration array.
-  uint32         m_iInternalCount;  ///< The number of elements currently in the array
-  VertexElement* m_Elements;        ///< The vertex elements.
+  int32 m_iElementCount;     ///< The size of the vertex deceleration array.
+  uint32 m_iInternalCount;   ///< The number of elements currently in the array
+  VertexElement* m_Elements; ///< The vertex elements.
 
 public:
   VertexDeceleration( int elementCount );
@@ -61,7 +61,7 @@ public:
   VertexElement* GetVertexElement( uint32 idx ) const;
 
   /** Creates a deep copy of this VertexDeceleration.  Ownership of the cloned object
-   *  is passed to the receiver. 
+   *  is passed to the receiver.
    *
    *  @return
    *    Copied object.
@@ -73,7 +73,7 @@ public:
         This method adds a single element (positions, normals etc) to the end of the
         vertex declaration. <b>Please read the information in VertexDeclaration about
         the importance of ordering and structure for compatibility with older D3D drivers</b>.
-      @param source The binding index of HardwareVertexBuffer which will provide the source for this element. 
+      @param source The binding index of HardwareVertexBuffer which will provide the source for this element.
         See VertexBufferBinding for full information.
       @param offset The offset in bytes where this element is located in the buffer
       @param theType The data format of the element (3 floats, a colour etc)
@@ -81,7 +81,8 @@ public:
       @param index Optional index for multi-input elements like texture coordinates
       @return A reference to the VertexElement added.
   */
-  const VertexElement& AddElement( VertexElementType format, VertexElementSemantic semantic, int semanticIndex, unsigned short index = 0 );
+  const VertexElement& AddElement( VertexElementType format, VertexElementSemantic semantic, int semanticIndex,
+                                   unsigned short index = 0 );
 
   /** Remove the element at the given index from this declaration. */
   void removeElement( unsigned short elem_index );
@@ -92,18 +93,18 @@ public:
         as texture coordinates. For other elements this will always be 0 and does
         not refer to the index in the vector.
   */
-  void removeElement(VertexElementSemantic semantic, unsigned short index = 0);
+  void removeElement( VertexElementSemantic semantic, unsigned short index = 0 );
 
   /** Remove all elements. */
-  void removeAllElements(void);
+  void removeAllElements( void );
 
   /** Gets the vertex size defined by this declaration for a given source. */
   std::size_t GetVertexSize() const;
 
-}; //VertexDecleration
+}; // VertexDecleration
 
-bool operator ==( const VertexDeceleration& lhs, const VertexDeceleration& rhs );
+bool operator==( const VertexDeceleration& lhs, const VertexDeceleration& rhs );
 
-} // Nebulae
+} // namespace Nebulae
 
 #endif // NEBULAE_ALPHA_VERTEXDECLERATION_H__

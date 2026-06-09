@@ -5,68 +5,54 @@
 
 using namespace Nebulae;
 
-  
-Mesh::Mesh( const std::string& name )
-  : m_name(name)
-{
-}
+
+Mesh::Mesh( const std::string& name ) : m_name( name ) {}
 
 
 Mesh::~Mesh()
 {
-  for( int i = 0; i < MAX_LOD_COUNT; ++i ) {
-    for( std::size_t j = 0, n = m_lods[i].m_SubMeshes.size(); j<n; ++j ) {
+  for ( int i = 0; i < MAX_LOD_COUNT; ++i )
+  {
+    for ( std::size_t j = 0, n = m_lods[i].m_SubMeshes.size(); j < n; ++j )
+    {
       delete m_lods[i].m_SubMeshes[j];
     }
   }
 }
 
 
-bool 
-Mesh::LoadImpl_( File* is )
+bool Mesh::LoadImpl_( File* is )
 {
   // Create stream to read in from
-  if( is ) {
+  if ( is )
+  {
     // Return success of import procedure
-  	//Relic::MeshSerializer serializer;
-  	//return serializer.ImportMesh(is, this);
+    // Relic::MeshSerializer serializer;
+    // return serializer.ImportMesh(is, this);
   }
 
   return false;
 }
 
 
-SubMesh* 
-Mesh::CreateSubMesh( uint16 lod )
+SubMesh* Mesh::CreateSubMesh( uint16 lod )
 {
-  SubMesh* sm = new SubMesh(this);
-  m_lods[lod].m_SubMeshes.push_back(sm);
+  SubMesh* sm = new SubMesh( this );
+  m_lods[lod].m_SubMeshes.push_back( sm );
   return sm;
 }
 
 
-std::size_t 
-Mesh::GetSubMeshCount( uint16 lod ) const
-{
-  return m_lods[lod].m_SubMeshes.size();
-}
+std::size_t Mesh::GetSubMeshCount( uint16 lod ) const { return m_lods[lod].m_SubMeshes.size(); }
 
 
-std::vector<SubMesh*>& 
-Mesh::GetSubMeshes( uint16 lod )
-{
-  return m_lods[lod].m_SubMeshes;
-}
+std::vector<SubMesh*>& Mesh::GetSubMeshes( uint16 lod ) { return m_lods[lod].m_SubMeshes; }
 
 
-SubMesh* 
-Mesh::GetSubMesh( uint16 lod, uint16 index ) const
-{
-  return m_lods[lod].m_SubMeshes[index];
-}
+SubMesh* Mesh::GetSubMesh( uint16 lod, uint16 index ) const { return m_lods[lod].m_SubMeshes[index]; }
 
 
-/* void 
+/* void
 Mesh::AddFaceSet(unsigned short lod, Material* pMaterial, FaceSet* pFaceSet)
 {
   for (int i = 0, n = m_lods[nLod].m_materialFaceSets.size(); i<n; ++i)
@@ -83,9 +69,9 @@ Mesh::AddFaceSet(unsigned short lod, Material* pMaterial, FaceSet* pFaceSet)
 
   m_lods[nLod].m_materialFaceSets.push_back(pMaterialFaceSet);
 }
-    
+
 //TODO: could possibly 'empty' scratchArray before filling?
-void 
+void
 FillMeshPoseBuffer(FaceSet* fs, const hkaPose& pose, btAlignedObjectArray<hkMatrix4>& scratchArray)
 {
   const hkaSkeleton* skeleton = pose.getSkeleton();
@@ -129,7 +115,7 @@ FillMeshPoseBuffer(FaceSet* fs, const hkaPose& pose, btAlignedObjectArray<hkMatr
         // Stop cycle as we have found the boneTransform
         bFound = true;
       }
-      
+
       // Delete create name buffer to prevent leak.
       delete [] szScratchName;
 
@@ -140,7 +126,7 @@ FillMeshPoseBuffer(FaceSet* fs, const hkaPose& pose, btAlignedObjectArray<hkMatr
     // Convert the float array into a hkMatrix4
     transform.get4x4ColumnMajor(fMatrix);
     scratchArray[i].set4x4ColumnMajor(fMatrix);
-    
+
     // Re-establish found as false.
     bFound = false;
   }
@@ -217,7 +203,7 @@ Mesh::setReferencePose(const hkaPose& pose)
 
 //TODO: note the useless redundancy that is occuring here.  There is really little reason to update ALL
 //		of the lod's.  This could be streamlined by only updating the lod that is going to be rendered.
-void 
+void
 Mesh::setAnimationPose(const hkaPose& pose)
 {
   // store the animation pose.
@@ -255,7 +241,7 @@ Mesh::setAnimationPose(const hkaPose& pose)
   }
 }
 
-void 
+void
 Mesh::render(ID3D11DeviceContext* pContext, hkInt32 nLod, hkUint32 nBufferCount, ID3D11Buffer** ppConstantBuffers) const
 {
   for (int i = 0, n = m_lods[nLod].m_materialFaceSets.size(); i < n; ++i)

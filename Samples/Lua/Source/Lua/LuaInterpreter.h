@@ -5,35 +5,35 @@
 
 #include <lua.hpp>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class LuaInterpreter
 {
 private:
-  lua_State*  m_L;
+  lua_State* m_L;
   std::string m_errorMessage;
 
-  public:
-    LuaInterpreter();
-    ~LuaInterpreter();
+public:
+  LuaInterpreter();
+  ~LuaInterpreter();
 
-    bool Initialize();
+  bool Initialize();
 
-    bool HasErrorMessage() const;
-    const std::string& GetErrorMessage() const;
+  bool HasErrorMessage() const;
+  const std::string& GetErrorMessage() const;
 
-    void RegisterFunction( const char* name, lua_CFunction function );
+  void RegisterFunction( const char* name, lua_CFunction function );
 
-    //Lua UserData
-    void RegisterUserData( const char* identifier, void* userdata );
-    void* GetUserData( const char* identifier ) const;
+  // Lua UserData
+  void RegisterUserData( const char* identifier, void* userdata );
+  void* GetUserData( const char* identifier ) const;
 
-    void LoadScript();
+  void LoadScript();
 
-    bool DoString( const char* line );
-
+  bool DoString( const char* line );
 };
 
-}
+} // namespace Nebulae
 
 #endif // __LUAINTERPRETER_H__

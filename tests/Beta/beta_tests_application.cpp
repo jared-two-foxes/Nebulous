@@ -1,14 +1,15 @@
 
+#include <Nebulae/Beta/Application/Application.h>
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/Window/InputListener.h>
-#include <Nebulae/Beta/Application/Application.h>
 
 #include "gtest/gtest.h"
 
 using namespace Nebulae;
 
 
-class MockInputListener : public InputListener {
+class MockInputListener : public InputListener
+{
 public:
   virtual void KeyPressed( KeyCode /*keyCode*/, Flags<ModKey> /*modKeys*/ ) {}
   virtual void KeyReleased( KeyCode /*keyCode*/, Flags<ModKey> /*modKeys*/ ) {}
@@ -19,71 +20,76 @@ public:
 };
 
 
-TEST(Application, DISABLED_InitiateShouldSucceedWithCorrectValues) {
+TEST( Application, DISABLED_InitiateShouldSucceedWithCorrectValues )
+{
   // arrange
   Application app;
-  
-  //act
+
+  // act
   app.Initiate( 800, 600 );
 
-  //assert
+  // assert
   ASSERT_TRUE( app.IsInitialized() );
 }
 
 
-TEST(Application, DISABLED_InitiateShouldSucceedWithDefaultValues) {
+TEST( Application, DISABLED_InitiateShouldSucceedWithDefaultValues )
+{
   // arrange
   Application app;
-  
-  //act
+
+  // act
   app.Initiate();
 
-  //assert
+  // assert
   ASSERT_TRUE( app.IsInitialized() );
 }
 
 
-TEST(Application, DISABLED_HasInputListenerShouldSucceedWithValidListener) {
+TEST( Application, DISABLED_HasInputListenerShouldSucceedWithValidListener )
+{
   // arrange
   Application app;
   app.Initiate();
   MockInputListener* listener = new MockInputListener();
   app.AddInputListener( listener );
 
-  //act
+  // act
   bool result = app.HasInputListener( listener );
 
-  //assert
+  // assert
   ASSERT_TRUE( result );
 
   delete listener;
 }
 
 
-TEST(Application, DISABLED_HasInputListenerShouldFailWithAnInvalidListener) {
+TEST( Application, DISABLED_HasInputListenerShouldFailWithAnInvalidListener )
+{
   // arrange
   Application app;
   app.Initiate();
 
-  //act
+  // act
   bool result = app.HasInputListener( NULL );
 
-  //assert
+  // assert
   ASSERT_FALSE( result );
 }
 
 
-TEST(Application, DISABLED_AddInputListenerShouldSucceedWithValidListener) {
+TEST( Application, DISABLED_AddInputListenerShouldSucceedWithValidListener )
+{
   // arrange
   Application app;
   app.Initiate();
   MockInputListener* listener = new MockInputListener();
 
-  //act
+  // act
   app.AddInputListener( listener );
-  bool result = app.HasInputListener(listener);
+  bool result = app.HasInputListener( listener );
 
-  //assert
+  // assert
   ASSERT_TRUE( result );
 
   delete listener;

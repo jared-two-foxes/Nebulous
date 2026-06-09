@@ -5,22 +5,22 @@
 
 //----- The breakpoint ----
 #ifdef NE_DEBUG
-  #if NE_PLATFORM == NE_PLATFORM_WIN32
-    #define NE_BREAKPOINT __debugbreak()
-  #elif NE_PLATFORM == NE_PLATFORM_ANDROID
-    #include <signal.h>
-    #define NE_BREAKPOINT raise(SIGINT)
-  #elif NE_PLATFORM == NE_PLATFORM_APPLE_IOS
-    #include <signal.h>
-    #include <unistd.h>
-    #define NE_BREAKPOINT raise(SIGINT)
-  #elif NE_PLATFORM == NE_PLATFORM_APPLE
-    #include <signal.h>
-    #include <unistd.h>
-    #define NE_BREAKPOINT raise(SIGINT)
-  #endif
+#if NE_PLATFORM == NE_PLATFORM_WIN32
+#define NE_BREAKPOINT __debugbreak()
+#elif NE_PLATFORM == NE_PLATFORM_ANDROID
+#include <signal.h>
+#define NE_BREAKPOINT raise( SIGINT )
+#elif NE_PLATFORM == NE_PLATFORM_APPLE_IOS
+#include <signal.h>
+#include <unistd.h>
+#define NE_BREAKPOINT raise( SIGINT )
+#elif NE_PLATFORM == NE_PLATFORM_APPLE
+#include <signal.h>
+#include <unistd.h>
+#define NE_BREAKPOINT raise( SIGINT )
+#endif
 #else
-  #define NE_BREAKPOINT
+#define NE_BREAKPOINT
 #endif
 
 // Keep Assert class for backward compatibility with template specializations
@@ -30,13 +30,9 @@ class Assert
 public:
   // Dummy constructor for compatibility
   Assert() {}
-  
+
   // Dummy Variable methods for template specializations
-  template <typename T>
-  Assert& Variable(const char* const name, const T& value)
-  {
-    return *this;
-  }
+  template <typename T> Assert& Variable( const char* const name, const T& value ) { return *this; }
 };
 
 // Keep NE_SOURCE_INFO for backward compatibility
@@ -44,15 +40,17 @@ public:
 
 // Simplified assert macro using the new Log system
 #ifdef NE_DEBUG
-  #define NE_ASSERT(condition, ...) \
-    do { \
-      if (!(condition)) { \
-        Nebulae::Log("ASSERT: " #condition " failed - " __VA_ARGS__); \
-        NE_BREAKPOINT; \
-      } \
-    } while(0)
+#define NE_ASSERT( condition, ... )                                   \
+  do                                                                  \
+  {                                                                   \
+    if ( !( condition ) )                                             \
+    {                                                                 \
+      Nebulae::Log( "ASSERT: " #condition " failed - " __VA_ARGS__ ); \
+      NE_BREAKPOINT;                                                  \
+    }                                                                 \
+  } while ( 0 )
 #else
-  #define NE_ASSERT(condition, ...) ((void)0)
+#define NE_ASSERT( condition, ... ) ( (void)0 )
 #endif
 
 #endif // __NEBULAE_COMMON_ASSERT_H__

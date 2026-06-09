@@ -1,39 +1,25 @@
 
 #include "Pass.h"
 
-#include <Nebulae/Alpha/Shaders/HardwareShader.h>
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
+#include <Nebulae/Alpha/Shaders/HardwareShader.h>
 
 using namespace Nebulae;
 
 
-Pass::Pass()
-  : m_vertexShader( NULL ),
-    m_pixelShader( NULL )
-{
-}
+Pass::Pass() : m_vertexShader( NULL ), m_pixelShader( NULL ) {}
 
 
-Pass::~Pass()
-{
-}
+Pass::~Pass() {}
 
 
-HardwareShader*    
-Pass::GetVertexShader() const
-{ return m_vertexShader; }
-    
-
-HardwareShader*    
-Pass::GetPixelShader() const
-{ return m_pixelShader; }
+HardwareShader* Pass::GetVertexShader() const { return m_vertexShader; }
 
 
-void 
-Pass::SetVertexShader( HardwareShader* vertexShader )
-{ m_vertexShader = vertexShader; }
+HardwareShader* Pass::GetPixelShader() const { return m_pixelShader; }
 
 
-void 
-Pass::SetPixelShader( HardwareShader* pixelShader )
-{ m_pixelShader = pixelShader; }
+void Pass::SetVertexShader( HardwareShader* vertexShader ) { m_vertexShader = vertexShader; }
+
+
+void Pass::SetPixelShader( HardwareShader* pixelShader ) { m_pixelShader = pixelShader; }

@@ -20,9 +20,8 @@ public:
   /*inline*/ const Vector4& GetHalfExtents() const;
 
   void SetHalfExtents( const Vector4& halfExtents );
-
 };
 
-}
+} // namespace Sample
 
 #endif // __BOUNDINGBOX_H__

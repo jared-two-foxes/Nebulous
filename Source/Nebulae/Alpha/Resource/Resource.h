@@ -10,40 +10,40 @@ class RenderSystem;
 
 namespace LoadingStatus
 {
-  enum Status
-  {
-    Unloaded,
-    Unloading,
-    Loading,
-    Loaded
-  }; 
+enum Status
+{
+  Unloaded,
+  Unloading,
+  Loading,
+  Loaded
+};
 }
 
-class Resource 
+class Resource
 {
 protected:
-  int32                 m_identifier;
-  std::string           m_name;
+  int32 m_identifier;
+  std::string m_name;
   LoadingStatus::Status m_loadingStatus;
-  RenderSystem*         m_renderDevice;
+  RenderSystem* m_renderDevice;
 
-  public:
-    Resource( const std::string& name, RenderSystem* renderDevice );
-    virtual ~Resource();
+public:
+  Resource( const std::string& name, RenderSystem* renderDevice );
+  virtual ~Resource();
 
-    int32              GetIdentifier() const;
-    const std::string& GetName() const;
-    bool               IsLoaded() const;
+  int32 GetIdentifier() const;
+  const std::string& GetName() const;
+  bool IsLoaded() const;
 
-    virtual bool Load( File* is );
-    virtual bool Unload();
+  virtual bool Load( File* is );
+  virtual bool Unload();
 
-  private:
-    virtual bool LoadImpl_( File* is ) = 0;
-    virtual bool UnloadImpl_() = 0;
+private:
+  virtual bool LoadImpl_( File* is ) = 0;
+  virtual bool UnloadImpl_() = 0;
 
-}; //Resource
+}; // Resource
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // NEBULAE_ALPHA_RESOURCE_H__

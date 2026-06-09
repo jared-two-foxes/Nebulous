@@ -14,15 +14,14 @@ private:
   std::size_t m_dataSize;
   std::size_t m_dataOffset;
 
-  public:
-    WavAudioDecoder();
-    virtual ~WavAudioDecoder() {}
+public:
+  WavAudioDecoder();
+  virtual ~WavAudioDecoder() {}
 
-    virtual bool  Parse( File* datastream ) override;
-    virtual int32 Stream( uint32 start, uint32 size, char* data ) override;
-
+  virtual bool Parse( File* datastream ) override;
+  virtual int32 Stream( uint32 start, uint32 size, char* data ) override;
 };
 
-}
+} // namespace Nebulae
 
 #endif //  __NEBULAE_WAVAUDIODECODER_H__

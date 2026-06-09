@@ -5,23 +5,23 @@
 
 #include <Samples/Entity/Core/ComponentType.h>
 
-namespace Sample {
+namespace Sample
+{
 
 class Component;
 
 class ComponentPool
 {
-  public:
-    virtual ~ComponentPool() {}
+public:
+  virtual ~ComponentPool() {}
 
-    virtual ComponentType GetType() const = 0;
+  virtual ComponentType GetType() const = 0;
 
-    virtual Component* GetComponent( int32 identifier ) const = 0;
-    
-    virtual const int32 GetNextAvailableIndex() const = 0;
+  virtual Component* GetComponent( int32 identifier ) const = 0;
 
+  virtual const int32 GetNextAvailableIndex() const = 0;
 };
 
-}
+} // namespace Sample
 
-#endif // __MODEL_CORE_COMPONENTPOOL_H__ 
+#endif // __MODEL_CORE_COMPONENTPOOL_H__

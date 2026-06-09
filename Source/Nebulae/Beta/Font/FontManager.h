@@ -1,34 +1,35 @@
 #ifndef __NEBULAE_BETA_FONT_FONTMANAGER_H__
 #define __NEBULAE_BETA_FONT_FONTMANAGER_H__
 
-//#include <Nebulae/Common/Common.h>
+// #include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/Font/Font.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
-//Forward decleration
+// Forward decleration
 class RenderSystem;
 
 /** FontManager
  */
-class FontManager {
+class FontManager
+{
+private:
+  std::vector<Font*> m_Resources;
 
-	private:
-		std::vector<Font* > m_Resources;
+public:
+  FontManager();
+  virtual ~FontManager();
 
-		public:
-      FontManager();
-			virtual ~FontManager();
+  Font* Create( const std::string& name, int iFontSize = 16 );
 
-			Font* Create( const std::string& name, int iFontSize = 16 );
+  Font* GetByName( const std::string& name ) const;
 
-			Font* GetByName( const std::string& name ) const;
+private:
+  virtual void addImpl( Font* res );
 
-		private:
-			virtual void addImpl( Font* res );
+}; // FontManager
 
-}; //FontManager
-
-} //Nebulae
+} // namespace Nebulae
 
 #endif // __NEBULAE_BETA_FONT_FONTMANAGER_H__

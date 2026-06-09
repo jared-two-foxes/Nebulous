@@ -7,7 +7,8 @@
 #include "Core/EntityPool.h"
 #include "Core/TemplateCache.h"
 
-namespace Sample {
+namespace Sample
+{
 
 class Model
 ///
@@ -17,43 +18,39 @@ class Model
 ///
 {
 private:
-  std::shared_ptr<TemplateCache > m_templates;  ///< The known entity type component layouts.
-  ComponentCache                  m_components; ///< Pool of the components that make up the entities.
-  EntityPool                      m_entities;   ///< The entities that comprise the world.
-  
-  public:
-    Model( std::shared_ptr<TemplateCache>& templateCache );
-    ~Model();
+  std::shared_ptr<TemplateCache> m_templates; ///< The known entity type component layouts.
+  ComponentCache m_components;                ///< Pool of the components that make up the entities.
+  EntityPool m_entities;                      ///< The entities that comprise the world.
 
-    void    Init();
-    void    Clear();
-    void    LoadSceneFile( Nebulae::File& stream );
-    Entity* CreateEntity( const char* templateName, const char* uniqueName = 0 );
-    Entity* FindEntityByName( const char* uniqueName ) const;
-    void    DestroyEntity( Entity* entity );
+public:
+  Model( std::shared_ptr<TemplateCache>& templateCache );
+  ~Model();
 
-    std::shared_ptr<TemplateCache >  GetTemplates();
-    ComponentCache&                  GetComponentCache();  
-    const std::vector<Entity*>&      GetEntities() const;
+  void Init();
+  void Clear();
+  void LoadSceneFile( Nebulae::File& stream );
+  Entity* CreateEntity( const char* templateName, const char* uniqueName = 0 );
+  Entity* FindEntityByName( const char* uniqueName ) const;
+  void DestroyEntity( Entity* entity );
 
-    template <class T >
-    int32 GetComponents( const Entity* entity, std::vector<T* >* components ) const;
+  std::shared_ptr<TemplateCache> GetTemplates();
+  ComponentCache& GetComponentCache();
+  const std::vector<Entity*>& GetEntities() const;
 
-  private:
-    void ApplyTemplate( Entity& entity, EntityTemplate& entityTemplate );
+  template <class T> int32 GetComponents( const Entity* entity, std::vector<T*>* components ) const;
 
+private:
+  void ApplyTemplate( Entity& entity, EntityTemplate& entityTemplate );
 };
 
-template <class T >
-int32 
-Model::GetComponents( const Entity* entity, std::vector<T* >* components ) const
+template <class T> int32 Model::GetComponents( const Entity* entity, std::vector<T*>* components ) const
 {
-  std::vector<int32 > identifiers;
+  std::vector<int32> identifiers;
   entity->GetLinkedComponentIndices( T::GetType(), &identifiers );
 
   return m_components.GetComponents( identifiers, components );
 }
 
-}
+} // namespace Sample
 
 #endif // MODEL_MODEL_H__

@@ -4,8 +4,7 @@
 
 #include <Nebulae/Common/Common.h>
 
-bool
-Nebulae::ParseJSON( File& file, Json::Value* root )
+bool Nebulae::ParseJSON( File& file, Json::Value* root )
 ///
 ///
 ///
@@ -16,17 +15,17 @@ Nebulae::ParseJSON( File& file, Json::Value* root )
   NE_ASSERT( root, "Invalid root object received" );
 
   Json::Reader reader;
-  bool         parsingSuccessful = false;
-  static int8  static_buffer[2048];
- 
+  bool parsingSuccessful = false;
+  static int8 static_buffer[2048];
+
   file.SeekToEnd();
   std::size_t length = file.Tell();
-  file.Seek(0);
+  file.Seek( 0 );
 
-  if( length )
+  if ( length )
   {
     char* buffer = NULL;
-    if( length < ARRAYSIZE(static_buffer) )
+    if ( length < ARRAYSIZE( static_buffer ) )
     {
       buffer = static_buffer;
     }
@@ -34,17 +33,17 @@ Nebulae::ParseJSON( File& file, Json::Value* root )
     {
       buffer = new int8[length];
     }
-    if( length == file.Read(buffer, length) )
+    if ( length == file.Read( buffer, length ) )
     {
       const char* begin = buffer;
-      const char* end   = buffer + length;
+      const char* end = buffer + length;
 
       parsingSuccessful = reader.parse( begin, end, *root );
     }
 
-    if( buffer != static_buffer )
+    if ( buffer != static_buffer )
     {
-      delete [] buffer;
+      delete[] buffer;
     }
   }
 
@@ -52,4 +51,3 @@ Nebulae::ParseJSON( File& file, Json::Value* root )
 
   return parsingSuccessful;
 }
-

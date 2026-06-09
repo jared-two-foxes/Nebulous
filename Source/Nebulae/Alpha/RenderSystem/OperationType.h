@@ -1,7 +1,8 @@
 #ifndef NEBULAE_ALPHA_OPERATIONTYPE_H__
 #define NEBULAE_ALPHA_OPERATIONTYPE_H__
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 enum OperationType
 {

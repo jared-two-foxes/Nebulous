@@ -1,43 +1,43 @@
 ﻿#ifndef __NEBULAE_COMMON_DEPENDENCIES_H__
 #define __NEBULAE_COMMON_DEPENDENCIES_H__
 
-// Std header includes 
-#include <cstring>
+// Std header includes
+#include <assert.h>
 #include <cctype>
 #include <cmath>
-#include <assert.h>
+#include <cstring>
 #include <string.h>
 
 // IO Streams
 #include <fstream>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 
 // STL containers
-#include <vector>
-#include <queue>
 #include <list>
-#include <set>
-#include <string>
 #include <map>
 #include <memory>
+#include <queue>
+#include <set>
+#include <string>
+#include <vector>
 
 // STL algorithms & functions
 #include <algorithm>
+#include <chrono> // cpp11
 #include <functional>
 #include <limits>
-#include <random> // cpp11
-#include <chrono> // cpp11
+#include <random>        // cpp11
 #include <unordered_map> //cpp11
 
 // boost includes
 #include <boost/any.hpp>
-//#define BOOST_FILESYSTEM_NO_DEPRECATED //< Prevent use of depreciated functions
+// #define BOOST_FILESYSTEM_NO_DEPRECATED //< Prevent use of depreciated functions
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
-// json 
+// json
 #include <json/json.h>
 
 

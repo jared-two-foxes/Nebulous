@@ -3,28 +3,29 @@
 
 /// #include <Nebulae/Common/Common.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class HardwareShader;
 class VertexDeceleration;
 
 class InputLayoutImpl
 {
-protected:  
+protected:
   const VertexDeceleration* m_vertexDecl;
-  const HardwareShader*     m_vertexShader;
+  const HardwareShader* m_vertexShader;
 
-  public:
-    InputLayoutImpl( const VertexDeceleration* pVertexDecl, const HardwareShader* pVertexShader );
-    virtual ~InputLayoutImpl();
+public:
+  InputLayoutImpl( const VertexDeceleration* pVertexDecl, const HardwareShader* pVertexShader );
+  virtual ~InputLayoutImpl();
 
-    const VertexDeceleration* GetVertexDecleration() const;
-    const HardwareShader*     GetVertexShader() const;
+  const VertexDeceleration* GetVertexDecleration() const;
+  const HardwareShader* GetVertexShader() const;
 
-    virtual bool Load();
-    virtual bool Unload();
+  virtual bool Load();
+  virtual bool Unload();
 };
 
-}
+} // namespace Nebulae
 
 #endif // __NEBULAE_ALPHA_INPUTLAYOUTIMPL_H__

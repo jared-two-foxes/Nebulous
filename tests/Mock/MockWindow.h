@@ -3,17 +3,19 @@
 
 #include <Nebulae/Common/Window/Window.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
-class MockWindow : public Window {
-  public:
-    MockWindow() : Window() {}
+class MockWindow : public Window
+{
+public:
+  MockWindow() : Window() {}
 
-    virtual bool Initiate( void* ) { return true; }
-    virtual void Destroy()         {};
-    virtual void Show()            {};
+  virtual bool Initiate( void* ) { return true; }
+  virtual void Destroy() {};
+  virtual void Show() {};
 };
 
-}
+} // namespace Nebulae
 
 #endif // NEBULAE_TEST_MOCKWINDOW_H__

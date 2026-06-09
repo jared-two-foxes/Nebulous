@@ -1,4 +1,4 @@
-//DeviePluginCache.cpp
+// DeviePluginCache.cpp
 
 #include "DevicePluginCache.h"
 
@@ -6,23 +6,18 @@ using Nebulae::DevicePluginCache;
 using Nebulae::SharedLibrary;
 
 
-DevicePluginCache::~DevicePluginCache()
-{
-  ReleaseAll();
-}
+DevicePluginCache::~DevicePluginCache() { ReleaseAll(); }
 
 
-void 
-DevicePluginCache::AquirePlugin( RenderSystemType type, SharedLibrary* lib )
+void DevicePluginCache::AquirePlugin( RenderSystemType type, SharedLibrary* lib )
 {
-  //Assert that library doesnt already exist.  
+  // Assert that library doesnt already exist.
 
   _plugins[type] = lib;
 }
 
 
-void 
-DevicePluginCache::ReleasePlugin( RenderSystemType type )
+void DevicePluginCache::ReleasePlugin( RenderSystemType type )
 {
   _plugins[type]->Close();
   delete _plugins[type];
@@ -31,34 +26,28 @@ DevicePluginCache::ReleasePlugin( RenderSystemType type )
 }
 
 
-void 
-DevicePluginCache::ReleaseAll()
+void DevicePluginCache::ReleaseAll()
 {
   for ( auto library : _plugins )
   {
     library.second->Close();
     delete library.second;
   }
-  
+
   _plugins.clear();
 }
 
 
-const SharedLibrary* 
-DevicePluginCache::GetPlugin( RenderSystemType type ) const
+const SharedLibrary* DevicePluginCache::GetPlugin( RenderSystemType type ) const
 {
-	auto it = _plugins.find( type );
-	if ( it != _plugins.end() )
-	{
-		return it->second;
-	}
+  auto it = _plugins.find( type );
+  if ( it != _plugins.end() )
+  {
+    return it->second;
+  }
 
-	return nullptr;
+  return nullptr;
 }
 
 
-SharedLibrary* 
-DevicePluginCache::GetPlugin( RenderSystemType type )
-{
-  return _plugins[type];
-}
+SharedLibrary* DevicePluginCache::GetPlugin( RenderSystemType type ) { return _plugins[type]; }

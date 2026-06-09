@@ -3,7 +3,8 @@
 
 #include <Nebulae/Common/Common.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class GuiManager;
 class RenderSystem;
@@ -13,27 +14,27 @@ class Widget;
 class WidgetSerializer
 {
 public:
-  typedef std::shared_ptr<GuiManager >         GuiManagerPtr;
-  typedef std::shared_ptr<RenderSystem >       RenderSystemPtr;
-  typedef std::shared_ptr<SpriteAtlasManager > SpriteAtlasManagerPtr;
+  typedef std::shared_ptr<GuiManager> GuiManagerPtr;
+  typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
+  typedef std::shared_ptr<SpriteAtlasManager> SpriteAtlasManagerPtr;
 
 private:
-  GuiManagerPtr         m_gui;
-  RenderSystemPtr       m_renderDevice;
+  GuiManagerPtr m_gui;
+  RenderSystemPtr m_renderDevice;
   SpriteAtlasManagerPtr m_atlasManager;
-  Point                 m_rootDeviceSize; ///< The dimensions of the root device that the UI was created for.
+  Point m_rootDeviceSize; ///< The dimensions of the root device that the UI was created for.
 
-  public:
-    WidgetSerializer( GuiManagerPtr& gui, const RenderSystemPtr& renderDevice, const SpriteAtlasManagerPtr& atlasManager );
+public:
+  WidgetSerializer( GuiManagerPtr& gui, const RenderSystemPtr& renderDevice,
+                    const SpriteAtlasManagerPtr& atlasManager );
 
-    void    SetRootDimensions( const Point& point );
-    Widget* ReadIn( File& stream );
+  void SetRootDimensions( const Point& point );
+  Widget* ReadIn( File& stream );
 
-  private:
-  	Widget* LoadElement( const Json::Value& elementData, GuiManagerPtr gui );
-
+private:
+  Widget* LoadElement( const Json::Value& elementData, GuiManagerPtr gui );
 };
 
-}
+} // namespace Nebulae
 
 #endif // NEBULAE_WIDGETSERIALIZER_H__

@@ -8,20 +8,19 @@
 namespace Nebulae
 {
 
-	/** SamplerImpl_OGL.
-	 */
-	class SamplerImpl_OGL : public Sampler::Impl
-	{
-	protected:
-	public:
-		SamplerImpl_OGL();
-		virtual ~SamplerImpl_OGL();
+/** SamplerImpl_OGL.
+ */
+class SamplerImpl_OGL : public Sampler::Impl
+{
+protected:
+public:
+  SamplerImpl_OGL();
+  virtual ~SamplerImpl_OGL();
 
-		//functions
-		virtual bool Load() override;
+  // functions
+  virtual bool Load() override;
+};
 
-	};
-
-} 
+} // namespace Nebulae
 
 #endif // NEBULAE_SAMPLERIMPL_OGL_H__

@@ -12,9 +12,8 @@ class ComponentManagerBase
 {
 public:
   virtual Component* GetComponentAt( int identifier ) const;
-
 };
 
-}
+} // namespace Sample
 
 #endif //__CORE_COMPONENTMANAGER_H__

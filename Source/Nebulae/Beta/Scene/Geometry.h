@@ -14,24 +14,25 @@ class VertexDeceleration;
 class Geometry
 {
 public:
-  HardwareBuffer*     m_vertexBuffer;
+  HardwareBuffer* m_vertexBuffer;
   VertexDeceleration* m_vertexDeceleration;
-  uint32              m_vertexCount;
-  HardwareBuffer*     m_indexBuffer;
-  uint32              m_indexCount;
-  OperationType       m_primitiveTopology;
+  uint32 m_vertexCount;
+  HardwareBuffer* m_indexBuffer;
+  uint32 m_indexCount;
+  OperationType m_primitiveTopology;
 
   Geometry()
-  : m_vertexBuffer( nullptr ), 
-    m_vertexDeceleration( nullptr ), 
-    m_vertexCount( 0 ), 
-    m_indexBuffer( nullptr ),
-    m_indexCount( 0 ), 
-    m_primitiveTopology( OT_TRIANGLELIST )
-  {}
+    : m_vertexBuffer( nullptr ),
+      m_vertexDeceleration( nullptr ),
+      m_vertexCount( 0 ),
+      m_indexBuffer( nullptr ),
+      m_indexCount( 0 ),
+      m_primitiveTopology( OT_TRIANGLELIST )
+  {
+  }
 
-}; //Geometry
+}; // Geometry
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // GEOMETRY_H__

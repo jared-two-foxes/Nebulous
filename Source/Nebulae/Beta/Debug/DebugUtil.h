@@ -18,29 +18,29 @@ class DebugUtil
 ///
 {
 public:
-  typedef std::shared_ptr<RenderSystem >    RenderSystemPtr;
-  typedef std::shared_ptr<Nebulae::Camera > CameraPtr;
+  typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
+  typedef std::shared_ptr<Nebulae::Camera> CameraPtr;
 
 private:
-  uint32          m_primitiveCount;
+  uint32 m_primitiveCount;
   RenderSystemPtr m_renderSystem;
-  Material*       m_material;
+  Material* m_material;
   HardwareBuffer* m_vertexBuffer;
-  InputLayout*    m_inputLayout;
+  InputLayout* m_inputLayout;
 
-  public:
-    DebugUtil( RenderSystemPtr renderer );
+public:
+  DebugUtil( RenderSystemPtr renderer );
 
-    void Init();
+  void Init();
 
-    void Reset();
+  void Reset();
 
-    void AddLine( const Vector4& p1, const Vector4& p2, const Vector4& colour );
-    void AddCircle( const Vector4& position, const Real radius, const Vector4& colour );
+  void AddLine( const Vector4& p1, const Vector4& p2, const Vector4& colour );
+  void AddCircle( const Vector4& position, const Real radius, const Vector4& colour );
 
-    void Draw( const CameraPtr& camera );
+  void Draw( const CameraPtr& camera );
 };
 
-}
+} // namespace Nebulae
 
 #endif // __DEBUGUTIL_H__

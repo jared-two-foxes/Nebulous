@@ -9,12 +9,12 @@ using namespace Nebulae;
 
 
 OpenAudioLibraryEmitter::OpenAudioLibraryEmitter( AudioBufferInterface** streamBuffers, int count )
-///
-/// Constructor.
-///
-  : AudioEmitterInterface( streamBuffers, count ), 
-    m_id( -1 )
-{}
+  ///
+  /// Constructor.
+  ///
+  : AudioEmitterInterface( streamBuffers, count ), m_id( -1 )
+{
+}
 
 
 OpenAudioLibraryEmitter::~OpenAudioLibraryEmitter()
@@ -26,8 +26,7 @@ OpenAudioLibraryEmitter::~OpenAudioLibraryEmitter()
 }
 
 
-bool
-OpenAudioLibraryEmitter::Initiate() 
+bool OpenAudioLibraryEmitter::Initiate()
 ///
 /// Setup of hardware requirements for an emitter object.
 ///
@@ -57,8 +56,7 @@ OpenAudioLibraryEmitter::Initiate()
 }
 
 
-void 
-OpenAudioLibraryEmitter::Destroy()
+void OpenAudioLibraryEmitter::Destroy()
 ///
 /// Destroys this instance to be unloaded.  Destroying any internal memory or allocations.
 ///
@@ -68,13 +66,13 @@ OpenAudioLibraryEmitter::Destroy()
 {
   alDeleteSources( 1, &m_id );
 
-  while( !m_buffers.empty() )
+  while ( !m_buffers.empty() )
   {
     delete m_buffers.front();
     m_buffers.pop_front();
   }
 
-  while( !m_queued_buffers.empty() )
+  while ( !m_queued_buffers.empty() )
   {
     delete m_queued_buffers.front();
     m_queued_buffers.pop_front();
@@ -82,8 +80,7 @@ OpenAudioLibraryEmitter::Destroy()
 }
 
 
-void
-OpenAudioLibraryEmitter::Play()
+void OpenAudioLibraryEmitter::Play()
 ///
 /// Causes the emitter to begin playing whichever sound is currently attached to it.
 ///
@@ -91,8 +88,9 @@ OpenAudioLibraryEmitter::Play()
 ///   Nothing.
 ///
 {
-  while( !m_buffers.empty() ) {
-    StreamBuffer(); 
+  while ( !m_buffers.empty() )
+  {
+    StreamBuffer();
   }
 
   alSourcePlay( m_id );
@@ -100,8 +98,7 @@ OpenAudioLibraryEmitter::Play()
 }
 
 
-void 
-OpenAudioLibraryEmitter::Stop()
+void OpenAudioLibraryEmitter::Stop()
 ///
 /// Stops the play back of the playing emitter.
 ///
@@ -113,7 +110,8 @@ OpenAudioLibraryEmitter::Stop()
   CheckForAudioErrors( "source stop" );
 
   // Unqueue existing buffers
-  while( !m_queued_buffers.empty() ) {
+  while ( !m_queued_buffers.empty() )
+  {
     AudioBufferInterface* buffer = m_queued_buffers.front();
     _UnqueueBuffer( buffer );
 
@@ -123,15 +121,15 @@ OpenAudioLibraryEmitter::Stop()
 
   // Reset the total streamed flag and clear the current status of the audio stream.
   AudioSoundInterface* playingSound = GetPlayingSound();
-  if( playingSound != NULL ) {
+  if ( playingSound != NULL )
+  {
     playingSound->Clear();
   }
   m_total_buffered = 0;
 }
 
 
-void 
-OpenAudioLibraryEmitter::Pause()
+void OpenAudioLibraryEmitter::Pause()
 ///
 /// Will stop the playback of Audio from the Emitter.
 ///
@@ -144,8 +142,7 @@ OpenAudioLibraryEmitter::Pause()
 }
 
 
-void 
-OpenAudioLibraryEmitter::Resume()
+void OpenAudioLibraryEmitter::Resume()
 ///
 /// Resumes the sound emitting from the Emitter.
 ///
@@ -153,8 +150,9 @@ OpenAudioLibraryEmitter::Resume()
 ///   Nothing.
 ///
 {
-  while( !m_buffers.empty() ) {
-    StreamBuffer(); 
+  while ( !m_buffers.empty() )
+  {
+    StreamBuffer();
   }
 
   alSourcePlay( m_id );
@@ -162,8 +160,7 @@ OpenAudioLibraryEmitter::Resume()
 }
 
 
-bool
-OpenAudioLibraryEmitter::IsPlaying() const
+bool OpenAudioLibraryEmitter::IsPlaying() const
 ///
 /// Checks the Emitter status to determine if it is currently playing.
 ///
@@ -173,12 +170,11 @@ OpenAudioLibraryEmitter::IsPlaying() const
 {
   ALint value;
   alGetSourcei( m_id, AL_SOURCE_STATE, &value );
-  return (value == AL_PLAYING);
+  return ( value == AL_PLAYING );
 }
 
 
-bool 
-OpenAudioLibraryEmitter::IsPaused() const
+bool OpenAudioLibraryEmitter::IsPaused() const
 ///
 /// Checks the Emitter status to determine if it is currently paused.
 ///
@@ -188,12 +184,11 @@ OpenAudioLibraryEmitter::IsPaused() const
 {
   ALint value;
   alGetSourcei( m_id, AL_SOURCE_STATE, &value );
-  return (value == AL_PAUSED);
+  return ( value == AL_PAUSED );
 }
 
 
-int 
-OpenAudioLibraryEmitter::_BufferProcessed() const
+int OpenAudioLibraryEmitter::_BufferProcessed() const
 ///
 /// Queries the AudioSystem for the number of buffers that have completed there playback
 /// since last call.
@@ -209,8 +204,7 @@ OpenAudioLibraryEmitter::_BufferProcessed() const
 }
 
 
-bool 
-OpenAudioLibraryEmitter::_EnqueueBuffer( AudioBufferInterface* buffer )
+bool OpenAudioLibraryEmitter::_EnqueueBuffer( AudioBufferInterface* buffer )
 ///
 /// Will attempt to bind a AudioBuffer to this emitter.  Note that this will cause the buffer
 /// to override whatever buffer is currently bound.
@@ -222,20 +216,19 @@ OpenAudioLibraryEmitter::_EnqueueBuffer( AudioBufferInterface* buffer )
 ///   Whether the binding was successful.
 ///
 {
-  OpenAudioLibraryBuffer* openalBuffer = static_cast<OpenAudioLibraryBuffer*>(buffer);
+  OpenAudioLibraryBuffer* openalBuffer = static_cast<OpenAudioLibraryBuffer*>( buffer );
 
-  alSourceQueueBuffers( m_id, 1, &((*openalBuffer).m_id) );
-  CheckForAudioErrors("buffer queueing failed");
+  alSourceQueueBuffers( m_id, 1, &( ( *openalBuffer ).m_id ) );
+  CheckForAudioErrors( "buffer queueing failed" );
 
-  //Success
+  // Success
   return true;
 }
 
 
-bool 
-OpenAudioLibraryEmitter::_UnqueueBuffer( AudioBufferInterface* buffer )
+bool OpenAudioLibraryEmitter::_UnqueueBuffer( AudioBufferInterface* buffer )
 ///
-/// Unqueues a Buffer from this emitter. 
+/// Unqueues a Buffer from this emitter.
 ///
 /// @param buffer
 ///   The buffer to remove from the playback queue.
@@ -245,11 +238,11 @@ OpenAudioLibraryEmitter::_UnqueueBuffer( AudioBufferInterface* buffer )
 ///
 {
   //@todo [jared.watt] Check if this sound is currently queued on this emitter
-  OpenAudioLibraryBuffer* openalBuffer = static_cast<OpenAudioLibraryBuffer*>(buffer);
+  OpenAudioLibraryBuffer* openalBuffer = static_cast<OpenAudioLibraryBuffer*>( buffer );
 
-  alSourceUnqueueBuffers( m_id, 1, &((*openalBuffer).m_id) );
-  CheckForAudioErrors("buffer unqueuing failed");
+  alSourceUnqueueBuffers( m_id, 1, &( ( *openalBuffer ).m_id ) );
+  CheckForAudioErrors( "buffer unqueuing failed" );
 
-  //Success
+  // Success
   return true;
 }

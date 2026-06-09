@@ -13,20 +13,18 @@ using namespace Nebulae;
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd )
 {
   // Create the application.
-	StateStack app;
+  StateStack app;
   app.Initiate();
 
-#if !defined(USE_ZIPDEVICE_AS_DEFAULT_ROOT)
+#if !defined( USE_ZIPDEVICE_AS_DEFAULT_ROOT )
   Platform::FileSystemPtr fileSystem = app.GetPlatform()->GetFileSystem();
-  fileSystem->Mount("disk", new DiskFileDevice("..//..//Samples//Entity//Assets"));
+  fileSystem->Mount( "disk", new DiskFileDevice( "..//..//Samples//Entity//Assets" ) );
 #else
-  NE_ASSERT(false, "Zip device is not supported for example.");
+  NE_ASSERT( false, "Zip device is not supported for example." );
 #endif
 
-  app.PushState( new GuiSampleState("GuiSample") );
+  app.PushState( new GuiSampleState( "GuiSample" ) );
   app.Run();
 
   return 0;
-  
 }
-

@@ -7,47 +7,47 @@
 using namespace Nebulae;
 
 
-TEST(DiskFile, Read_ValidFileAndSize_ShouldReturnSize) 
+TEST( DiskFile, Read_ValidFileAndSize_ShouldReturnSize )
 {
-  //arrange
+  // arrange
   DiskFile file( "../../tests/Assets/entityTemplates.json" );
-    
-  //act
-  char buffer[8]; 
+
+  // act
+  char buffer[8];
   size_t amountRead = file.Read( buffer, 8 );
 
-  //assert
-  ASSERT_EQ( std::size_t(8), amountRead );
+  // assert
+  ASSERT_EQ( std::size_t( 8 ), amountRead );
 }
 
-TEST(DiskFile, Read_RequestToMuchData_ShouldReturnSizeStreamed) 
+TEST( DiskFile, Read_RequestToMuchData_ShouldReturnSizeStreamed )
 {
-  //arrange
+  // arrange
   DiskFile file( "../../tests/Assets/entityTemplates.json" );
   file.SeekToEnd();
-	std::size_t size = file.Tell();
-  file.Seek( 0 );  
+  std::size_t size = file.Tell();
+  file.Seek( 0 );
 
-  //act
-  char buffer[512]; 
+  // act
+  char buffer[512];
   EXPECT_GT( 512u, size );
-	std::size_t amountRead = file.Read( buffer, 512 );
-   
-  //assert
+  std::size_t amountRead = file.Read( buffer, 512 );
+
+  // assert
   ASSERT_EQ( size, amountRead );
 }
 
-TEST(DiskFile, Write_WritesDataToFile_ShouldReturnSizeStreamed) 
+TEST( DiskFile, Write_WritesDataToFile_ShouldReturnSizeStreamed )
 {
-  //arrange
+  // arrange
   DiskFile file( "../../tests/Assets/test_output.json", false );
-    
-  //act
-  char buffer[256];
-  sprintf( buffer, "%s", "This is a test string" ); 
-	std::size_t length = strlen( &buffer[0] );
-	std::size_t amountWriten = file.Write( buffer, length );
 
-  //assert
+  // act
+  char buffer[256];
+  sprintf( buffer, "%s", "This is a test string" );
+  std::size_t length = strlen( &buffer[0] );
+  std::size_t amountWriten = file.Write( buffer, length );
+
+  // assert
   ASSERT_EQ( length, amountWriten );
 }

@@ -4,21 +4,18 @@
 using Nebulae::SharedLibrary;
 
 
-SharedLibrary::SharedLibrary()
-{}
+SharedLibrary::SharedLibrary() {}
 
 
-SharedLibrary::~SharedLibrary()
-{}
+SharedLibrary::~SharedLibrary() {}
 
 
-int 
-SharedLibrary::Open( const std::wstring& filename ) 
+int SharedLibrary::Open( const std::wstring& filename )
 {
   handle = LoadLibraryEx( filename.c_str(), NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
-  if ( handle == nullptr ) 
+  if ( handle == nullptr )
   {
- 		DWORD   error = GetLastError();
+    DWORD error = GetLastError();
 
     return error;
   }
@@ -27,10 +24,9 @@ SharedLibrary::Open( const std::wstring& filename )
 }
 
 
-void 
-SharedLibrary::Close() 
+void SharedLibrary::Close()
 {
-  if ( handle ) 
+  if ( handle )
   {
     /* Ignore errors. No good way to signal them without leaking memory. */
     FreeLibrary( handle );
@@ -39,10 +35,9 @@ SharedLibrary::Close()
 }
 
 
-int 
-SharedLibrary::Symbol( const char* name, void** ptr ) 
+int SharedLibrary::Symbol( const char* name, void** ptr )
 {
-  *ptr = (void*) GetProcAddress( handle, name );
+  *ptr = (void*)GetProcAddress( handle, name );
 
   return *ptr ? 0 : GetLastError();
 }

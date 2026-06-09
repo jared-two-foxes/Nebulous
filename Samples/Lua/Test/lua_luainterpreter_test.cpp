@@ -9,48 +9,47 @@
 using namespace Nebulae;
 
 
-class LuaInterpreterFixture : public ::testing::Test 
+class LuaInterpreterFixture : public ::testing::Test
 {
-  protected:
-    LuaInterpreter* m_interpreter;
+protected:
+  LuaInterpreter* m_interpreter;
 
-    protected:
-      virtual void SetUp() 
-      {
-        m_interpreter = new LuaInterpreter();
-        m_interpreter->Initialize();
-      }
+protected:
+  virtual void SetUp()
+  {
+    m_interpreter = new LuaInterpreter();
+    m_interpreter->Initialize();
+  }
 
-      virtual void TearDown() 
-      {
-        delete m_interpreter;
-        m_interpreter = NULL;
-      }
-
+  virtual void TearDown()
+  {
+    delete m_interpreter;
+    m_interpreter = NULL;
+  }
 };
 
 
-TEST_F(LuaInterpreterFixture, DoString_Parameter_EmptyStringReturnsTrue) 
+TEST_F( LuaInterpreterFixture, DoString_Parameter_EmptyStringReturnsTrue )
 {
-  //arrange
+  // arrange
   std::string emptyBuffer = "";
 
-  //act
+  // act
   bool result = m_interpreter->DoString( emptyBuffer.c_str() );
 
-  //assert
+  // assert
   ASSERT_TRUE( result );
 }
 
-TEST_F(LuaInterpreterFixture, DoString_Parameter_EmptyStringCausesNoError) 
+TEST_F( LuaInterpreterFixture, DoString_Parameter_EmptyStringCausesNoError )
 {
-  //arrange
+  // arrange
   std::string emptyBuffer = "";
 
-  //act
+  // act
   m_interpreter->DoString( emptyBuffer.c_str() );
   const std::string errorMessage = m_interpreter->GetErrorMessage();
 
-  //assert
+  // assert
   ASSERT_EQ( errorMessage.length(), 0 );
 }

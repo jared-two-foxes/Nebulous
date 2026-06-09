@@ -3,34 +3,14 @@
 namespace Nebulae
 {
 
-  void
-  State::Enter( StateStack* caller )
-  {
+void State::Enter( StateStack* caller ) {}
 
-  }
+void State::Pause() {}
 
-  void
-  State::Pause()
-  {
+void State::Resume() {}
 
-  }
+void State::Exit( StateStack* caller ) {}
 
-  void
-  State::Resume()
-  {
+bool State::IsState( const char* szStateName ) const { return ( strcmp( m_strName.c_str(), szStateName ) == 0 ); }
 
-  }
-
-  void
-  State::Exit( StateStack* caller )
-  {
-
-  }
-
-  bool 
-  State::IsState( const char* szStateName ) const 
-  {
-    return (strcmp(m_strName.c_str(), szStateName) == 0);
-  }
-  
-}
+} // namespace Nebulae

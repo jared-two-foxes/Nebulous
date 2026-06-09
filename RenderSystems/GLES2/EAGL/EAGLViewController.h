@@ -14,8 +14,9 @@
 
 @class EAGLContext;
 
-namespace Nebulae {
-  class TouchesDelegate;
+namespace Nebulae
+{
+class TouchesDelegate;
 }
 
 @interface EAGLViewController : UIViewController <UIAccelerometerDelegate>
@@ -23,9 +24,9 @@ namespace Nebulae {
   Nebulae::TouchesDelegate* m_touchesDelegate;
 }
 
-- (void)setTouchesDelegate: (Nebulae::TouchesDelegate*) delegate;
+- (void)setTouchesDelegate:(Nebulae::TouchesDelegate*)delegate;
 
-@property (retain, nonatomic) EAGLContext     *context;
+@property( retain, nonatomic ) EAGLContext* context;
 
 @end
 

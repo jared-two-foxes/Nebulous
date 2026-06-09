@@ -3,7 +3,8 @@
 
 #include <Nebulae/Common/Common.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class Platform;
 
@@ -12,16 +13,15 @@ class DiskFileDevice : public FileDevice
 private:
   std::string m_rootDirectory;
 
-  public:
-    DiskFileDevice( const char* path );
-    virtual ~DiskFileDevice();
+public:
+  DiskFileDevice( const char* path );
+  virtual ~DiskFileDevice();
 
-    virtual File* Open( const std::string& path, FileSystem::Mode mode ) override; 
-    virtual File* Open( File* file ) override; 
-    virtual void  Close( File* file ) override;
-
+  virtual File* Open( const std::string& path, FileSystem::Mode mode ) override;
+  virtual File* Open( File* file ) override;
+  virtual void Close( File* file ) override;
 };
 
-}
+} // namespace Nebulae
 
 #endif // __NEBULAE_FILESYSTEM_H__

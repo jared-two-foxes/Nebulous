@@ -1,94 +1,91 @@
 #include "Includes/HardwareShaderImpl_OGL.h"
 
-#include <Nebulae/Common/Log.h>
-#include <Nebulae/Common/FileSystem/FileSystem.h>
 #include <Nebulae/Alpha/Texture/Texture.h>
+#include <Nebulae/Common/FileSystem/FileSystem.h>
+#include <Nebulae/Common/Log.h>
 
 
-PFNGLCOMPILESHADERPROC      glCompileShader      = NULL;
-PFNGLCREATESHADERPROC       glCreateShader       = NULL;
-PFNGLDELETESHADERPROC       glDeleteShader       = NULL;
-PFNGLGETSHADERIVPROC        glGetShaderiv        = NULL;
-PFNGLGETSHADERINFOLOGPROC   glGetShaderInfoLog   = NULL;
-PFNGLSHADERSOURCEPROC       glShaderSource       = NULL;
+PFNGLCOMPILESHADERPROC glCompileShader = NULL;
+PFNGLCREATESHADERPROC glCreateShader = NULL;
+PFNGLDELETESHADERPROC glDeleteShader = NULL;
+PFNGLGETSHADERIVPROC glGetShaderiv = NULL;
+PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog = NULL;
+PFNGLSHADERSOURCEPROC glShaderSource = NULL;
 
 using namespace Nebulae;
 
 
 // A boring utility function which opens a file and extracts the contents.
-char* 
-file_contents( File& file, GLint *iLength )
+char* file_contents( File& file, GLint* iLength )
 {
-	char* szBuffer;
+  char* szBuffer;
 
-	file.SeekToEnd();
-	(*iLength) = (GLint)file.Tell(); 
-	file.Seek( 0 );
+  file.SeekToEnd();
+  ( *iLength ) = (GLint)file.Tell();
+  file.Seek( 0 );
 
-	szBuffer = new char[ *iLength+1 ];
-	file.Read( szBuffer, *iLength );
-	szBuffer[ *iLength ] = '\0';
+  szBuffer = new char[*iLength + 1];
+  file.Read( szBuffer, *iLength );
+  szBuffer[*iLength] = '\0';
 
-	return szBuffer;
+  return szBuffer;
 }
 
 
-void
-HardwareShaderImpl_OGL::initiateFunctions()
+void HardwareShaderImpl_OGL::initiateFunctions()
 {
-  glCompileShader    = (PFNGLCOMPILESHADERPROC)wglGetProcAddress( "glCompileShader" );
-  glCreateShader     = (PFNGLCREATESHADERPROC)wglGetProcAddress( "glCreateShader" );
-  glDeleteShader     = (PFNGLDELETESHADERPROC)wglGetProcAddress( "glDeleteShader" );
-  glGetShaderiv      = (PFNGLGETSHADERIVPROC)wglGetProcAddress( "glGetShaderiv" );
+  glCompileShader = (PFNGLCOMPILESHADERPROC)wglGetProcAddress( "glCompileShader" );
+  glCreateShader = (PFNGLCREATESHADERPROC)wglGetProcAddress( "glCreateShader" );
+  glDeleteShader = (PFNGLDELETESHADERPROC)wglGetProcAddress( "glDeleteShader" );
+  glGetShaderiv = (PFNGLGETSHADERIVPROC)wglGetProcAddress( "glGetShaderiv" );
   glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC)wglGetProcAddress( "glGetShaderInfoLog" );
-  glShaderSource     = (PFNGLSHADERSOURCEPROC)wglGetProcAddress( "glShaderSource" );
+  glShaderSource = (PFNGLSHADERSOURCEPROC)wglGetProcAddress( "glShaderSource" );
 }
 
-HardwareShaderImpl_OGL::HardwareShaderImpl_OGL( const std::string& strFileName, HardwareShaderType eType  )
-  : HardwareShaderImpl( strFileName, eType )
-  , m_iHandle( 0 )
-{}
-
-  
-HardwareShaderImpl_OGL::~HardwareShaderImpl_OGL()
-{}
+HardwareShaderImpl_OGL::HardwareShaderImpl_OGL( const std::string& strFileName, HardwareShaderType eType )
+  : HardwareShaderImpl( strFileName, eType ), m_iHandle( 0 )
+{
+}
 
 
-bool 
-HardwareShaderImpl_OGL::Load( File& is )
+HardwareShaderImpl_OGL::~HardwareShaderImpl_OGL() {}
+
+
+bool HardwareShaderImpl_OGL::Load( File& is )
 ///
 /// @todo [jared.watt 13.02.2014]
 ///   This will only cater for Vertex and Fragment shaders at this point.
 ///
 {
-//
-// Initial Setup.
-//
+  //
+  // Initial Setup.
+  //
   GLenum type = m_type == PIXEL_SHADER ? GL_FRAGMENT_SHADER : GL_VERTEX_SHADER;
 
   m_iHandle = glCreateShader( type );
-	CheckForGLError();
+  CheckForGLError();
 
-//
-// Apply the Shader source.
-//
+  //
+  // Apply the Shader source.
+  //
   GLint iFileLen;
   char* szFileContents = file_contents( is, &iFileLen );
   glShaderSource( m_iHandle, 1, (const GLchar**)&szFileContents, NULL );
-	CheckForGLError();
-	  
-  delete [] szFileContents;
+  CheckForGLError();
+
+  delete[] szFileContents;
 
 
-//
-// Compile the shader source.
-//
+  //
+  // Compile the shader source.
+  //
   glCompileShader( m_iHandle );
-	CheckForGLError();
+  CheckForGLError();
 
   GLint iStatus;
   glGetShaderiv( m_iHandle, GL_COMPILE_STATUS, &iStatus );
-  if( iStatus == GL_FALSE ) {
+  if ( iStatus == GL_FALSE )
+  {
     std::string msg = "Failed to compile shader '" + m_fileName + "':\n";
 
     GLint iLen;
@@ -97,9 +94,9 @@ HardwareShaderImpl_OGL::Load( File& is )
     char* szLog = new char[iLen];
     glGetShaderInfoLog( m_iHandle, iLen, NULL, szLog );
     msg += szLog;
-    delete [] szLog;
+    delete[] szLog;
 
-    Nebulae::Log("%s", msg.c_str());
+    Nebulae::Log( "%s", msg.c_str() );
 
     glDeleteShader( m_iHandle );
 

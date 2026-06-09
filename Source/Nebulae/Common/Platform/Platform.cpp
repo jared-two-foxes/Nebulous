@@ -1,29 +1,29 @@
 #include "Platform.h"
 
-//#include <Nebulae/Alpha/Alpha.h>
+// #include <Nebulae/Alpha/Alpha.h>
 
 
 using namespace Nebulae;
 
 
 Platform::Platform()
-///
-/// Default constructor.
-///
-  : m_iExitCode( 0 ), 
-    m_fileSystem( NULL )
-{}
+  ///
+  /// Default constructor.
+  ///
+  : m_iExitCode( 0 ), m_fileSystem( NULL )
+{
+}
 
-	
+
 Platform::~Platform()
 ///
 /// Default destructor.
 ///
-{}
+{
+}
 
-	
-void 
-Platform::Exit( int iExitCode )
+
+void Platform::Exit( int iExitCode )
 ///
 ///	Sets a flag indicating the state of the application when it exists.
 ///
@@ -34,85 +34,90 @@ Platform::Exit( int iExitCode )
 /// 	Nothing.
 ///
 {
-	m_iExitCode = iExitCode;
+  m_iExitCode = iExitCode;
 }
 
 
-void 
-Platform::SetWorkingDirectory( const char* directory )
+void Platform::SetWorkingDirectory( const char* directory )
 ///
 /// Sets the working directory of the application.  Virtual function that doesnt nothing.
 ///
 /// @param directory
 ///   Path to the directory to use.
 ///
-/// @return 
+/// @return
 ///   Nothing.
 ///
 /// @todo [jared.watt 13.02.2014]
 ///   Should this dispatch through to the FileSystem.  Would argue hell yes. And this function could possibly
 ///   just disappear from here.
 ///
-{}
+{
+}
 
 
-int                
-Platform::GetExitCode() const 
+int Platform::GetExitCode() const
 ///
 /// Returns the value that which is returned at Application exit.
 ///
 /// @return
 ///   The value.
 ///
-{ return m_iExitCode; }
+{
+  return m_iExitCode;
+}
 
 
-bool               
-Platform::ShouldExit() const  
+bool Platform::ShouldExit() const
 ///
 /// Returns if the Application should exit.
 ///
 /// @return
 ///   Should the application end.
 ///
-{ return (m_iExitCode != 0); }
+{
+  return ( m_iExitCode != 0 );
+}
 
 
-Platform::FileSystemPtr
-Platform::GetFileSystem()
+Platform::FileSystemPtr Platform::GetFileSystem()
 ///
 /// Retrieves the FileSystem.
 ///
 /// @return
 ///   The file system.
 ///
-{ return m_fileSystem; }
+{
+  return m_fileSystem;
+}
 
 
-Clock&  
-Platform::GetClock()
+Clock& Platform::GetClock()
 ///
 /// Returns the platforms Clock object.
 ///
 /// @return
 ///   The Clock object.
 ///
-{ return m_clock; }
+{
+  return m_clock;
+}
 
 
-Keyboard&     
-Platform::GetKeyboard()
+Keyboard& Platform::GetKeyboard()
 ///
 /// Returns the platforms Keyboard object.
 ///
 /// @return
 ///   The Keyboard object.
 ///
-{ return m_keyboard; }
+{
+  return m_keyboard;
+}
 
 
-//Platform::RenderSystemPtr
-//Platform::CreateRenderSystem( WindowPtr window )
+// Platform::RenderSystemPtr
+// Platform::CreateRenderSystem( WindowPtr window )
 /////
 ///// Creates a RenderSystem for the specified Window object.
 /////
@@ -123,9 +128,9 @@ Platform::GetKeyboard()
 /////   The created RenderSystem.
 /////
 //{
-//  // Create RenderSystem for the window parameter object. 
-//  RenderSystemPtr renderSystem = ::CreateRenderSystem( GLES_2_0, m_fileSystem, window ); //< TODO resolve circle dependency here!
-//  if( renderSystem ) {
+//  // Create RenderSystem for the window parameter object.
+//  RenderSystemPtr renderSystem = ::CreateRenderSystem( GLES_2_0, m_fileSystem, window ); //< TODO resolve circle
+//  dependency here! if( renderSystem ) {
 //    renderSystem->Initiate();
 //  }
 //

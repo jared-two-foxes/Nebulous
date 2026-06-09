@@ -5,19 +5,15 @@ using namespace Sample;
 
 
 EntityTemplate::EntityTemplate( int id, const char* name, const std::vector<std::string>& components )
-///
-/// Constructor
-///
-  : m_id( id )
-  , m_name( name )
-  , m_components( components )
+  ///
+  /// Constructor
+  ///
+  : m_id( id ), m_name( name ), m_components( components )
 {
-  
 }
 
 
-int 
-EntityTemplate::GetId() const
+int EntityTemplate::GetId() const
 ///
 /// Gets the system template identifier
 ///
@@ -25,12 +21,11 @@ EntityTemplate::GetId() const
 ///    The identifier
 ///
 {
-  return m_id; 
+  return m_id;
 }
-    
 
-const std::string&
-EntityTemplate::GetName() const 
+
+const std::string& EntityTemplate::GetName() const
 ///
 /// Gets the name of the template.
 ///
@@ -38,14 +33,13 @@ EntityTemplate::GetName() const
 ///   The name of the template.
 ///
 {
-  return m_name; 
+  return m_name;
 }
 
 
-bool 
-EntityTemplate::ContainsComponent( const std::string& component ) const
+bool EntityTemplate::ContainsComponent( const std::string& component ) const
 ///
-/// Iterates the names of the components held by this entity for a specifically named 
+/// Iterates the names of the components held by this entity for a specifically named
 /// component.
 ///
 /// @param component
@@ -56,9 +50,9 @@ EntityTemplate::ContainsComponent( const std::string& component ) const
 ///
 {
   std::vector<std::string>::const_iterator end_it = m_components.end();
-  for( std::vector<std::string>::const_iterator it = m_components.begin(); it != end_it; ++it )
+  for ( std::vector<std::string>::const_iterator it = m_components.begin(); it != end_it; ++it )
   {
-    if( (*it) == component )
+    if ( ( *it ) == component )
     {
       return true;
     }

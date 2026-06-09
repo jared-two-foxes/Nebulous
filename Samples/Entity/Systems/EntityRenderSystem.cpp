@@ -14,13 +14,10 @@ namespace Sample
 {
 
 EntityRenderSystem::EntityRenderSystem( const RenderDevicePtr& renderer )
-///
-///
-///
-: m_renderer( renderer ),
-  m_camera( NULL ),
-  m_sceneGraph( NULL ),
-  m_atlasManager( NULL )
+  ///
+  ///
+  ///
+  : m_renderer( renderer ), m_camera( NULL ), m_sceneGraph( NULL ), m_atlasManager( NULL )
 {
 }
 
@@ -34,16 +31,15 @@ EntityRenderSystem::~EntityRenderSystem()
 }
 
 
-void
-EntityRenderSystem::Init( uint32 count )
+void EntityRenderSystem::Init( uint32 count )
 ///
-/// Generates all internal structures. 
+/// Generates all internal structures.
 ///
-/// @return 
+/// @return
 ///   Nothing
 ///
 {
-  //setup camera
+  // setup camera
   m_camera = std::shared_ptr<Camera>( new Camera() );
   Vector4 vCameraEye( 0.0f, 0.0f, 500.0f );
   Vector4 vLookAt( 0.0f, 0.0f, 0.0f );
@@ -51,19 +47,19 @@ EntityRenderSystem::Init( uint32 count )
   m_camera->LookAt( vCameraEye, vLookAt, vUp );
   m_camera->SetOrtho( 800.0f, 600.0f, 0.1f, 100.0f );
 
-  //create the scene graph.
+  // create the scene graph.
   m_sceneGraph = new SceneGraph( m_renderer );
   m_sceneGraph->Initialize();
 
-  //generate all the scene actors
+  // generate all the scene actors
   Actor* actorArray = new Actor[count];
-  for( uint32 i = 0; i < count; ++i )
+  for ( uint32 i = 0; i < count; ++i )
   {
-    Actor& actor     = actorArray[i];
-    actor.identifier = static_cast<uint32>(-1);
-    actor.node       = m_sceneGraph->GetRootSceneNode()->CreateChild();
+    Actor& actor = actorArray[i];
+    actor.identifier = static_cast<uint32>( -1 );
+    actor.node = m_sceneGraph->GetRootSceneNode()->CreateChild();
     actor.node->SetVisible( false );
-    actor.processed  = false;
+    actor.processed = false;
     m_unusedActors.push_back( &actor );
   }
 
@@ -71,8 +67,7 @@ EntityRenderSystem::Init( uint32 count )
 }
 
 
-void 
-EntityRenderSystem::Render( const std::vector<Entity*>& entities )
+void EntityRenderSystem::Render( const std::vector<Entity*>& entities )
 ///
 /// Update the renderscape of the current simulation step; Updating visual positions, appearances,
 /// and removing 'dead' entities and createing new Actors for new entities.
@@ -84,57 +79,58 @@ EntityRenderSystem::Render( const std::vector<Entity*>& entities )
 ///       that the only type of Entity are Boids and creates a _bad_ dependency on the boid object.
 ///
 {
-  //flag actors initial processing state.
+  // flag actors initial processing state.
   std::vector<Actor*>::iterator end_it = m_actors.end();
-  for( std::vector<Actor*>::iterator it = m_actors.begin(); it != end_it; ++it )
+  for ( std::vector<Actor*>::iterator it = m_actors.begin(); it != end_it; ++it )
   {
-    Actor& actor = *(*it);
+    Actor& actor = *( *it );
     actor.node->SetVisible( false );
     actor.processed = false;
   }
 
-  //process!
+  // process!
   std::vector<Entity*>::const_iterator end_entity_it = entities.end();
-  for( std::vector<Entity*>::const_iterator entity_it = entities.begin(); entity_it != end_entity_it; ++entity_it )
+  for ( std::vector<Entity*>::const_iterator entity_it = entities.begin(); entity_it != end_entity_it; ++entity_it )
   {
     Boid* boid = static_cast<Boid*>( *entity_it );
 
-    //find actor associated with this entity.
+    // find actor associated with this entity.
     Actor* actor = FindActorByIdentifier( boid->GetIdentifier() );
-    if( !actor )
+    if ( !actor )
     {
-      //grab an unused actor?
+      // grab an unused actor?
       actor = m_unusedActors.back();
       m_unusedActors.pop_back();
 
       actor->identifier = boid->GetIdentifier();
       actor->node->SetVisible( true );
-      
-      SpriteAtlas* atlas = m_atlasManager->GetByName("sparkle_01.atlas");
-      if( !atlas )
+
+      SpriteAtlas* atlas = m_atlasManager->GetByName( "sparkle_01.atlas" );
+      if ( !atlas )
       {
-        atlas = m_atlasManager->Create("sparkle_01.atlas");
+        atlas = m_atlasManager->Create( "sparkle_01.atlas" );
       }
 
       //@todo [jared.watt 09-08-2013] this is here cause its convienent not cause its good.
-      SpriteAtlasUtils::AttachFrameToNode( m_renderer, nullptr, actor->node, atlas, "module0" ); //< @todo - need to pass the material object here.
+      SpriteAtlasUtils::AttachFrameToNode( m_renderer, nullptr, actor->node, atlas,
+                                           "module0" ); //< @todo - need to pass the material object here.
 
       m_actors.push_back( actor );
     }
 
-    //update the nodes position.
+    // update the nodes position.
     actor->node->SetPosition( boid->GetPlacement().position );
     actor->node->SetVisible( true );
     //@todo [jared.watt 08-09-2013] update the nodes animation state?
     actor->processed = true;
   }
 
-  //check for unprocessed actors.  If they haven't been processed then we can remove them.
+  // check for unprocessed actors.  If they haven't been processed then we can remove them.
   std::vector<Actor*>::iterator it = m_actors.begin();
-  while( it != m_actors.end() )
+  while ( it != m_actors.end() )
   {
-    if( !(*it)->processed )
-    { 
+    if ( !( *it )->processed )
+    {
       Actor* actor = *it;
       m_unusedActors.push_back( actor );
       it = m_actors.erase( it );
@@ -145,15 +141,14 @@ EntityRenderSystem::Render( const std::vector<Entity*>& entities )
     }
   }
 
-  //draw the world as it exists in this simulation step.
-  if( m_sceneGraph )
+  // draw the world as it exists in this simulation step.
+  if ( m_sceneGraph )
   {
     m_sceneGraph->Render( m_camera.get() );
   }
 }
 
-EntityRenderSystem::Actor* 
-EntityRenderSystem::FindActorByIdentifier( uint32 identifier ) const
+EntityRenderSystem::Actor* EntityRenderSystem::FindActorByIdentifier( uint32 identifier ) const
 ///
 /// Searches for an Actor with a given identifier.
 ///
@@ -170,15 +165,15 @@ EntityRenderSystem::FindActorByIdentifier( uint32 identifier ) const
   assert( identifier != -1 );
 
   std::vector<Actor*>::const_iterator end_it = m_actors.end();
-  for( std::vector<Actor*>::const_iterator it = m_actors.begin(); it != end_it; ++it )
+  for ( std::vector<Actor*>::const_iterator it = m_actors.begin(); it != end_it; ++it )
   {
-    if( (*it)->identifier == identifier )
+    if ( ( *it )->identifier == identifier )
     {
-      return (*it);
+      return ( *it );
     }
   }
 
   return NULL;
 }
 
-}
+} // namespace Sample

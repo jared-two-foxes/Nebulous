@@ -6,18 +6,19 @@
 
 #include <Nebulae/Common/Common.h>
 
-namespace Nebulae {
-  
-/** Alignment flags. */
-NE_FLAG_TYPE(Alignment);
-extern const Alignment ALIGN_NONE;     ///< No alignment selected.
-extern const Alignment ALIGN_VCENTER;  ///< Vertically-centered.
-extern const Alignment ALIGN_TOP;      ///< Aligned to top.
-extern const Alignment ALIGN_BOTTOM;   ///< Aligned to bottom.
-extern const Alignment ALIGN_CENTER;   ///< Horizontally-centered.
-extern const Alignment ALIGN_LEFT;     ///< Aligned to left.
-extern const Alignment ALIGN_RIGHT;    ///< Aligned to right.
+namespace Nebulae
+{
 
-}
+/** Alignment flags. */
+NE_FLAG_TYPE( Alignment );
+extern const Alignment ALIGN_NONE;    ///< No alignment selected.
+extern const Alignment ALIGN_VCENTER; ///< Vertically-centered.
+extern const Alignment ALIGN_TOP;     ///< Aligned to top.
+extern const Alignment ALIGN_BOTTOM;  ///< Aligned to bottom.
+extern const Alignment ALIGN_CENTER;  ///< Horizontally-centered.
+extern const Alignment ALIGN_LEFT;    ///< Aligned to left.
+extern const Alignment ALIGN_RIGHT;   ///< Aligned to right.
+
+} // namespace Nebulae
 
 #endif // __NEBULAE_ALIGNMENTFLAGS_H__

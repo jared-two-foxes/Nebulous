@@ -6,89 +6,89 @@
 using namespace Nebulae;
 
 
-TEST(Logger, Log_EmptyStringParameter_IsNotAddedToLoggedMessages) 
+TEST( Logger, Log_EmptyStringParameter_IsNotAddedToLoggedMessages )
 {
-  //arrange
+  // arrange
   Logger logger;
 
-  //act
+  // act
   logger.Log( "" );
-  
-  //assert
-  ASSERT_EQ( std::size_t(0), logger.GetMessages().size() );
+
+  // assert
+  ASSERT_EQ( std::size_t( 0 ), logger.GetMessages().size() );
 }
 
 
-TEST(Logger, Log_NewLineString_IsAddedToLoggedMessages) 
+TEST( Logger, Log_NewLineString_IsAddedToLoggedMessages )
 {
-  //arrange
+  // arrange
   Logger logger;
 
-  //act
+  // act
   logger.Log( "\n" );
-  
-  //assert
-  ASSERT_EQ( std::size_t(1), logger.GetMessages().size() );
+
+  // assert
+  ASSERT_EQ( std::size_t( 1 ), logger.GetMessages().size() );
 }
 
-TEST(Logger, Log_StandardString_AddedToMessages) 
+TEST( Logger, Log_StandardString_AddedToMessages )
 {
-  //arrange
+  // arrange
   Logger logger;
 
-  //act
+  // act
   logger.Log( "Log a message!" );
-  
-  //assert
-  ASSERT_EQ( std::size_t(1), logger.GetMessages().size() );
+
+  // assert
+  ASSERT_EQ( std::size_t( 1 ), logger.GetMessages().size() );
 }
 
-TEST(Logger, Log_StandardStringWithExtraStringWhichIsNotReferenced_UnmodifiedStringAddedToMessages) 
+TEST( Logger, Log_StandardStringWithExtraStringWhichIsNotReferenced_UnmodifiedStringAddedToMessages )
 {
-  //arrange
+  // arrange
   Logger logger;
 
-  //act
+  // act
   logger.Log( "This message has numbers 123456", "second" );
-  
-  //assert
-  EXPECT_EQ( std::size_t(1), logger.GetMessages().size() );
 
-  if( logger.GetMessages().size() > 0 )
+  // assert
+  EXPECT_EQ( std::size_t( 1 ), logger.GetMessages().size() );
+
+  if ( logger.GetMessages().size() > 0 )
   {
     ASSERT_STREQ( logger.GetMessages()[0].c_str(), "This message has numbers 123456" );
   }
 }
 
-TEST(Logger, Log_StandardStringWithExtraString_AddedToMessages) 
+TEST( Logger, Log_StandardStringWithExtraString_AddedToMessages )
 {
-  //arrange
+  // arrange
   Logger logger;
 
-  //act
+  // act
   logger.Log( "Log a '%s' message!", "second" );
-  
-  //assert
-  EXPECT_EQ( std::size_t(1), logger.GetMessages().size() );
 
-  if( logger.GetMessages().size() > 0 )
+  // assert
+  EXPECT_EQ( std::size_t( 1 ), logger.GetMessages().size() );
+
+  if ( logger.GetMessages().size() > 0 )
   {
     ASSERT_STREQ( logger.GetMessages()[0].c_str(), "Log a 'second' message!" );
   }
 }
 
-TEST(Logger, Log_StandardStringWithExtraNumbers_AddedToMessages) 
+TEST( Logger, Log_StandardStringWithExtraNumbers_AddedToMessages )
 {
-  //arrange
+  // arrange
   Logger logger;
 
-  //act
-  logger.Log( "This message has numbers %d%d%d", 7, 8, 9  );
-  
-  //assert
-  EXPECT_EQ( std::size_t(1), logger.GetMessages().size() );
+  // act
+  logger.Log( "This message has numbers %d%d%d", 7, 8, 9 );
 
-  if( logger.GetMessages().size() > 0 )
+  // assert
+  EXPECT_EQ( std::size_t( 1 ), logger.GetMessages().size() );
+
+  if ( logger.GetMessages().size() > 0 )
   {
     ASSERT_STREQ( logger.GetMessages()[0].c_str(), "This message has numbers 789" );
   }

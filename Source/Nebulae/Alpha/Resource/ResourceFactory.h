@@ -3,102 +3,98 @@
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class RenderSystem;
 
-template <class T>
-class ResourceFactory
+template <class T> class ResourceFactory
 {
 private:
-  RenderSystem&    m_renderSystem; 
-  std::vector<T* > m_resources;
+  RenderSystem& m_renderSystem;
+  std::vector<T*> m_resources;
 
-  public:
-    ResourceFactory( RenderSystem& renderSystem );
-    virtual ~ResourceFactory();
+public:
+  ResourceFactory( RenderSystem& renderSystem );
+  virtual ~ResourceFactory();
 
-    const std::vector<T* >& GetResources() const;
-    T* FindByIdentifier( int32 identifier ) const;
-    T* FindByName( const char* name ) const;
+  const std::vector<T*>& GetResources() const;
+  T* FindByIdentifier( int32 identifier ) const;
+  T* FindByName( const char* name ) const;
 
-    T* Create( const char* name );
+  T* Create( const char* name );
 
-  private:
-    bool AddToLists( T* resource );
-
+private:
+  bool AddToLists( T* resource );
 };
 
 
-template <class T>
-ResourceFactory<T>::ResourceFactory( RenderSystem& renderSystem ) 
-: m_renderSystem( renderSystem )
-{}
+template <class T> ResourceFactory<T>::ResourceFactory( RenderSystem& renderSystem ) : m_renderSystem( renderSystem ) {}
 
-template <class T>
-ResourceFactory<T>::~ResourceFactory() {
-  for( std::size_t i = 0, n = m_resources.size(); i < n; ++i ) {
+template <class T> ResourceFactory<T>::~ResourceFactory()
+{
+  for ( std::size_t i = 0, n = m_resources.size(); i < n; ++i )
+  {
     delete m_resources[i];
   }
   m_resources.clear();
 }
 
 
-template <class T> 
-const std::vector<T* >& 
-ResourceFactory<T>::GetResources() const {
-  return m_resources;
-}
+template <class T> const std::vector<T*>& ResourceFactory<T>::GetResources() const { return m_resources; }
 
-template <class T> 
-T* 
-ResourceFactory<T>::FindByIdentifier( int32 identifier ) const {
-  std::vector<T* >::const_iterator end_it = m_resources.end();
-  for( std::vector<T* >::const_iterator it = m_resources.begin(); it != end_it; ++it ) {
-    if( (*it)->GetIdentifier() == identifier ) {
-      return static_cast<T*>(*it);
+template <class T> T* ResourceFactory<T>::FindByIdentifier( int32 identifier ) const
+{
+  std::vector<T*>::const_iterator end_it = m_resources.end();
+  for ( std::vector<T*>::const_iterator it = m_resources.begin(); it != end_it; ++it )
+  {
+    if ( ( *it )->GetIdentifier() == identifier )
+    {
+      return static_cast<T*>( *it );
     }
   }
 
   return nullptr;
 }
 
-template <class T> 
-T* 
-ResourceFactory<T>::FindByName( const char* name ) const {
-  std::vector<T* >::const_iterator end_it = m_resources.end();
-  for( std::vector<T* >::const_iterator it = m_resources.begin(); it != end_it; ++it ) {
-    if( (*it)->GetName().compare( name ) == 0 ) {
-      return static_cast<T*>(*it);
+template <class T> T* ResourceFactory<T>::FindByName( const char* name ) const
+{
+  std::vector<T*>::const_iterator end_it = m_resources.end();
+  for ( std::vector<T*>::const_iterator it = m_resources.begin(); it != end_it; ++it )
+  {
+    if ( ( *it )->GetName().compare( name ) == 0 )
+    {
+      return static_cast<T*>( *it );
     }
   }
 
   return NULL;
 }
 
-template <class T> 
-T*
-ResourceFactory<T>::Create( const char* name )
+template <class T> T* ResourceFactory<T>::Create( const char* name )
 {
   // If the resource was requested without a name then give an auto generated name.
   std::string adjustedName = name == nullptr ? "" : name;
-  if( trim(adjustedName) == "" ) {
-    char       temp[64];
+  if ( trim( adjustedName ) == "" )
+  {
+    char temp[64];
     static int randomResourceNumberCounter = 0;
-    sprintf( temp, "res_guid_%d", randomResourceNumberCounter++ ); 
+    sprintf( temp, "res_guid_%d", randomResourceNumberCounter++ );
     adjustedName = temp;
   }
 
   // Attempt to find a resource with the matching name, returning it if found.
   T* resource = FindByName( adjustedName.c_str() );
-  if( resource ) {
+  if ( resource )
+  {
     NE_ASSERT( resource != NULL, "Resource with name already exists." );
     return resource;
   }
 
   // Create resource & add it to the internal lists.
   resource = new T( adjustedName, &m_renderSystem );
-  if( resource && AddToLists(resource) ) {
+  if ( resource && AddToLists( resource ) )
+  {
     return resource;
   }
 
@@ -108,13 +104,12 @@ ResourceFactory<T>::Create( const char* name )
 }
 
 
-template <class T> 
-bool 
-ResourceFactory<T>::AddToLists( T* resource ) {
-  m_resources.push_back( resource ); //should never fail.
+template <class T> bool ResourceFactory<T>::AddToLists( T* resource )
+{
+  m_resources.push_back( resource ); // should never fail.
   return true;
 }
 
-}
+} // namespace Nebulae
 
 #endif // NEBULAE_COMMON_RESOURCEFACTORY_H__

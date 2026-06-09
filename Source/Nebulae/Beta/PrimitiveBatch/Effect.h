@@ -15,7 +15,7 @@ class Effect
 ///
 {
 public:
-  typedef std::shared_ptr<RenderSystem > RenderSystemPtr;
+  typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 
 private:
   HardwareShader* m_vertexShader;
@@ -24,24 +24,23 @@ private:
   Matrix4 m_world;
   Matrix4 m_view;
   Matrix4 m_projection;
-  
-  public:
-    Effect();
-    ~Effect();
 
-    void Init( RenderSystemPtr renderDevice );
-    void Apply( RenderSystemPtr renderDevice );
+public:
+  Effect();
+  ~Effect();
 
-    const HardwareShader* GetVertexShader() const;
-    const HardwareShader* GetPixleShader() const;
+  void Init( RenderSystemPtr renderDevice );
+  void Apply( RenderSystemPtr renderDevice );
 
-    void SetWorld( Matrix4 value );
-    void SetView( Matrix4 value );
-    void SetProjection( Matrix4 value );
-    void SetMatrices( Matrix4 world, Matrix4 view, Matrix4 projection );
+  const HardwareShader* GetVertexShader() const;
+  const HardwareShader* GetPixleShader() const;
 
+  void SetWorld( Matrix4 value );
+  void SetView( Matrix4 value );
+  void SetProjection( Matrix4 value );
+  void SetMatrices( Matrix4 world, Matrix4 view, Matrix4 projection );
 };
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // NEBULAE_EFFECT_H__

@@ -14,23 +14,22 @@ namespace Nebulae
 class OggAudioDecoder : public AudioDecoder
 {
 private:
-  OggVorbis_File  vf;
-  int             current_section;
+  OggVorbis_File vf;
+  int current_section;
 
-  public:
-    OggAudioDecoder();
-    virtual ~OggAudioDecoder();
+public:
+  OggAudioDecoder();
+  virtual ~OggAudioDecoder();
 
-    virtual void   Clear() override;
-    virtual bool   Parse( File* datastream ) override;
-    virtual int32  Stream( uint32 start, uint32 size, char* data ) override;
-    virtual bool   Seek( Real time ) override;
-    virtual double Tell() const override;
-    
-    virtual double GetDuration() const override;
-    
+  virtual void Clear() override;
+  virtual bool Parse( File* datastream ) override;
+  virtual int32 Stream( uint32 start, uint32 size, char* data ) override;
+  virtual bool Seek( Real time ) override;
+  virtual double Tell() const override;
+
+  virtual double GetDuration() const override;
 };
-  
-}
+
+} // namespace Nebulae
 
 #endif //  __NEBULAE_OGG_AUDIODECODER_H__

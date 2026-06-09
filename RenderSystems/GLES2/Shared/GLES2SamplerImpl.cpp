@@ -5,21 +5,11 @@
 using namespace Nebulae;
 
 
-//constructor
-GLES2SamplerImpl::GLES2SamplerImpl()
-	: Sampler::Impl()
-{
+// constructor
+GLES2SamplerImpl::GLES2SamplerImpl() : Sampler::Impl() {}
 
-}
+// destructor
+GLES2SamplerImpl::~GLES2SamplerImpl() {}
 
-//destructor
-GLES2SamplerImpl::~GLES2SamplerImpl()
-{
-
-}
-
-//Load
-bool GLES2SamplerImpl::Load()
-{
-	return true;
-}
+// Load
+bool GLES2SamplerImpl::Load() { return true; }

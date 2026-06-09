@@ -7,20 +7,20 @@
 namespace Nebulae
 {
 
-	/** 
-	 *	GLES2SamplerImpl.
-	 */
-	class GLES2SamplerImpl : public Sampler::Impl
-	{
-	public:
-		GLES2SamplerImpl();
-		virtual ~GLES2SamplerImpl();
+/**
+ *	GLES2SamplerImpl.
+ */
+class GLES2SamplerImpl : public Sampler::Impl
+{
+public:
+  GLES2SamplerImpl();
+  virtual ~GLES2SamplerImpl();
 
-		//functions
-		virtual bool Load() override;
+  // functions
+  virtual bool Load() override;
 
-	}; //GLES2SamplerImpl
+}; // GLES2SamplerImpl
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // __NEBULAE_GLES2SAMPLERIMPL_H__

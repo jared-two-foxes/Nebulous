@@ -6,12 +6,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1
    of the License, or (at your option) any later version.
-   
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
-    
+
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -19,7 +19,7 @@
 
    If you do not wish to comply with the terms of the LGPL please
    contact the author as other terms are available for a fee.
-    
+
    Zach Laine
    whatwasthataddress@gmail.com */
 
@@ -29,10 +29,11 @@
 #ifndef __BETA_GUI_LAYOUT_H__
 #define __BETA_GUI_LAYOUT_H__
 
-#include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/Font/AlignmentFlags.h>
+#include <Nebulae/Common/Common.h>
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class Widget;
 
@@ -102,167 +103,178 @@ class Widget;
 class Layout
 {
   friend class Widget;
- 
+
 private:
   struct RowColParams
   {
     RowColParams();
 
-    double       stretch;
+    double stretch;
     unsigned int min;
-    unsigned int effective_min;   ///< current effective minimum size of this row or column, based on min, layout margins, and layout cell contents
-    int          current_origin;  ///< current position of top or left side
-    unsigned int current_width;   ///< current extent in downward or rightward direction
+    unsigned int effective_min; ///< current effective minimum size of this row or column, based on min, layout margins,
+                                ///< and layout cell contents
+    int current_origin;         ///< current position of top or left side
+    unsigned int current_width; ///< current extent in downward or rightward direction
   };
 
   struct WidgetPosition
   {
     WidgetPosition();
-    WidgetPosition( std::size_t first_row_, std::size_t first_column_,
-                    std::size_t last_row_, std::size_t last_column_,
+    WidgetPosition( std::size_t first_row_, std::size_t first_column_, std::size_t last_row_, std::size_t last_column_,
                     Alignment alignment_, const Point& original_ul_, const Point& original_size_ );
 
-    std::size_t      first_row;
-    std::size_t      first_column;
-    std::size_t      last_row;
-    std::size_t      last_column;
-    Alignment        alignment;
-    Point            original_ul;
-    Point            original_size;
+    std::size_t first_row;
+    std::size_t first_column;
+    std::size_t last_row;
+    std::size_t last_column;
+    Alignment alignment;
+    Point original_ul;
+    Point original_size;
   };
 
 private:
-  std::vector<std::vector<Widget*> > m_cells;
-  uint32                             m_border_margin;
-  uint32                             m_cell_margin;
-  std::vector<RowColParams>          m_row_params;
-  std::vector<RowColParams>          m_column_params;
-  std::map<Widget*, WidgetPosition>  m_widget_positions;
-  Point                              m_min_usable_size;
-  bool                               m_ignore_child_resize;
-  bool                               m_ignore_parent_resize;
-  bool                               m_render_outline;
-  Colour                             m_outline_color;
+  std::vector<std::vector<Widget*>> m_cells;
+  uint32 m_border_margin;
+  uint32 m_cell_margin;
+  std::vector<RowColParams> m_row_params;
+  std::vector<RowColParams> m_column_params;
+  std::map<Widget*, WidgetPosition> m_widget_positions;
+  Point m_min_usable_size;
+  bool m_ignore_child_resize;
+  bool m_ignore_parent_resize;
+  bool m_render_outline;
+  Colour m_outline_color;
 
-  public:
-    /** \name Structors */ ///@{
-    /** Ctor. */
-    Layout( int x, int y, int w, int h, std::size_t rows, std::size_t columns );
-    //@}
+public:
+  /** \name Structors */ ///@{
+  /** Ctor. */
+  Layout( int x, int y, int w, int h, std::size_t rows, std::size_t columns );
+  //@}
 
-    /** \name Accessors */ ///@{
-    virtual Point GetMinUsableSize() const;
+  /** \name Accessors */ ///@{
+  virtual Point GetMinUsableSize() const;
 
-    std::size_t                              GetRows() const;                                   ///< returns the number of rows in the layout
-    std::size_t                              GetColumns() const;                                ///< returns the number of columns in the layout
-    Alignment                                GetChildAlignment( const Widget* widget ) const;      ///< returns the aligment of child \a widget.  \throw GG::Layout::NoSuchChild Throws if no such child exists.
-    uint32                                   GetBorderMargin() const;                           ///< returns the number of pixels that the layout will leave between its edges and the windows it contains
-    uint32                                   GetCellMargin() const;                             ///< returns the number of pixels the layout leaves between the edges of windows in adjacent cells
-    double                                   GetRowStretch( std::size_t row) const;             ///< returns the stretch factor for row \a row.  Note that \a row is not range-checked.
-    double                                   GetColumnStretch( std::size_t column ) const;      ///< returns the stretch factor for column \a column.  Note that \a column is not range-checked.
-    int                                      GetMinimumRowHeight( std::size_t row ) const;      ///< returns the minimum height allowed for row \a row.  Note that \a row is not range-checked.
-    int                                      GetMinimumColumnWidth( std::size_t column ) const; ///< returns the minimum height allowed for column \a column.  Note that \a column is not range-checked.
-    std::vector<std::vector<const Widget*> > GetCells() const;                                  ///< returns a matrix of the Widgets that can be found in each cell
-    std::vector<std::vector<Rect> >          GetCellRects() const;                              ///< returns a matrix of rectangles in screen space that cover the cells in which child Widgets are placed
-    std::vector<std::vector<Rect> >          GetRelativeCellRects() const;                      ///< returns a matrix of rectangles in layout client space that cover the cells in which child Widgets are placed
+  std::size_t GetRows() const;    ///< returns the number of rows in the layout
+  std::size_t GetColumns() const; ///< returns the number of columns in the layout
+  Alignment GetChildAlignment( const Widget* widget )
+    const; ///< returns the aligment of child \a widget.  \throw GG::Layout::NoSuchChild Throws if no such child exists.
+  uint32 GetBorderMargin()
+    const; ///< returns the number of pixels that the layout will leave between its edges and the windows it contains
+  uint32 GetCellMargin()
+    const; ///< returns the number of pixels the layout leaves between the edges of windows in adjacent cells
+  double GetRowStretch(
+    std::size_t row ) const; ///< returns the stretch factor for row \a row.  Note that \a row is not range-checked.
+  double GetColumnStretch( std::size_t column )
+    const; ///< returns the stretch factor for column \a column.  Note that \a column is not range-checked.
+  int GetMinimumRowHeight( std::size_t row )
+    const; ///< returns the minimum height allowed for row \a row.  Note that \a row is not range-checked.
+  int GetMinimumColumnWidth( std::size_t column )
+    const; ///< returns the minimum height allowed for column \a column.  Note that \a column is not range-checked.
+  std::vector<std::vector<const Widget*>> GetCells()
+    const; ///< returns a matrix of the Widgets that can be found in each cell
+  std::vector<std::vector<Rect>> GetCellRects()
+    const; ///< returns a matrix of rectangles in screen space that cover the cells in which child Widgets are placed
+  std::vector<std::vector<Rect>> GetRelativeCellRects()
+    const; ///< returns a matrix of rectangles in layout client space that cover the cells in which child Widgets are
+           ///< placed
 
-    /** Returns true iff this layout will render an outline of itself; this is
-        sometimes useful for debugging purposes */
-    bool RenderOutline() const;
+  /** Returns true iff this layout will render an outline of itself; this is
+      sometimes useful for debugging purposes */
+  bool RenderOutline() const;
 
-    /** Returns the outline color used to render this layout (this is only
-        used if RenderOutline() returns true).  This is sometimes useful for
-        debugging purposes. */
-    //Colour OutlineColor() const;
-    //@}
+  /** Returns the outline color used to render this layout (this is only
+      used if RenderOutline() returns true).  This is sometimes useful for
+      debugging purposes. */
+  // Colour OutlineColor() const;
+  //@}
 
-    /** \name Mutators */ ///@{
-    virtual void StartingChildDragDrop( const Widget* widget, const Point& offset );
-    virtual void CancellingChildDragDrop( const std::vector<const Widget*>& Widgets );
-    virtual void ChildrenDraggedAway( const std::vector<Widget*>& Widgets, const Widget* destination );
-    virtual void SizeMove( const Point& ul, const Point& lr );
+  /** \name Mutators */ ///@{
+  virtual void StartingChildDragDrop( const Widget* widget, const Point& offset );
+  virtual void CancellingChildDragDrop( const std::vector<const Widget*>& Widgets );
+  virtual void ChildrenDraggedAway( const std::vector<Widget*>& Widgets, const Widget* destination );
+  virtual void SizeMove( const Point& ul, const Point& lr );
 
-    /** Inserts \a w into the layout in the indicated cell, expanding the
-        layout grid as necessary.  \throw GG::Layout::AttemPointedOverwrite
-        Throws if there is already a Widget in the given cell. */
-    void Add( Widget* widget, std::size_t row, std::size_t column, Alignment alignment = ALIGN_NONE );
+  /** Inserts \a w into the layout in the indicated cell, expanding the
+      layout grid as necessary.  \throw GG::Layout::AttemPointedOverwrite
+      Throws if there is already a Widget in the given cell. */
+  void Add( Widget* widget, std::size_t row, std::size_t column, Alignment alignment = ALIGN_NONE );
 
-    /** Inserts \a w into the layout, covering the indicated cell(s),
-        expanding the layout grid as necessary.  The num_rows and num_columns
-        indicate how many rows and columns \a w covers, respectively.  So
-        Add(foo, 1, 2, 2, 3) covers cells (1, 2) through (2, 4), inclusive.
-        Note that \a num_rows and \a num_columns must be positive, though this
-        is not checked. \throw GG::Layout::AttemPointedOverwrite Throws if there
-        is already a Widget in one of the given cells. */
-    void Add( Widget* widget, std::size_t row, std::size_t column, std::size_t num_rows, std::size_t num_columns, Alignment alignment = ALIGN_NONE );
+  /** Inserts \a w into the layout, covering the indicated cell(s),
+      expanding the layout grid as necessary.  The num_rows and num_columns
+      indicate how many rows and columns \a w covers, respectively.  So
+      Add(foo, 1, 2, 2, 3) covers cells (1, 2) through (2, 4), inclusive.
+      Note that \a num_rows and \a num_columns must be positive, though this
+      is not checked. \throw GG::Layout::AttemPointedOverwrite Throws if there
+      is already a Widget in one of the given cells. */
+  void Add( Widget* widget, std::size_t row, std::size_t column, std::size_t num_rows, std::size_t num_columns,
+            Alignment alignment = ALIGN_NONE );
 
-    /** Removes \a w from the layout, recalculating the layout as needed.
-        Note that this causes the layout to relinquish responsibility for \a
-        widget's memory management. */
-    void Remove( Widget* widget );
+  /** Removes \a w from the layout, recalculating the layout as needed.
+      Note that this causes the layout to relinquish responsibility for \a
+      widget's memory management. */
+  void Remove( Widget* widget );
 
-    /** Resets children to their original sizes and detaches them, so that a
-        removed Layout can leave the Widgets it lays out in their original
-        configuration when it is no longer useful. */
-    void DetachAndResetChildren();
+  /** Resets children to their original sizes and detaches them, so that a
+      removed Layout can leave the Widgets it lays out in their original
+      configuration when it is no longer useful. */
+  void DetachAndResetChildren();
 
-    /** Resizes the layout to be \a rows by \a columns.  If the layout
-        shrinks, any contained windows are deleted.  Each of \a rows and \a
-        columns must be greater than 0, though this is not checked. */
-    void ResizeLayout( std::size_t rows, std::size_t columns );
+  /** Resizes the layout to be \a rows by \a columns.  If the layout
+      shrinks, any contained windows are deleted.  Each of \a rows and \a
+      columns must be greater than 0, though this is not checked. */
+  void ResizeLayout( std::size_t rows, std::size_t columns );
 
-    /** Sets the aligment of child \a widget to \a alignment.  If no such child
-        exists, no action is taken. */
-    void SetChildAlignment( const Widget* widget, Alignment alignment );
+  /** Sets the aligment of child \a widget to \a alignment.  If no such child
+      exists, no action is taken. */
+  void SetChildAlignment( const Widget* widget, Alignment alignment );
 
-    /** Sets the number of pixels that the layout will leave between its edges
-        and the windows it contains */
-    void SetBorderMargin( uint32 margin );
+  /** Sets the number of pixels that the layout will leave between its edges
+      and the windows it contains */
+  void SetBorderMargin( uint32 margin );
 
-    /** Sets the number of pixels the layout leaves between the edges of
-        windows in adjacent cells */
-    void SetCellMargin( uint32 margin );
+  /** Sets the number of pixels the layout leaves between the edges of
+      windows in adjacent cells */
+  void SetCellMargin( uint32 margin );
 
-    /** Sets the amount of stretching, relative to other rows, that \a row
-        will do when the layout is resized.  0.0 indicates that the row's size
-        will not change unless all rows have 0.0 stretch as well.  Note that
-        \a row is not range-checked. */
-    void SetRowStretch( std::size_t row, Real stretch );
+  /** Sets the amount of stretching, relative to other rows, that \a row
+      will do when the layout is resized.  0.0 indicates that the row's size
+      will not change unless all rows have 0.0 stretch as well.  Note that
+      \a row is not range-checked. */
+  void SetRowStretch( std::size_t row, Real stretch );
 
-    /** Sets the amount of stretching, relative to other columns, that \a
-        column will do when the layout is resized.  0.0 indicates that the
-        column's size will not change unless all columns have 0.0 stretch as
-        well.  Note that \a column is not range-checked. */
-    void SetColumnStretch( std::size_t column, Real stretch );
+  /** Sets the amount of stretching, relative to other columns, that \a
+      column will do when the layout is resized.  0.0 indicates that the
+      column's size will not change unless all columns have 0.0 stretch as
+      well.  Note that \a column is not range-checked. */
+  void SetColumnStretch( std::size_t column, Real stretch );
 
-    /** Sets the minimum height of row \a row to \a height.  Note that \a row
-        is not range-checked. */
-    void SetMinimumRowHeight( std::size_t row, int height );
+  /** Sets the minimum height of row \a row to \a height.  Note that \a row
+      is not range-checked. */
+  void SetMinimumRowHeight( std::size_t row, int height );
 
-    /** Sets the minimum width of column \a column to \a width.  Note that \a
-        column is not range-checked. */
-    void SetMinimumColumnWidth( std::size_t column, int width );
-    //@}
-
-
-    static const uint32 INVALID_CELL_MARGIN;
-
-  protected:
-    /** \name Structors */ ///@{
-    Layout(); ///< default ctor
-    //@}
+  /** Sets the minimum width of column \a column to \a width.  Note that \a
+      column is not range-checked. */
+  void SetMinimumColumnWidth( std::size_t column, int width );
+  //@}
 
 
-  private:
-    double GetTotalStretch( const std::vector<RowColParams>& params_vec ) const;
-    int    GetTotalMinWidth() const;
-    int    GetTotalMinHeight() const;
-    void   GetValidateAlignment( Alignment& alignment );
-    void   GetRedoLayout();
-    void   GetChildSizeOrMinSizeOrMaxSizeChanged();
+  static const uint32 INVALID_CELL_MARGIN;
 
+protected:
+  /** \name Structors */ ///@{
+  Layout();              ///< default ctor
+  //@}
+
+
+private:
+  double GetTotalStretch( const std::vector<RowColParams>& params_vec ) const;
+  int GetTotalMinWidth() const;
+  int GetTotalMinHeight() const;
+  void GetValidateAlignment( Alignment& alignment );
+  void GetRedoLayout();
+  void GetChildSizeOrMinSizeOrMaxSizeChanged();
 };
 
-}
+} // namespace Nebulae
 
 #endif

@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EAGL2View : UIView 
+@interface EAGL2View : UIView
 {
 }
 

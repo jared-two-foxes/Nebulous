@@ -5,7 +5,8 @@
 
 struct lua_State;
 
-namespace Nebulae {
+namespace Nebulae
+{
 
 class Keyboard;
 class LuaInterpreter;
@@ -19,38 +20,38 @@ class DebugConsole : public InputListener
 ///
 {
 public:
-  typedef std::shared_ptr<LuaInterpreter > ScriptInterpreterPtr;
+  typedef std::shared_ptr<LuaInterpreter> ScriptInterpreterPtr;
 
 private:
-  ScriptInterpreterPtr      m_scriptInterpreter;
-  std::vector<std::string > m_lines;              ///< A list of lines that has been writen to the console.
-  std::string               m_currentLine;
-  std::vector<std::string > m_history;
-  int32                     m_currentHistoryLine;
-  TextControl*              m_consoleText;        ///< The widget that is used to display the output.
-  Keyboard&                 m_keyboard;
+  ScriptInterpreterPtr m_scriptInterpreter;
+  std::vector<std::string> m_lines; ///< A list of lines that has been writen to the console.
+  std::string m_currentLine;
+  std::vector<std::string> m_history;
+  int32 m_currentHistoryLine;
+  TextControl* m_consoleText; ///< The widget that is used to display the output.
+  Keyboard& m_keyboard;
 
-  public:
-    DebugConsole( ScriptInterpreterPtr scriptInterpreter, TextControl* consoleElement, Keyboard& keyboard );
-    ~DebugConsole();
+public:
+  DebugConsole( ScriptInterpreterPtr scriptInterpreter, TextControl* consoleElement, Keyboard& keyboard );
+  ~DebugConsole();
 
-    const std::vector<std::string >& Lines() const;
+  const std::vector<std::string>& Lines() const;
 
-    virtual void KeyPressed(KeyCode keyCode, Flags<ModKey> modKeys);
-    virtual void KeyReleased(KeyCode keyCode, Flags<ModKey> modKeys);
+  virtual void KeyPressed( KeyCode keyCode, Flags<ModKey> modKeys );
+  virtual void KeyReleased( KeyCode keyCode, Flags<ModKey> modKeys );
 
-    void Clear();
-    void AddLine( const std::string& line );
-    void PushToGui();
+  void Clear();
+  void AddLine( const std::string& line );
+  void PushToGui();
 
-  private:
-    static int ClearConsoleFromLua( lua_State *L );
-    static int InsertOutputFromLua( lua_State *L );
+private:
+  static int ClearConsoleFromLua( lua_State* L );
+  static int InsertOutputFromLua( lua_State* L );
 
-    void AddToHistory( const std::string& history );
+  void AddToHistory( const std::string& history );
 
 }; // DebugConsole
 
-}
+} // namespace Nebulae
 
 #endif // NEBULAE_DEBUGCONSOLE_H__

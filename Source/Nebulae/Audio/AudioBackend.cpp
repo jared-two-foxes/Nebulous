@@ -1,7 +1,7 @@
 
 #include <Nebulae/Audio/AudioDecoder.h>
-#include <Nebulae/Audio/AudioDecoder_wav.h>
 #include <Nebulae/Audio/AudioDecoder_Ogg.h>
+#include <Nebulae/Audio/AudioDecoder_wav.h>
 #include <Nebulae/Audio/AudioEmitterInterface.h>
 #include <Nebulae/Audio/AudioSoundInterface.h>
 #include <Nebulae/Audio/EmitterHandle.h>
@@ -15,46 +15,44 @@ using namespace Nebulae;
 
 bool CheckForAudioErrors( const char* message )
 {
-  std::string errorMessage; 
+  std::string errorMessage;
   ALCenum error = alGetError();
-  switch( error )
+  switch ( error )
   {
-    case AL_INVALID_NAME:
-      errorMessage = "Invalid Name";
-      break;
-    case AL_INVALID_ENUM:
-      errorMessage = "Invalid Enum";
-      break;
+  case AL_INVALID_NAME:
+    errorMessage = "Invalid Name";
+    break;
+  case AL_INVALID_ENUM:
+    errorMessage = "Invalid Enum";
+    break;
 
-    case AL_INVALID_VALUE:
-      errorMessage = "Invalid Value";
-      break;
+  case AL_INVALID_VALUE:
+    errorMessage = "Invalid Value";
+    break;
 
-    case AL_INVALID_OPERATION:
-      errorMessage = "Invalid Operation";
-      break;
+  case AL_INVALID_OPERATION:
+    errorMessage = "Invalid Operation";
+    break;
 
-    case AL_OUT_OF_MEMORY:
-      errorMessage = "Out of Memory";
-      break;
+  case AL_OUT_OF_MEMORY:
+    errorMessage = "Out of Memory";
+    break;
 
-    case AL_NO_ERROR:
-    default:
-      break;
+  case AL_NO_ERROR:
+  default:
+    break;
   }
-   
-   NE_ASSERT( error == AL_NO_ERROR, "OpenAL error 0x%x (%u) detected", error, error );
+
+  NE_ASSERT( error == AL_NO_ERROR, "OpenAL error 0x%x (%u) detected", error, error );
 
   return error == AL_NO_ERROR;
 }
 
 AudioBackend::AudioBackend( FileSystemPtr fileSystem )
-///
-/// Default Constructor
-///
-  : m_fileSystem( fileSystem ),
-    m_pDriver( 0 ),
-    m_volume( 1.0f )
+  ///
+  /// Default Constructor
+  ///
+  : m_fileSystem( fileSystem ), m_pDriver( 0 ), m_volume( 1.0f )
 {
 }
 
@@ -68,8 +66,7 @@ AudioBackend::~AudioBackend()
 }
 
 
-bool 
-AudioBackend::Initiate()
+bool AudioBackend::Initiate()
 ///
 /// Setup function for the Audio subsystem.
 ///
@@ -79,42 +76,37 @@ AudioBackend::Initiate()
 {
   // Create the driver object.
   m_pDriver = new OpenAudioLibraryDriver();
-  
+
   // Attempt to initialize the driver
   bool success = m_pDriver->Init();
-  if( success )
+  if ( success )
   {
-    //Attempt to grab/set the master volume.
+    // Attempt to grab/set the master volume.
     m_pDriver->SetMasterVolume( 1.0f );
   }
-  
+
   return success;
 }
 
 
-void 
-AudioBackend::Destroy()
+void AudioBackend::Destroy()
 ///
 /// Deallocates all the current resources and destroys the driver object.
 ///
-/// @return 
+/// @return
 ///   Nothing.
 ///
 {
   // Delete all the current remaining emitters.
-  std::for_each( m_emitters.begin(), m_emitters.end(), [](AudioEmitterInterface* emitter){
-    delete emitter;
-  });
+  std::for_each( m_emitters.begin(), m_emitters.end(), []( AudioEmitterInterface* emitter ) { delete emitter; } );
   m_emitters.clear();
-  
+
   // Delete all the current remaining sounds.
-  std::for_each( m_sounds.begin(), m_sounds.end(), [](AudioSoundInterface* sound){
-    delete sound;
-  });
+  std::for_each( m_sounds.begin(), m_sounds.end(), []( AudioSoundInterface* sound ) { delete sound; } );
   m_sounds.clear();
 
   // Destroy the driver object.
-  if( m_pDriver != NULL )
+  if ( m_pDriver != NULL )
   {
     delete m_pDriver;
   }
@@ -122,8 +114,7 @@ AudioBackend::Destroy()
 }
 
 
-void 
-AudioBackend::Update( const Real elapsed )
+void AudioBackend::Update( const Real elapsed )
 ///
 /// Updates all sound emitters.
 ///
@@ -136,16 +127,15 @@ AudioBackend::Update( const Real elapsed )
 {
   // Update emitters
   std::vector<AudioEmitterInterface*>::iterator end_it = m_emitters.end();
-  for( std::vector<AudioEmitterInterface*>::iterator it = m_emitters.begin(); it != end_it; ++it ) 
+  for ( std::vector<AudioEmitterInterface*>::iterator it = m_emitters.begin(); it != end_it; ++it )
   {
     //@todo [jared.watt]  Add in something here to update only those emitters that are currently playing?
-    (*it)->Update( elapsed );
+    ( *it )->Update( elapsed );
   }
 }
 
 
-SoundHandle 
-AudioBackend::CreateSound( const char* filename )
+SoundHandle AudioBackend::CreateSound( const char* filename )
 ///
 /// Creates a Sound object based upon the /param filename
 ///
@@ -162,25 +152,25 @@ AudioBackend::CreateSound( const char* filename )
   NE_ASSERT( m_pDriver != NULL, "Sound driver is uninitialized." );
   NE_ASSERT( m_fileSystem != NULL, "FileSystem is uninitialized." );
 
-  if( m_pDriver != NULL ) 
+  if ( m_pDriver != NULL )
   {
     char filenameBuffer[128];
     sprintf( filenameBuffer, "sounds/%s", filename );
 
     File* datastream = m_fileSystem->Open( NE_DEFAULT_ROOTDEVICE, filenameBuffer );
-    if( datastream == NULL ) 
+    if ( datastream == NULL )
     {
       return SoundHandle();
     }
 
     // Create the decoder
-    AudioDecoder* decoder   = NULL;
-    std::string   extension = boost::filesystem::extension( filename );
-    if( extension == ".wav" )
+    AudioDecoder* decoder = NULL;
+    std::string extension = boost::filesystem::extension( filename );
+    if ( extension == ".wav" )
     {
-       decoder = new WavAudioDecoder();
+      decoder = new WavAudioDecoder();
     }
-    else if( extension == ".ogg" )
+    else if ( extension == ".ogg" )
     {
       decoder = new OggAudioDecoder();
     }
@@ -192,28 +182,23 @@ AudioBackend::CreateSound( const char* filename )
     // Create sound data structure & initialize it.
     AudioSoundInterface* sound = new AudioSoundInterface( datastream );
     sound->SetDecoder( decoder );
-    
+
     // Store the structure
     m_sounds.push_back( sound );
-    
+
     // Create the handle & return.
     return SoundHandle( m_sounds.size(), this, sound );
   }
 
-  //Return Null Handle.
+  // Return Null Handle.
   return SoundHandle();
 }
 
 
-Real
-AudioBackend::GetDuration( SoundHandle handle ) const
-{
-  return handle.m_pInternal->GetDuration();
-}
+Real AudioBackend::GetDuration( SoundHandle handle ) const { return handle.m_pInternal->GetDuration(); }
 
 
-EmitterHandle 
-AudioBackend::CreateEmitter()
+EmitterHandle AudioBackend::CreateEmitter()
 ///
 /// Creates an Emitter based upon a sound handle.
 ///
@@ -231,23 +216,23 @@ AudioBackend::CreateEmitter()
 {
   NE_ASSERT( m_pDriver, "Sound driver is uninitialized." );
 
-  if( m_pDriver != NULL ) 
+  if ( m_pDriver != NULL )
   {
     AudioEmitterInterface* emitter = m_pDriver->CreateDriverEmitter();
-    if( emitter != NULL ) 
+    if ( emitter != NULL )
     {
       m_emitters.push_back( emitter );
       std::size_t id = m_emitters.size();
-      return EmitterHandle(id, this, emitter);
+      return EmitterHandle( id, this, emitter );
     }
   }
-  
+
   return EmitterHandle();
 }
 
 
-void 
-AudioBackend::AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, const int32 loops, const Real fadeTime )
+void AudioBackend::AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, const int32 loops,
+                                      const Real fadeTime )
 ///
 /// Will push a sound to the specified emitter.
 ///
@@ -255,15 +240,14 @@ AudioBackend::AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound, con
 ///   Nothing.
 ///
 {
-  emitter.m_pInternal->Push( sound.m_pInternal, loops/*, fadeTime*/ );
+  emitter.m_pInternal->Push( sound.m_pInternal, loops /*, fadeTime*/ );
 }
 
 
-SoundHandle 
-AudioBackend::GetCurrentSound( EmitterHandle& handle )
+SoundHandle AudioBackend::GetCurrentSound( EmitterHandle& handle )
 {
   AudioSoundInterface* sound = handle.m_pInternal->GetPlayingSound();
-  if( sound != NULL ) 
+  if ( sound != NULL )
   {
     return SoundHandle( m_sounds.size(), this, sound );
   }
@@ -273,8 +257,7 @@ AudioBackend::GetCurrentSound( EmitterHandle& handle )
 }
 
 
-void 
-AudioBackend::Play( EmitterHandle& handle, const Real fadeTime )
+void AudioBackend::Play( EmitterHandle& handle, const Real fadeTime )
 ///
 /// Cause the emitter to begin emitting whatever sounds are currently bound to it
 ///
@@ -295,8 +278,7 @@ AudioBackend::Play( EmitterHandle& handle, const Real fadeTime )
 }
 
 
-void 
-AudioBackend::Stop( EmitterHandle& handle, const Real fadeTime )
+void AudioBackend::Stop( EmitterHandle& handle, const Real fadeTime )
 ///
 /// Stop an emitter from playing.
 ///
@@ -314,8 +296,7 @@ AudioBackend::Stop( EmitterHandle& handle, const Real fadeTime )
 }
 
 
-void 
-AudioBackend::Pause( EmitterHandle& handle, const Real fadeTime )
+void AudioBackend::Pause( EmitterHandle& handle, const Real fadeTime )
 ///
 /// Pause the playback from an emitter.
 ///
@@ -333,8 +314,7 @@ AudioBackend::Pause( EmitterHandle& handle, const Real fadeTime )
 }
 
 
-void 
-AudioBackend::Resume( EmitterHandle& handle, const Real fadeTime )
+void AudioBackend::Resume( EmitterHandle& handle, const Real fadeTime )
 ///
 /// Resume the playback from an emitter.
 ///
@@ -352,22 +332,13 @@ AudioBackend::Resume( EmitterHandle& handle, const Real fadeTime )
 }
 
 
-Real  
-AudioBackend::GetPlayCursor( EmitterHandle& handle ) const
-{
-  return (Real)handle.m_pInternal->GetPlayCursor();
-}
+Real AudioBackend::GetPlayCursor( EmitterHandle& handle ) const { return (Real)handle.m_pInternal->GetPlayCursor(); }
 
 
-void
-AudioBackend::SetPlayCursor( EmitterHandle& handle, Real time )
-{
-  handle.m_pInternal->SetPlayCursor( time );
-}
+void AudioBackend::SetPlayCursor( EmitterHandle& handle, Real time ) { handle.m_pInternal->SetPlayCursor( time ); }
 
 
-bool 
-AudioBackend::IsPlaying( const EmitterHandle& handle ) const
+bool AudioBackend::IsPlaying( const EmitterHandle& handle ) const
 ///
 /// Checks if an Audio Emitter is currently playing a sound.
 ///
@@ -378,12 +349,11 @@ AudioBackend::IsPlaying( const EmitterHandle& handle ) const
 ///   Whether the emitter is playing a sound.
 ///
 {
-	return handle.m_pInternal->IsPlaying();
+  return handle.m_pInternal->IsPlaying();
 }
 
 
-bool
-AudioBackend::IsPaused( const EmitterHandle& handle ) const
+bool AudioBackend::IsPaused( const EmitterHandle& handle ) const
 ///
 /// Checks if an AudioEmitter is currently paused.
 ///
@@ -394,14 +364,13 @@ AudioBackend::IsPaused( const EmitterHandle& handle ) const
 ///   Whether the emitter is paused.
 ///
 {
-	return handle.m_pInternal->IsPaused();
+  return handle.m_pInternal->IsPaused();
 }
 
 
-void 
-AudioBackend::SetMasterVolume( float volume )
+void AudioBackend::SetMasterVolume( float volume )
 ///
-/// Setter function for setting the maximum sound volume for all of the 
+/// Setter function for setting the maximum sound volume for all of the
 /// sounds in the subsystem.
 ///
 /// @param volume
@@ -413,7 +382,7 @@ AudioBackend::SetMasterVolume( float volume )
 {
   NE_ASSERT( m_pDriver, "Sound driver is uninitialized." );
 
-  if( m_pDriver != NULL )
+  if ( m_pDriver != NULL )
   {
     // Store the current volume for retrieval.
     m_volume = volume;
@@ -423,8 +392,7 @@ AudioBackend::SetMasterVolume( float volume )
 }
 
 
-float 
-AudioBackend::GetMasterVolume() const
+float AudioBackend::GetMasterVolume() const
 ///
 /// Accessor for the current overall volume of the sound subsystem.
 ///
@@ -434,4 +402,3 @@ AudioBackend::GetMasterVolume() const
 {
   return m_volume;
 }
-

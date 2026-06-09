@@ -15,25 +15,25 @@ private:
   HardwareShader* m_vertexShader; ///< Vertex shader which is to be applied for pass.
   HardwareShader* m_pixelShader;  ///< Pixel shader which is to be applied for pass.
 
-  public:
-    Pass(); 
-    virtual ~Pass();
+public:
+  Pass();
+  virtual ~Pass();
 
-    /** Returns a pointer to the hardware specific vertex shader. */
-    HardwareShader* GetVertexShader() const;
-    
-    /** Returns a pointer to the hardware specific pixel shader. */
-    HardwareShader* GetPixelShader() const;
+  /** Returns a pointer to the hardware specific vertex shader. */
+  HardwareShader* GetVertexShader() const;
 
-    /** Sets the HardwareShader that is to be used in the vertex portion of the rendering emulation. */
-    void SetVertexShader( HardwareShader* vertexShader );
+  /** Returns a pointer to the hardware specific pixel shader. */
+  HardwareShader* GetPixelShader() const;
 
-    /** Sets the HardwareShader that is to be used in the pixel/fragment portion of the rendering emulation. */
-    void SetPixelShader( HardwareShader* pixelShader );
+  /** Sets the HardwareShader that is to be used in the vertex portion of the rendering emulation. */
+  void SetVertexShader( HardwareShader* vertexShader );
+
+  /** Sets the HardwareShader that is to be used in the pixel/fragment portion of the rendering emulation. */
+  void SetPixelShader( HardwareShader* pixelShader );
 
 
-}; //Pass
+}; // Pass
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // __NEBULAE_PASS_H__

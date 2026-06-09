@@ -1,49 +1,50 @@
 #ifndef __NEBULAE_GUISAMPLESTATE_H__
 #define __NEBULAE_GUISAMPLESTATE_H__
 
-#include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/StateStack/State.h>
+#include <Nebulae/Common/Common.h>
 
-namespace Nebulae {
-  class Camera;
-  class RenderSystem;
-}
+namespace Nebulae
+{
+class Camera;
+class RenderSystem;
+} // namespace Nebulae
 
 namespace Sample
-{ 
-  /** GuiSampleState.
-   */
-  class SimpleState : public Nebulae::State
-  {
-  public:
-    typedef std::shared_ptr<Nebulae::RenderSystem > RenderSystemPtr;
-    typedef std::shared_ptr<Nebulae::Camera >       CameraPtr;
+{
+/** GuiSampleState.
+ */
+class SimpleState : public Nebulae::State
+{
+public:
+  typedef std::shared_ptr<Nebulae::RenderSystem> RenderSystemPtr;
+  typedef std::shared_ptr<Nebulae::Camera> CameraPtr;
 
-  private:
-    RenderSystemPtr m_pRenderSystem; ///< The rendering system.
-    CameraPtr       m_pCamera;       ///< The camera for scene.
+private:
+  RenderSystemPtr m_pRenderSystem; ///< The rendering system.
+  CameraPtr m_pCamera;             ///< The camera for scene.
 
 
-    public:
-      /** \name Structors */ ///@{
-      SimpleState( const std::string& name );
-      virtual ~SimpleState();
-      //@}
-      
-      /** \name Mutators */ ///@{
-      virtual void Enter( Nebulae::StateStack* caller );
-      virtual void Exit( Nebulae::StateStack* caller );
-      virtual void Update( float fDeltaTimeStep, Nebulae::StateStack* pCaller );
-      virtual void Render() const;
-       //@}
+public:
+  /** \name Structors */ ///@{
+  SimpleState( const std::string& name );
+  virtual ~SimpleState();
+  //@}
 
-      /** \name Accessors */ ///@{
-      CameraPtr         GetCamera() const         { return m_pCamera; }
-      RenderSystemPtr   GetRenderSystem() const   { return m_pRenderSystem; }
-      //@}
+  /** \name Mutators */ ///@{
+  virtual void Enter( Nebulae::StateStack* caller );
+  virtual void Exit( Nebulae::StateStack* caller );
+  virtual void Update( float fDeltaTimeStep, Nebulae::StateStack* pCaller );
+  virtual void Render() const;
+  //@}
 
-  }; //GuiSampleState
+  /** \name Accessors */ ///@{
+  CameraPtr GetCamera() const { return m_pCamera; }
+  RenderSystemPtr GetRenderSystem() const { return m_pRenderSystem; }
+  //@}
 
-} //Nebulae
+}; // GuiSampleState
+
+} // namespace Sample
 
 #endif // __NEBULAE_GUISAMPLESTATE_H__

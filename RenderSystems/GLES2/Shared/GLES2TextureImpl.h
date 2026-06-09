@@ -8,7 +8,7 @@
 namespace Nebulae
 {
 
-/** 
+/**
  *	GLES2TextureImpl.
  */
 class GLES2TextureImpl : public TextureImpl
@@ -16,19 +16,20 @@ class GLES2TextureImpl : public TextureImpl
 protected:
   GLuint m_iHandle;
 
-  public:
-    GLES2TextureImpl( const std::string& strFileName );
-    virtual ~GLES2TextureImpl();
+public:
+  GLES2TextureImpl( const std::string& strFileName );
+  virtual ~GLES2TextureImpl();
 
-    //functions
-    virtual bool Load( const Image& image ) override;
-    virtual bool LoadFromMemory( unsigned char* szBuffer, uint8 srcDataType, uint8 channels, int iWidth, int iHeight ) override;
+  // functions
+  virtual bool Load( const Image& image ) override;
+  virtual bool LoadFromMemory( unsigned char* szBuffer, uint8 srcDataType, uint8 channels, int iWidth,
+                               int iHeight ) override;
 
-    //getters
-    GLuint GetHandle() const { return m_iHandle; }
+  // getters
+  GLuint GetHandle() const { return m_iHandle; }
 
-}; //GLES2TextureImpl
+}; // GLES2TextureImpl
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // NEBULAE_GLES2_TEXTUREIMPL_H__

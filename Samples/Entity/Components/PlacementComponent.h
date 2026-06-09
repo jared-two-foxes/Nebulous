@@ -12,19 +12,14 @@ class PlacementComponent : public Component
 ///
 {
 public:
-  
-  PlacementComponent() 
-    : position( 0,0,0,0 )
-    , rotation( 0,0,0,1 )
-    {}
+  PlacementComponent() : position( 0, 0, 0, 0 ), rotation( 0, 0, 0, 1 ) {}
 
-  Vector4    position;
+  Vector4 position;
   Quaternion rotation;
 
   static ComponentType GetType() { return COMPONENT_TYPE_PLACEMENT; }
-
 };
 
-}
+} // namespace Sample
 
 #endif __COMPONENT_PLACEMENTCOMPONENT_H__

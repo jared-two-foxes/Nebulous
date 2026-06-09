@@ -14,20 +14,19 @@ class TemplateCache
 /// lifetime of the objects but not there creation.
 ///
 {
-private: 
+private:
   std::map<int, EntityTemplate*> m_templates; ///< EntityTemplates by type.
 
-  public:
-    TemplateCache();
+public:
+  TemplateCache();
 
-    void Load( Nebulae::File& stream );
-    void AddTemplate( EntityTemplate* entityTemplate, bool overwrite = false );
+  void Load( Nebulae::File& stream );
+  void AddTemplate( EntityTemplate* entityTemplate, bool overwrite = false );
 
-    EntityTemplate* GetTemplateById( int id ) const;
-    int             GetTemplateIdentifier( const char* templateName ) const;
-    
+  EntityTemplate* GetTemplateById( int id ) const;
+  int GetTemplateIdentifier( const char* templateName ) const;
 };
 
-}
+} // namespace Sample
 
 #endif // __MODEL_CORE_TEMPLATECACHE_H__

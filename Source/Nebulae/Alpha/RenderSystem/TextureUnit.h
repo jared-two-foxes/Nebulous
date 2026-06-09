@@ -6,7 +6,7 @@
 namespace Nebulae
 {
 
-//Forward Decleration
+// Forward Decleration
 class RenderSystem;
 class Texture;
 
@@ -14,21 +14,21 @@ class TextureUnit
 {
 private:
   RenderSystem* m_renderer;
-  std::string   m_name;
-  Texture*      m_texture;
+  std::string m_name;
+  Texture* m_texture;
 
-  public:
-    TextureUnit( RenderSystem* renderer );
+public:
+  TextureUnit( RenderSystem* renderer );
 
-    std::string GetName() const;
-    Texture*    GetTexture() const;
+  std::string GetName() const;
+  Texture* GetTexture() const;
 
-    bool        Load();
-    void        SetName( const std::string& name );
-    void        SetTexture( Texture* texture );
+  bool Load();
+  void SetName( const std::string& name );
+  void SetTexture( Texture* texture );
 
-}; //TextureUnit
+}; // TextureUnit
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // NEBULAE_ALPHA_TEXTUREUNIT_H__

@@ -1,0 +1,70 @@
+---
+# Note: No explicit Language set - clang-format auto-detects per file
+Standard: c++17
+
+# Indentation
+IndentWidth: 2
+UseTab: Never
+TabWidth: 2
+
+# Braces
+BreakBeforeBraces: Allman
+BraceWrapping:
+  AfterFunction: true
+  AfterClass: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterEnum: true
+  AfterNamespace: false
+  BeforeCatch: true
+  BeforeElse: true
+
+# Spacing
+SpaceAfterCStyleCast: false
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInParentheses: true
+SpacesInSquareBrackets: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeRangeBasedForLoopColon: true
+
+# Line length
+ColumnLimit: 120
+
+# Pointer alignment
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Alignment
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignEscapedNewlines: Left
+AlignOperands: true
+AlignTrailingComments: true
+
+# Sorting
+SortIncludes: true
+SortUsingDeclarations: true
+
+# Function parameters
+BinPackParameters: true
+BinPackArguments: true
+AllowAllParametersOfDeclarationOnNextLine: true
+
+# Penalties (to prefer line breaks over other formatting)
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 200
+
+# Other
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 2
+ReflowComments: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 2
+ContinuationIndentWidth: 2

@@ -7,26 +7,25 @@
 
 namespace Nebulae
 {
-	/**
-   *  GLES2HardwareShaderImpl.
-	 */
-	class GLES2HardwareShaderImpl : public HardwareShaderImpl
-	{
-	protected:
-		GLuint m_iHandle;
+/**
+ *  GLES2HardwareShaderImpl.
+ */
+class GLES2HardwareShaderImpl : public HardwareShaderImpl
+{
+protected:
+  GLuint m_iHandle;
 
-	public:
-		GLES2HardwareShaderImpl( const std::string& strName, HardwareShaderType eType );
-		virtual ~GLES2HardwareShaderImpl();
-		
-    //getters
-    GLuint GetHandle() const { return m_iHandle; }
+public:
+  GLES2HardwareShaderImpl( const std::string& strName, HardwareShaderType eType );
+  virtual ~GLES2HardwareShaderImpl();
 
-    //functions
-    virtual bool Load( File& is ) override;
+  // getters
+  GLuint GetHandle() const { return m_iHandle; }
 
-  };
+  // functions
+  virtual bool Load( File& is ) override;
+};
 
-} //Nebulae
+} // namespace Nebulae
 
 #endif // __NEBULAE_GLES2HARDWARESHADERIMPL_H__

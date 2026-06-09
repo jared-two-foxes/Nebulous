@@ -6,65 +6,70 @@
 using namespace Nebulae;
 
 
-TEST(Material, CreatePass_ShouldIncreasePassCountBy1) {
+TEST( Material, CreatePass_ShouldIncreasePassCountBy1 )
+{
   // arrange
   Material* material = new Material( "material_01" );
 
-  //act
+  // act
   material->CreatePass();
-  
-  //assert
+
+  // assert
   ASSERT_EQ( (std::size_t)1, material->GetPassCount() );
 }
 
-TEST(Material, CreatePass_ShouldReturnAPassPointer) {
+TEST( Material, CreatePass_ShouldReturnAPassPointer )
+{
   // arrange
   Material* material = new Material( "material_01" );
 
-  //act
+  // act
   Pass* pass = material->CreatePass();
-  
-  //assert
+
+  // assert
   ASSERT_TRUE( pass != NULL );
 }
 
-TEST(Material, RemovePass_ValidIndex_ShouldReducePassCountBy1) {
+TEST( Material, RemovePass_ValidIndex_ShouldReducePassCountBy1 )
+{
   // arrange
   Material* material = new Material( "material_01" );
-  Pass*     pass     = material->CreatePass();
+  Pass* pass = material->CreatePass();
   (void)pass;
 
-  //act
+  // act
   material->RemovePass( 0 );
-  
-  //assert
-  ASSERT_EQ( std::size_t(0), material->GetPassCount() );
+
+  // assert
+  ASSERT_EQ( std::size_t( 0 ), material->GetPassCount() );
 }
 
-TEST(Material, RemovePass_InvalidIndex_ShouldNotReducePassCount) {
+TEST( Material, RemovePass_InvalidIndex_ShouldNotReducePassCount )
+{
   // arrange
-  Material*   material  = new Material( "material_01" );
-  Pass*       pass      = material->CreatePass();
+  Material* material = new Material( "material_01" );
+  Pass* pass = material->CreatePass();
   (void)pass;
   std::size_t passCount = material->GetPassCount();
 
-  //act
-  material->RemovePass( static_cast<unsigned short>(-1) );
-  
-  //assert
+  // act
+  material->RemovePass( static_cast<unsigned short>( -1 ) );
+
+  // assert
   ASSERT_EQ( passCount, material->GetPassCount() );
 }
 
-TEST(Material, RemovePass_IndexOutOfBounds_ShouldNotReducePassCount) {
+TEST( Material, RemovePass_IndexOutOfBounds_ShouldNotReducePassCount )
+{
   // arrange
-  Material*   material  = new Material( "material_01" );
-  Pass*       pass      = material->CreatePass();
+  Material* material = new Material( "material_01" );
+  Pass* pass = material->CreatePass();
   (void)pass;
   std::size_t passCount = material->GetPassCount();
 
-  //act
+  // act
   material->RemovePass( 2 );
-  
-  //assert
+
+  // assert
   ASSERT_EQ( passCount, material->GetPassCount() );
 }

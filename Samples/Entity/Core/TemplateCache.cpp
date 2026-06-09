@@ -3,7 +3,7 @@
 
 #include <Samples/Entity/Core/EntityTemplate.h>
 
-//#include <MurmurHash3.h>
+// #include <MurmurHash3.h>
 
 using namespace Nebulae;
 using namespace Sample;
@@ -12,43 +12,43 @@ using namespace Sample;
 //-----------------------------------------------------------------------------
 // Microsoft Visual Studio
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 
-//typedef unsigned char    uint8_t;
-//typedef unsigned long    uint32_t;
-//typedef unsigned __int64 uint64_t;
+// typedef unsigned char    uint8_t;
+// typedef unsigned long    uint32_t;
+// typedef unsigned __int64 uint64_t;
 
-#define FORCE_INLINE    __forceinline
-#define NEVER_INLINE    __declspec(noinline)
+#define FORCE_INLINE __forceinline
+#define NEVER_INLINE __declspec( noinline )
 
 #include <stdlib.h>
 
-#define BIG_CONSTANT(x) (x)
+#define BIG_CONSTANT( x ) ( x )
 
 
 //-----------------------------------------------------------------------------
 // Other compilers
 
-#else 
+#else
 
 #include <stdint.h>
 
-#define FORCE_INLINE inline __attribute__((always_inline))
-#define NEVER_INLINE __attribute__((noinline))
+#define FORCE_INLINE inline __attribute__( ( always_inline ) )
+#define NEVER_INLINE __attribute__( ( noinline ) )
 
-#define BIG_CONSTANT(x) (x##LLU)
+#define BIG_CONSTANT( x ) ( x##LLU )
 
 #endif
 
-void FNV( const void * key, int len, uint32_t seed, void * out )
+void FNV( const void* key, int len, uint32_t seed, void* out )
 {
   unsigned int h = seed;
 
-  const uint8_t * data = (const uint8_t*)key;
+  const uint8_t* data = (const uint8_t*)key;
 
-  h ^= BIG_CONSTANT(2166136261);
+  h ^= BIG_CONSTANT( 2166136261 );
 
-  for(int i = 0; i < len; i++)
+  for ( int i = 0; i < len; i++ )
   {
     h ^= data[i];
     h *= 16777619;
@@ -63,12 +63,10 @@ TemplateCache::TemplateCache()
 /// Constructor
 ///
 {
-
 }
 
 
-void 
-TemplateCache::Load( Nebulae::File& stream )
+void TemplateCache::Load( Nebulae::File& stream )
 ///
 /// Loads the template data from the data file.
 ///
@@ -83,28 +81,27 @@ TemplateCache::Load( Nebulae::File& stream )
   // Iterate each pass and load it from data
   //
   Json::Value::Members templates = root.getMemberNames();
-  for( uint32 i = 0, n = static_cast<uint32>(templates.size()); i < n; ++i )
+  for ( uint32 i = 0, n = static_cast<uint32>( templates.size() ); i < n; ++i )
   {
-    const char*        name         = templates[i].c_str();
+    const char* name = templates[i].c_str();
     const Json::Value& templateData = root[name];
-    uint32_t           identifier   = GetTemplateIdentifier( name );
+    uint32_t identifier = GetTemplateIdentifier( name );
 
     std::vector<std::string> components;
-    for( uint32 j = 0, m = templateData.size(); j<m; ++j )
+    for ( uint32 j = 0, m = templateData.size(); j < m; ++j )
     {
-      const char* componentName = json_cast<const char*>(templateData[j]);
+      const char* componentName = json_cast<const char*>( templateData[j] );
       components.push_back( componentName );
     }
 
-    EntityTemplate *entityTemplate = new EntityTemplate( identifier, name, components );
+    EntityTemplate* entityTemplate = new EntityTemplate( identifier, name, components );
 
     AddTemplate( entityTemplate, true );
   }
 }
 
 
-void 
-TemplateCache::AddTemplate( EntityTemplate* entityTemplate, bool overwrite )
+void TemplateCache::AddTemplate( EntityTemplate* entityTemplate, bool overwrite )
 ///
 /// Add an EntityTemplate to the cache.
 ///
@@ -119,13 +116,12 @@ TemplateCache::AddTemplate( EntityTemplate* entityTemplate, bool overwrite )
 ///
 {
   int id = entityTemplate->GetId();
-  //assert(overwriteOk || !EntityTemplatesById.ContainsKey(id), "Template " + template.Name + " already exists.");
+  // assert(overwriteOk || !EntityTemplatesById.ContainsKey(id), "Template " + template.Name + " already exists.");
   m_templates[id] = entityTemplate;
 }
 
 
-EntityTemplate* 
-TemplateCache::GetTemplateById( int id ) const
+EntityTemplate* TemplateCache::GetTemplateById( int id ) const
 ///
 /// Retrieves an EntityTemplate from the cache based on the index.
 ///
@@ -139,16 +135,16 @@ TemplateCache::GetTemplateById( int id ) const
 ///   Is it valid to pass in the index?  Ie should other systems know what a templates index/hash is?
 ///
 {
-  std::map<int,EntityTemplate*>::const_iterator it = m_templates.find( id );
-  if( it != m_templates.end() ) {
+  std::map<int, EntityTemplate*>::const_iterator it = m_templates.find( id );
+  if ( it != m_templates.end() )
+  {
     return it->second;
   }
   return NULL;
 }
 
 
-int  
-TemplateCache::GetTemplateIdentifier( const char* templateName ) const
+int TemplateCache::GetTemplateIdentifier( const char* templateName ) const
 ///
 /// Determines the id used to insert the Template into the map with.
 ///
@@ -159,7 +155,7 @@ TemplateCache::GetTemplateIdentifier( const char* templateName ) const
 ///   The insertion id.
 ///
 {
-  uint32_t id = static_cast<uint32_t>(-1); 
-  FNV( templateName, static_cast<int>(strlen(templateName)), 0, &id );
+  uint32_t id = static_cast<uint32_t>( -1 );
+  FNV( templateName, static_cast<int>( strlen( templateName ) ), 0, &id );
   return id;
 }

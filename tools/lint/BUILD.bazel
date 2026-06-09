@@ -1,0 +1,52 @@
+# tools/lint/BUILD.bazel - Linting and formatting targets
+
+load("@rules_python//python:defs.bzl", "py_binary")
+
+# ============================================================================
+# FORMAT CHECK TARGET
+# ============================================================================
+# Validates C/C++ formatting using clang-format
+# Usage: bazel run //tools/lint:format_check
+
+py_binary(
+    name = "format_check",
+    srcs = ["format_check.py"],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# FORMAT FIX TARGET
+# ============================================================================
+# Auto-fixes C/C++ formatting using clang-format
+# Usage: bazel run //tools/lint:format_fix
+
+py_binary(
+    name = "format_fix",
+    srcs = ["format_fix.py"],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# CLANG-TIDY TARGET
+# ============================================================================
+# Runs clang-tidy static analysis over source tree
+# Usage: bazel run //tools/lint:clang_tidy
+
+py_binary(
+    name = "clang_tidy",
+    srcs = ["clang_tidy.py"],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# INCLUDE-CLEANER TARGET
+# ============================================================================
+# Runs clang-include-cleaner analysis over source tree
+# (LLVM-bundled equivalent of include-what-you-use)
+# Usage: bazel run //tools/lint:include_what_you_use
+
+py_binary(
+    name = "include_what_you_use",
+    srcs = ["include_what_you_use.py"],
+    visibility = ["//visibility:public"],
+)

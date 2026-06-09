@@ -5,18 +5,18 @@
 #include <Nebulae/Alpha/Buffer/HardwareBuffer.h>
 #include <Nebulae/Alpha/InputLayout/InputLayout.h>
 
+#include <Nebulae/Beta/Gui/Control/ButtonControl.h>
 #include <Nebulae/Beta/Gui/GuiManager.h>
 #include <Nebulae/Beta/Gui/Widget.h>
-#include <Nebulae/Beta/Gui/Control/ButtonControl.h>
 #include <Nebulae/Beta/Gui/WidgetRenderer.h>
 #include <Nebulae/Beta/Material/Material.h>
 
-#include <Mock/MockWindow.h>
 #include <Mock/MockRenderSystem.h>
 #include <Mock/MockWidget.h>
+#include <Mock/MockWindow.h>
 
-#include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include "gtest/gtest.h"
 
 using namespace Nebulae;
 
@@ -24,53 +24,55 @@ using ::testing::NiceMock;
 
 class WidgetRendererFixture : public ::testing::Test
 {
-  
-  protected:
-    std::shared_ptr<FileSystem >                   fileSystem;
-    std::shared_ptr<Window >                       window;
-    std::shared_ptr<NiceMock<MockRenderDevice > >  device;
-    WidgetRenderer*                                renderer;
+protected:
+  std::shared_ptr<FileSystem> fileSystem;
+  std::shared_ptr<Window> window;
+  std::shared_ptr<NiceMock<MockRenderDevice>> device;
+  WidgetRenderer* renderer;
 
-  protected:
-    virtual void SetUp() 
-    {
-      fileSystem = std::make_shared<FileSystem >();
-      fileSystem->Mount( "disk", new DiskFileDevice("../../tests/Assets") );
-      window     = std::make_shared<MockWindow >();
-      
-      device     = std::make_shared<NiceMock<MockRenderDevice > >( fileSystem, window );
+protected:
+  virtual void SetUp()
+  {
+    fileSystem = std::make_shared<FileSystem>();
+    fileSystem->Mount( "disk", new DiskFileDevice( "../../tests/Assets" ) );
+    window = std::make_shared<MockWindow>();
 
-      device->Initiate();
-      
-      renderer = new WidgetRenderer( fileSystem, nullptr, device );
-    };
+    device = std::make_shared<NiceMock<MockRenderDevice>>( fileSystem, window );
 
-    virtual void TearDown() 
-    {
-      delete renderer; renderer = nullptr;
-      device.reset(); device = nullptr;
-      fileSystem.reset(); fileSystem = nullptr;
-      window.reset(); window = nullptr;
-    }
+    device->Initiate();
 
+    renderer = new WidgetRenderer( fileSystem, nullptr, device );
+  };
+
+  virtual void TearDown()
+  {
+    delete renderer;
+    renderer = nullptr;
+    device.reset();
+    device = nullptr;
+    fileSystem.reset();
+    fileSystem = nullptr;
+    window.reset();
+    window = nullptr;
+  }
 };
 
-TEST_F(WidgetRendererFixture, Render_DrawsButtons) 
+TEST_F( WidgetRendererFixture, Render_DrawsButtons )
 {
   using ::testing::_;
 
   ::testing::DefaultValue<UniformDefinition>::Set( UniformDefinition() );
 
-  //arrange
+  // arrange
   renderer->Init();
 
-  GuiManager         mgr( fileSystem, device );
+  GuiManager mgr( fileSystem, device );
   std::list<Widget*> widgetList;
-  widgetList.push_back( new ButtonControl(*mgr.GetWidgetFactory(), 0, 0, 1, 1, "caption", std::shared_ptr<Font>(), CLR_BLACK, CLR_WHITE ) );
+  widgetList.push_back( new ButtonControl( *mgr.GetWidgetFactory(), 0, 0, 1, 1, "caption", std::shared_ptr<Font>(),
+                                           CLR_BLACK, CLR_WHITE ) );
 
-  EXPECT_CALL( *device, Draw(_,_) )
-      .Times(5);
+  EXPECT_CALL( *device, Draw( _, _ ) ).Times( 5 );
 
-  //act
+  // act
   renderer->Render( widgetList );
 }
