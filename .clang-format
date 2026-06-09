@@ -44,7 +44,7 @@ AlignOperands: true
 AlignTrailingComments: true
 
 # Sorting
-SortIncludes: true
+SortIncludes: false
 SortUsingDeclarations: true
 
 # Function parameters

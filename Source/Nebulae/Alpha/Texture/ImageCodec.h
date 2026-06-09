@@ -1,8 +1,8 @@
 #ifndef __NEBULAE_IMAGECODEC_H__
 #define __NEBULAE_IMAGECODEC_H__
 
-#include "Nebulae/Alpha/Texture/Codec.h"
 #include "Nebulae/Common/Common.h"
+#include "Nebulae/Alpha/Texture/Codec.h"
 
 namespace Nebulae
 {
