@@ -52,29 +52,12 @@ void Matrix4::MakePerspectiveMatrix( const Real fov, const Real nearplane, const
   m[8] = 0.0f;
   m[9] = 0.0f;
   m[10] = ( farplane + nearplane ) / ( nearplane - farplane );
-  m[11] = -1.0f;
+  m[14] = -1.0f;
 
   m[12] = 0.0f;
   m[13] = 0.0f;
-  m[14] = ( 2.0f * farplane * nearplane ) / ( nearplane - farplane );
+  m[11] = ( 2.0f * farplane * nearplane ) / ( nearplane - farplane );
   m[15] = 0.0f;
-
-  // Debug output: print perspective matrix in 4x4 column-major format
-  std::ofstream log( "C:\\Users\\iapet\\AppData\\Local\\Temp\\nebulous_debug.log", std::ios::app );
-  if ( log.is_open() )
-  {
-    log << "=== PERSPECTIVE MATRIX ===" << std::endl;
-    for ( int row = 0; row < 4; ++row )
-    {
-      for ( int col = 0; col < 4; ++col )
-      {
-        log << std::setw( 12 ) << std::setprecision( 6 ) << std::fixed << m[col * 4 + row];
-      }
-      log << std::endl;
-    }
-    log << std::endl;
-    log.close();
-  }
 }
 
 void Matrix4::MakePerspectiveMatrix( const Real l, const Real r, const Real t, const Real b, const Real n,
@@ -87,10 +70,10 @@ void Matrix4::MakeLookAtMatrix( const Vector4& pos, const Vector4& at, const Vec
   Vector4 zaxis = at - pos;
   zaxis.normalize();
 
-  Vector4 xaxis = up.cross( zaxis );
+  Vector4 xaxis = zaxis.cross( up );
   xaxis.normalize();
 
-  Vector4 yaxis = zaxis.cross( xaxis );
+  Vector4 yaxis = xaxis.cross( zaxis );
   yaxis.normalize();
 
   m[0] = xaxis.x;

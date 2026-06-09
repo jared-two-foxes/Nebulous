@@ -481,7 +481,7 @@ void RenderSystem_OGL::SetUniformBinding( UniformDefinition& definition, void* v
   case UT_MATRIX_4X4:
   {
     GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniformMatrix4fv( location, 1, GL_TRUE, buffer );
+    glUniformMatrix4fv( location, 1, GL_FALSE, buffer );
   }
   break;
 

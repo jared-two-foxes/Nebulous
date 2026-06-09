@@ -26,8 +26,7 @@ void main()
   float diffuse     = max( dot(modelViewNormal, lightVector), 0.2 ); //< note that we are clamping to 0.2
   diffuse          *= (1.0 / (1.0 + (0.25 * distance * distance)));
 
-  //colorVarying      = diffuse * diffuseColor;
-  colorVarying      = vec4(1.0, 1.0, 1.0, 1.0);
+  colorVarying      = diffuse * diffuseColor;
 
   gl_Position       = modelViewProjectionMatrix * a_vertex;
 }
