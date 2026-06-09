@@ -42,3 +42,21 @@ single_version_override(
 
 bazel_dep(name = "boost.chrono", version = "1.90.0.bcr.1")
 bazel_dep(name = "boost.thread", version = "1.90.0.bcr.1")
+
+# Buildifier for BUILD/MODULE file formatting and linting
+bazel_dep(name = "buildifier_prebuilt", version = "7.3.1")
+
+# Hedron's Compile Commands Extractor for Bazel
+# https://github.com/hedronvision/bazel-compile-commands-extractor
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+    commit = "abb61a688167623088f8768cc9264798df6a9d10",
+    patches = [
+        "//:third_party/hedron/module_bazel.patch",
+        "//:third_party/hedron/refresh_compile_commands.patch",
+        "//:third_party/hedron/build.patch",
+    ],
+    patch_strip = 1,
+)

@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <io.h>
+#include <memory>     //for std::unique_ptr
 
 using namespace Nebulae;
 
@@ -225,24 +226,24 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
     PostQuitMessage( 0 );
     break;
 
-  case WM_INPUT:
-    {
-      // Grab the current modKey flags.
-      boost::uint32_t key_code_point = 0;
-      Flags<ModKey>   modKeys        = GetModKeys( &platform->GetKeyboard() );
-      
+   case WM_INPUT:
+     {
+       // Grab the current modKey flags.
+       boost::uint32_t key_code_point = 0;
+       Flags<ModKey>   modKeys        = GetModKeys( &platform->GetKeyboard() );
+       
 
-      // Determine how big the buffer should be.
-      UINT bufferSize;
-      GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, NULL, &bufferSize, 
-        sizeof(RAWINPUTHEADER) );
-      
-      // Obtain the data buffer.
-      BYTE *buffer = new BYTE[bufferSize];// Create a buffer of the correct size - but see note below
-      GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, (LPVOID)buffer, 
-        &bufferSize, sizeof(RAWINPUTHEADER) );
-      
-      RAWINPUT *raw = (RAWINPUT*)buffer; //< Cast buffer to a usable type.
+       // Determine how big the buffer should be.
+       UINT bufferSize;
+       GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, NULL, &bufferSize, 
+         sizeof(RAWINPUTHEADER) );
+       
+       // Obtain the data buffer using unique_ptr for automatic cleanup.
+       std::unique_ptr<BYTE[]> buffer(new BYTE[bufferSize]);
+       GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, (LPVOID)buffer.get(), 
+         &bufferSize, sizeof(RAWINPUTHEADER) );
+       
+       RAWINPUT *raw = (RAWINPUT*)buffer.get(); //< Cast buffer to a usable type.
             
       if( raw->header.dwType == RIM_TYPEMOUSE ) // Check for mouse movement.       
       {

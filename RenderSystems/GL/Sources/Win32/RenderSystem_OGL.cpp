@@ -1,4 +1,4 @@
- 
+
 #include "Includes/RenderSystem_OGL.h"
 
 #include <Nebulae/Common/Log.h>
@@ -50,7 +50,7 @@ bool CheckForGLError()
   GLuint error = glGetError();
 
   NE_ASSERT( error == GL_NO_ERROR, "OpenGL error 0x%x (%u) detected", error, error );
-  
+
   return error == GL_NO_ERROR;
 }
 
@@ -78,7 +78,7 @@ RenderSystem_OGL::Initiate()
 {
 	Nebulae::Log( "RenderSystem_OGL::Initiate() entered" );
 	BYTE bits = 32;
-	
+
 	// pfd Tells Windows How We Want Things To Be
 	static PIXELFORMATDESCRIPTOR pfd = {
 		sizeof(PIXELFORMATDESCRIPTOR),          // Size Of This Pixel Format Descriptor
@@ -110,7 +110,7 @@ RenderSystem_OGL::Initiate()
 		MessageBox( NULL, L"Can't Create A GL Device Context.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
-	
+
 	// Did Windows Find A Matching Pixel Format?
 	int iPixelFormat = ChoosePixelFormat( m_hDC, &pfd );
 	if( iPixelFormat == 0 ) {
@@ -129,7 +129,7 @@ RenderSystem_OGL::Initiate()
 		MessageBox( NULL, L"Can't Set The PixelFormat.", L"ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
-	
+
 	// Are We Able To Get A Rendering Context?
 	m_hRC = wglCreateContext( m_hDC );
 	if( m_hRC == NULL ) {
@@ -150,28 +150,34 @@ RenderSystem_OGL::Initiate()
 	}
 
 	// Setup some basic OpenGl state calls
-	SetClearColour( 0.0f, 0.0f, 0.0f, 0.0f ); 
+	SetClearColour( 0.0f, 0.0f, 0.0f, 0.0f );
 	glClearDepth( 1.0f );
+	CheckForGLError();
   glShadeModel( GL_SMOOTH );
+	CheckForGLError();
 	glEnable( GL_DEPTH_TEST );
-	glDepthFunc( GL_LESS ); 
-	glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST ); 
+	CheckForGLError();
+	glDepthFunc( GL_LESS );
+	CheckForGLError();
+	glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
+	CheckForGLError();
   glEnable( GL_CULL_FACE );
-
+	CheckForGLError();
 
 	int iHeight = m_window->GetHeight(), iWidth = m_window->GetWidth();
 	if ( iHeight == 0 ) {
     iHeight = 1;
   }
- 
-  glViewport( 0, 0, iWidth, iHeight ); 
+
+  glViewport( 0, 0, iWidth, iHeight );
+	CheckForGLError();
 
 	// Initialize the required opengl functions.
 	HardwareBufferImpl_OGL::initiateFunctions();
 	HardwareShaderImpl_OGL::initiateFunctions();
 	InputLayoutImpl_OGL::initiateFunctions();
 	ProgramObject::initiateFunctions();
-	
+
 	// Initialize the functions required by this class.
 	glUniform1f          = (PFNGLUNIFORM1FPROC)wglGetProcAddress( "glUniform1f" );
 	glUniform2f          = (PFNGLUNIFORM2FPROC)wglGetProcAddress( "glUniform2f" );
@@ -198,14 +204,18 @@ RenderSystem_OGL::Initiate()
 }
 
 
-void 
+void
 RenderSystem_OGL::Clear()
-{ glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); }
+{ glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	CheckForGLError();
+}
 
 
 void
 RenderSystem_OGL::SetClearColour( float r, float g, float b, float a )
-{ glClearColor(r,g,b,a); }
+{ glClearColor(r,g,b,a);
+	CheckForGLError();
+}
 
 
 void
@@ -216,7 +226,7 @@ RenderSystem_OGL::SwapBuffers()
 }
 
 
-void 
+void
 RenderSystem_OGL::SetBlendingState( bool enable )
 {
   if( enable ) {
@@ -224,8 +234,10 @@ RenderSystem_OGL::SetBlendingState( bool enable )
   } else {
     glDisable( GL_BLEND );
   }
+  CheckForGLError();
 
   glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+  CheckForGLError();
 }
 
 
@@ -238,12 +250,14 @@ RenderSystem_OGL::SetDepthTest( bool enable )
   else {
     glDisable( GL_DEPTH_TEST );
   }
+  CheckForGLError();
 
   glDepthFunc( GL_LESS );
+  CheckForGLError();
 }
 
 
-HardwareBufferImpl* 
+HardwareBufferImpl*
 RenderSystem_OGL::CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, size_t sizeInBytes, HardwareBufferBinding bindFlags, void* sysMem )
 { return new HardwareBufferImpl_OGL( usage, sizeInBytes, bindFlags, sysMem ); }
 
@@ -278,7 +292,7 @@ RenderSystem_OGL::SetVertexBuffers( int /*iSlot*/, HardwareBuffer* pBufferImpl, 
 
 void
 RenderSystem_OGL::SetInputLayout( InputLayout* inputLayout )
-{ 
+{
   NE_ASSERT( m_boundProgram != NULL, "Cannot set InputLayout before setting shaders" );
 	static_cast< InputLayoutImpl_OGL* >( inputLayout->GetImpl() )->Bind( m_boundProgram );
 }
@@ -292,7 +306,7 @@ RenderSystem_OGL::SetIndexBuffer( HardwareBuffer* pBufferImpl, size_t /*iOffset*
 }
 
 
-void 
+void
 RenderSystem_OGL::SetShaders( HardwareShader* vertexShader, HardwareShader* fragmentShader )
 {
   NE_ASSERT( vertexShader->GetImpl()->GetType() == VERTEX_SHADER, "Shader in VertexShader slot is not a VertexShader" );
@@ -332,35 +346,40 @@ RenderSystem_OGL::SetOperationType( OperationType eType )
 	  case OT_LINES:        m_OperationMode = GL_LINES; break;
 	  case OT_LINELIST:     m_OperationMode = GL_LINE_STRIP; break;
 	  case OT_TRIANGLES:    m_OperationMode = GL_TRIANGLES; break;
-	  case OT_TRIANGLELIST: m_OperationMode = GL_TRIANGLE_STRIP; break; 
-	  case OT_TRIANGLEFAN:  m_OperationMode = GL_TRIANGLE_FAN; break; 
-    
+	  case OT_TRIANGLELIST: m_OperationMode = GL_TRIANGLE_STRIP; break;
+	  case OT_TRIANGLEFAN:  m_OperationMode = GL_TRIANGLE_FAN; break;
+
     case OT_UNKNOWN:
     default:
       NE_BREAKPOINT; break;
   }
 }
-		
+
 
 void
 RenderSystem_OGL::Draw( std::size_t iVertexCount, std::size_t iStartVertexLocation )
-{ glDrawArrays( m_OperationMode, (int)iStartVertexLocation, (int)iVertexCount ); }
+{ glDrawArrays( m_OperationMode, (int)iStartVertexLocation, (int)iVertexCount );
+  CheckForGLError();
+}
 
 
 void
 RenderSystem_OGL::DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation, std::size_t /*iBaseVertexLocation*/ )
-{ glDrawElements( m_OperationMode, (int)iIndexCount, GL_UNSIGNED_SHORT, BUFFER_OFFSET(iStartIndexLocation) ); }
+{ glDrawElements( m_OperationMode, (int)iIndexCount, GL_UNSIGNED_SHORT, BUFFER_OFFSET(iStartIndexLocation) );
+  CheckForGLError();
+}
 
 
 void
 RenderSystem_OGL::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, HardwareBuffer* /*pImpl*/ )
 {
 	//@todo Not yet implemented.
+	Nebulae::Log( "RenderSystem_OGL::SetBufferBinding() not yet implemented" );
 	NE_BREAKPOINT;
 }
 
 
-UniformDefinition 
+UniformDefinition
 RenderSystem_OGL::GetUniformByName( const char* name ) const
 {
   NE_ASSERT( m_boundProgram != NULL, "Attempting to find a uniform before any shaders are bound" );
@@ -374,12 +393,16 @@ RenderSystem_OGL::GetUniformByName( const char* name ) const
 
 void
 RenderSystem_OGL::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Sampler* /*pImpl*/ )
-{}
+{
+	Nebulae::Log( "RenderSystem_OGL::SetSamplerBinding() not yet implemented" );
+}
 
 
 void
 RenderSystem_OGL::SetTextureBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Texture* /*pImpl*/ )
-{}
+{
+	Nebulae::Log( "RenderSystem_OGL::SetTextureBinding() not yet implemented" );
+}
 
 
 void
@@ -419,21 +442,6 @@ RenderSystem_OGL::SetUniformBinding( UniformDefinition& definition, void* value 
 
 	case UT_MATRIX_4X4: {
 			GLfloat* buffer = static_cast<GLfloat* >( value );
-			
-			// Debug output: print MVP matrix in 4x4 column-major format
-			std::ofstream log("C:\\Users\\iapet\\AppData\\Local\\Temp\\nebulous_debug.log", std::ios::app);
-			if( log.is_open() ) {
-				log << "=== MVP MATRIX ===" << std::endl;
-				for( int row = 0; row < 4; ++row ) {
-					for( int col = 0; col < 4; ++col ) {
-						log << std::setw(12) << std::setprecision(6) << std::fixed << buffer[col * 4 + row];
-					}
-					log << std::endl;
-				}
-				log << std::endl;
-				log.close();
-			}
-			
 			glUniformMatrix4fv( location, 1, GL_TRUE, buffer );
 		} break;
 
@@ -447,4 +455,5 @@ RenderSystem_OGL::SetUniformBinding( UniformDefinition& definition, void* value 
       glUniform1i( location, 0 );
     } break;
   }
+	CheckForGLError();
 }

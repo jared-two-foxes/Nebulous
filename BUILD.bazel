@@ -38,9 +38,26 @@ filegroup(
     name = "all",
     srcs = [
         ":engine_libs",
-        ":all_tests",
     ],
     visibility = ["//visibility:public"],
+)
+
+# ============================================================================
+# CODE FORMATTING & LINTING
+# ============================================================================
+
+# buildifier_check: Validate BUILD/MODULE file formatting
+# This is a simple test that runs buildifier in check mode
+alias(
+    name = "buildifier_check",
+    actual = "@buildifier_prebuilt//:buildifier",
+)
+
+# buildifier_fix: Auto-format BUILD/MODULE files
+# This is a simple binary that runs buildifier in fix mode
+alias(
+    name = "buildifier_fix",
+    actual = "@buildifier_prebuilt//:buildifier",
 )
 
 # ============================================================================

@@ -80,7 +80,7 @@ Logger::Log( const char* message, ... )
 
     // format string.
     char buffer[1024];
-    vsprintf( buffer, message, arglist );
+    vsnprintf( buffer, sizeof(buffer), message, arglist );
 
     m_messages.push_back( buffer );
 
