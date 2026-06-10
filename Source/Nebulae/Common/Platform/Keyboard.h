@@ -29,7 +29,7 @@ private:
 
 public:
   Keyboard();
-  ~Keyboard();
+  ~Keyboard() = default;
 
   /** Updates the internal values of the current keyboard state.
    */

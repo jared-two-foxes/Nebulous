@@ -12,7 +12,7 @@ unsigned Nebulae::file_write( void* ptr, unsigned size, unsigned nmemb, void* da
 {
   File& stream = *static_cast<File*>( datasource );
 
-  return (unsigned)stream.Write( ptr, size * nmemb );
+  return static_cast<unsigned>( stream.Write( ptr, size * nmemb ) );
 }
 
 int Nebulae::file_seek( void* datasource, long offset, int whence )
@@ -58,7 +58,7 @@ int Nebulae::file_seek( void* datasource, long offset, int whence )
     return -1;
   }
 
-  return (int)stream.Tell();
+  return static_cast<int>( stream.Tell() );
 }
 
 int Nebulae::file_close( void* datasource ) { return 0; }
@@ -66,7 +66,7 @@ int Nebulae::file_close( void* datasource ) { return 0; }
 long Nebulae::file_tell( void* datasource )
 {
   File& stream = *static_cast<File*>( datasource );
-  return (long)stream.Tell();
+  return static_cast<long>( stream.Tell() );
 }
 
 

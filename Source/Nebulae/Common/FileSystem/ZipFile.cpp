@@ -9,10 +9,13 @@
 using Nebulae::File;
 using Nebulae::ZipFile;
 
-#define WRITEBUFFERSIZE ( 8192 )
-#define MAXFILENAME ( 256 )
+enum
+{
+  WRITEBUFFERSIZE = 8192,
+  MAXFILENAME = 256
+};
 
-const unsigned int k_zlibBufferSize = 4096;
+const unsigned int K_ZLIB_BUFFER_SIZE = 4096;
 
 
 ZipFile::ZipFile( /*unzFile stream*/ )
@@ -33,7 +36,7 @@ ZipFile::ZipFile( /*unzFile stream*/ )
   // }
 }
 
-ZipFile::~ZipFile() {}
+ZipFile::~ZipFile() = default;
 
 size_t ZipFile::Read( void* buffer, size_t length )
 {

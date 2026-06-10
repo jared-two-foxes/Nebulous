@@ -11,17 +11,17 @@ namespace Nebulae
 class Win32Window : public Window
 {
 private:
-  HWND m_hWnd;
-  HDC m_hDC;
+  HWND m_hWnd{ nullptr };
+  HDC m_hDC{ nullptr };
   std::wstring m_strClassName;
   Win32Window* m_pParent;
 
 public:
-  Win32Window( const std::wstring& strClassName, Win32Window* pParent );
-  virtual ~Win32Window();
-  virtual bool Initiate( void* creationData );
-  virtual void Destroy();
-  virtual void Show();
+  Win32Window( std::wstring strClassName, Win32Window* pParent );
+  ~Win32Window() override;
+  bool Initiate( void* creationData ) override;
+  void Destroy() override;
+  void Show() override;
 
   HWND GetWnd() const;
   HDC GetDC() const;

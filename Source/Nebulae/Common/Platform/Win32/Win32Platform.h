@@ -15,20 +15,20 @@ class ClassRegisterationUtility;
 class Win32Platform : public Platform
 {
 private:
-  ClassRegisterationUtility* m_pRegisterationUtility;
+  ClassRegisterationUtility* m_pRegisterationUtility{ nullptr };
   std::vector<WindowPtr> m_windows;
 
 public:
   Win32Platform();
-  virtual ~Win32Platform();
+  ~Win32Platform() override;
 
-  virtual bool Initiate();
-  virtual void Destroy();
-  virtual bool MessagePump();
-  virtual void SetWorkingDirectory( const char* directory );
+  bool Initiate() override;
+  void Destroy() override;
+  bool MessagePump() override;
+  void SetWorkingDirectory( const char* directory ) override;
 
-  virtual WindowPtr CreateApplicationWindow( int x, int y, int w, int h, WindowPtr pParent = NULL );
-  virtual void DestroyWindow( WindowPtr window );
+  WindowPtr CreateApplicationWindow( int x, int y, int w, int h, WindowPtr pParent = nullptr ) override;
+  void DestroyWindow( WindowPtr window ) override;
   WindowPtr FindWindowFromHandle( HWND handle );
 
 }; // Win32Platform

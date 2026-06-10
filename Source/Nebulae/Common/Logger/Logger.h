@@ -57,7 +57,7 @@ public:
     @return
       Nothing.
  */
-  void Unregister( std::ostream& channel );
+  static void Unregister( std::ostream& channel );
 
   /**	Add's a message into the logged message's queue.  The message will be pushed to the registered
     output channels next time flush is called OR straight away if the channel is flagged to receive

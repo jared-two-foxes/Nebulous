@@ -9,20 +9,20 @@
 using Nebulae::CompressionFile;
 using Nebulae::File;
 
-const unsigned int k_ZlibBufferSize = 4096;
+const unsigned int K_ZLIB_BUFFER_SIZE = 4096;
 
 
 CompressionFile::CompressionFile( File* file ) : File(), m_file( file )
 {
   // Stream
-  std::memset( &m_z_stream, 0, sizeof( m_z_stream ) );
+  std::memset( &m_zStream, 0, sizeof( m_zStream ) );
 
   // Check
-  int ret = inflateInit( &m_z_stream );
+  int ret = inflateInit( &m_zStream );
   NE_ASSERT( ret == Z_OK, "Failed to aquire zlib buffer" );
 }
 
-CompressionFile::~CompressionFile() {}
+CompressionFile::~CompressionFile() = default;
 
 size_t CompressionFile::Read( void* buffer, size_t length )
 {
@@ -31,13 +31,15 @@ size_t CompressionFile::Read( void* buffer, size_t length )
 
   size = m_file->Read( &sourceVector.front(), length ); //< read in data from file.
   if ( size == 0 )
+  {
     return 0; //< no data in source file, return.
+  }
 
   // Go
   int ret;
-  char outBuffer[k_ZlibBufferSize];
-  m_z_stream.next_in = (Bytef*)( &sourceVector.front() );
-  m_z_stream.avail_in = static_cast<unsigned int>( size );
+  char outBuffer[K_ZLIB_BUFFER_SIZE];
+  m_zStream.next_in = reinterpret_cast<Bytef*>( &sourceVector.front() );
+  m_zStream.avail_in = static_cast<unsigned int>( size );
 
   std::vector<char> outVector;
 
@@ -45,22 +47,22 @@ size_t CompressionFile::Read( void* buffer, size_t length )
   do
   {
     // Get the decompressed bytes blockwise
-    m_z_stream.next_out = reinterpret_cast<Bytef*>( outBuffer );
-    m_z_stream.avail_out = sizeof( outBuffer );
-    ret = inflate( &m_z_stream, 0 );
+    m_zStream.next_out = reinterpret_cast<Bytef*>( outBuffer );
+    m_zStream.avail_out = sizeof( outBuffer );
+    ret = inflate( &m_zStream, 0 );
 
     // Check
-    if ( outVector.size() < m_z_stream.total_out )
+    if ( outVector.size() < m_zStream.total_out )
     {
       // Reserve a few bytes more
-      outVector.reserve( m_z_stream.total_out );
+      outVector.reserve( m_zStream.total_out );
 
       // Append it to the vector
-      outVector.insert( outVector.end(), outBuffer, outBuffer + ( m_z_stream.total_out - outVector.size() ) );
+      outVector.insert( outVector.end(), outBuffer, outBuffer + ( m_zStream.total_out - outVector.size() ) );
     }
   } while ( ret == Z_OK );
 
-  inflateEnd( &m_z_stream );
+  inflateEnd( &m_zStream );
 
   // Check
   NE_ASSERT( ret != Z_STREAM_END, "Exception in zlib stream" );

@@ -16,7 +16,7 @@ private:
 
 public:
   SharedLibrary();
-  ~SharedLibrary();
+  ~SharedLibrary() = default;
 
   // Opens a shared library. The filename is in utf-8. Returns true on success and
   // false on error. Call `SharedLibrary::error()` to get the error message.

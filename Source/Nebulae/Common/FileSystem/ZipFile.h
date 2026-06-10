@@ -20,33 +20,33 @@ private:
 
 public:
   ZipFile( /*unzFile stream*/ );
-  virtual ~ZipFile();
+  ~ZipFile() override;
 
 
   /// Synchronously reads from the file into a buffer. Returns the number of bytes read, or 0 if the operation failed.
-  virtual size_t Read( void* buffer, size_t length ) override;
+  size_t Read( void* buffer, size_t length ) override;
 
   /// Synchronously writes from a buffer into the file. Returns the number of bytes written, or 0 if the operation
   /// failed.
-  virtual size_t Write( const void* buffer, size_t length ) override;
+  size_t Write( const void* buffer, size_t length ) override;
 
   /// Seeks to the desired position
-  virtual void Seek( size_t position ) override;
+  void Seek( size_t position ) override;
 
   /// Seeks to the end of the file
-  virtual void SeekToEnd() override;
+  void SeekToEnd() override;
 
   /// Skips a certain amount of bytes
-  virtual void Skip( size_t bytes ) override;
+  void Skip( size_t bytes ) override;
 
   /// Returns the current position in the file, or INVALID_SET_FILE_POINTER (0xFFFFFFFF) if the operation failed.
-  virtual size_t Tell() const override;
+  size_t Tell() const override;
 
 private:
   /// Streams the contents of the current file pointed to by 'stream' into 'buffer'.
   // int32 ExtractFileData( unzFile stream, std::vector<char >& buffer );
 
-private:
+
   /// Disable the piggyback constructor.
   ZipFile( File* file );
 

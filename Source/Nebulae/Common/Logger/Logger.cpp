@@ -9,7 +9,7 @@ struct Logger::Channel
 
   Channel( std::ostream* os ) : m_os( os ) {}
 
-  bool operator==( const std::ostream& os ) { return ( m_os == &os ); }
+  bool operator==( const std::ostream& os ) const { return ( m_os == &os ); }
 
   Channel& operator<<( const std::string& message )
   {
@@ -18,7 +18,7 @@ struct Logger::Channel
   }
 };
 
-Logger::Logger() : Singleton<Logger>() {}
+Logger::Logger() = default;
 
 Logger::~Logger() { Clear(); }
 
@@ -69,7 +69,7 @@ void Logger::Log( const char* message, ... )
     char buffer[1024];
     vsnprintf( buffer, sizeof( buffer ), message, arglist );
 
-    m_messages.push_back( buffer );
+    m_messages.emplace_back( buffer );
 
     // Push the message to the immediate Channels.
     for ( ChannelPtr& channel : m_immediateChannels )
@@ -84,7 +84,7 @@ void Logger::Log( const char* message, ... )
 void Logger::Flush()
 {
   // Push the message to the secondary Channels.
-  for ( std::string message : m_messages )
+  for ( const std::string& message : m_messages )
   {
     for ( ChannelPtr& channel : m_channels )
     {

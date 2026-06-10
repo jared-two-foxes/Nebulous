@@ -8,7 +8,10 @@ using Nebulae::FileSystem;
 using Nebulae::ZipFile;
 using Nebulae::ZipFileDevice;
 
-#define CASESENSITIVITY 0
+enum
+{
+  CASESENSITIVITY = 0
+};
 
 ZipFileDevice::ZipFileDevice( const char* path, const char* archiveName, const char* extention )
   : m_rootDirectory( path )

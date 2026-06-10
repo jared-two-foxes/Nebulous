@@ -8,20 +8,20 @@ using namespace Nebulae;
 struct PixelFormatDescription
 {
   /// Name of the format, as in the enum
-  const char* name;
+  const char* m_name;
   /// Number of bytes one element (colour value) takes.
-  unsigned char elemBytes;
+  unsigned char m_elemBytes;
   /// Pixel format flags, see enum PixelFormatFlags for the bit field definitions
-  unsigned int flags;
+  unsigned int m_flags;
   /// Component type
-  PixelComponentType componentType;
+  PixelComponentType m_componentType;
   /// Component count
-  unsigned char componentCount;
+  unsigned char m_componentCount;
   /// Number of bits for red(or luminance), green, blue, alpha
-  unsigned char rbits, gbits, bbits, abits; /*, ibits, dbits, ... */
+  unsigned char m_rbits, m_gbits, m_bbits, m_abits; /*, ibits, dbits, ... */
   /// Masks and shifts as used by packers/unpackers */
-  unsigned int rmask, gmask, bmask, amask;
-  unsigned char rshift, gshift, bshift, ashift;
+  unsigned int m_rmask, m_gmask, m_bmask, m_amask;
+  unsigned char m_rshift, m_gshift, m_bshift, m_ashift;
 };
 
 /** Pixel format database.
@@ -588,16 +588,16 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
  *   Directly get the description record for provided pixel format. For debug builds,
  *   this checks the bounds of fmt with an assertion.
  */
-static inline const PixelFormatDescription& getDescriptionFor( const PixelFormat fmt )
+static inline const PixelFormatDescription& GetDescriptionFor( const PixelFormat FMT )
 {
-  const int ord = (int)fmt;
+  const int ORD = static_cast<int>( FMT );
   NE_ASSERT( ord >= 0 && ord < PF_COUNT, "Invalid PixelFormat." );
 
-  return _pixelFormats[ord];
+  return _pixelFormats[ORD];
 }
 
 
-std::size_t PixelUtil::GetNumElemBytes( PixelFormat format ) { return getDescriptionFor( format ).elemBytes; }
+std::size_t PixelUtil::GetNumElemBytes( PixelFormat format ) { return GetDescriptionFor( format ).m_elemBytes; }
 
 
 std::size_t PixelUtil::GetMemorySize( std::size_t width, std::size_t height, std::size_t depth, PixelFormat format )
@@ -623,12 +623,12 @@ std::size_t PixelUtil::GetMemorySize( std::size_t width, std::size_t height, std
     case PF_PVRTC_RGB2:
     case PF_PVRTC_RGBA2:
       NE_ASSERT( depth == 1, "PVRTC expects single depth channel" );
-      return ( std::max( (int)width, 16 ) * std::max( (int)height, 8 ) * 2 + 7 ) / 8;
+      return ( ( std::max( static_cast<int>( width ), 16 ) * std::max( static_cast<int>( height ), 8 ) * 2 ) + 7 ) / 8;
 
     case PF_PVRTC_RGB4:
     case PF_PVRTC_RGBA4:
       NE_ASSERT( depth == 1, "PVRTC expects single depth channel" );
-      return ( std::max( (int)width, 8 ) * std::max( (int)height, 8 ) * 4 + 7 ) / 8;
+      return ( ( std::max( static_cast<int>( width ), 8 ) * std::max( static_cast<int>( height ), 8 ) * 4 ) + 7 ) / 8;
 
     default:
       break;
@@ -644,10 +644,10 @@ std::size_t PixelUtil::GetMemorySize( std::size_t width, std::size_t height, std
 }
 
 
-std::size_t PixelUtil::GetNumElemBits( PixelFormat format ) { return getDescriptionFor( format ).elemBytes * 8; }
+std::size_t PixelUtil::GetNumElemBits( PixelFormat format ) { return GetDescriptionFor( format ).m_elemBytes * 8; }
 
 
-unsigned int PixelUtil::GetFlags( PixelFormat format ) { return getDescriptionFor( format ).flags; }
+unsigned int PixelUtil::GetFlags( PixelFormat format ) { return GetDescriptionFor( format ).m_flags; }
 
 
 bool PixelUtil::HasAlpha( PixelFormat format ) { return ( PixelUtil::GetFlags( format ) & PFF_HASALPHA ) > 0; }
@@ -679,25 +679,26 @@ void PixelUtil::UnpackColour( Colour* colour, PixelFormat pf, const void* src )
 
 void PixelUtil::UnpackColour( uint8* r, uint8* g, uint8* b, uint8* a, PixelFormat pf, const void* src )
 {
-  const PixelFormatDescription& des = getDescriptionFor( pf );
-  if ( des.flags & PFF_NATIVEENDIAN )
+  const PixelFormatDescription& des = GetDescriptionFor( pf );
+  if ( ( des.m_flags & PFF_NATIVEENDIAN ) != 0U )
   {
     // Shortcut for integer formats unpacking
-    const unsigned int value = Bitwise::IntRead( src, des.elemBytes );
-    if ( des.flags & PFF_LUMINANCE )
+    const unsigned int VALUE = Bitwise::IntRead( src, des.m_elemBytes );
+    if ( ( des.m_flags & PFF_LUMINANCE ) != 0U )
     {
       // Luminance format -- only rbits used
-      *r = *g = *b = (uint8)Bitwise::FixedToFixed( ( value & des.rmask ) >> des.rshift, des.rbits, 8 );
+      *r = *g = *b =
+        static_cast<uint8>( Bitwise::FixedToFixed( ( VALUE & des.m_rmask ) >> des.m_rshift, des.m_rbits, 8 ) );
     }
     else
     {
-      *r = (uint8)Bitwise::FixedToFixed( ( value & des.rmask ) >> des.rshift, des.rbits, 8 );
-      *g = (uint8)Bitwise::FixedToFixed( ( value & des.gmask ) >> des.gshift, des.gbits, 8 );
-      *b = (uint8)Bitwise::FixedToFixed( ( value & des.bmask ) >> des.bshift, des.bbits, 8 );
+      *r = static_cast<uint8>( Bitwise::FixedToFixed( ( VALUE & des.m_rmask ) >> des.m_rshift, des.m_rbits, 8 ) );
+      *g = static_cast<uint8>( Bitwise::FixedToFixed( ( VALUE & des.m_gmask ) >> des.m_gshift, des.m_gbits, 8 ) );
+      *b = static_cast<uint8>( Bitwise::FixedToFixed( ( VALUE & des.m_bmask ) >> des.m_bshift, des.m_bbits, 8 ) );
     }
-    if ( des.flags & PFF_HASALPHA )
+    if ( ( des.m_flags & PFF_HASALPHA ) != 0U )
     {
-      *a = (uint8)Bitwise::FixedToFixed( ( value & des.amask ) >> des.ashift, des.abits, 8 );
+      *a = static_cast<uint8>( Bitwise::FixedToFixed( ( VALUE & des.m_amask ) >> des.m_ashift, des.m_abits, 8 ) );
     }
     else
     {
@@ -707,42 +708,45 @@ void PixelUtil::UnpackColour( uint8* r, uint8* g, uint8* b, uint8* a, PixelForma
   else
   {
     // Do the operation with the more generic floating point
-    float rr = 0, gg = 0, bb = 0, aa = 0;
+    float rr = 0;
+    float gg = 0;
+    float bb = 0;
+    float aa = 0;
     UnpackColour( &rr, &gg, &bb, &aa, pf, src );
-    *r = (uint8)Bitwise::FloatToFixed( rr, 8 );
-    *g = (uint8)Bitwise::FloatToFixed( gg, 8 );
-    *b = (uint8)Bitwise::FloatToFixed( bb, 8 );
-    *a = (uint8)Bitwise::FloatToFixed( aa, 8 );
+    *r = static_cast<uint8>( Bitwise::FloatToFixed( rr, 8 ) );
+    *g = static_cast<uint8>( Bitwise::FloatToFixed( gg, 8 ) );
+    *b = static_cast<uint8>( Bitwise::FloatToFixed( bb, 8 ) );
+    *a = static_cast<uint8>( Bitwise::FloatToFixed( aa, 8 ) );
   }
 }
 
 
 void PixelUtil::UnpackColour( float* r, float* g, float* b, float* a, PixelFormat pf, const void* src )
 {
-  const PixelFormatDescription& des = getDescriptionFor( pf );
-  if ( des.flags & PFF_NATIVEENDIAN )
+  const PixelFormatDescription& des = GetDescriptionFor( pf );
+  if ( ( des.m_flags & PFF_NATIVEENDIAN ) != 0U )
   {
     // Shortcut for integer formats unpacking
-    const unsigned int value = Bitwise::IntRead( src, des.elemBytes );
-    if ( des.flags & PFF_LUMINANCE )
+    const unsigned int VALUE = Bitwise::IntRead( src, des.m_elemBytes );
+    if ( ( des.m_flags & PFF_LUMINANCE ) != 0U )
     {
       // Luminance format -- only rbits used
-      *r = *g = *b = Bitwise::FixedToFloat( ( value & des.rmask ) >> des.rshift, des.rbits );
+      *r = *g = *b = Bitwise::FixedToFloat( ( VALUE & des.m_rmask ) >> des.m_rshift, des.m_rbits );
     }
     else
     {
-      *r = Bitwise::FixedToFloat( ( value & des.rmask ) >> des.rshift, des.rbits );
-      *g = Bitwise::FixedToFloat( ( value & des.gmask ) >> des.gshift, des.gbits );
-      *b = Bitwise::FixedToFloat( ( value & des.bmask ) >> des.bshift, des.bbits );
+      *r = Bitwise::FixedToFloat( ( VALUE & des.m_rmask ) >> des.m_rshift, des.m_rbits );
+      *g = Bitwise::FixedToFloat( ( VALUE & des.m_gmask ) >> des.m_gshift, des.m_gbits );
+      *b = Bitwise::FixedToFloat( ( VALUE & des.m_bmask ) >> des.m_bshift, des.m_bbits );
     }
 
-    if ( des.flags & PFF_HASALPHA )
+    if ( ( des.m_flags & PFF_HASALPHA ) != 0U )
     {
-      *a = Bitwise::FixedToFloat( ( value & des.amask ) >> des.ashift, des.abits );
+      *a = Bitwise::FixedToFloat( ( VALUE & des.m_amask ) >> des.m_ashift, des.m_abits );
     }
     else
     {
-      *a = 1.0f; // No alpha, default a component to full
+      *a = 1.0F; // No alpha, default a component to full
     }
   }
   else
@@ -751,18 +755,18 @@ void PixelUtil::UnpackColour( float* r, float* g, float* b, float* a, PixelForma
     {
     case PF_FLOAT32_R:
       *r = *g = *b = ( (float*)src )[0];
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_FLOAT32_GR:
       *g = ( (float*)src )[0];
       *r = *b = ( (float*)src )[1];
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_FLOAT32_RGB:
       *r = ( (float*)src )[0];
       *g = ( (float*)src )[1];
       *b = ( (float*)src )[2];
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_FLOAT32_RGBA:
       *r = ( (float*)src )[0];
@@ -772,18 +776,18 @@ void PixelUtil::UnpackColour( float* r, float* g, float* b, float* a, PixelForma
       break;
     case PF_FLOAT16_R:
       *r = *g = *b = Bitwise::HalfToFloat( ( (uint16*)src )[0] );
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_FLOAT16_GR:
       *g = Bitwise::HalfToFloat( ( (uint16*)src )[0] );
       *r = *b = Bitwise::HalfToFloat( ( (uint16*)src )[1] );
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_FLOAT16_RGB:
       *r = Bitwise::HalfToFloat( ( (uint16*)src )[0] );
       *g = Bitwise::HalfToFloat( ( (uint16*)src )[1] );
       *b = Bitwise::HalfToFloat( ( (uint16*)src )[2] );
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_FLOAT16_RGBA:
       *r = Bitwise::HalfToFloat( ( (uint16*)src )[0] );
@@ -795,7 +799,7 @@ void PixelUtil::UnpackColour( float* r, float* g, float* b, float* a, PixelForma
       *r = Bitwise::FixedToFloat( ( (uint16*)src )[0], 16 );
       *g = Bitwise::FixedToFloat( ( (uint16*)src )[1], 16 );
       *b = Bitwise::FixedToFloat( ( (uint16*)src )[2], 16 );
-      *a = 1.0f;
+      *a = 1.0F;
       break;
     case PF_SHORT_RGBA:
       *r = Bitwise::FixedToFloat( ( (uint16*)src )[0], 16 );

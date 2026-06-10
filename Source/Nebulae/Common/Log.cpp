@@ -12,15 +12,15 @@ namespace Nebulae
 {
 
 // Global log callback pointer
-static LogCallback g_logCallback = nullptr;
+static LogCallback gLogCallback = nullptr;
 
 // Mutex for thread-safe file logging
-static std::mutex g_logMutex;
+static std::mutex gLogMutex;
 
 /// File logging callback — writes to specified file with timestamp
 void FileLogCallback( const char* filename, const char* message )
 {
-  std::lock_guard<std::mutex> lock( g_logMutex );
+  std::scoped_lock lock( gLogMutex );
 
   std::ofstream log( filename, std::ios::app );
   if ( !log.is_open() )
@@ -35,7 +35,7 @@ void FileLogCallback( const char* filename, const char* message )
   char timeStr[64];
   std::strftime( timeStr, sizeof( timeStr ), "%Y-%m-%d %H:%M:%S", &timeBuf );
 
-  log << "[" << timeStr << "] " << message << std::endl;
+  log << "[" << timeStr << "] " << message << '\n';
   log.close();
 }
 
@@ -46,12 +46,12 @@ void ExeFileCallback( const char* message ) { FileLogCallback( "nebulous_debug.l
 void DllFileCallback( const char* message ) { FileLogCallback( "nebulous_gl_debug.log", message ); }
 
 /// Set the current log callback function
-void SetLogCallback( LogCallback cb ) { g_logCallback = cb; }
+void SetLogCallback( LogCallback cb ) { gLogCallback = cb; }
 
 /// Log a formatted message using the current callback or fallback
 void Log( const char* format, ... )
 {
-  if ( !format )
+  if ( format == nullptr )
   {
     return;
   }
@@ -64,9 +64,9 @@ void Log( const char* format, ... )
   va_end( args );
 
   // Use callback if set, otherwise use EXE-side file fallback
-  if ( g_logCallback )
+  if ( gLogCallback != nullptr )
   {
-    g_logCallback( buffer );
+    gLogCallback( buffer );
   }
   else
   {

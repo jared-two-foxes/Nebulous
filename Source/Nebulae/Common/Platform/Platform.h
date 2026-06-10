@@ -20,12 +20,12 @@ class Window;
 class Platform
 {
 public:
-  typedef std::shared_ptr<FileSystem> FileSystemPtr;
+  using FileSystemPtr = std::shared_ptr<FileSystem>;
   // typedef std::shared_ptr<RenderSystem > RenderSystemPtr;
-  typedef std::shared_ptr<Window> WindowPtr;
+  using WindowPtr = std::shared_ptr<Window>;
 
 protected:
-  int m_iExitCode;            ///< The value in which the application is to return on exit.
+  int m_iExitCode{ 0 };       ///< The value in which the application is to return on exit.
   FileSystemPtr m_fileSystem; ///< File access system.
   Clock m_clock;              ///< The platform clock.
   Keyboard m_keyboard;        ///< The key state for all the keys on the keyboard.
@@ -53,7 +53,7 @@ public:
   //@}
 
   /** \name Factory Methods */ ///@{
-  virtual WindowPtr CreateApplicationWindow( int x, int y, int w, int h, WindowPtr pParent = NULL ) = 0;
+  virtual WindowPtr CreateApplicationWindow( int x, int y, int w, int h, WindowPtr pParent = nullptr ) = 0;
   virtual void DestroyWindow( WindowPtr window ) = 0;
   // virtual RenderSystemPtr CreateRenderSystem( WindowPtr pWindow );
   //@}
@@ -63,4 +63,4 @@ std::shared_ptr<Platform> CreateAndInitiatePlatform();
 
 } // namespace Nebulae
 
-#endif // NEBULAE__
+#endif // __NEBULAE_BASEPLATFORM_H__

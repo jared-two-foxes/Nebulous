@@ -10,17 +10,16 @@ Platform::Platform()
   ///
   /// Default constructor.
   ///
-  : m_iExitCode( 0 ), m_fileSystem( NULL )
+  : m_fileSystem( nullptr )
 {
 }
 
 
 Platform::~Platform()
-///
-/// Default destructor.
-///
-{
-}
+  ///
+  /// Default destructor.
+  ///
+  = default;
 
 
 void Platform::Exit( int iExitCode )

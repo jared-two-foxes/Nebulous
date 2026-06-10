@@ -195,13 +195,13 @@ uint16 WindowsKeyFromVirtualKey( KeyCode keyCode )
     break;
 
   default:
-    retval = uint16( keyCode );
+    retval = static_cast<uint16>( keyCode );
   }
 
   return retval;
 }
 
-void ConvertToWindowsArray( uint8* keyboardState, BYTE* out )
+void ConvertToWindowsArray( const uint8* keyboardState, BYTE* out )
 {
   memset( out, 0, 256 * sizeof( BYTE ) );
 
@@ -236,9 +236,8 @@ void SetKeyState( uint8* keyboardState, KeyCode virtualKey, bool down, bool togg
   }
 }
 
-Keyboard::Keyboard() {}
+Keyboard::Keyboard() = default;
 
-Keyboard::~Keyboard() {}
 
 bool Keyboard::IsKeyDown( KeyCode virtualKey ) const
 {
@@ -259,7 +258,9 @@ void Keyboard::SetKeyState( KeyCode virtualKey, bool down )
 {
   bool toggled = IsToggled( virtualKey );
   if ( down )
+  {
     toggled = !toggled;
+  }
   ::SetKeyState( m_keyboardState, virtualKey, down, toggled );
 
   if ( virtualKey == VKC_LSHIFT || virtualKey == VKC_LSHIFT )
@@ -298,7 +299,7 @@ void Keyboard::Fetch()
   }
 }
 
-int32 Keyboard::ConvertKeycodeToAscii( KeyCode keycode, Flags<ModKey> mod_keys, uint8* asciiChar )
+int32 Keyboard::ConvertKeycodeToAscii( KeyCode keycode, Flags<ModKey> modKeys, uint8* asciiChar )
 {
   // Check if key is alnum.
   if ( keycode > VKC_DELETE )
@@ -306,8 +307,8 @@ int32 Keyboard::ConvertKeycodeToAscii( KeyCode keycode, Flags<ModKey> mod_keys, 
     return 0;
   }
 
-  bool shift = mod_keys & MOD_KEY_LSHIFT;
-  bool caps = mod_keys & MOD_KEY_CAPS;
+  bool shift = !!(modKeys & MOD_KEY_LSHIFT);
+  bool caps = !!(modKeys & MOD_KEY_CAPS);
 
   if ( !shift && keycode >= 'A' && keycode <= 'Z' )
   {
@@ -330,10 +331,10 @@ int32 Keyboard::ToUnicode( KeyCode keycode, uint32* unicodeChar )
   GetKeyboardState( kb2 );
 
   // Update the internal key states based upon current physical status.
-  for ( uint32 win_key = VK_BACK; win_key < 256; win_key++ )
+  for ( uint32 winKey = VK_BACK; winKey < 256; winKey++ )
   {
-    BYTE a = kb[win_key];
-    BYTE b = kb2[win_key];
+    BYTE a = kb[winKey];
+    BYTE b = kb2[winKey];
 
     if ( a != b )
     {
@@ -343,9 +344,9 @@ int32 Keyboard::ToUnicode( KeyCode keycode, uint32* unicodeChar )
 
   WCHAR uc[5] = {};
   UINT virtualKey = WindowsKeyFromVirtualKey( keycode );
-  UINT scan_code = MapVirtualKey( virtualKey, MAPVK_VK_TO_VSC );
+  UINT scanCode = MapVirtualKey( virtualKey, MAPVK_VK_TO_VSC );
 
-  int32 count = ::ToUnicode( virtualKey, scan_code, kb, uc, 4, 0 );
+  int32 count = ::ToUnicode( virtualKey, scanCode, kb, uc, 4, 0 );
 
   // copy characters into 'unicodeChar'
   if ( count > 0 )
@@ -356,11 +357,11 @@ int32 Keyboard::ToUnicode( KeyCode keycode, uint32* unicodeChar )
   return count;
 }
 
-bool Keyboard::IsPrintableKey( KeyCode& key, Flags<ModKey> mod_keys )
+bool Keyboard::IsPrintableKey( KeyCode& key, Flags<ModKey> modKeys )
 {
-  if ( !( mod_keys & MOD_KEY_NUM ) )
+  if ( ( modKeys & MOD_KEY_NUM ) == nullptr )
   {
-    Keyboard::KeypadKeyToPrintable( key, mod_keys );
+    Keyboard::KeypadKeyToPrintable( key, modKeys );
   }
 
   if ( key >= VKC_DELETE )
@@ -368,14 +369,14 @@ bool Keyboard::IsPrintableKey( KeyCode& key, Flags<ModKey> mod_keys )
     return false;
   }
 
-  return ( std::isprint( char( key ) ) > 0 );
+  return ( std::isprint( static_cast<char>( key ) ) > 0 );
 }
 
-void Keyboard::KeypadKeyToPrintable( KeyCode& key, Flags<ModKey> mod_keys )
+void Keyboard::KeypadKeyToPrintable( KeyCode& key, Flags<ModKey> modKeys )
 {
   using namespace Nebulae;
 
-  if ( VKC_KP0 <= key && key <= VKC_KP9 && ( mod_keys & MOD_KEY_NUM ) )
+  if ( VKC_KP0 <= key && key <= VKC_KP9 && ( ( modKeys & MOD_KEY_NUM ) != nullptr ) )
   {
     key = KeyCode( VKC_0 + ( key - VKC_KP0 ) );
   }
@@ -384,8 +385,10 @@ void Keyboard::KeypadKeyToPrintable( KeyCode& key, Flags<ModKey> mod_keys )
     switch ( key )
     {
     case VKC_KP_PERIOD:
-      if ( mod_keys & MOD_KEY_NUM )
+      if ( modKeys & MOD_KEY_NUM )
+      {
         key = VKC_PERIOD;
+      }
       break;
     case VKC_KP_DIVIDE:
       key = VKC_SLASH;

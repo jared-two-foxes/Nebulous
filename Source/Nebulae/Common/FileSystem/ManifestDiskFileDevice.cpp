@@ -12,7 +12,7 @@ namespace Nebulae
 
 ManifestDiskFileDevice::ManifestDiskFileDevice( const char* rootDirectory )
   : m_fallback( new DiskFileDevice( rootDirectory ) ),
-    m_rootDirectory( rootDirectory ? rootDirectory : "" ),
+    m_rootDirectory( ( rootDirectory != nullptr ) ? rootDirectory : "" ),
     m_manifestLoaded( false )
 {
 }
@@ -22,7 +22,9 @@ ManifestDiskFileDevice::~ManifestDiskFileDevice() { delete m_fallback; }
 void ManifestDiskFileDevice::LoadManifest()
 {
   if ( m_manifestLoaded )
+  {
     return;
+  }
   m_manifestLoaded = true;
 
   // Try 3 sources in order:
@@ -33,7 +35,9 @@ void ManifestDiskFileDevice::LoadManifest()
     std::string narrowPath( manifestEnv, manifestEnv + wcslen( manifestEnv ) );
     LoadManifestFromFile( narrowPath, m_manifestMap );
     if ( !m_manifestMap.empty() )
+    {
       return;
+    }
   }
 
   // 2. CWD/MANIFEST (bazel run sets CWD to .runfiles/ directory)
@@ -42,12 +46,14 @@ void ManifestDiskFileDevice::LoadManifest()
   {
     LoadManifestFromFile( cwdManifest.generic_string(), m_manifestMap );
     if ( !m_manifestMap.empty() )
+    {
       return;
+    }
   }
 
   // 3. exe/.runfiles_manifest (next to the exe as build artifact)
   wchar_t exePath[MAX_PATH];
-  if ( GetModuleFileNameW( NULL, exePath, MAX_PATH ) > 0 )
+  if ( GetModuleFileNameW( nullptr, exePath, MAX_PATH ) > 0 )
   {
     std::wstring exePathWide( exePath );
     std::wstring manifestPath = exePathWide + L".runfiles_manifest";
@@ -61,7 +67,9 @@ void ManifestDiskFileDevice::LoadManifestFromFile( const std::string& filepath,
 {
   std::ifstream manifestFile( filepath );
   if ( !manifestFile.is_open() )
+  {
     return;
+  }
 
   std::string line;
   while ( std::getline( manifestFile, line ) )
@@ -125,7 +133,7 @@ File* ManifestDiskFileDevice::Open( const std::string& path, FileSystem::Mode mo
 
   // Fall back to wrapped DiskFileDevice
   File* result = m_fallback->Open( path, mode );
-  if ( !result )
+  if ( result == nullptr )
   {
     NE_LOG( "ManifestDiskFileDevice::Open: failed to resolve '%s' (manifest and fallback both failed)", path.c_str() );
   }
@@ -236,7 +244,7 @@ std::string ManifestDiskFileDevice::ResolveRunfile( const std::string& filename 
 
   // 3. exe/.runfiles_manifest
   wchar_t exePath[MAX_PATH];
-  if ( GetModuleFileNameW( NULL, exePath, MAX_PATH ) > 0 )
+  if ( GetModuleFileNameW( nullptr, exePath, MAX_PATH ) > 0 )
   {
     std::wstring exePathWide( exePath );
     std::wstring manifestPath = exePathWide + L".runfiles_manifest";

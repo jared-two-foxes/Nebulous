@@ -1,16 +1,18 @@
 #include "Win32Window.h"
 
+#include <utility>
+
 using namespace Nebulae;
 
 
-Win32Window::Win32Window( const std::wstring& strClassName, Win32Window* pParent )
-  : Window(), m_hWnd( NULL ), m_hDC( NULL ), m_strClassName( strClassName ), m_pParent( pParent )
+Win32Window::Win32Window( std::wstring strClassName, Win32Window* pParent )
+  : m_strClassName( std::move( strClassName ) ), m_pParent( pParent )
 {
 }
 
 Win32Window::~Win32Window()
 {
-  if ( IsWindow( m_hWnd ) )
+  if ( IsWindow( m_hWnd ) != 0 )
   {
     Destroy();
   }
@@ -18,12 +20,13 @@ Win32Window::~Win32Window()
 
 bool Win32Window::Initiate( void* creationData )
 {
-  HINSTANCE hInstance = ::GetModuleHandle( NULL );
-  DWORD dwStyle = ( WS_CLIPCHILDREN | WS_CLIPSIBLINGS ), dwExStyle = NULL;
-  HWND hParent = m_pParent ? m_pParent->GetWnd() : NULL;
+  HINSTANCE hInstance = ::GetModuleHandle( nullptr );
+  DWORD dwStyle = ( WS_CLIPCHILDREN | WS_CLIPSIBLINGS );
+  DWORD dwExStyle = NULL;
+  HWND hParent = ( m_pParent != nullptr ) ? m_pParent->GetWnd() : nullptr;
 
   // Setup the window styles.
-  if ( m_pParent )
+  if ( m_pParent != nullptr )
   {
     dwStyle |= WS_CHILDWINDOW;
   }
@@ -32,20 +35,20 @@ bool Win32Window::Initiate( void* creationData )
     dwStyle |= WS_OVERLAPPEDWINDOW;
   }
 
-  const Point position = GetPosition();
-  const Point size = GetSize();
+  const Point POSITION = GetPosition();
+  const Point SIZE = GetSize();
 
   // Adjust window dimensions so that client area equals the passed in width & height values.
   RECT rc;
-  ::SetRect( &rc, position.x, position.y, size.x, size.y );
+  ::SetRect( &rc, POSITION.x, POSITION.y, SIZE.x, SIZE.y );
   ::AdjustWindowRectEx( &rc, dwStyle, FALSE, dwExStyle );
 
-  int x = m_pParent == 0 ? CW_USEDEFAULT : position.x;
-  int y = m_pParent == 0 ? CW_USEDEFAULT : position.y;
+  int x = m_pParent == nullptr ? CW_USEDEFAULT : POSITION.x;
+  int y = m_pParent == nullptr ? CW_USEDEFAULT : POSITION.y;
 
   // create OS window
   m_hWnd = ::CreateWindowEx( dwExStyle, m_strClassName.c_str(), GetCaption(), dwStyle, x, y, rc.right - rc.left,
-                             rc.bottom - rc.top, hParent, NULL, hInstance, creationData );
+                             rc.bottom - rc.top, hParent, nullptr, hInstance, creationData );
 
   // Grab the HDC for the created window.
   // Not sure if this is valid on control windows.
@@ -57,20 +60,22 @@ bool Win32Window::Initiate( void* creationData )
 
 void Win32Window::Destroy()
 {
-  if ( !m_hWnd )
+  if ( m_hWnd == nullptr )
+  {
     return;
+  }
 
   SetWindowLongPtr( m_hWnd, GWLP_USERDATA, ( LONG_PTR ) nullptr );
 
-  if ( ::IsWindow( m_hWnd ) )
+  if ( ::IsWindow( m_hWnd ) != 0 )
   {
     ::DestroyWindow( m_hWnd );
   }
 
   // m_bActive = false;
   // m_bClosed = true;
-  m_hDC = 0; ///< Dont need to release the HDC due to the CS_OWNDC class style
-  m_hWnd = 0;
+  m_hDC = nullptr; ///< Dont need to release the HDC due to the CS_OWNDC class style
+  m_hWnd = nullptr;
 }
 
 void Win32Window::Show()

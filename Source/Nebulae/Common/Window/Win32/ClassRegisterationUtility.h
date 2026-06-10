@@ -17,11 +17,11 @@ class ClassRegisterationUtility
 private:
   struct OSClassRegistration
   {
-    std::wstring name;
-    HINSTANCE instance;
+    std::wstring m_name;
+    HINSTANCE m_instance;
   };
 
-private:
+
   std::vector<OSClassRegistration> m_registeredClasses;
 
 public:

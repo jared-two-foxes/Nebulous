@@ -5,12 +5,12 @@
 
 using namespace Nebulae;
 
-DiskFile::DiskFile( std::string filename, bool bReadOnly ) : File(), m_stream( nullptr )
+DiskFile::DiskFile( const std::string& filename, bool bReadOnly ) : File()
 {
   // Always open in binary mode
   // Also, always include reading
   std::ios::openmode mode = std::ios::in | std::ios::binary;
-  std::fstream* baseStream = 0;
+  std::fstream* baseStream = nullptr;
 
   if ( !bReadOnly )
   {
@@ -62,9 +62,11 @@ size_t DiskFile::Read( void* buffer, size_t length )
 size_t DiskFile::Write( const void* buffer, size_t length )
 {
   std::size_t initial = m_stream->tellp();
-  m_stream->write( (const char*)buffer, length );
+  m_stream->write( static_cast<const char*>( buffer ), length );
   if ( m_stream->bad() )
+  {
     return static_cast<std::size_t>( -1 ); // if write fails then tellp is going to fail (return -1)
+  }
   return static_cast<std::size_t>( m_stream->tellp() ) - initial;
 }
 

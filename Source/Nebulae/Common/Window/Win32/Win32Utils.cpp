@@ -10,13 +10,14 @@ std::wstring Win32Utils::ErrorCodeToString( DWORD errorCode )
 {
   wchar_t* buffer = nullptr;
   FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr,
-                 errorCode, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), (wchar_t*)&buffer, 0, nullptr );
+                 errorCode, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), reinterpret_cast<wchar_t*>( &buffer ), 0,
+                 nullptr );
 
-  const std::wstring errorMessage( buffer, buffer + wcslen( buffer ) );
+  const std::wstring ERROR_MESSAGE( buffer, buffer + wcslen( buffer ) );
 
   LocalFree( buffer );
 
-  return errorMessage;
+  return ERROR_MESSAGE;
 }
 
 int Win32Utils::MessagePump()
@@ -26,7 +27,7 @@ int Win32Utils::MessagePump()
   MSG msg;
   msg.message = WM_NULL;
 
-  while ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+  while ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
   {
     if ( msg.message != WM_QUIT )
     {

@@ -13,7 +13,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include <memory> //for std::unique_ptr
-#include <stdio.h>
+#include <cstdio>
 
 using namespace Nebulae;
 
@@ -23,25 +23,45 @@ Flags<ModKey> GetModKeys( Keyboard* keyboard )
 {
   Flags<ModKey> retval;
   if ( keyboard->IsKeyDown( VKC_LSHIFT ) )
+  {
     retval |= MOD_KEY_LSHIFT;
+  }
   if ( keyboard->IsKeyDown( VKC_RSHIFT ) )
+  {
     retval |= MOD_KEY_RSHIFT;
+  }
   if ( keyboard->IsKeyDown( VKC_LCTRL ) )
+  {
     retval |= MOD_KEY_LCTRL;
+  }
   if ( keyboard->IsKeyDown( VKC_RCTRL ) )
+  {
     retval |= MOD_KEY_RCTRL;
+  }
   if ( keyboard->IsKeyDown( VKC_LALT ) )
+  {
     retval |= MOD_KEY_LALT;
+  }
   if ( keyboard->IsKeyDown( VKC_RALT ) )
+  {
     retval |= MOD_KEY_RALT;
+  }
   if ( keyboard->IsKeyDown( VKC_LSUPER ) )
+  {
     retval |= MOD_KEY_LMETA;
+  }
   if ( keyboard->IsKeyDown( VKC_RSUPER ) )
+  {
     retval |= MOD_KEY_RMETA;
+  }
   if ( keyboard->IsKeyDown( VKC_NUMLOCK ) )
+  {
     retval |= MOD_KEY_NUM;
+  }
   if ( keyboard->IsKeyDown( VKC_CAPSLOCK ) )
+  {
     retval |= MOD_KEY_CAPS;
+  }
   return retval;
 }
 
@@ -351,7 +371,7 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
   {
     // Grab pointer to the Win32Window from CREATESTRUCT and store it for later access.
     LPCREATESTRUCT pCreateStruct = (LPCREATESTRUCT)lParam;
-    Win32Platform* platform = (Win32Platform*)pCreateStruct->lpCreateParams;
+    Win32Platform* platform = static_cast<Win32Platform*>( pCreateStruct->lpCreateParams );
     SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)platform );
 
     // Init the Input devices that we wish to listen to;  0 - Keyboard, 1 - Mouse.
@@ -359,11 +379,11 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
     rid[0].usUsagePage = 1;
     rid[0].usUsage = 6;
     rid[0].dwFlags = 0;
-    rid[0].hwndTarget = NULL;
+    rid[0].hwndTarget = nullptr;
     rid[1].usUsagePage = 1;
     rid[1].usUsage = 2;
     rid[1].dwFlags = 0;
-    rid[1].hwndTarget = NULL;
+    rid[1].hwndTarget = nullptr;
     RegisterRawInputDevices( rid, 2, sizeof( RAWINPUTDEVICE ) );
 
     return 0;
@@ -422,19 +442,20 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
   case WM_INPUT:
   {
     // Grab the current modKey flags.
-    boost::uint32_t key_code_point = 0;
+    boost::uint32_t keyCodePoint = 0;
     Flags<ModKey> modKeys = GetModKeys( &platform->GetKeyboard() );
 
 
     // Determine how big the buffer should be.
     UINT bufferSize;
-    GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, NULL, &bufferSize, sizeof( RAWINPUTHEADER ) );
+    GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, nullptr, &bufferSize, sizeof( RAWINPUTHEADER ) );
 
     // Obtain the data buffer using unique_ptr for automatic cleanup.
     std::unique_ptr<BYTE[]> buffer( new BYTE[bufferSize] );
-    GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, (LPVOID)buffer.get(), &bufferSize, sizeof( RAWINPUTHEADER ) );
+    GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, reinterpret_cast<LPVOID>( buffer.get() ), &bufferSize,
+                     sizeof( RAWINPUTHEADER ) );
 
-    RAWINPUT* raw = (RAWINPUT*)buffer.get(); //< Cast buffer to a usable type.
+    RAWINPUT* raw = reinterpret_cast<RAWINPUT*>( buffer.get() ); //< Cast buffer to a usable type.
 
     if ( raw->header.dwType == RIM_TYPEMOUSE ) // Check for mouse movement.
     {
@@ -454,28 +475,48 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
       if ( window->IsPointInWindow( cursor ) )
       {
         // Check for mouse button presses.
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_1_DOWN )
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_1_DOWN ) != 0 )
+        {
           window->ButtonPressed( mouse.x, mouse.y, Button1, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_2_DOWN )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_2_DOWN ) != 0 )
+        {
           window->ButtonPressed( mouse.x, mouse.y, Button2, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_3_DOWN )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_3_DOWN ) != 0 )
+        {
           window->ButtonPressed( mouse.x, mouse.y, Button3, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_4_DOWN )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_4_DOWN ) != 0 )
+        {
           window->ButtonPressed( mouse.x, mouse.y, Button4, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_5_DOWN )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_5_DOWN ) != 0 )
+        {
           window->ButtonPressed( mouse.x, mouse.y, Button5, modKeys );
+        }
 
         // Check for mouse button releases.
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_1_UP )
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_1_UP ) != 0 )
+        {
           window->ButtonReleased( mouse.x, mouse.y, Button1, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_2_UP )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_2_UP ) != 0 )
+        {
           window->ButtonReleased( mouse.x, mouse.y, Button2, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_3_UP )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_3_UP ) != 0 )
+        {
           window->ButtonReleased( mouse.x, mouse.y, Button3, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_4_UP )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_4_UP ) != 0 )
+        {
           window->ButtonReleased( mouse.x, mouse.y, Button4, modKeys );
-        if ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_5_UP )
+        }
+        if ( ( raw->data.mouse.usButtonFlags & RI_MOUSE_BUTTON_5_UP ) != 0 )
+        {
           window->ButtonReleased( mouse.x, mouse.y, Button5, modKeys );
+        }
 
         //@todo check if the mouse button was dragged? pWindow->ButtonDragged( cursor.x, cursor.y, Button1, modKeys );
         //@todo add support for MouseWheel; RI_MOUSE_WHEEL
@@ -492,7 +533,7 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
         // discard "fake keys" which are part of an escaped sequence
         return 0;
       }
-      else if ( virtualKey == VK_SHIFT )
+      if ( virtualKey == VK_SHIFT )
       {
         // correct left-hand / right-hand SHIFT
         virtualKey = MapVirtualKey( scanCode, MAPVK_VSC_TO_VK_EX );
@@ -505,10 +546,10 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
       // e0 and e1 are escape sequences used for certain special keys, such as PRINT and PAUSE/BREAK.
       // see http://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
-      const bool isE0 = ( ( flags & RI_KEY_E0 ) != 0 );
-      const bool isE1 = ( ( flags & RI_KEY_E1 ) != 0 );
+      const bool IS_E0 = ( ( flags & RI_KEY_E0 ) != 0 );
+      const bool IS_E1 = ( ( flags & RI_KEY_E1 ) != 0 );
 
-      if ( isE1 )
+      if ( IS_E1 )
       {
         // for escaped sequences, turn the virtual key into the correct scan code using MapVirtualKey.
         // however, MapVirtualKey is unable to map VK_PAUSE (this is a known bug), hence we map that by hand.
@@ -519,17 +560,25 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
       {
       // right-hand CONTROL and ALT have their e0 bit set
       case VK_CONTROL:
-        if ( isE0 )
+        if ( IS_E0 )
+        {
           virtualKey = VK_RCONTROL;
+        }
         else
+        {
           virtualKey = VK_LCONTROL;
+        }
         break;
 
       case VK_MENU:
-        if ( isE0 )
+        if ( IS_E0 )
+        {
           virtualKey = VK_RMENU;
+        }
         else
+        {
           virtualKey = VK_LMENU;
+        }
         break;
 
       // NUMPAD ENTER has its e0 bit set
@@ -541,8 +590,10 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
       // the standard INSERT, DELETE, HOME, END, PRIOR and NEXT keys will always have their e0 bit set, but the
       // corresponding keys on the NUMPAD will not.
       case VK_INSERT:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD0;
+        }
         break;
 
         // case VK_DELETE:
@@ -551,73 +602,91 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
         //   break;
 
       case VK_HOME:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD7;
+        }
         break;
 
       case VK_END:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD1;
+        }
         break;
 
       case VK_PRIOR:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD9;
+        }
         break;
 
       case VK_NEXT:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD3;
+        }
         break;
 
       // the standard arrow keys will always have their e0 bit set, but the
       // corresponding keys on the NUMPAD will not.
       case VK_LEFT:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD4;
+        }
         break;
 
       case VK_RIGHT:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD6;
+        }
         break;
 
       case VK_UP:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD8;
+        }
         break;
 
       case VK_DOWN:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD2;
+        }
         break;
 
       // NUMPAD 5 doesn't have its e0 bit set
       case VK_CLEAR:
-        if ( !isE0 )
+        if ( !IS_E0 )
+        {
           virtualKey = VK_NUMPAD5;
+        }
         break;
       }
 
       // a key can either produce a "make" or "break" scancode. this is used to differentiate between down-presses and
       // releases see http://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
-      const bool wasUp = ( ( flags & RI_KEY_BREAK ) != 0 );
+      const bool WAS_UP = ( ( flags & RI_KEY_BREAK ) != 0 );
 
       KeyCode engineKey = VirtualKeyFromWindowsKey( virtualKey, modKeys );
-      int32 convertedChars = platform->GetKeyboard().ToUnicode( engineKey, &key_code_point );
+      int32 convertedChars = platform->GetKeyboard().ToUnicode( engineKey, &keyCodePoint );
 
       // Send the message to the associated window.
-      if ( wasUp )
+      if ( WAS_UP )
       {
-        window->KeyReleased( engineKey, key_code_point, modKeys );
+        window->KeyReleased( engineKey, keyCodePoint, modKeys );
       }
       else
       {
-        window->KeyPressed( engineKey, key_code_point, modKeys );
+        window->KeyPressed( engineKey, keyCodePoint, modKeys );
       }
 
       // Adjust the keyboard structure to reflect keypress.
-      platform->GetKeyboard().SetKeyState( engineKey, !wasUp );
+      platform->GetKeyboard().SetKeyState( engineKey, !WAS_UP );
     }
   }
   break;
@@ -630,15 +699,15 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 }
 
 
-Win32Platform::Win32Platform() : Platform(), m_pRegisterationUtility( NULL ) {}
+Win32Platform::Win32Platform() = default;
 
-Win32Platform::~Win32Platform() {}
+Win32Platform::~Win32Platform() = default;
 
 bool Win32Platform::Initiate()
 {
   // Create the registeration utility & register the Nebulae window class.
   m_pRegisterationUtility = new ClassRegisterationUtility();
-  m_pRegisterationUtility->Register( L"NebulaeWindowClass", NebulaeWndProc, ::GetModuleHandle( NULL ), NULL );
+  m_pRegisterationUtility->Register( L"NebulaeWindowClass", NebulaeWndProc, ::GetModuleHandle( nullptr ), nullptr );
 
   // @note [jared.watt] This is here rather than in Platform::Intiate so that we dont have to call
   // Platform::Initiate() as thats an ugly way of coding and I cant think of a better solution
@@ -652,19 +721,20 @@ bool Win32Platform::Initiate()
 
 void Win32Platform::Destroy()
 {
-  for ( std::vector<WindowPtr>::iterator itr = m_windows.begin(); itr != m_windows.end(); ++itr )
+  for ( auto& mWindow : m_windows )
   {
-    ( *itr )->Destroy();
+    mWindow->Destroy();
   }
   m_windows.clear();
 
-  if ( m_pRegisterationUtility != nullptr )
+  {
     delete m_pRegisterationUtility;
+  }
 
   m_fileSystem.reset();
 
-  m_pRegisterationUtility = NULL;
-  m_fileSystem = NULL;
+  m_pRegisterationUtility = nullptr;
+  m_fileSystem = nullptr;
 }
 
 bool Win32Platform::MessagePump()
@@ -683,7 +753,7 @@ void Win32Platform::SetWorkingDirectory( const char* directory )
 Platform::WindowPtr Win32Platform::CreateApplicationWindow( int x, int y, int w, int h, Platform::WindowPtr pParent )
 {
   // Create new Window.
-  Win32Window* pWindow = new Win32Window( L"NebulaeWindowClass", NULL );
+  Win32Window* pWindow = new Win32Window( L"NebulaeWindowClass", nullptr );
   if ( pWindow != nullptr )
   {
     pWindow->MoveAndResize( x, y, w, h );
@@ -710,15 +780,15 @@ void Win32Platform::DestroyWindow( WindowPtr window )
 
 Platform::WindowPtr Win32Platform::FindWindowFromHandle( HWND handle )
 {
-  for ( std::vector<WindowPtr>::iterator itr = m_windows.begin(); itr != m_windows.end(); ++itr )
+  for ( auto& mWindow : m_windows )
   {
-    std::shared_ptr<Win32Window> window = std::static_pointer_cast<Win32Window>( *itr );
+    std::shared_ptr<Win32Window> window = std::static_pointer_cast<Win32Window>( mWindow );
 
     if ( window->GetWnd() == handle )
     {
-      return ( *itr );
+      return mWindow;
     }
   }
 
-  return WindowPtr( NULL );
+  return { nullptr };
 }

@@ -3,9 +3,9 @@
 using namespace Nebulae;
 
 
-ClassRegisterationUtility::ClassRegisterationUtility() {}
+ClassRegisterationUtility::ClassRegisterationUtility() = default;
 
-ClassRegisterationUtility::~ClassRegisterationUtility() {}
+ClassRegisterationUtility::~ClassRegisterationUtility() = default;
 
 
 bool ClassRegisterationUtility::Register( const std::wstring& strClassName, WNDPROC lpfnWndProc, HINSTANCE hInstance,
@@ -34,10 +34,10 @@ bool ClassRegisterationUtility::Register( const std::wstring& strClassName, WNDP
   if ( ret != 0 )
   {
     // Store the class name so that it can be unregistered later if required.
-    m_registeredClasses.push_back( OSClassRegistration() );
+    m_registeredClasses.emplace_back();
     OSClassRegistration& entry = m_registeredClasses.back();
-    entry.name = strClassName;
-    entry.instance = hInstance;
+    entry.m_name = strClassName;
+    entry.m_instance = hInstance;
   }
 
   return ( ret != 0 );
@@ -47,11 +47,11 @@ void ClassRegisterationUtility::Unregister( const std::wstring& strClassName )
 {
   std::vector<OSClassRegistration>::iterator it =
     std::find_if( m_registeredClasses.begin(), m_registeredClasses.end(),
-                  [&]( OSClassRegistration& entry ) { return ( entry.name == strClassName ); } );
+                  [&]( OSClassRegistration& entry ) { return ( entry.m_name == strClassName ); } );
 
   if ( it != m_registeredClasses.end() )
   {
-    ::UnregisterClass( it->name.c_str(), it->instance );
+    ::UnregisterClass( it->m_name.c_str(), it->m_instance );
   }
 }
 
@@ -60,7 +60,7 @@ bool ClassRegisterationUtility::IsClassRegistered( const std::wstring& className
 {
   std::vector<OSClassRegistration>::iterator it =
     std::find_if( m_registeredClasses.begin(), m_registeredClasses.end(),
-                  [&]( OSClassRegistration& entry ) { return ( entry.name == className ); } );
+                  [&]( OSClassRegistration& entry ) { return ( entry.m_name == className ); } );
 
   return ( it != m_registeredClasses.end() );
 }

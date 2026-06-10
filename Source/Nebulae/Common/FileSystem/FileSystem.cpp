@@ -40,7 +40,7 @@ bool dummy = RegisterModeKeys();
 NE_FLAGSPEC_IMPL( FileSystemModeFlags );
 
 
-std::vector<std::string>& split( const std::string& s, char delim, std::vector<std::string>& elems )
+std::vector<std::string>& Split( const std::string& s, char delim, std::vector<std::string>& elems )
 {
   std::stringstream ss( s );
   std::string item;
@@ -52,45 +52,45 @@ std::vector<std::string>& split( const std::string& s, char delim, std::vector<s
   return elems;
 }
 
-std::vector<std::string> split( const std::string& s, char delim )
+std::vector<std::string> Split( const std::string& s, char delim )
 {
   std::vector<std::string> elems;
-  split( s, delim, elems );
+  Split( s, delim, elems );
   return elems;
 }
 
-FileSystem::FileSystem() {}
+FileSystem::FileSystem() = default;
 
-FileSystem::~FileSystem() {}
+FileSystem::~FileSystem() = default;
 
 File* FileSystem::Open( const char* devices, const std::string& path, Mode mode )
 {
-  std::vector<std::string> elems = split( devices, ':' );
+  std::vector<std::string> elems = Split( devices, ':' );
 
   File* file = nullptr;
 
-  for ( std::vector<std::string>::reverse_iterator list_itr = elems.rbegin(); list_itr != elems.rend(); ++list_itr )
+  for ( std::vector<std::string>::reverse_iterator listItr = elems.rbegin(); listItr != elems.rend(); ++listItr )
   {
-    DeviceList& deviceList = m_devices[*list_itr];
+    DeviceList& deviceList = m_devices[*listItr];
 
     NE_ASSERT( !deviceList.empty(), "Unable to find a Device of type '%s'" );
 
-    for ( DeviceList::iterator device_itr = deviceList.begin(); device_itr != deviceList.end(); ++device_itr )
+    for ( auto& deviceItr : deviceList )
     {
-      File* created_file = nullptr;
+      File* createdFile = nullptr;
 
       if ( file != nullptr )
       {
-        created_file = ( *device_itr )->Open( file );
+        createdFile = deviceItr->Open( file );
       }
       else
       {
-        created_file = ( *device_itr )->Open( path, mode );
+        createdFile = deviceItr->Open( path, mode );
       }
 
-      if ( created_file != nullptr )
+      if ( createdFile != nullptr )
       {
-        file = created_file;
+        file = createdFile;
         break;
       }
     }

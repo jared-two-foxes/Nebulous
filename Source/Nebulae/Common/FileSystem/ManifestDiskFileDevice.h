@@ -24,7 +24,7 @@ public:
 
 private:
   void LoadManifest();
-  void LoadManifestFromFile( const std::string& filepath, std::map<std::string, std::string>& map );
+  static void LoadManifestFromFile( const std::string& filepath, std::map<std::string, std::string>& map );
 
   DiskFileDevice* m_fallback;
   std::string m_rootDirectory;

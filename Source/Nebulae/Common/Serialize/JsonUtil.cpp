@@ -16,18 +16,18 @@ bool Nebulae::ParseJSON( File& file, Json::Value* root )
 
   Json::Reader reader;
   bool parsingSuccessful = false;
-  static int8 static_buffer[2048];
+  static int8 staticBuffer[2048];
 
   file.SeekToEnd();
   std::size_t length = file.Tell();
   file.Seek( 0 );
 
-  if ( length )
+  if ( length != 0U )
   {
-    char* buffer = NULL;
-    if ( length < ARRAYSIZE( static_buffer ) )
+    char* buffer = nullptr;
+    if ( length < ARRAYSIZE( staticBuffer ) )
     {
-      buffer = static_buffer;
+      buffer = staticBuffer;
     }
     else
     {
@@ -41,7 +41,7 @@ bool Nebulae::ParseJSON( File& file, Json::Value* root )
       parsingSuccessful = reader.parse( begin, end, *root );
     }
 
-    if ( buffer != static_buffer )
+    if ( buffer != staticBuffer )
     {
       delete[] buffer;
     }

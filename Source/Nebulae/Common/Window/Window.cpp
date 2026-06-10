@@ -49,18 +49,18 @@ NE_FLAGSPEC_IMPL( ModKey );
 
 
 // constructor
-Window::Window() : m_caption( L"" ), m_position( Point( 0, 0 ) ), m_size( Point( -1, -1 ) ) {}
+Window::Window() : m_position( Point( 0, 0 ) ), m_size( Point( -1, -1 ) ) {}
 
 // destructor
-Window::~Window() {}
+Window::~Window() = default;
 
 int32 Window::GetWidth() const { return m_size.x; }
 
 int32 Window::GetHeight() const { return m_size.y; }
 
-const Point Window::GetSize() const { return m_size; }
+Point Window::GetSize() const { return m_size; }
 
-const Point Window::GetPosition() const { return m_position; }
+Point Window::GetPosition() const { return m_position; }
 
 const wchar_t* Window::GetCaption() const { return m_caption.c_str(); }
 
@@ -88,9 +88,9 @@ void Window::RemoveInputListener( InputListener* pInputListener ) { m_listeners.
 
 bool Window::HasInputListener( InputListener* inputListener )
 {
-  for ( std::list<InputListener*>::iterator it = m_listeners.begin(), end = m_listeners.end(); it != end; ++it )
+  for ( auto& mListener : m_listeners )
   {
-    if ( ( *it ) == inputListener )
+    if ( mListener == inputListener )
     {
       return true;
     }
@@ -101,8 +101,8 @@ bool Window::HasInputListener( InputListener* inputListener )
 
 void Window::ButtonPressed( int32 x, int32 y, MouseButton button, Flags<ModKey> modKeys )
 {
-  std::list<InputListener*>::iterator end_it = m_listeners.end();
-  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != end_it; ++it )
+  std::list<InputListener*>::iterator endIt = m_listeners.end();
+  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != endIt; ++it )
   {
     ( *it )->MousePressed( button, x, y, modKeys );
   }
@@ -110,8 +110,8 @@ void Window::ButtonPressed( int32 x, int32 y, MouseButton button, Flags<ModKey> 
 
 void Window::ButtonReleased( int32 x, int32 y, MouseButton button, Flags<ModKey> modKeys )
 {
-  std::list<InputListener*>::iterator end_it = m_listeners.end();
-  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != end_it; ++it )
+  std::list<InputListener*>::iterator endIt = m_listeners.end();
+  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != endIt; ++it )
   {
     ( *it )->MouseReleased( button, x, y, modKeys );
   }
@@ -119,27 +119,27 @@ void Window::ButtonReleased( int32 x, int32 y, MouseButton button, Flags<ModKey>
 
 void Window::ButtonDragged( int32 x, int32 y, MouseButton button, Flags<ModKey> modKeys )
 {
-  std::list<InputListener*>::iterator end_it = m_listeners.end();
-  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != end_it; ++it )
+  std::list<InputListener*>::iterator endIt = m_listeners.end();
+  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != endIt; ++it )
   {
     ( *it )->MouseMove( button, x, y, modKeys );
   }
 }
 
-void Window::KeyPressed( KeyCode keyCode, uint32 key_code_point, Flags<ModKey> modKeys )
+void Window::KeyPressed( KeyCode keyCode, uint32 keyCodePoint, Flags<ModKey> modKeys )
 {
-  std::list<InputListener*>::iterator end_it = m_listeners.end();
-  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != end_it; ++it )
+  std::list<InputListener*>::iterator endIt = m_listeners.end();
+  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != endIt; ++it )
   {
-    ( *it )->KeyPressed( keyCode, key_code_point, modKeys );
+    ( *it )->KeyPressed( keyCode, keyCodePoint, modKeys );
   }
 }
 
-void Window::KeyReleased( KeyCode keyCode, uint32 key_code_point, Flags<ModKey> modKeys )
+void Window::KeyReleased( KeyCode keyCode, uint32 keyCodePoint, Flags<ModKey> modKeys )
 {
-  std::list<InputListener*>::iterator end_it = m_listeners.end();
-  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != end_it; ++it )
+  std::list<InputListener*>::iterator endIt = m_listeners.end();
+  for ( std::list<InputListener*>::iterator it = m_listeners.begin(); it != endIt; ++it )
   {
-    ( *it )->KeyReleased( keyCode, key_code_point, modKeys );
+    ( *it )->KeyReleased( keyCode, keyCodePoint, modKeys );
   }
 }
