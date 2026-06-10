@@ -307,8 +307,8 @@ int32 Keyboard::ConvertKeycodeToAscii( KeyCode keycode, Flags<ModKey> modKeys, u
     return 0;
   }
 
-  bool shift = !!(modKeys & MOD_KEY_LSHIFT);
-  bool caps = !!(modKeys & MOD_KEY_CAPS);
+  bool shift = !!( modKeys & MOD_KEY_LSHIFT );
+  bool caps = !!( modKeys & MOD_KEY_CAPS );
 
   if ( !shift && keycode >= 'A' && keycode <= 'Z' )
   {

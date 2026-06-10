@@ -3,9 +3,8 @@
 
 #include <Nebulae/Common/Common.h>
 
-struct FT_FaceRec_;
-typedef struct FT_FaceRec_* FT_Face;
-typedef int FT_Error;
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 namespace Nebulae
 {
