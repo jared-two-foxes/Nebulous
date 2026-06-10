@@ -8,9 +8,7 @@
 using namespace Nebulae;
 
 
-Texture::Texture( const std::string& name, RenderSystem* renderDevice ) : Resource( name, renderDevice ), m_impl( NULL )
-{
-}
+Texture::Texture( const std::string& name, RenderSystem* renderDevice ) : Resource( name, renderDevice ) {}
 
 
 Texture::~Texture()

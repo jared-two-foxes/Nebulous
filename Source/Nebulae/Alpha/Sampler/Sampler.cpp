@@ -3,9 +3,7 @@
 using namespace Nebulae;
 
 // constructor
-Sampler::Sampler( const std::string& name, RenderSystem* renderDevice ) : Resource( name, renderDevice ), m_impl( NULL )
-{
-}
+Sampler::Sampler( const std::string& name, RenderSystem* renderDevice ) : Resource( name, renderDevice ) {}
 
 // destructor
 Sampler::~Sampler()
