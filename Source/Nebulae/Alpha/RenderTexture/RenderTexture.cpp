@@ -14,7 +14,7 @@ RenderTexture::RenderTexture( const std::string& name, Nebulae::RenderSystem* re
 
 RenderTexture::~RenderTexture()
 {
-  if ( m_impl )
+  if ( m_impl != nullptr )
     delete m_impl;
   m_impl = nullptr;
 }
@@ -106,11 +106,11 @@ bool RenderTexture::BindDepthTexture( Nebulae::Texture* texture )
 bool RenderTexture::LoadImpl_( Nebulae::File* is )
 {
   NE_ASSERT( m_impl != nullptr, "Attempting to load a RenderTexture without a valid RenderTextureImpl present" );
-  return ( m_impl ? m_impl->Load() : false );
+  return ( m_impl != nullptr ? m_impl->Load() : false );
 }
 
 bool RenderTexture::UnloadImpl_()
 {
   NE_ASSERT( m_impl != nullptr, "Attempting to unload a RenderTexture without a valid RenderTextureImpl present" );
-  return ( m_impl ? m_impl->Unload() : false );
+  return ( m_impl != nullptr ? m_impl->Unload() : false );
 }

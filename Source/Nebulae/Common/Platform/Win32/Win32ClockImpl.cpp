@@ -56,7 +56,7 @@ Clock::Clock()
 
 Clock::~Clock()
 {
-  if ( m_impl )
+  if ( m_impl != nullptr )
   {
     delete m_impl;
     m_impl = NULL;

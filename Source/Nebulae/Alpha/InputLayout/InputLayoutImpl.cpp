@@ -24,7 +24,7 @@ InputLayoutImpl::InputLayoutImpl( const Nebulae::VertexDeceleration* vertexDecl,
 
 InputLayoutImpl::~InputLayoutImpl()
 {
-  if ( m_vertexDecl )
+  if ( m_vertexDecl != nullptr )
   {
     delete m_vertexDecl;
   }

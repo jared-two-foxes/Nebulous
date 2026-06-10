@@ -45,7 +45,7 @@ DiskFile::DiskFile( std::string filename, bool bReadOnly ) : File(), m_stream( n
 
 DiskFile::~DiskFile()
 {
-  if ( m_stream )
+  if ( m_stream != nullptr )
   {
     m_stream->close();
     delete m_stream;

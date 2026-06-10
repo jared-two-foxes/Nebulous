@@ -11,6 +11,11 @@
 #ifndef __VECTOR4_H__
 #define __VECTOR4_H__
 
+#include <Nebulae/Common/Base/Scalar.h>
+#include <Nebulae/Common/Base/Assert.h>
+#include <cmath>
+#include <algorithm>
+
 /** Vector4.
  */
 class Vector4

@@ -2,6 +2,8 @@
 #ifndef NEBULAE_COMMON_BITWISE_H__
 #define NEBULAE_COMMON_BITWISE_H__
 
+#include <Nebulae/Common/Base/Platform.h>
+
 namespace Nebulae
 {
 

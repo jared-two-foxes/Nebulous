@@ -91,7 +91,7 @@ std::shared_ptr<Nebulae::RenderSystem> CreateRenderSystem( RenderSystemType type
     // Set up log callback for the DLL
     Nebulae::LPFNSETLOGCALLBACK SetLogCb;
     lib.Symbol( "SetLogCallback", (void**)&SetLogCb );
-    if ( SetLogCb )
+    if ( SetLogCb != nullptr )
     {
       SetLogCb( Nebulae::DllFileCallback );
     }

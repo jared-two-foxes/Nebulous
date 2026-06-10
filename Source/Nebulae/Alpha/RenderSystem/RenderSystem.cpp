@@ -22,27 +22,27 @@ RenderSystem::RenderSystem( FileSystemPtr fileSystem, WindowPtr window )
 
 RenderSystem::~RenderSystem()
 {
-  if ( m_bufferFactory )
+  if ( m_bufferFactory != nullptr )
   {
     delete m_bufferFactory;
   }
-  if ( m_layoutFactory )
+  if ( m_layoutFactory != nullptr )
   {
     delete m_layoutFactory;
   }
-  if ( m_renderTextureFactory )
+  if ( m_renderTextureFactory != nullptr )
   {
     delete m_renderTextureFactory;
   }
-  if ( m_samplerFactory )
+  if ( m_samplerFactory != nullptr )
   {
     delete m_samplerFactory;
   }
-  if ( m_shaderFactory )
+  if ( m_shaderFactory != nullptr )
   {
     delete m_shaderFactory;
   }
-  if ( m_textureFactory )
+  if ( m_textureFactory != nullptr )
   {
     delete m_textureFactory;
   }
@@ -88,7 +88,7 @@ HardwareBuffer* RenderSystem::CreateBuffer( const std::string& identifier, const
                                             bool shouldLoad )
 {
   HardwareBuffer* buffer = m_bufferFactory->Create( identifier.c_str() );
-  if ( buffer && !buffer->IsLoaded() )
+  if ( buffer != nullptr && !buffer->IsLoaded() )
   {
     buffer->SetImpl( CreateBufferImpl( usage, sizeInBytes, bindFlags, sysMem ) );
     if ( shouldLoad )
@@ -104,7 +104,7 @@ InputLayout* RenderSystem::CreateInputLayout( const std::string& identifier, con
                                               const HardwareShader* pVertexShader, bool shouldLoad )
 {
   InputLayout* inputLayout = m_layoutFactory->Create( identifier.c_str() );
-  if ( inputLayout && !inputLayout->IsLoaded() )
+  if ( inputLayout != nullptr && !inputLayout->IsLoaded() )
   {
     inputLayout->SetImpl( CreateInputLayoutImpl( pVertexDecl, pVertexShader ) );
     if ( shouldLoad )
@@ -119,7 +119,7 @@ InputLayout* RenderSystem::CreateInputLayout( const std::string& identifier, con
 Sampler* RenderSystem::CreateSampler( const std::string& identifier, bool shouldLoad )
 {
   Sampler* sampler = m_samplerFactory->Create( identifier.c_str() );
-  if ( sampler && !sampler->IsLoaded() )
+  if ( sampler != nullptr && !sampler->IsLoaded() )
   {
     sampler->SetImpl( CreateSamplerImpl() );
     if ( shouldLoad )
@@ -140,7 +140,7 @@ RenderTexture* RenderSystem::CreateRenderTexture( const std::string& identifier,
     height = m_window->GetHeight();
 
   RenderTexture* renderTexture = m_renderTextureFactory->Create( identifier.c_str() );
-  if ( renderTexture && !renderTexture->IsLoaded() )
+  if ( renderTexture != nullptr && !renderTexture->IsLoaded() )
   {
     renderTexture->SetImpl( CreateRenderTextureImpl( width, height ) );
     if ( shouldLoad )
@@ -155,13 +155,13 @@ RenderTexture* RenderSystem::CreateRenderTexture( const std::string& identifier,
 HardwareShader* RenderSystem::CreateShader( const std::string& identifier, HardwareShaderType eType, bool shouldLoad )
 {
   HardwareShader* shader = m_shaderFactory->Create( identifier.c_str() );
-  if ( shader && !shader->IsLoaded() )
+  if ( shader != nullptr && !shader->IsLoaded() )
   {
     shader->SetImpl( CreateShaderImpl( identifier, eType ) );
     if ( shouldLoad )
     {
       File* file = m_fileSystem->Open( NE_DEFAULT_ROOTDEVICE, identifier );
-      if ( !file )
+      if ( file == nullptr )
       {
         NE_LOG( "CreateShader: failed to open file '%s'", identifier.c_str() );
       }
@@ -175,7 +175,7 @@ HardwareShader* RenderSystem::CreateShader( const std::string& identifier, Hardw
 Texture* RenderSystem::CreateTexture( const std::string& identifier, bool shouldLoad )
 {
   Texture* texture = m_textureFactory->Create( identifier.c_str() );
-  if ( texture && !texture->IsLoaded() )
+  if ( texture != nullptr && !texture->IsLoaded() )
   {
     texture->SetImpl( CreateTextureImpl( identifier ) );
     if ( shouldLoad )

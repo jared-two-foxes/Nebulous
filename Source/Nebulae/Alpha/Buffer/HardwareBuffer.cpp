@@ -72,7 +72,7 @@ HardwareBuffer::HardwareBuffer( const std::string& name, RenderSystem* renderDev
 
 HardwareBuffer::~HardwareBuffer()
 {
-  if ( m_pImpl )
+  if ( m_pImpl != nullptr )
   {
     delete m_pImpl;
   }
@@ -83,11 +83,11 @@ HardwareBufferImpl* HardwareBuffer::GetImpl() const { return m_pImpl; }
 
 void HardwareBuffer::SetImpl( HardwareBufferImpl* impl ) { m_pImpl = impl; }
 
-bool HardwareBuffer::LoadImpl_( File* is ) { return ( m_pImpl ? m_pImpl->Load() : false ); }
+bool HardwareBuffer::LoadImpl_( File* is ) { return ( m_pImpl != nullptr ? m_pImpl->Load() : false ); }
 
 bool HardwareBuffer::UnloadImpl_()
 {
-  if ( !m_pImpl )
+  if ( m_pImpl == nullptr )
   {
     return false;
   }
@@ -118,7 +118,7 @@ void* HardwareBuffer::Lock( std::size_t offset, size_t length, LockOptions optio
   void* ret = NULL;
 
   // Lock the real buffer if there is no shadow buffer
-  if ( m_pImpl )
+  if ( m_pImpl != nullptr )
   {
     ret = m_pImpl->Lock( offset, length, options );
   }
@@ -134,7 +134,7 @@ void* HardwareBuffer::Lock( LockOptions options )
 {
   NE_ASSERT( m_pImpl != nullptr, "Attempting to lock a buffer which has no impl pointer." );
 
-  if ( m_pImpl )
+  if ( m_pImpl != nullptr )
   {
     return m_pImpl->Lock( 0, m_pImpl->m_SizeInBytes, options );
   }
@@ -147,7 +147,7 @@ void HardwareBuffer::Unlock()
   NE_ASSERT( m_pImpl != NULL, "Attempting to unlock a buffer which has no impl pointer." );
   NE_ASSERT( IsLocked(), "Cannot unlock this buffer, it is not locked!" );
 
-  if ( m_pImpl )
+  if ( m_pImpl != nullptr )
   {
     m_pImpl->Unlock();
   }

@@ -52,11 +52,11 @@ void Matrix4::MakePerspectiveMatrix( const Real fov, const Real nearplane, const
   m[8] = 0.0f;
   m[9] = 0.0f;
   m[10] = ( farplane + nearplane ) / ( nearplane - farplane );
-  m[14] = -1.0f;
+  m[11] = ( 2.0f * farplane * nearplane ) / ( nearplane - farplane );
 
   m[12] = 0.0f;
   m[13] = 0.0f;
-  m[11] = ( 2.0f * farplane * nearplane ) / ( nearplane - farplane );
+  m[14] = -1.0f;
   m[15] = 0.0f;
 }
 

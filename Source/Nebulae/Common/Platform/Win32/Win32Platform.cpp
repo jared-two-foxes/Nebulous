@@ -375,7 +375,7 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
   // its not a Nebulae window.
   //
   Win32Platform* platform = (Win32Platform*)GetWindowLongPtr( hWnd, GWLP_USERDATA );
-  if ( !platform )
+  if ( platform == nullptr )
   {
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
   }
@@ -385,7 +385,7 @@ LRESULT CALLBACK NebulaeWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
   //
   Window* window = platform->FindWindowFromHandle( hWnd ).get();
   NE_ASSERT( window != NULL, "Unable to find the Win32Window associated with this handle" );
-  if ( !window )
+  if ( window == nullptr )
   {
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
   }
@@ -658,7 +658,7 @@ void Win32Platform::Destroy()
   }
   m_windows.clear();
 
-  if ( m_pRegisterationUtility )
+  if ( m_pRegisterationUtility != nullptr )
     delete m_pRegisterationUtility;
 
   m_fileSystem.reset();
@@ -684,7 +684,7 @@ Platform::WindowPtr Win32Platform::CreateApplicationWindow( int x, int y, int w,
 {
   // Create new Window.
   Win32Window* pWindow = new Win32Window( L"NebulaeWindowClass", NULL );
-  if ( pWindow )
+  if ( pWindow != nullptr )
   {
     pWindow->MoveAndResize( x, y, w, h );
     pWindow->SetCaption( L"Nebulae" );
@@ -695,7 +695,7 @@ Platform::WindowPtr Win32Platform::CreateApplicationWindow( int x, int y, int w,
     return m_windows.back();
   }
 
-  return NULL;
+  return nullptr;
 }
 
 void Win32Platform::DestroyWindow( WindowPtr window )

@@ -53,8 +53,7 @@ def main():
                 filepath = os.path.join(root, file)
                 print(f"Analyzing: {filepath}")
                 subprocess.run(
-                    ["clang-tidy", "-p", "compile_commands.json", filepath],
-                    capture_output=True
+                    ["clang-tidy", "-p", "compile_commands.json", filepath]
                 )
 
     print("clang-tidy analysis complete!")

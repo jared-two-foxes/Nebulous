@@ -3,7 +3,6 @@
 
 #include <Nebulae/Common/Common.h>
 #include <fstream>
-// #include <Nebulae/Common/FileSystem/FileSystemArchive.h>
 #include <Nebulae/Common/Platform/Platform.h>
 #include <Nebulae/Common/Window/Window.h>
 
@@ -150,8 +149,6 @@ void ExampleScreen::DrawCube( Matrix4& mvp, Matrix4& normal, Vector4& diffuseCol
 // Setup the render pass and push vertices.
 //
 {
-  // PROFILE;  // TODO: PROFILE macro not defined
-
   // Set the operation type
   m_renderSystem->SetOperationType( OT_TRIANGLES );
 

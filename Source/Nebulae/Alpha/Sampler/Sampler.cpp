@@ -10,7 +10,7 @@ Sampler::Sampler( const std::string& name, RenderSystem* renderDevice ) : Resour
 // destructor
 Sampler::~Sampler()
 {
-  if ( m_impl )
+  if ( m_impl != nullptr )
   {
     delete m_impl;
   }
@@ -27,7 +27,7 @@ bool Sampler::LoadImpl_( File* is )
 {
   (void*)is; // to disable warning.
 
-  if ( m_impl )
+  if ( m_impl != nullptr )
   {
     return m_impl->Load();
   }
@@ -37,7 +37,7 @@ bool Sampler::LoadImpl_( File* is )
 
 bool Sampler::UnloadImpl_()
 {
-  if ( !m_impl )
+  if ( m_impl == nullptr )
   {
     return false;
   }

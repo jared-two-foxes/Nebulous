@@ -189,8 +189,9 @@ void RenderSystem_GLES2_Win32::EndScissorClipping()
   m_scissor_clipping_rects.pop_back();
   if ( m_scissor_clipping_rects.empty() )
   {
-    glDisable( GL_SCISSOR_TEST ); //< this was not here as the PopAttrib would handle this so that if it was ever set
-                                  //outside of the render pipeline it would be preserved.  Should be fine to ignore now.
+    glDisable(
+      GL_SCISSOR_TEST ); //< this was not here as the PopAttrib would handle this so that if it was ever set
+                         // outside of the render pipeline it would be preserved.  Should be fine to ignore now.
 
     // if( g_stencil_bit )
     //{

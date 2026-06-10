@@ -12,6 +12,9 @@
 #ifndef __VECTOR2_H__
 #define __VECTOR2_H__
 
+#include <Nebulae/Common/Base/Assert.h>
+#include <cmath>
+#include <ostream>
 
 /**
  *  Vector2

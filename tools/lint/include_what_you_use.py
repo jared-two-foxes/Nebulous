@@ -54,8 +54,7 @@ def main():
                 filepath = os.path.join(root, file)
                 print(f"Checking includes: {filepath}")
                 subprocess.run(
-                    [tool, "-p", "compile_commands.json", filepath],
-                    capture_output=True
+                    [tool, "-p", "compile_commands.json", filepath]
                 )
 
     print("Include analysis complete!")
