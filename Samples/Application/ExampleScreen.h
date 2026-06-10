@@ -42,7 +42,7 @@ public:
   //@}
 
 protected:
-  void DrawCube( Matrix4& mvp, Matrix4& normal, Vector4& diffuseColour ) const;
+  void DrawCube( Matrix4& model, Matrix4& view, Matrix4& projection, Vector4& diffuseColour ) const;
 
 }; // ExampleScreen
 

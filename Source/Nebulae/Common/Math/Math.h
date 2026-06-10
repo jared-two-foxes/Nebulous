@@ -8,6 +8,7 @@
 #include <Nebulae/Common/Math/Matrix4.h>
 #include <Nebulae/Common/Math/Transform.h>
 
+#include <Nebulae/Common/Math/Matrix3.inl>
 #include <Nebulae/Common/Math/Matrix4.inl>
 
 #endif // __NEBULAE_COMMON_MATH_H__

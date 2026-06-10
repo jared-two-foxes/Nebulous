@@ -135,20 +135,20 @@ void ExampleScreen::Render() const
     Matrix4 model;
     model.SetIdentity();
 
-    Matrix4 mv = view * model;
-    Matrix4 mvp = proj * view * model;
-
     Vector4 diffuse( 1.0f, 0.4f, 0.4f, 1.0f );
 
-    DrawCube( mvp, mv, diffuse );
+    DrawCube( model, view, proj, diffuse );
   }
 }
 
-void ExampleScreen::DrawCube( Matrix4& mvp, Matrix4& normal, Vector4& diffuseColour ) const
+void ExampleScreen::DrawCube( Matrix4& model, Matrix4& view, Matrix4& projection, Vector4& diffuseColour ) const
 //
 // Setup the render pass and push vertices.
 //
 {
+  Matrix4 mv = view * model;
+  Matrix4 mvp = projection * view * model;
+
   // Set the operation type
   m_renderSystem->SetOperationType( OT_TRIANGLES );
 
@@ -175,16 +175,26 @@ void ExampleScreen::DrawCube( Matrix4& mvp, Matrix4& normal, Vector4& diffuseCol
 
   // Create projection variable from desc.
   UniformDefinition worldVarDef = m_renderSystem->GetUniformByName( "modelViewProjectionMatrix" );
+  UniformDefinition modelViewVarDef = m_renderSystem->GetUniformByName( "modelViewMatrix" );
   UniformDefinition normalVarDef = m_renderSystem->GetUniformByName( "normalMatrix" );
   UniformDefinition diffuseVarDef = m_renderSystem->GetUniformByName( "diffuseColor" );
 
   Real mvpBuffer[16];
   MatrixFillOGLBuffer( mvp, &mvpBuffer[0] );
 
-  Real normalBuffer[16];
-  MatrixFillOGLBuffer( normal, &normalBuffer[0] );
+  Real mvBuffer[16];
+  MatrixFillOGLBuffer( mv, &mvBuffer[0] );
+
+  // Compute the normal matrix as the inverse-transpose of the upper-left 3x3 of the model-view matrix.
+  Matrix3 normalMatrix3( mv.ptr()[0], mv.ptr()[1], mv.ptr()[2], mv.ptr()[4], mv.ptr()[5], mv.ptr()[6], mv.ptr()[8],
+                         mv.ptr()[9], mv.ptr()[10] );
+  normalMatrix3 = normalMatrix3.inverse().transpose();
+
+  Real normalBuffer[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+  normalMatrix3.getOpenGLSubMatrix( &normalBuffer[0] );
 
   m_renderSystem->SetUniformBinding( worldVarDef, (void*)&mvpBuffer[0] );
+  m_renderSystem->SetUniformBinding( modelViewVarDef, (void*)&mvBuffer[0] );
   m_renderSystem->SetUniformBinding( normalVarDef, (void*)&normalBuffer[0] );
   m_renderSystem->SetUniformBinding( diffuseVarDef, (void*)&diffuseColour[0] );
 

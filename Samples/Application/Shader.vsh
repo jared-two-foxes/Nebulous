@@ -9,24 +9,18 @@
 attribute vec4 a_vertex;
 attribute vec3 a_normal;
 
-varying vec4 colorVarying;
+varying vec3 v_modelViewVertex;
+varying vec3 v_modelViewNormal;
 
 uniform mat4 modelViewProjectionMatrix;
-uniform mat4 normalMatrix;                //modelViewMatrix
+uniform mat4 modelViewMatrix;
+uniform mat4 normalMatrix;
 uniform vec4 diffuseColor;
 
 void main()
 {
-  vec3  lightPosition = vec3(0.0, 0.0, 1.0);
-  vec3  modelViewVertex = vec3(normalMatrix * a_vertex);
-  vec3  modelViewNormal = vec3(normalMatrix * vec4(a_normal, 0.0));
-
-  float distance    = length( lightPosition - modelViewVertex );
-  vec3  lightVector = normalize( lightPosition - modelViewVertex );
-  float diffuse     = max( dot(modelViewNormal, lightVector), 0.2 ); //< note that we are clamping to 0.2
-  diffuse          *= (1.0 / (1.0 + (0.25 * distance * distance)));
-
-  colorVarying      = diffuse * diffuseColor;
+  v_modelViewVertex = vec3(modelViewMatrix * a_vertex);
+  v_modelViewNormal = vec3(normalMatrix * vec4(a_normal, 0.0));
 
   gl_Position       = modelViewProjectionMatrix * a_vertex;
 }
