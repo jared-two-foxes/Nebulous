@@ -85,6 +85,7 @@ public:
 
 
 #define NE_LOG( message, ... ) Logger::Get().Log( message, __VA_ARGS__ )
+#define NE_LOG_WARNING( message, ... ) Logger::Get().Log( message, __VA_ARGS__ )
 
 } // namespace Nebulae
 

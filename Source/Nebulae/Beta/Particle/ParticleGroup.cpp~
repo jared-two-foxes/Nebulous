@@ -260,12 +260,12 @@ void ParticleGroup::Render( Camera* camera ) const
   m_renderDevice->SetInputLayout( m_pInputLayout );
 
    // Grab references to the PassVariables.
-   auto viewVarDef = m_renderDevice->GetUniformByName<Matrix4>( "view" );
-   auto projectionVarDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
+   UniformDefinitionBase viewVarDef = m_renderDevice->GetUniformByName( "view" );
+   UniformDefinitionBase projectionVarDef = m_renderDevice->GetUniformByName( "projection" );
 
    // Set camera transforms for pass
-   m_renderDevice->SetUniformBinding( viewVarDef, camera->GetViewMatrix() );
-   m_renderDevice->SetUniformBinding( projectionVarDef, camera->GetProjectionMatrix() );
+   m_renderDevice->SetUniformBinding( viewVarDef, (void*)camera->GetViewMatrix().ptr() );
+   m_renderDevice->SetUniformBinding( projectionVarDef, (void*)camera->GetProjectionMatrix().ptr() );
 
   // Iterate the live particles.
   std::vector<Particle*>::const_iterator it_end = m_particles.end();
@@ -279,15 +279,15 @@ void ParticleGroup::RenderParticle( RenderSystemPtr renderer, Camera* camera, co
 {
   NE_ASSERT( renderer != NULL, "Invalid renderer found." );
 
-  //
-  // Grab references to the PassVariables.
-  //
-  auto worldVarDef = renderer->GetUniformByName<Matrix4>( "world" );
-  auto diffuseVarDef = renderer->GetUniformByName<Texture*>( "diffuseTexture" );
-  auto sizeVarDef = renderer->GetUniformByName<Vector2>( "size" );
-  auto offsetVarDef = renderer->GetUniformByName<Vector2>( "offset" );
-  auto minVarDef = renderer->GetUniformByName<Vector2>( "min_uv" );
-  auto maxVarDef = renderer->GetUniformByName<Vector2>( "max_uv" );
+   //
+   // Grab references to the PassVariables.
+   //
+   UniformDefinitionBase worldVarDef = renderer->GetUniformByName( "world" );
+   UniformDefinitionBase diffuseVarDef = renderer->GetUniformByName( "diffuseTexture" );
+   UniformDefinitionBase sizeVarDef = renderer->GetUniformByName( "size" );
+   UniformDefinitionBase offsetVarDef = renderer->GetUniformByName( "offset" );
+   UniformDefinitionBase minVarDef = renderer->GetUniformByName( "min_uv" );
+   UniformDefinitionBase maxVarDef = renderer->GetUniformByName( "max_uv" );
 
   //
   // Calculate the local transform of the particle
@@ -311,20 +311,21 @@ void ParticleGroup::RenderParticle( RenderSystemPtr renderer, Camera* camera, co
   //
   // Set particle uniforms for the pass
   //
-  Real textureWidth = static_cast<Real>(m_pTexture->GetWidth());
-  Vector2 size = Vector2( textureWidth, static_cast<Real>(m_pTexture->GetHeight()) );
-  Vector2 offset = Vector2( -0.5f * textureWidth,
-                      0.0f ); //< this would be were we would do something to preserve some pivot
+  float textureWidth = m_pTexture->GetWidth(), textureHeight = m_pTexture->GetHeight();
+  float size[2] = { textureWidth, textureHeight };
+  float offset[2] = { -0.5f * textureWidth,
+                      0.0f }; //< this would be were we would do something to preserve some pivot
                               // of a sprint.  Currently assuming bottom middle is the pivot point.
-  Vector2 min = Vector2( m_pTexture->GetTexCoords()[0], m_pTexture->GetTexCoords()[1] );
-  Vector2 max = Vector2( m_pTexture->GetTexCoords()[2], m_pTexture->GetTexCoords()[3] );
+  int32 identifier = m_pTexture->GetTexture()->GetIdentifier(); //< Grab the atlas's texture handle.
+  float min[2] = { m_pTexture->GetTexCoords()[0], m_pTexture->GetTexCoords()[1] };
+  float max[2] = { m_pTexture->GetTexCoords()[2], m_pTexture->GetTexCoords()[3] };
 
-  renderer->SetUniformBinding( worldVarDef, world );
-  renderer->SetUniformBinding( sizeVarDef, size );
-  renderer->SetUniformBinding( offsetVarDef, offset );
-  renderer->SetUniformBinding( diffuseVarDef, m_pTexture->GetTexture() );
-  renderer->SetUniformBinding( minVarDef, min );
-  renderer->SetUniformBinding( maxVarDef, max );
+  renderer->SetUniformBinding( worldVarDef, (void*)world.ptr() );
+  renderer->SetUniformBinding( sizeVarDef, (void*)&size[0] );
+  renderer->SetUniformBinding( offsetVarDef, (void*)&offset[0] );
+  renderer->SetUniformBinding( diffuseVarDef, (void*)&identifier );
+  renderer->SetUniformBinding( minVarDef, (void*)&min[0] );
+  renderer->SetUniformBinding( maxVarDef, (void*)&max[0] );
 
   //
   // Draw particle.

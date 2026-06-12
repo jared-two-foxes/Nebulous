@@ -39,22 +39,22 @@ void Effect::Apply( Effect::RenderSystemPtr renderDevice )
   // Set the Shaders for this pass.
   renderDevice->SetShaders( m_vertexShader, m_pixelShader );
 
-  UniformDefinition uWorld = renderDevice->GetUniformByName( "world" );
+  UniformDefinition<Matrix4> uWorld = renderDevice->GetUniformByName<Matrix4>( "world" );
   // if ( uWorld.IsValid() )
   {
-    renderDevice->SetUniformBinding( uWorld, m_world.ptr() );
+    renderDevice->SetUniformBinding( uWorld, m_world );
   }
 
-  UniformDefinition uView = renderDevice->GetUniformByName( "view" );
+  UniformDefinition<Matrix4> uView = renderDevice->GetUniformByName<Matrix4>( "view" );
   // if ( uView.IsValid() )
   {
-    renderDevice->SetUniformBinding( uView, m_view.ptr() );
+    renderDevice->SetUniformBinding( uView, m_view );
   }
 
-  UniformDefinition uProjection = renderDevice->GetUniformByName( "projection" );
+  UniformDefinition<Matrix4> uProjection = renderDevice->GetUniformByName<Matrix4>( "projection" );
   // if ( uProjection.IsValid() )
   {
-    renderDevice->SetUniformBinding( uProjection, m_projection.ptr() );
+    renderDevice->SetUniformBinding( uProjection, m_projection );
   }
 }
 

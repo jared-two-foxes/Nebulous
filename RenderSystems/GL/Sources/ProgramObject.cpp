@@ -102,12 +102,12 @@ HardwareShader* ProgramObject::GetVertexShader() const { return m_vertexShader; 
 HardwareShader* ProgramObject::GetFragmentShader() const { return m_fragmentShader; }
 
 
-const UniformDefinition ProgramObject::FindUniformByName( const char* name ) const
+const UniformDefinitionBase ProgramObject::FindUniformByName( const char* name ) const
 {
   UniformDefinitionMap::const_iterator it = m_uniformDefinitions.find( name );
   if ( it == m_uniformDefinitions.end() )
   {
-    return UniformDefinition();
+    return UniformDefinitionBase();
   }
 
   return it->second;
@@ -178,13 +178,13 @@ bool ProgramObject::Load()
     GLuint location = glGetUniformLocation( m_handle, name );
     NE_ASSERT( location != -1, "Unable to find a valid location for uniform." );
 
-    UniformDefinition definition;
+    UniformDefinitionBase definition;
     definition.type = ConvertGLUnformTypeToNebulaeType( type );
     definition.logicalIndex = location;
     definition.elementSize = 1;
     definition.arraySize = num;
 
-    m_uniformDefinitions.insert( std::pair<std::string, UniformDefinition>( name, definition ) );
+    m_uniformDefinitions.insert( std::pair<std::string, UniformDefinitionBase>( name, definition ) );
   }
 
   return true;

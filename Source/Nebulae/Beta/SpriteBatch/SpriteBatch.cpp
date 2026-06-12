@@ -189,24 +189,24 @@ void SpriteBatch::Draw()
   Matrix4 projection;
   projection.MakeOrthoMatrix( fLeft, fRight, fBottom, fTop, fNear, fFar );
 
-  // Grab the material that we are using.
-  UniformDefinition projectionDef = m_renderDevice->GetUniformByName( "projection" );
-  m_renderDevice->SetUniformBinding( projectionDef, projection.ptr() );
+   // Grab the material that we are using.
+   UniformDefinition<Matrix4> projectionDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
+   m_renderDevice->SetUniformBinding( projectionDef, projection );
 
 
-  for ( auto it = m_quads.begin(); it != m_quads.end(); ++it )
-  {
-    VertexArray& array = it->second;
-    if ( array.GetUsed() == 0 )
-      continue;
+   for ( auto it = m_quads.begin(); it != m_quads.end(); ++it )
+   {
+     VertexArray& array = it->second;
+     if ( array.GetUsed() == 0 )
+       continue;
 
-    //
-    // Create the uniform values for current pass.
-    //
-    UniformDefinition diffuseVarDef = m_renderDevice->GetUniformByName( "diffuseTexture" );
+     //
+     // Create the uniform values for current pass.
+     //
+     UniformDefinition<Texture*> diffuseVarDef = m_renderDevice->GetUniformByName<Texture*>( "diffuseTexture" );
     NE_ASSERT( it->first, "VertexList is not associated with a valid Texture" );
     int32 identifier = it->first->GetIdentifier();
-    m_renderDevice->SetUniformBinding( diffuseVarDef, (void*)&identifier );
+    m_renderDevice->SetUniformBinding( diffuseVarDef, it->first );
 
 
     //

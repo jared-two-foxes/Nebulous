@@ -265,15 +265,9 @@ void RenderSystem::DrawIndexed( std::size_t /*iIndexCount*/, std::size_t /*iStar
 {
 }
 
-UniformDefinition RenderSystem::GetUniformByName( const char* /*name*/ ) const { return UniformDefinition(); }
-
 void RenderSystem::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, HardwareBuffer* /*pImpl*/ ) {}
 
-void RenderSystem::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Sampler* /*sampler*/ ) {}
-
-void RenderSystem::SetTextureBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Texture* /*texture*/ ) {}
-
-void RenderSystem::SetUniformBinding( UniformDefinition& /*definition*/, void* /*value*/ ) {}
+void RenderSystem::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Sampler* /*pImpl*/ ) {}
 
 HardwareBufferImpl* RenderSystem::CreateBufferImpl( const Flags<HardwareBufferUsage>& /*usage*/,
                                                     std::size_t /*sizeInBytes*/, HardwareBufferBinding /*bindFlags*/,

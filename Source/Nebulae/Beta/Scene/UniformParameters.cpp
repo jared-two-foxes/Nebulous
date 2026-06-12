@@ -7,9 +7,9 @@ using namespace Nebulae;
 UniformParameters::UniformParameters() {}
 
 
-const UniformDefinition& UniformParameters::GetUniformDefinition( const std::string& name ) const
+const UniformDefinitionBase& UniformParameters::GetUniformDefinition( const std::string& name ) const
 {
-  static UniformDefinition empty;
+  static UniformDefinitionBase empty;
 
   UniformDefinitionMap::const_iterator i = m_definitions.find( name );
   if ( i != m_definitions.end() )
@@ -46,27 +46,27 @@ void UniformParameters::AddUniformDefinition( const std::string& name, UniformTy
     return;
   }
 
-  UniformDefinition def;
+  UniformDefinitionBase def;
   def.arraySize = arraySize;
   def.type = uniformType;
   // for compatibility we do not pad values to multiples of 4
   // when it comes to arrays, user is responsible for creating matching defs
-  def.elementSize = UniformDefinition::GetElementSize( uniformType, false );
+  def.elementSize = UniformDefinitionBase::GetElementSize( uniformType, false );
 
   // not used
   def.logicalIndex = 0;
   // def.variability = (uint16)GPV_GLOBAL;
 
-  if ( def.IsFloat() )
-  {
-    def.physicalIndex = m_realUniformBuffer.size();
-    m_realUniformBuffer.resize( m_realUniformBuffer.size() + def.arraySize * def.elementSize );
-  }
-  else
-  {
-    def.physicalIndex = m_intUniformBuffer.size();
-    m_intUniformBuffer.resize( m_intUniformBuffer.size() + def.arraySize * def.elementSize );
-  }
+  // if ( def.IsFloat() )
+  //{
+  //   def.physicalIndex = m_realUniformBuffer.size();
+  //   m_realUniformBuffer.resize( m_realUniformBuffer.size() + def.arraySize * def.elementSize );
+  // }
+  // else
+  //{
+  //   def.physicalIndex = m_intUniformBuffer.size();
+  //   m_intUniformBuffer.resize( m_intUniformBuffer.size() + def.arraySize * def.elementSize );
+  // }
 
   m_definitions[name] = def;
 }
@@ -77,41 +77,41 @@ void UniformParameters::RemoveUniformDefinition( const std::string& name )
   UniformDefinitionMap::iterator i = m_definitions.find( name );
   if ( i != m_definitions.end() )
   {
-    UniformDefinition& def = i->second;
-    bool isFloat = def.IsFloat();
+    UniformDefinitionBase& def = i->second;
+    // bool isFloat = def.IsFloat();
     std::size_t numElems = def.elementSize * def.arraySize;
 
     for ( UniformDefinitionMap::iterator j = m_definitions.begin(); j != m_definitions.end(); ++j )
     {
-      UniformDefinition& otherDef = j->second;
-      bool otherIsFloat = otherDef.IsFloat();
+      UniformDefinitionBase& otherDef = j->second;
+      // bool otherIsFloat = otherDef.IsFloat();
 
       // same type, and comes after in the buffer
-      if ( ( ( isFloat && otherIsFloat ) || ( !isFloat && !otherIsFloat ) ) &&
-           otherDef.physicalIndex > def.physicalIndex )
-      {
-        // adjust index
-        otherDef.physicalIndex -= numElems;
-      }
+      // if ( ( ( isFloat && otherIsFloat ) || ( !isFloat && !otherIsFloat ) ) &&
+      //     otherDef.physicalIndex > def.physicalIndex )
+      //{
+      //  // adjust index
+      //  otherDef.physicalIndex -= numElems;
+      //}
     }
 
     // remove floats and reduce buffer
-    if ( isFloat )
-    {
-      std::vector<Real>::iterator beg = m_realUniformBuffer.begin();
-      std::advance( beg, def.physicalIndex );
-      std::vector<Real>::iterator en = beg;
-      std::advance( en, numElems );
-      m_realUniformBuffer.erase( beg, en );
-    }
-    else
-    {
-      std::vector<int>::iterator beg = m_intUniformBuffer.begin();
-      std::advance( beg, def.physicalIndex );
-      std::vector<int>::iterator en = beg;
-      std::advance( en, numElems );
-      m_intUniformBuffer.erase( beg, en );
-    }
+    // if ( isFloat )
+    //{
+    //  std::vector<Real>::iterator beg = m_realUniformBuffer.begin();
+    //  std::advance( beg, def.physicalIndex );
+    //  std::vector<Real>::iterator en = beg;
+    //  std::advance( en, numElems );
+    //  m_realUniformBuffer.erase( beg, en );
+    //}
+    // else
+    //{
+    //  std::vector<int>::iterator beg = m_intUniformBuffer.begin();
+    //  std::advance( beg, def.physicalIndex );
+    //  std::vector<int>::iterator en = beg;
+    //  std::advance( en, numElems );
+    //  m_intUniformBuffer.erase( beg, en );
+    //}
   }
 }
 
@@ -161,7 +161,7 @@ void UniformParameters::SetNamedUniform( const std::string& name, const float* v
   UniformDefinitionMap::const_iterator i = m_definitions.find( name );
   if ( i != m_definitions.end() )
   {
-    const UniformDefinition& def = i->second;
+    const UniformDefinitionBase& def = i->second;
     memcpy( &m_realUniformBuffer[def.physicalIndex], val,
             sizeof( float ) * std::min( count, def.elementSize * def.arraySize ) );
   }
@@ -175,7 +175,7 @@ void UniformParameters::SetNamedUniform( const std::string& name, const double* 
   UniformDefinitionMap::const_iterator i = m_definitions.find( name );
   if ( i != m_definitions.end() )
   {
-    const UniformDefinition& def = i->second;
+    const UniformDefinitionBase& def = i->second;
 
     count = std::min( count, def.elementSize * def.arraySize );
     const double* src = val;
@@ -195,7 +195,7 @@ void UniformParameters::SetNamedUniform( const std::string& name, const int* val
   UniformDefinitionMap::const_iterator i = m_definitions.find( name );
   if ( i != m_definitions.end() )
   {
-    const UniformDefinition& def = i->second;
+    const UniformDefinitionBase& def = i->second;
     memcpy( &m_intUniformBuffer[def.physicalIndex], val,
             sizeof( int ) * std::min( count, def.elementSize * def.arraySize ) );
   }

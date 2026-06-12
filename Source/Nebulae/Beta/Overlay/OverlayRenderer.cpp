@@ -163,52 +163,48 @@ void OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& 
     const RenderSystem::WindowPtr window = renderer->GetWindow();
     const int windowHeight = window->GetHeight();
     const Real colourModifier = 1 / 255.f;
-    const Real offsetBuffer[2] = { Real( upperLeft.x ),
-                                   Real( windowHeight ) - Real( lowerRight.y ) }; //< ll position in render projection.
-    const Real sizeBuffer[2] = { Real( lowerRight.x ) - Real( upperLeft.x ),
-                                 Real( lowerRight.y ) - Real( upperLeft.y ) };
-    const Real colourBuffer[4] = { colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier,
-                                   colour.a * colourModifier };
-    Real texCoordBuffer[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+    const Vector2 windowOffset( Real( upperLeft.x ),
+                                   Real( windowHeight ) - Real( lowerRight.y ) ); //< ll position in render projection.
+    const Vector2 size( Real( lowerRight.x ) - Real( upperLeft.x ),
+                                 Real( lowerRight.y ) - Real( upperLeft.y ) );
+    const Vector4 modifiedColour( colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier, colour.a * colourModifier );
+    Vector4 texCoord { 0.0f, 0.0f, 1.0f, 1.0f };
 
-    UniformDefinition offsetVarDef = renderer->GetUniformByName( "offset" );
-    UniformDefinition sizeVarDef = renderer->GetUniformByName( "size" );
-    UniformDefinition angleVarDef = renderer->GetUniformByName( "angle" );
-    UniformDefinition diffuseVarDef = renderer->GetUniformByName( "diffuseTexture" );
-    UniformDefinition colourVarDef = renderer->GetUniformByName( "colour" );
-    UniformDefinition texCoordVarDef = renderer->GetUniformByName( "texcoord" );
-    UniformDefinition depthVarDef = renderer->GetUniformByName( "depth" );
+    static Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
+    if ( !defaultWhiteTexture )
+    {
+      defaultWhiteTexture = renderer->CreateTexture( "white.png" );
+    }
+    const Texture* texture = defaultWhiteTexture;
 
-    int32 identifier = -1;
+    auto offsetVarDef = renderer->GetUniformByName<Vector2>( "offset" );
+    auto sizeVarDef = renderer->GetUniformByName<Vector2>( "size" );
+    auto angleVarDef = renderer->GetUniformByName<float>( "angle" );
+    auto diffuseVarDef = renderer->GetUniformByName<Texture*>( "diffuseTexture" );
+    auto colourVarDef = renderer->GetUniformByName<Vector4>( "colour" );
+    auto texCoordVarDef = renderer->GetUniformByName<Vector4>( "texcoord" );
+    auto depthVarDef = renderer->GetUniformByName<float>( "depth" );
+
     if ( subtexture )
     {
-      identifier = subtexture->GetTexture()->GetIdentifier();
+      texture = subtexture->GetTexture();
 
       Vector2 minCoord = subtexture->GetMinCoord();
       Vector2 maxCoord = subtexture->GetMaxCoord();
 
-      texCoordBuffer[0] = minCoord.x;
-      texCoordBuffer[1] = minCoord.y;
-      texCoordBuffer[2] = maxCoord.x;
-      texCoordBuffer[3] = maxCoord.y;
-    }
-    else
-    {
-      Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
-      if ( !defaultWhiteTexture )
-      {
-        defaultWhiteTexture = renderer->CreateTexture( "white.png" );
-      }
-      identifier = defaultWhiteTexture->GetIdentifier();
+      texCoord[0] = minCoord.x;
+      texCoord[1] = minCoord.y;
+      texCoord[2] = maxCoord.x;
+      texCoord[3] = maxCoord.y;
     }
 
-    renderer->SetUniformBinding( offsetVarDef, (void*)&offsetBuffer[0] );
-    renderer->SetUniformBinding( sizeVarDef, (void*)&sizeBuffer[0] );
-    renderer->SetUniformBinding( angleVarDef, (void*)&rotation );
-    renderer->SetUniformBinding( colourVarDef, (void*)&colourBuffer[0] );
-    renderer->SetUniformBinding( diffuseVarDef, (void*)&identifier );
-    renderer->SetUniformBinding( texCoordVarDef, (void*)&texCoordBuffer[0] );
-    renderer->SetUniformBinding( depthVarDef, (void*)&depth );
+    renderer->SetUniformBinding( offsetVarDef, windowOffset );
+    renderer->SetUniformBinding( sizeVarDef, size );
+    renderer->SetUniformBinding( angleVarDef, rotation );
+    renderer->SetUniformBinding( colourVarDef, modifiedColour );
+    renderer->SetUniformBinding<Texture*>( diffuseVarDef, texture );
+    renderer->SetUniformBinding( texCoordVarDef, texCoord );
+    renderer->SetUniformBinding( depthVarDef, depth );
 
     //
     // Draw geometry.
@@ -275,57 +271,54 @@ void OverlayRenderer::DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::
     renderer->SetInputLayout( inputLayout );
   }
 
-  //
-  // Create the uniform values for current pass.
-  //
-  UniformDefinition leftVarDef = renderer->GetUniformByName( "left" );
-  UniformDefinition rightVarDef = renderer->GetUniformByName( "right" );
-  UniformDefinition diffuseVarDef = renderer->GetUniformByName( "diffuseTexture" );
-  UniformDefinition colourVarDef = renderer->GetUniformByName( "colour" );
-  UniformDefinition texCoordVarDef = renderer->GetUniformByName( "texcoord" );
-  UniformDefinition depthVarDef = renderer->GetUniformByName( "depth" );
+   //
+   // Create the uniform values for current pass.
+   //
+   auto leftVarDef = renderer->GetUniformByName<Vector4>( "left" );
+   auto rightVarDef = renderer->GetUniformByName<Vector4>( "right" );
+   auto diffuseVarDef = renderer->GetUniformByName<Texture*>( "diffuseTexture" );
+   auto colourVarDef = renderer->GetUniformByName<Vector4>( "colour" );
+   auto texCoordVarDef = renderer->GetUniformByName<Vector4>( "texcoord" );
+   auto depthVarDef = renderer->GetUniformByName<float>( "depth" );
 
 
   const Real colourModifier = 1 / 255.f;
-  const Real colourBuffer[4] = { colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier,
-                                 colour.a * colourModifier };
-  const Real left_coords[4] = { Real( ll_.x ), Real( ll_.y ), Real( ul_.x ), Real( ul_.y ) };
-  const Real right_coords[4] = { Real( lr_.x ), Real( lr_.y ), Real( ur_.x ), Real( ur_.y ) };
-  Real texCoordBuffer[4] = { 0, 0, 1.0f, 1.0f };
+  const Vector4 modifiedColour( colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier,
+                                 colour.a * colourModifier );
+  const Vector4 leftCoords( Real( ll_.x ), Real( ll_.y ), Real( ul_.x ), Real( ul_.y ) );
+  const Vector4 rightCoords( Real( lr_.x ), Real( lr_.y ), Real( ur_.x ), Real( ur_.y ) );
+  Vector4 texCoords( 0, 0, 1.0f, 1.0f );
 
 
   //
   // Set the uniform variables for current pass.
   //
-  int32 identifier = -1;
+  static Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
+  if ( !defaultWhiteTexture )
+  {
+    defaultWhiteTexture = renderer->CreateTexture( "white.png" );
+  }
+  const Texture* pTexture = defaultWhiteTexture;
+
   if ( subtexture )
   {
-    identifier = subtexture->GetTexture()->GetIdentifier();
+    pTexture = subtexture->GetTexture();
 
     Vector2 minCoord = subtexture->GetMinCoord();
     Vector2 maxCoord = subtexture->GetMaxCoord();
 
-    texCoordBuffer[0] = minCoord.x;
-    texCoordBuffer[1] = minCoord.y;
-    texCoordBuffer[2] = maxCoord.x;
-    texCoordBuffer[3] = maxCoord.y;
-  }
-  else
-  {
-    Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
-    if ( !defaultWhiteTexture )
-    {
-      defaultWhiteTexture = renderer->CreateTexture( "white.png" );
-    }
-    identifier = defaultWhiteTexture->GetIdentifier();
+    texCoords[0] = minCoord.x;
+    texCoords[1] = minCoord.y;
+    texCoords[2] = maxCoord.x;
+    texCoords[3] = maxCoord.y;
   }
 
-  renderer->SetUniformBinding( leftVarDef, (void*)&left_coords[0] );
-  renderer->SetUniformBinding( rightVarDef, (void*)&right_coords[0] );
-  renderer->SetUniformBinding( colourVarDef, (void*)&colourBuffer[0] );
-  renderer->SetUniformBinding( diffuseVarDef, (void*)&identifier );
-  renderer->SetUniformBinding( texCoordVarDef, (void*)&texCoordBuffer[0] );
-  renderer->SetUniformBinding( depthVarDef, (void*)&depth );
+  renderer->SetUniformBinding( leftVarDef, leftCoords );
+  renderer->SetUniformBinding( rightVarDef, rightCoords );
+  renderer->SetUniformBinding( colourVarDef, modifiedColour );
+  renderer->SetUniformBinding<Texture*>( diffuseVarDef, pTexture );
+  renderer->SetUniformBinding( texCoordVarDef, texCoords );
+  renderer->SetUniformBinding( depthVarDef, depth );
 
   //
   // Draw geometry.

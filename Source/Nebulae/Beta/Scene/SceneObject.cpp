@@ -76,7 +76,7 @@ bool SceneObject::Initialize()
   UniformDefinitionMap::const_iterator i = uniforms.begin();
   for ( ; i != uniforms.end(); ++i )
   {
-    const UniformDefinition& def = i->second;
+    const UniformDefinitionBase& def = i->second;
     m_uniforms.AddUniformDefinition( i->first, def.type, def.arraySize );
   }
 
@@ -159,15 +159,15 @@ void SceneObject::Render( RenderSystemPtr renderDevice ) const
     UniformDefinitionMap::const_iterator it = uniformMap.begin();
     for ( ; it != uniformMap.end(); ++it )
     {
-      UniformDefinition def = renderDevice->GetUniformByName( it->first.c_str() );
-      if ( def.IsFloat() )
-      {
-        renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetFloatPointer( it->second.physicalIndex ) );
-      }
-      else
-      {
-        renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetIntPointer( it->second.physicalIndex ) );
-      }
+      //auto def = renderDevice->GetUniformByName( it->first.c_str() );
+      // if ( def.IsFloat() )
+      //{
+      //   renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetFloatPointer( it->second.physicalIndex ) );
+      // }
+      // else
+      //{
+      //   renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetIntPointer( it->second.physicalIndex ) );
+      // }
     }
 
     // Draw function

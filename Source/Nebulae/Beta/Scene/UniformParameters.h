@@ -20,7 +20,7 @@ public:
 
 
   /** Get a specific UniformDefinition for a named parameter. */
-  const UniformDefinition& GetUniformDefinition( const std::string& name ) const;
+  const UniformDefinitionBase& GetUniformDefinition( const std::string& name ) const;
 
   /** Get the full list of UniformDefinition instances. */
   const UniformDefinitionMap& GetUniformDefinitions() const;

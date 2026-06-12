@@ -2,60 +2,60 @@
 #define NEBULAE_ALPHA_UNIFORMDEFINITION_H__
 
 #include <Nebulae/Common/Common.h>
+#include <Nebulae/Alpha/Shaders/UniformTypeTraits.h>
+
+#include <limits>
 
 namespace Nebulae
 {
 
-/** Enumeration of the types of constant we may encounter in programs. */
-enum UniformType
+struct UniformDefinitionBase
 {
-  UT_FLOAT1,
-  UT_FLOAT2,
-  UT_FLOAT3,
-  UT_FLOAT4,
-  UT_SAMPLER1D,
-  UT_SAMPLER2D,
-  UT_SAMPLER3D,
-  UT_SAMPLERCUBE,
-  UT_SAMPLER1DSHADOW,
-  UT_SAMPLER2DSHADOW0,
-  UT_SAMPLER2DARRAY1,
+  UniformType type;
+  std::size_t logicalIndex;  ///< Logical index - used to communicate this constant to the rendersystem
+  std::size_t physicalIndex; ///< Physical start index in buffer (either float or int buffer)
+  std::size_t elementSize;   ///< Number of raw buffer slots per element.
+  std::size_t arraySize;     ///< Length of array.A
 
-  UT_MATRIX_2X2,
-  UT_MATRIX_2X3,
-  UT_MATRIX_2X4,
-  UT_MATRIX_3X2,
-  UT_MATRIX_3X3,
-  UT_MATRIX_3X4,
-  UT_MATRIX_4X2,
-  UT_MATRIX_4X3,
-  UT_MATRIX_4X4,
+  UniformDefinitionBase()
+    : type( UT_UNKNOWN ),
+      logicalIndex( -1 ),
+      physicalIndex( std::numeric_limits<size_t>::max() ),
+      elementSize( static_cast<std::size_t>(0) ),
+      arraySize( static_cast<std::size_t>(1) )
+  {
+  }
 
-  UT_INT1,
-  UT_INT2,
-  UT_INT3,
-  UT_INT4,
+  bool IsValid() const { return ( type != UT_UNKNOWN && logicalIndex != static_cast<std::size_t>( -1 ) ); }
 
-  UT_UNKNOWN
+  // Forward declaration - implementation is in UniformDefinition<T>
+  static std::size_t GetElementSize( UniformType uniformType, bool padToMultiplesOf4 );
 };
 
-/** UniformDefinition. */
-struct UniformDefinition
+template <typename T> struct UniformDefinition
 {
-  UniformType type;          ///< Data type.
   std::size_t logicalIndex;  ///< Logical index - used to communicate this constant to the rendersystem
   std::size_t physicalIndex; ///< Physical start index in buffer (either float or int buffer)
   std::size_t elementSize;   ///< Number of raw buffer slots per element.
   std::size_t arraySize;     ///< Length of array.
 
+  static constexpr UniformType ExpectedType = UniformTypeTraits<T>::value;
+  using ValueType = T;
+
   UniformDefinition()
-    : type( UT_UNKNOWN ),
-      logicalIndex( 0 ),
-      physicalIndex( ( std::numeric_limits<size_t>::max )() ),
-      elementSize( 0 ),
-      arraySize( 1 )
+    : logicalIndex( -1 ), physicalIndex( std::numeric_limits<std::size_t>::max() ), elementSize( 0 ), arraySize( 1 )
   {
   }
+
+  explicit UniformDefinition( const UniformDefinitionBase& base )
+    : logicalIndex( base.logicalIndex ),
+      physicalIndex( base.physicalIndex ),
+      elementSize( base.elementSize ),
+      arraySize( base.arraySize )
+  {
+  }
+
+  bool IsValid() const { return logicalIndex != static_cast<std::size_t>( -1 ); }
 
   static std::size_t GetElementSize( UniformType uniformType, bool padToMultiplesOf4 )
   {
@@ -139,44 +139,50 @@ struct UniformDefinition
   }
 
 
-  static bool IsFloat( UniformType uniformType )
-  {
-    switch ( uniformType )
-    {
-    case UT_INT1:
-    case UT_INT2:
-    case UT_INT3:
-    case UT_INT4:
-    case UT_SAMPLER1D:
-    case UT_SAMPLER2D:
-    case UT_SAMPLER3D:
-    case UT_SAMPLERCUBE:
-    case UT_SAMPLER1DSHADOW:
-      return false;
-    default:
-      return true;
-    }
-  }
+  // static bool IsFloat( UniformType uniformType )
+  //{
+  //   switch ( uniformType )
+  //   {
+  //   case UT_INT1:
+  //   case UT_INT2:
+  //   case UT_INT3:
+  //   case UT_INT4:
+  //   case UT_SAMPLER1D:
+  //   case UT_SAMPLER2D:
+  //   case UT_SAMPLER3D:
+  //   case UT_SAMPLERCUBE:
+  //   case UT_SAMPLER1DSHADOW:
+  //     return false;
+  //   default:
+  //     return true;
+  //   }
+  // }
 
-  bool IsFloat() const { return IsFloat( type ); }
+  // bool IsFloat() const { return IsFloat( type ); }
 
-  bool IsSampler() const
-  {
-    switch ( type )
-    {
-    case UT_SAMPLER1D:
-    case UT_SAMPLER2D:
-    case UT_SAMPLER3D:
-    case UT_SAMPLERCUBE:
-    case UT_SAMPLER1DSHADOW:
-      return true;
-    default:
-      return false;
-    }
-  }
+  // bool IsSampler() const
+  //{
+  //   switch ( type )
+  //   {
+  //   case UT_SAMPLER1D:
+  //   case UT_SAMPLER2D:
+  //   case UT_SAMPLER3D:
+  //   case UT_SAMPLERCUBE:
+  //   case UT_SAMPLER1DSHADOW:
+  //     return true;
+  //   default:
+  //     return false;
+  //   }
+  // }
 };
 
-typedef std::map<std::string, UniformDefinition> UniformDefinitionMap;
+// Implementation of GetElementSize for UniformDefinitionBase
+inline std::size_t UniformDefinitionBase::GetElementSize( UniformType uniformType, bool padToMultiplesOf4 )
+{
+  return UniformDefinition<float>::GetElementSize( uniformType, padToMultiplesOf4 );
+}
+
+using UniformDefinitionMap = std::map<std::string, UniformDefinitionBase>;
 
 } // namespace Nebulae
 

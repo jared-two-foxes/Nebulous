@@ -55,11 +55,8 @@ public:
                             std::size_t iBaseVertexLocation ) override;
 
   // shader binding functions
-  virtual UniformDefinition GetUniformByName( const char* name ) const override;
   virtual void SetBufferBinding( uint32 iTarget, uint32 iCount, HardwareBuffer* pBuffer ) override;
   virtual void SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* pImpl ) override;
-  virtual void SetTextureBinding( uint32 iTarget, uint32 iIndex, Texture* pImpl ) override;
-  virtual void SetUniformBinding( UniformDefinition& definition, void* value ) override;
 
 private:
   virtual HardwareBufferImpl* CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, size_t sizeInBytes,
@@ -70,6 +67,16 @@ private:
   virtual Sampler::Impl* CreateSamplerImpl() override;
   virtual TextureImpl* CreateTextureImpl( const std::string& strFileName ) override;
 
+  virtual UniformDefinitionBase GetUniformImpl( const char* name ) const override;
+
+  virtual void SetUniformImpl( const UniformDefinition<float>& def, const float& value ) override;
+  virtual void SetUniformImpl( const UniformDefinition<int32>& def, const int32& value ) override;
+  virtual void SetUniformImpl( const UniformDefinition<Vector2>& def, const Vector2& value ) override;
+  virtual void SetUniformImpl( const UniformDefinition<Vector4>& def, const Vector4& value ) override;
+  virtual void SetUniformImpl( const UniformDefinition<Matrix3>& def, const Matrix3& value ) override;
+  virtual void SetUniformImpl( const UniformDefinition<Matrix4>& def, const Matrix4& value ) override;
+  // virtual void SetUniformImpl( const UniformDefinition<Sampler>& def, const Sampler& value ) override;
+  virtual void SetUniformImpl( const UniformDefinition<Texture*>& def, const Texture* value ) override;
 }; // RenderSystem
 
 } // namespace Nebulae

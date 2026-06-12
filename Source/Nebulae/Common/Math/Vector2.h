@@ -30,6 +30,8 @@ public:
   Vector2( float x, float y ) : x( x ), y( y ) {};
 
   // utils functions
+  float* ptr();
+  const float* ptr() const;
   void set( float x, float y );
   float length() const;                            //
   float distance( const Vector2& vec ) const;      // distance between two vectors
@@ -133,6 +135,10 @@ inline bool Vector2::operator<( const Vector2& rhs ) const
 inline float Vector2::operator[]( int index ) const { return ( &x )[index]; }
 
 inline float& Vector2::operator[]( int index ) { return ( &x )[index]; }
+
+inline float* Vector2::ptr() { return &x; }
+
+inline const float* Vector2::ptr() const { return &x; }
 
 inline void Vector2::set( float ax, float ay )
 {

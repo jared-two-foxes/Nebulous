@@ -3,6 +3,8 @@
 
 #include <Nebulae/Alpha/Alpha.h>
 
+#include <Nebulae/Common/Logger/Logger.h>
+
 #include <Nebulae/Alpha/Buffer/HardwareBuffer.h>
 #include <Nebulae/Alpha/InputLayout/InputLayout.h>
 #include <Nebulae/Alpha/RenderSystem/OperationType.h>
@@ -11,6 +13,7 @@
 #include <Nebulae/Alpha/Sampler/Sampler.h>
 #include <Nebulae/Alpha/Shaders/HardwareShader.h>
 #include <Nebulae/Alpha/Shaders/UniformDefinition.h>
+#include <Nebulae/Alpha/Shaders/UniformType.h>
 #include <Nebulae/Alpha/Texture/Texture.h>
 
 
@@ -102,14 +105,55 @@ public:
   virtual void Draw( std::size_t iVertexCount, std::size_t iStartVertexLocation );
   virtual void DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation, std::size_t iBaseVertexLocation );
 
-  // shader binding functions.
-  virtual UniformDefinition GetUniformByName( const char* name ) const;
+   // shader binding functions.
+   template <typename T> UniformDefinition<T> GetUniformByName( const char* name ) const
+   {
+     auto base = GetUniformImpl( name );
+
+     if ( !base.IsValid() )
+     {
+       return UniformDefinition<T>(); // Invalid Definition
+     }
+
+     if ( base.type != UniformTypeTraits<T>::value )
+     {
+       NE_LOG( "Type mismatch for uniform '%s': expected %s, but found %s", name,
+               GetUniformTypeName( UniformTypeTraits<T>::value ), GetUniformTypeName( base.type ) );
+       return UniformDefinition<T>();
+     }
+
+     return UniformDefinition<T>( base );
+   }
 
   virtual void SetBufferBinding( uint32 iTarget, uint32 iCount, HardwareBuffer* pBuffer );
   virtual void SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* pImpl );
-  virtual void SetTextureBinding( uint32 iTarget, uint32 iIndex, Texture* pImpl );
-  virtual void SetUniformBinding( UniformDefinition& definition, void* value );
+  // virtual void SetTextureBinding( uint32 iTarget, uint32 iIndex, Texture* pImpl );
 
+  template <typename T, typename U>
+  void SetUniformBinding( UniformDefinition<T>& def, U&& value )
+  {
+    if ( !def.IsValid() )
+    {
+      NE_LOG_WARNING( "Attempting to set invalid uniform" );
+      return;
+    }
+
+    using DecayedU = std::decay_t<U>;
+
+    // Accept if U converts to T, OR if both are pointers and differ only by const on pointee
+    static_assert(
+      std::is_convertible_v<DecayedU,T> ||
+      (std::is_pointer_v<T> && std::is_pointer_v<DecayedU> &&
+       std::is_same_v<std::remove_const_t<std::remove_pointer_t<T>>,
+                      std::remove_const_t<std::remove_pointer_t<DecayedU>>>),
+      "Type mismatch for uniform binding");
+
+    if constexpr ( std::is_pointer_v<T> && !std::is_convertible_v<DecayedU, T> ) {
+      SetUniformImpl( def, const_cast<T>(value) );
+    } else {
+      SetUniformImpl( def, std::forward<U>(value) );
+    }
+  }
 
 protected:
   virtual HardwareBufferImpl* CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, size_t sizeInBytes,
@@ -120,6 +164,16 @@ protected:
   virtual RenderTextureImpl* CreateRenderTextureImpl( int32 width, int height );
   virtual Sampler::Impl* CreateSamplerImpl();
   virtual TextureImpl* CreateTextureImpl( const std::string& strFileName );
+
+  virtual UniformDefinitionBase GetUniformImpl( const char* name ) const = 0;
+
+  virtual void SetUniformImpl( const UniformDefinition<float>& def, const float& value ) = 0;
+  virtual void SetUniformImpl( const UniformDefinition<int32>& def, const int32& value ) = 0;
+  virtual void SetUniformImpl( const UniformDefinition<Vector2>& def, const Vector2& value ) = 0;
+  virtual void SetUniformImpl( const UniformDefinition<Vector4>& def, const Vector4& value ) = 0;
+  virtual void SetUniformImpl( const UniformDefinition<Matrix3>& def, const Matrix3& value ) = 0;
+  virtual void SetUniformImpl( const UniformDefinition<Matrix4>& def, const Matrix4& value ) = 0;
+  virtual void SetUniformImpl( const UniformDefinition<Texture*>& def, const Texture* value ) = 0;
 
 }; // RenderSystem
 

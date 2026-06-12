@@ -173,17 +173,11 @@ void ExampleScreen::DrawCube( Matrix4& model, Matrix4& view, Matrix4& projection
     m_renderSystem->SetInputLayout( inputLayout );
   }
 
-  // Create projection variable from desc.
-  UniformDefinition worldVarDef = m_renderSystem->GetUniformByName( "modelViewProjectionMatrix" );
-  UniformDefinition modelViewVarDef = m_renderSystem->GetUniformByName( "modelViewMatrix" );
-  UniformDefinition normalVarDef = m_renderSystem->GetUniformByName( "normalMatrix" );
-  UniformDefinition diffuseVarDef = m_renderSystem->GetUniformByName( "diffuseColor" );
-
-  Real mvpBuffer[16];
-  MatrixFillOGLBuffer( mvp, &mvpBuffer[0] );
-
-  Real mvBuffer[16];
-  MatrixFillOGLBuffer( mv, &mvBuffer[0] );
+   // Create projection variable from desc.
+   auto worldVarDef = m_renderSystem->GetUniformByName<Matrix4>( "modelViewProjectionMatrix" );
+   auto modelViewVarDef = m_renderSystem->GetUniformByName<Matrix4>( "modelViewMatrix" );
+   auto normalVarDef = m_renderSystem->GetUniformByName<Matrix3>( "normalMatrix" );
+   auto diffuseVarDef = m_renderSystem->GetUniformByName<Vector4>( "diffuseColor" );
 
   // Compute the normal matrix as the inverse-transpose of the upper-left 3x3 of the model-view matrix.
   Matrix3 normalMatrix3( mv.ptr()[0], mv.ptr()[1], mv.ptr()[2], mv.ptr()[4], mv.ptr()[5], mv.ptr()[6], mv.ptr()[8],
@@ -193,10 +187,10 @@ void ExampleScreen::DrawCube( Matrix4& model, Matrix4& view, Matrix4& projection
   Real normalBuffer[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
   normalMatrix3.getOpenGLSubMatrix( &normalBuffer[0] );
 
-  m_renderSystem->SetUniformBinding( worldVarDef, (void*)&mvpBuffer[0] );
-  m_renderSystem->SetUniformBinding( modelViewVarDef, (void*)&mvBuffer[0] );
-  m_renderSystem->SetUniformBinding( normalVarDef, (void*)&normalBuffer[0] );
-  m_renderSystem->SetUniformBinding( diffuseVarDef, (void*)&diffuseColour[0] );
+  m_renderSystem->SetUniformBinding( worldVarDef, mvp );
+  m_renderSystem->SetUniformBinding( modelViewVarDef, mv );
+  m_renderSystem->SetUniformBinding( normalVarDef, normalMatrix3 );
+  m_renderSystem->SetUniformBinding( diffuseVarDef, diffuseColour );
 
   // Draw.
   m_renderSystem->Draw( 36, 0 );

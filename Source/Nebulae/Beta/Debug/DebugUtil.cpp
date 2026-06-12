@@ -148,18 +148,18 @@ void DebugUtil::Draw( const CameraPtr& camera )
     m_renderSystem->SetOperationType( OT_LINES );
 
     // Create projection variable from desc.
-    UniformDefinition worldVarDef = m_renderSystem->GetUniformByName( "world" );
-    UniformDefinition viewVarDef = m_renderSystem->GetUniformByName( "view" );
-    UniformDefinition projectionVarDef = m_renderSystem->GetUniformByName( "projection" );
+    UniformDefinition<Matrix4> worldVarDef = m_renderSystem->GetUniformByName<Matrix4>( "world" );
+    UniformDefinition<Matrix4> viewVarDef = m_renderSystem->GetUniformByName<Matrix4>( "view" );
+    UniformDefinition<Matrix4> projectionVarDef = m_renderSystem->GetUniformByName<Matrix4>( "projection" );
 
     // Calculate the local transform
     Matrix4 worldMatrix;
     worldMatrix.SetIdentity();
 
     // Set camera transforms for pass
-    m_renderSystem->SetUniformBinding( worldVarDef, (void*)worldMatrix.ptr() );
-    m_renderSystem->SetUniformBinding( viewVarDef, (void*)camera->GetViewMatrix().ptr() );
-    m_renderSystem->SetUniformBinding( projectionVarDef, (void*)camera->GetProjectionMatrix().ptr() );
+    m_renderSystem->SetUniformBinding( worldVarDef, worldMatrix );
+    m_renderSystem->SetUniformBinding( viewVarDef, camera->GetViewMatrix() );
+    m_renderSystem->SetUniformBinding( projectionVarDef, camera->GetProjectionMatrix() );
 
     // Draw particle.
     m_renderSystem->Draw( m_primitiveCount * 2, 0 );

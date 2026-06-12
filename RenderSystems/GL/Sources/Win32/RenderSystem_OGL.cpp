@@ -402,18 +402,17 @@ void RenderSystem_OGL::DrawIndexed( std::size_t iIndexCount, std::size_t iStartI
 
 void RenderSystem_OGL::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, HardwareBuffer* /*pImpl*/ )
 {
-  //@todo Not yet implemented.
   Nebulae::Log( "RenderSystem_OGL::SetBufferBinding() not yet implemented" );
   NE_BREAKPOINT;
 }
 
 
-UniformDefinition RenderSystem_OGL::GetUniformByName( const char* name ) const
+UniformDefinitionBase RenderSystem_OGL::GetUniformImpl( const char* name ) const
 {
   NE_ASSERT( m_boundProgram != NULL, "Attempting to find a uniform before any shaders are bound" );
-  if ( NULL == m_boundProgram )
+  if ( nullptr == m_boundProgram )
   {
-    return UniformDefinition();
+    return UniformDefinitionBase();
   }
 
   return m_boundProgram->FindUniformByName( name );
@@ -426,76 +425,88 @@ void RenderSystem_OGL::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/,
 }
 
 
-void RenderSystem_OGL::SetTextureBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Texture* /*pImpl*/ )
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<float>& def, const float& value )
 {
-  Nebulae::Log( "RenderSystem_OGL::SetTextureBinding() not yet implemented" );
-}
-
-
-void RenderSystem_OGL::SetUniformBinding( UniformDefinition& definition, void* value )
-{
-  GLint location = (GLint)definition.logicalIndex; //< this is bad... since this value shouldnt even be -1...
-  if ( location == -1 )
+  if ( !def.IsValid() )
   {
-    NE_ASSERT( location != -1, "Invalid uniform found." );
     return;
   }
+  const GLfloat* buffer = static_cast<const GLfloat*>( &value );
+  glUniform1fv( def.logicalIndex, 1, buffer );
+  CheckForGLError();
+}
 
-  switch ( definition.type )
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<Vector2>& def, const Vector2& value )
+{
+  if ( !def.IsValid() )
   {
-  case UT_FLOAT1:
-  {
-    GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniform1fv( location, 1, buffer );
+    return;
   }
-  break;
+  glUniform2fv( def.logicalIndex, def.arraySize, value.ptr() );
+  CheckForGLError();
+}
 
-  case UT_FLOAT2:
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<Vector4>& def, const Vector4& value )
+{
+  if ( !def.IsValid() )
   {
-    GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniform2fv( location, 1, buffer );
+    return;
   }
-  break;
+  glUniform4fv( def.logicalIndex, def.arraySize, value.ptr() );
+  CheckForGLError();
+}
 
-  case UT_FLOAT3:
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<int32>& def, const int32& value )
+{
+  if ( !def.IsValid() )
   {
-    GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniform3fv( location, 1, buffer );
+    return;
   }
-  break;
+  const GLint* buffer = static_cast<const GLint*>( &value );
+  glUniform1iv( def.logicalIndex, 1, buffer );
+  CheckForGLError();
+}
 
-  case UT_FLOAT4:
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<Matrix3>& def, const Matrix3& value )
+{
+  if ( !def.IsValid() )
   {
-    GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniform4fv( location, 1, buffer );
+    return;
   }
-  break;
+  glUniformMatrix3fv( def.logicalIndex, def.arraySize, GL_TRUE, value.ptr() );
+  CheckForGLError();
+}
 
-  case UT_MATRIX_3X3:
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<Matrix4>& def, const Matrix4& value )
+{
+  if ( !def.IsValid() )
   {
-    GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniformMatrix3fv( location, 1, GL_TRUE, buffer );
+    return;
   }
-  break;
+  glUniformMatrix4fv( def.logicalIndex, def.arraySize, GL_TRUE, value.ptr() );
+  CheckForGLError();
+}
 
-  case UT_MATRIX_4X4:
+// void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<Sampler>& def, const Sampler& value )
+//{
+//   if ( !def.IsValid() ) { return; }
+//   int32 identifier = sampler.texture();
+//   Texture* texture = FindTextureByIdentifier( identifier );
+//   TextureImpl_OGL* impl = static_cast<TextureImpl_OGL*>( texture->GetImpl() );
+//   GLuint handle = impl->GetHandle();
+//   glBindTexture( GL_TEXTURE_2D, handle );
+//   glUniform1i( location, 0 );
+//}
+
+void RenderSystem_OGL::SetUniformImpl( const UniformDefinition<Texture*>& def, const Texture* value )
+{
+  if ( !def.IsValid() || value == nullptr )
   {
-    GLfloat* buffer = static_cast<GLfloat*>( value );
-    glUniformMatrix4fv( location, 1, GL_FALSE, buffer );
+    return;
   }
-  break;
-
-  case UT_SAMPLER2D:
-  {
-    int32 identifier = *static_cast<int32*>( value );
-    Texture* texture = FindTextureByIdentifier( identifier );
-    TextureImpl_OGL* impl = static_cast<TextureImpl_OGL*>( texture->GetImpl() );
-
-    GLuint handle = impl->GetHandle();
-    glBindTexture( GL_TEXTURE_2D, handle );
-    glUniform1i( location, 0 );
-  }
-  break;
-  }
+  TextureImpl_OGL* impl = static_cast<TextureImpl_OGL*>( value->GetImpl() );
+  GLuint handle = impl->GetHandle();
+  glBindTexture( GL_TEXTURE_2D, handle );
+  glUniform1i( def.logicalIndex, 0 );
   CheckForGLError();
 }
