@@ -61,7 +61,7 @@ TEST_F( WidgetRendererFixture, Render_DrawsButtons )
 {
   using ::testing::_;
 
-  ::testing::DefaultValue<UniformDefinition>::Set( UniformDefinition() );
+  ::testing::DefaultValue<UniformDefinitionBase>::Set( UniformDefinitionBase() );
 
   // arrange
   renderer->Init();

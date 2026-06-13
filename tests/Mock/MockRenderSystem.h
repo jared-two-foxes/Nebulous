@@ -31,9 +31,9 @@ public:
   MOCK_METHOD0( CreateSamplerImpl, Sampler::Impl*() );
   MOCK_METHOD1( CreateTextureImpl, TextureImpl*( const std::string& strFileName ) );
 
-  MOCK_CONST_METHOD1( GetUniformByName, UniformDefinition( const char* ) );
+   MOCK_CONST_METHOD1( GetUniformImpl, UniformDefinitionBase( const char* ) );
 
-  // pipeline functions.
+   // pipeline functions.
   MOCK_METHOD4( SetVertexBuffers, void( int, HardwareBuffer*, size_t, size_t ) );
   MOCK_METHOD1( SetInputLayout, void( InputLayoutImpl* ) );
   MOCK_METHOD2( SetIndexBuffer, void( HardwareBuffer*, size_t ) );
@@ -43,11 +43,20 @@ public:
   MOCK_METHOD3( DrawIndexed, void( int, int, int ) );
 
 
-  // shader binding functions.
-  MOCK_METHOD3( SetBufferBinding, void( uint32, uint32, HardwareBuffer* ) );
-  MOCK_METHOD3( SetSamplerBinding, void( uint32, uint32, Sampler::Impl* ) );
-  MOCK_METHOD3( SetTextureBinding, void( uint32, uint32, Texture* ) );
-  MOCK_METHOD2( SetUniformBinding, void( UniformDefinition&, void* ) );
+    // shader binding functions.
+    MOCK_METHOD3( SetBufferBinding, void( uint32, uint32, HardwareBuffer* ) );
+    MOCK_METHOD3( SetSamplerBinding, void( uint32, uint32, Sampler::Impl* ) );
+    MOCK_METHOD3( SetTextureBinding, void( uint32, uint32, Texture* ) );
+    MOCK_METHOD2( SetUniformBinding, void( UniformDefinitionBase&, const void* ) );
+
+    // SetUniformImpl overloads
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<float>&, const float& ) );
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<int32>&, const int32& ) );
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<Vector2>&, const Vector2& ) );
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<Vector4>&, const Vector4& ) );
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<Matrix3>&, const Matrix3& ) );
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<Matrix4>&, const Matrix4& ) );
+    MOCK_METHOD2( SetUniformImpl, void( const UniformDefinition<Texture*>&, const Texture* ) );
 };
 
 } // namespace Nebulae
