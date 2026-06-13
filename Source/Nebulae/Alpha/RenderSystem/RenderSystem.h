@@ -16,12 +16,15 @@
 #include <Nebulae/Alpha/Shaders/UniformType.h>
 #include <Nebulae/Alpha/Texture/Texture.h>
 
+#include <Nebulae/Alpha/RenderStream/RenderStream.h>
+
 
 namespace Nebulae
 {
 
 
 class FileSystem;
+class ProgramObject;
 class Window;
 
 
@@ -104,6 +107,10 @@ public:
   virtual void SetOperationType( OperationType eType );
   virtual void Draw( std::size_t iVertexCount, std::size_t iStartVertexLocation );
   virtual void DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation, std::size_t iBaseVertexLocation );
+
+  // stream API functions.
+  virtual bool ReflectProgram( ProgramObject& program, UniformDefinitionMap& out ) = 0;
+  virtual void ExecuteStream( const RenderStream& stream ) = 0;
 
    // shader binding functions.
    template <typename T> UniformDefinition<T> GetUniformByName( const char* name ) const
