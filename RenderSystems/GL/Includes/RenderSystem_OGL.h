@@ -4,6 +4,7 @@
 // #include <GL/config.h>
 
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
+#include <Nebulae/Alpha/RenderStream/RenderStream.h>
 
 
 namespace Nebulae
@@ -56,27 +57,31 @@ public:
 
   // shader binding functions
   virtual void SetBufferBinding( uint32 iTarget, uint32 iCount, HardwareBuffer* pBuffer ) override;
-  virtual void SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* pImpl ) override;
+   virtual void SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* pImpl ) override;
+
+   // stream API functions
+   virtual bool ReflectProgram( ProgramObject& prog, UniformDefinitionMap& out ) override;
+   virtual void ExecuteStream( const RenderStream& stream ) override;
 
 private:
-  virtual HardwareBufferImpl* CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, size_t sizeInBytes,
-                                                HardwareBufferBinding bindFlags, void* sysMem ) override;
-  virtual HardwareShaderImpl* CreateShaderImpl( const std::string& strFileName, HardwareShaderType eType ) override;
-  virtual InputLayoutImpl* CreateInputLayoutImpl( const VertexDeceleration* pVertexDecl,
-                                                  const HardwareShader* pVertexShader ) override;
-  virtual Sampler::Impl* CreateSamplerImpl() override;
-  virtual TextureImpl* CreateTextureImpl( const std::string& strFileName ) override;
+   virtual HardwareBufferImpl* CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, size_t sizeInBytes,
+                                                 HardwareBufferBinding bindFlags, void* sysMem ) override;
+   virtual HardwareShaderImpl* CreateShaderImpl( const std::string& strFileName, HardwareShaderType eType ) override;
+   virtual InputLayoutImpl* CreateInputLayoutImpl( const VertexDeceleration* pVertexDecl,
+                                                   const HardwareShader* pVertexShader ) override;
+   virtual Sampler::Impl* CreateSamplerImpl() override;
+   virtual TextureImpl* CreateTextureImpl( const std::string& strFileName ) override;
 
-  virtual UniformDefinitionBase GetUniformImpl( const char* name ) const override;
+   virtual UniformDefinitionBase GetUniformImpl( const char* name ) const override;
 
-  virtual void SetUniformImpl( const UniformDefinition<float>& def, const float& value ) override;
-  virtual void SetUniformImpl( const UniformDefinition<int32>& def, const int32& value ) override;
-  virtual void SetUniformImpl( const UniformDefinition<Vector2>& def, const Vector2& value ) override;
-  virtual void SetUniformImpl( const UniformDefinition<Vector4>& def, const Vector4& value ) override;
-  virtual void SetUniformImpl( const UniformDefinition<Matrix3>& def, const Matrix3& value ) override;
-  virtual void SetUniformImpl( const UniformDefinition<Matrix4>& def, const Matrix4& value ) override;
-  // virtual void SetUniformImpl( const UniformDefinition<Sampler>& def, const Sampler& value ) override;
-  virtual void SetUniformImpl( const UniformDefinition<Texture*>& def, const Texture* value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<float>& def, const float& value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<int32>& def, const int32& value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<Vector2>& def, const Vector2& value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<Vector4>& def, const Vector4& value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<Matrix3>& def, const Matrix3& value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<Matrix4>& def, const Matrix4& value ) override;
+   // virtual void SetUniformImpl( const UniformDefinition<Sampler>& def, const Sampler& value ) override;
+   virtual void SetUniformImpl( const UniformDefinition<Texture*>& def, const Texture* value ) override;
 }; // RenderSystem
 
 } // namespace Nebulae

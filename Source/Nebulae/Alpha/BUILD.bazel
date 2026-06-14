@@ -1,5 +1,7 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
+exports_files(["Alpha.cpp"])
+
 # ============================================================================
 # BUILD.bazel — Nebulous Alpha Library
 # Source/Nebulae/Alpha/BUILD.bazel

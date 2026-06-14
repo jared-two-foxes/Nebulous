@@ -13,7 +13,7 @@ class Window;
 
 // Define the API version.
 // This value is incremented whenever there are ABI breaking changes.
-#define NE_PLUGIN_API_VERSION 1
+#define NE_PLUGIN_API_VERSION 2
 
 #ifdef WIN32
 #define NE_PLUGIN_EXPORT extern "C" __declspec( dllexport )

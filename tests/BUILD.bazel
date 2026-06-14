@@ -78,9 +78,13 @@ cc_test(
     srcs = glob(["Alpha/**/*.cpp"]),
     deps = [
         ":test_main",
+        "//RenderSystems/GL:gl_renderer_core",
         "//Source/Nebulae/Alpha:alpha",
     ],
-    data = [":test_assets"],
+    data = [
+        ":test_assets",
+        "//Source/Nebulae/Alpha:Alpha.cpp",
+    ],
     visibility = ["//visibility:public"],
 )
 

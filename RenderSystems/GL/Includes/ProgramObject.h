@@ -27,6 +27,7 @@ public:
   HardwareShader* GetFragmentShader() const;
 
   const UniformDefinitionBase FindUniformByName( const char* name ) const;
+  const UniformDefinitionMap& GetUniformDefinitions() const { return m_uniformDefinitions; }
 
   virtual bool Load();
   void UseProgram();
