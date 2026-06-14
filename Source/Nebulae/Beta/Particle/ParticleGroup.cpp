@@ -259,13 +259,13 @@ void ParticleGroup::Render( Camera* camera ) const
   // Set the Vertex input layout
   m_renderDevice->SetInputLayout( m_pInputLayout );
 
-   // Grab references to the PassVariables.
-   auto viewVarDef = m_renderDevice->GetUniformByName<Matrix4>( "view" );
-   auto projectionVarDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
+  // Grab references to the PassVariables.
+  auto viewVarDef = m_renderDevice->GetUniformByName<Matrix4>( "view" );
+  auto projectionVarDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
 
-   // Set camera transforms for pass
-   m_renderDevice->SetUniformBinding( viewVarDef, camera->GetViewMatrix() );
-   m_renderDevice->SetUniformBinding( projectionVarDef, camera->GetProjectionMatrix() );
+  // Set camera transforms for pass
+  m_renderDevice->SetUniformBinding( viewVarDef, camera->GetViewMatrix() );
+  m_renderDevice->SetUniformBinding( projectionVarDef, camera->GetProjectionMatrix() );
 
   // Iterate the live particles.
   std::vector<Particle*>::const_iterator it_end = m_particles.end();
@@ -311,11 +311,11 @@ void ParticleGroup::RenderParticle( RenderSystemPtr renderer, Camera* camera, co
   //
   // Set particle uniforms for the pass
   //
-  Real textureWidth = static_cast<Real>(m_pTexture->GetWidth());
-  Vector2 size = Vector2( textureWidth, static_cast<Real>(m_pTexture->GetHeight()) );
+  Real textureWidth = static_cast<Real>( m_pTexture->GetWidth() );
+  Vector2 size = Vector2( textureWidth, static_cast<Real>( m_pTexture->GetHeight() ) );
   Vector2 offset = Vector2( -0.5f * textureWidth,
-                      0.0f ); //< this would be were we would do something to preserve some pivot
-                              // of a sprint.  Currently assuming bottom middle is the pivot point.
+                            0.0f ); //< this would be were we would do something to preserve some pivot
+                                    // of a sprint.  Currently assuming bottom middle is the pivot point.
   Vector2 min = Vector2( m_pTexture->GetTexCoords()[0], m_pTexture->GetTexCoords()[1] );
   Vector2 max = Vector2( m_pTexture->GetTexCoords()[2], m_pTexture->GetTexCoords()[3] );
 

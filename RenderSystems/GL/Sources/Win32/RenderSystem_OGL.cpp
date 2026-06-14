@@ -555,106 +555,106 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     switch ( header->type )
     {
     case PT_SetProgram:
-      {
-        const PacketSetProgram* packet = reinterpret_cast<const PacketSetProgram*>( data + offset );
-        SetShaders( packet->vertexShader, packet->fragmentShader );
-      }
-      break;
+    {
+      const PacketSetProgram* packet = reinterpret_cast<const PacketSetProgram*>( data + offset );
+      SetShaders( packet->vertexShader, packet->fragmentShader );
+    }
+    break;
 
     case PT_SetGeometry:
+    {
+      const PacketSetGeometry* packet = reinterpret_cast<const PacketSetGeometry*>( data + offset );
+      SetVertexBuffers( 0, packet->vertexBuffer, packet->stride, packet->offset );
+      if ( packet->indexBuffer != NULL )
       {
-        const PacketSetGeometry* packet = reinterpret_cast<const PacketSetGeometry*>( data + offset );
-        SetVertexBuffers( 0, packet->vertexBuffer, packet->stride, packet->offset );
-        if ( packet->indexBuffer != NULL )
-        {
-          SetIndexBuffer( packet->indexBuffer, 0 );
-        }
-        SetInputLayout( packet->inputLayout );
+        SetIndexBuffer( packet->indexBuffer, 0 );
       }
-      break;
+      SetInputLayout( packet->inputLayout );
+    }
+    break;
 
     case PT_SetRenderState:
-      {
-        const PacketSetRenderState* packet = reinterpret_cast<const PacketSetRenderState*>( data + offset );
-        SetBlendingState( packet->blendingEnabled );
-        SetDepthTest( packet->depthTestEnabled );
-        SetClearColour( packet->clearColourR, packet->clearColourG, packet->clearColourB, packet->clearColourA );
-      }
-      break;
+    {
+      const PacketSetRenderState* packet = reinterpret_cast<const PacketSetRenderState*>( data + offset );
+      SetBlendingState( packet->blendingEnabled );
+      SetDepthTest( packet->depthTestEnabled );
+      SetClearColour( packet->clearColourR, packet->clearColourG, packet->clearColourB, packet->clearColourA );
+    }
+    break;
 
     case PT_SetUniform:
-      {
-        const PacketSetUniform* packet = reinterpret_cast<const PacketSetUniform*>( data + offset );
-        const UniformWrite& write = packet->write;
-        const std::uint8_t* payload = data + offset + sizeof( PacketSetUniform );
+    {
+      const PacketSetUniform* packet = reinterpret_cast<const PacketSetUniform*>( data + offset );
+      const UniformWrite& write = packet->write;
+      const std::uint8_t* payload = data + offset + sizeof( PacketSetUniform );
 
-        switch ( write.type )
-        {
-        case UT_FLOAT1:
-          glUniform1fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
-          break;
-        case UT_FLOAT2:
-          glUniform2fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
-          break;
-        case UT_FLOAT3:
-          glUniform3fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
-          break;
-        case UT_FLOAT4:
-          glUniform4fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
-          break;
-        case UT_INT1:
-          glUniform1iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
-          break;
-        case UT_INT2:
-          glUniform2iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
-          break;
-        case UT_INT3:
-          glUniform3iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
-          break;
-        case UT_INT4:
-          glUniform4iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
-          break;
-        case UT_MATRIX_3X3:
-          glUniformMatrix3fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
-          break;
-        case UT_MATRIX_4X4:
-          glUniformMatrix4fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
-          break;
-        default:
-          NE_LOG_WARNING( "Unknown uniform type %d in ExecuteStream", write.type );
-          break;
-        }
-        CheckForGLError();
+      switch ( write.type )
+      {
+      case UT_FLOAT1:
+        glUniform1fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
+      case UT_FLOAT2:
+        glUniform2fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
+      case UT_FLOAT3:
+        glUniform3fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
+      case UT_FLOAT4:
+        glUniform4fv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
+      case UT_INT1:
+        glUniform1iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
+        break;
+      case UT_INT2:
+        glUniform2iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
+        break;
+      case UT_INT3:
+        glUniform3iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
+        break;
+      case UT_INT4:
+        glUniform4iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
+        break;
+      case UT_MATRIX_3X3:
+        glUniformMatrix3fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
+      case UT_MATRIX_4X4:
+        glUniformMatrix4fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
+      default:
+        NE_LOG_WARNING( "Unknown uniform type %d in ExecuteStream", write.type );
+        break;
       }
-      break;
+      CheckForGLError();
+    }
+    break;
 
     case PT_SetSampler:
+    {
+      const PacketSetSampler* packet = reinterpret_cast<const PacketSetSampler*>( data + offset );
+      const SamplerWrite& write = packet->write;
+
+      if ( write.tex == nullptr )
       {
-        const PacketSetSampler* packet = reinterpret_cast<const PacketSetSampler*>( data + offset );
-        const SamplerWrite& write = packet->write;
-
-        if ( write.tex == nullptr )
-        {
-          NE_LOG_WARNING( "Null texture in PT_SetSampler" );
-          break;
-        }
-
-        const TextureImpl_OGL* impl = static_cast<const TextureImpl_OGL*>( write.tex->GetImpl() );
-        GLuint handle = impl->GetHandle();
-
-        glActiveTexture( GL_TEXTURE0 + write.unit );
-        glBindTexture( GL_TEXTURE_2D, handle );
-        glUniform1i( write.gpuLocation, write.unit );
-        CheckForGLError();
+        NE_LOG_WARNING( "Null texture in PT_SetSampler" );
+        break;
       }
-      break;
+
+      const TextureImpl_OGL* impl = static_cast<const TextureImpl_OGL*>( write.tex->GetImpl() );
+      GLuint handle = impl->GetHandle();
+
+      glActiveTexture( GL_TEXTURE0 + write.unit );
+      glBindTexture( GL_TEXTURE_2D, handle );
+      glUniform1i( write.gpuLocation, write.unit );
+      CheckForGLError();
+    }
+    break;
 
     case PT_Draw:
-      {
-        const PacketDraw* packet = reinterpret_cast<const PacketDraw*>( data + offset );
-        Draw( packet->vertexCount, packet->startVertex );
-      }
-      break;
+    {
+      const PacketDraw* packet = reinterpret_cast<const PacketDraw*>( data + offset );
+      Draw( packet->vertexCount, packet->startVertex );
+    }
+    break;
 
     default:
       NE_LOG_WARNING( "Unknown packet type %d in ExecuteStream", header->type );

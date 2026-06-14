@@ -173,11 +173,11 @@ void ExampleScreen::DrawCube( Matrix4& model, Matrix4& view, Matrix4& projection
     m_renderSystem->SetInputLayout( inputLayout );
   }
 
-   // Create projection variable from desc.
-   auto worldVarDef = m_renderSystem->GetUniformByName<Matrix4>( "modelViewProjectionMatrix" );
-   auto modelViewVarDef = m_renderSystem->GetUniformByName<Matrix4>( "modelViewMatrix" );
-   auto normalVarDef = m_renderSystem->GetUniformByName<Matrix3>( "normalMatrix" );
-   auto diffuseVarDef = m_renderSystem->GetUniformByName<Vector4>( "diffuseColor" );
+  // Create projection variable from desc.
+  auto worldVarDef = m_renderSystem->GetUniformByName<Matrix4>( "modelViewProjectionMatrix" );
+  auto modelViewVarDef = m_renderSystem->GetUniformByName<Matrix4>( "modelViewMatrix" );
+  auto normalVarDef = m_renderSystem->GetUniformByName<Matrix3>( "normalMatrix" );
+  auto diffuseVarDef = m_renderSystem->GetUniformByName<Vector4>( "diffuseColor" );
 
   // Compute the normal matrix as the inverse-transpose of the upper-left 3x3 of the model-view matrix.
   Matrix3 normalMatrix3( mv.ptr()[0], mv.ptr()[1], mv.ptr()[2], mv.ptr()[4], mv.ptr()[5], mv.ptr()[6], mv.ptr()[8],

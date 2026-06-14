@@ -10,16 +10,14 @@
 #include <utility>
 #include <vector>
 
-namespace Nebulae {
-namespace {
-
-constexpr std::size_t Align4( std::size_t value )
+namespace Nebulae
 {
-  return ( value + 3u ) & ~static_cast<std::size_t>( 3u );
-}
+namespace
+{
 
-template <typename T>
-T MakeTaggedPacket( std::uint16_t type, std::uint8_t fill )
+constexpr std::size_t Align4( std::size_t value ) { return ( value + 3u ) & ~static_cast<std::size_t>( 3u ); }
+
+template <typename T> T MakeTaggedPacket( std::uint16_t type, std::uint8_t fill )
 {
   static_assert( std::is_trivially_copyable_v<T>, "Packets must be trivially copyable for stream writes." );
 
@@ -30,38 +28,31 @@ T MakeTaggedPacket( std::uint16_t type, std::uint8_t fill )
   return packet;
 }
 
-template <typename T>
-T ReadPacketAt( const RenderStream& stream, std::size_t offset )
+template <typename T> T ReadPacketAt( const RenderStream& stream, std::size_t offset )
 {
   T packet{};
   std::memcpy( &packet, stream.Data() + offset, sizeof( T ) );
   return packet;
 }
 
-template <typename T, typename = void>
-struct HasReflectProgramMethod : std::false_type
+template <typename T, typename = void> struct HasReflectProgramMethod : std::false_type
 {
 };
 
 template <typename T>
-struct HasReflectProgramMethod<
-  T,
-  std::void_t<decltype( std::declval<T&>().ReflectProgram( std::declval<ProgramObject&>(),
-                                                           std::declval<UniformDefinitionMap&>() ) )>>
+struct HasReflectProgramMethod<T, std::void_t<decltype( std::declval<T&>().ReflectProgram(
+                                    std::declval<ProgramObject&>(), std::declval<UniformDefinitionMap&>() ) )>>
   : std::true_type
 {
 };
 
-template <typename T, typename = void>
-struct HasExecuteStreamMethod : std::false_type
+template <typename T, typename = void> struct HasExecuteStreamMethod : std::false_type
 {
 };
 
 template <typename T>
 struct HasExecuteStreamMethod<
-  T,
-  std::void_t<decltype( std::declval<T&>().ExecuteStream( std::declval<const RenderStream&>() ) )>>
-  : std::true_type
+  T, std::void_t<decltype( std::declval<T&>().ExecuteStream( std::declval<const RenderStream&>() ) )>> : std::true_type
 {
 };
 
@@ -72,16 +63,14 @@ struct HasExecuteStreamMethod<
 static_assert( std::is_trivially_copyable_v<PacketHeader>, "PacketHeader must be trivially copyable." );
 static_assert( std::is_trivially_copyable_v<PacketSetProgram>, "PacketSetProgram must be trivially copyable." );
 static_assert( std::is_trivially_copyable_v<PacketSetGeometry>, "PacketSetGeometry must be trivially copyable." );
-static_assert( std::is_trivially_copyable_v<PacketSetRenderState>,
-               "PacketSetRenderState must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketSetRenderState>, "PacketSetRenderState must be trivially copyable." );
 static_assert( std::is_trivially_copyable_v<PacketSetUniform>, "PacketSetUniform must be trivially copyable." );
 static_assert( std::is_trivially_copyable_v<PacketSetSampler>, "PacketSetSampler must be trivially copyable." );
 static_assert( std::is_trivially_copyable_v<PacketDraw>, "PacketDraw must be trivially copyable." );
 
 static_assert( offsetof( PacketSetProgram, header ) == 0u, "PacketSetProgram must start with PacketHeader." );
 static_assert( offsetof( PacketSetGeometry, header ) == 0u, "PacketSetGeometry must start with PacketHeader." );
-static_assert( offsetof( PacketSetRenderState, header ) == 0u,
-               "PacketSetRenderState must start with PacketHeader." );
+static_assert( offsetof( PacketSetRenderState, header ) == 0u, "PacketSetRenderState must start with PacketHeader." );
 static_assert( offsetof( PacketSetUniform, header ) == 0u, "PacketSetUniform must start with PacketHeader." );
 static_assert( offsetof( PacketSetSampler, header ) == 0u, "PacketSetSampler must start with PacketHeader." );
 static_assert( offsetof( PacketDraw, header ) == 0u, "PacketDraw must start with PacketHeader." );
@@ -268,12 +257,10 @@ TEST( RenderStreamTest, ClearRetainsCapacityByReusingStorage )
   stream.Clear();
 
   EXPECT_EQ( 0u, stream.Size() );
-  EXPECT_EQ( beforeClearData, stream.Data() )
-    << "Clear() should reset size but retain allocated capacity/storage";
+  EXPECT_EQ( beforeClearData, stream.Data() ) << "Clear() should reset size but retain allocated capacity/storage";
 
   stream.Write( MakeTaggedPacket<PacketDraw>( PT_Draw, 0xDD ) );
-  EXPECT_EQ( beforeClearData, stream.Data() )
-    << "A post-Clear write that fits prior capacity should not reallocate";
+  EXPECT_EQ( beforeClearData, stream.Data() ) << "A post-Clear write that fits prior capacity should not reallocate";
 }
 
 } // namespace

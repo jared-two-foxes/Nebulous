@@ -159,15 +159,15 @@ void SceneObject::Render( RenderSystemPtr renderDevice ) const
     UniformDefinitionMap::const_iterator it = uniformMap.begin();
     for ( ; it != uniformMap.end(); ++it )
     {
-      //auto def = renderDevice->GetUniformByName( it->first.c_str() );
-      // if ( def.IsFloat() )
+      // auto def = renderDevice->GetUniformByName( it->first.c_str() );
+      //  if ( def.IsFloat() )
       //{
-      //   renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetFloatPointer( it->second.physicalIndex ) );
-      // }
-      // else
+      //    renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetFloatPointer( it->second.physicalIndex ) );
+      //  }
+      //  else
       //{
-      //   renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetIntPointer( it->second.physicalIndex ) );
-      // }
+      //    renderDevice->SetUniformBinding( def, (void*)m_uniforms.GetIntPointer( it->second.physicalIndex ) );
+      //  }
     }
 
     // Draw function

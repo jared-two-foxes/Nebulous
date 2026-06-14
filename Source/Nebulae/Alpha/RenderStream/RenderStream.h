@@ -26,14 +26,14 @@ class InputLayout;
 
 enum PacketType : std::uint16_t
 {
-  PT_SetProgram       = 0,
-  PT_SetGeometry      = 1,
-  PT_SetRenderState   = 2,
-  PT_SetUniform       = 3,
-  PT_SetSampler       = 4,
-  PT_Draw             = 5,
-  PT_DrawBatched      = 6,  // reserved for future use
-  PT_BindUniformRange = 7,  // reserved for future use
+  PT_SetProgram = 0,
+  PT_SetGeometry = 1,
+  PT_SetRenderState = 2,
+  PT_SetUniform = 3,
+  PT_SetSampler = 4,
+  PT_Draw = 5,
+  PT_DrawBatched = 6,      // reserved for future use
+  PT_BindUniformRange = 7, // reserved for future use
 };
 
 
@@ -43,12 +43,11 @@ enum PacketType : std::uint16_t
 
 struct PacketHeader
 {
-  std::uint16_t type;  ///< One of PacketType
-  std::uint16_t size;  ///< Total packet size in bytes (includes header, 4-byte aligned)
+  std::uint16_t type; ///< One of PacketType
+  std::uint16_t size; ///< Total packet size in bytes (includes header, 4-byte aligned)
 };
 
-static_assert( std::is_trivially_copyable_v<PacketHeader>,
-  "PacketHeader must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketHeader>, "PacketHeader must be trivially copyable." );
 
 
 // ---------------------------------------------------------------------------
@@ -57,42 +56,39 @@ static_assert( std::is_trivially_copyable_v<PacketHeader>,
 
 struct PacketSetProgram
 {
-  PacketHeader    header;
+  PacketHeader header;
   HardwareShader* vertexShader;
   HardwareShader* fragmentShader;
 };
 
-static_assert( std::is_trivially_copyable_v<PacketSetProgram>,
-  "PacketSetProgram must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketSetProgram>, "PacketSetProgram must be trivially copyable." );
 
 
 struct PacketSetGeometry
 {
-  PacketHeader    header;
+  PacketHeader header;
   HardwareBuffer* vertexBuffer;
   HardwareBuffer* indexBuffer;
-  InputLayout*    inputLayout;
-  std::size_t     stride;
-  std::size_t     offset;
+  InputLayout* inputLayout;
+  std::size_t stride;
+  std::size_t offset;
 };
 
-static_assert( std::is_trivially_copyable_v<PacketSetGeometry>,
-  "PacketSetGeometry must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketSetGeometry>, "PacketSetGeometry must be trivially copyable." );
 
 
 struct PacketSetRenderState
 {
   PacketHeader header;
-  bool         blendingEnabled;
-  bool         depthTestEnabled;
-  float        clearColourR;
-  float        clearColourG;
-  float        clearColourB;
-  float        clearColourA;
+  bool blendingEnabled;
+  bool depthTestEnabled;
+  float clearColourR;
+  float clearColourG;
+  float clearColourB;
+  float clearColourA;
 };
 
-static_assert( std::is_trivially_copyable_v<PacketSetRenderState>,
-  "PacketSetRenderState must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketSetRenderState>, "PacketSetRenderState must be trivially copyable." );
 
 
 struct PacketSetUniform
@@ -102,8 +98,7 @@ struct PacketSetUniform
   // Followed in the stream by optional extra payload bytes.
 };
 
-static_assert( std::is_trivially_copyable_v<PacketSetUniform>,
-  "PacketSetUniform must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketSetUniform>, "PacketSetUniform must be trivially copyable." );
 
 
 struct PacketSetSampler
@@ -112,19 +107,17 @@ struct PacketSetSampler
   SamplerWrite write;
 };
 
-static_assert( std::is_trivially_copyable_v<PacketSetSampler>,
-  "PacketSetSampler must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketSetSampler>, "PacketSetSampler must be trivially copyable." );
 
 
 struct PacketDraw
 {
   PacketHeader header;
-  std::size_t  vertexCount;
-  std::size_t  startVertex;
+  std::size_t vertexCount;
+  std::size_t startVertex;
 };
 
-static_assert( std::is_trivially_copyable_v<PacketDraw>,
-  "PacketDraw must be trivially copyable." );
+static_assert( std::is_trivially_copyable_v<PacketDraw>, "PacketDraw must be trivially copyable." );
 
 
 // ---------------------------------------------------------------------------
@@ -149,11 +142,9 @@ public:
   /// @param packet     The packet to write (must be trivially copyable).
   /// @param extraPayloadBytes  Extra payload bytes appended after the packet
   ///                           (for forward-compatible extensibility).
-  template <typename T>
-  void Write( const T& packet, std::size_t extraPayloadBytes = 0 )
+  template <typename T> void Write( const T& packet, std::size_t extraPayloadBytes = 0 )
   {
-    static_assert( std::is_trivially_copyable_v<T>,
-      "RenderStream::Write requires a trivially copyable packet type." );
+    static_assert( std::is_trivially_copyable_v<T>, "RenderStream::Write requires a trivially copyable packet type." );
 
     // Total unaligned size = packet struct + extra payload
     const std::size_t unalignedSize = sizeof( T ) + extraPayloadBytes;
@@ -177,8 +168,7 @@ public:
     // Use memcpy instead of reinterpret_cast to avoid undefined behavior
     // from strict-aliasing violations (writing a typed pointer into uint8_t storage).
     const std::uint16_t alignedSize16 = static_cast<std::uint16_t>( alignedSize );
-    std::memcpy( m_data.data() + oldSize + offsetof( PacketHeader, size ),
-                 &alignedSize16, sizeof( alignedSize16 ) );
+    std::memcpy( m_data.data() + oldSize + offsetof( PacketHeader, size ), &alignedSize16, sizeof( alignedSize16 ) );
   }
 
 private:

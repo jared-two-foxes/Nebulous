@@ -108,6 +108,30 @@ cc_test(
 )
 
 # ============================================================================
+# AlphaQuad Sample Acceptance Tests
+# ============================================================================
+
+cc_test(
+    name = "alphaquad_tests",
+    size = "small",
+    srcs = ["AlphaQuad_test.cpp"],
+    deps = [":test_main"],
+    data = [":test_assets"],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "alphaquad_behavioral_tests",
+    size = "small",
+    srcs = ["AlphaQuadBehavioral_test.cpp"],
+    deps = [
+        ":test_main",
+        "//Samples/AlphaQuad:quad_resources",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ============================================================================
 # Disabled Tests (library not yet built)
 # ============================================================================
 
@@ -124,6 +148,8 @@ filegroup(
 test_suite(
     name = "all_tests",
     tests = [
+        ":alphaquad_tests",
+        ":alphaquad_behavioral_tests",
         ":common_tests",
         ":alpha_tests",
         ":beta_tests",

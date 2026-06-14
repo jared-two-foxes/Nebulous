@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 #include <Nebulae/Alpha/Shaders/UniformBinder.h>
 
-namespace Nebulae {
-namespace {
+namespace Nebulae
+{
+namespace
+{
 
 // ============================================================================
 // Fixture: provides a schema and a binder for tests that need schema validation
@@ -12,40 +14,40 @@ class UniformBinderSchemaTest : public ::testing::Test
 {
 protected:
   UniformDefinitionMap m_schema;
-  UniformBinder        m_binder;
+  UniformBinder m_binder;
 
   void SetUp() override
   {
     // Populate a simple schema.
     UniformDefinitionBase def;
 
-    def.type        = UT_FLOAT1;
+    def.type = UT_FLOAT1;
     def.logicalIndex = 0;
-    def.elementSize  = 1;
-    def.arraySize    = 1;
+    def.elementSize = 1;
+    def.arraySize = 1;
     m_schema["lightIntensity"] = def;
 
-    def.type        = UT_FLOAT2;
+    def.type = UT_FLOAT2;
     def.logicalIndex = 1;
     m_schema["uvScale"] = def;
 
-    def.type        = UT_FLOAT4;
+    def.type = UT_FLOAT4;
     def.logicalIndex = 2;
     m_schema["color"] = def;
 
-    def.type        = UT_INT1;
+    def.type = UT_INT1;
     def.logicalIndex = 3;
     m_schema["flags"] = def;
 
-    def.type        = UT_MATRIX_3X3;
+    def.type = UT_MATRIX_3X3;
     def.logicalIndex = 4;
     m_schema["normalMatrix"] = def;
 
-    def.type        = UT_MATRIX_4X4;
+    def.type = UT_MATRIX_4X4;
     def.logicalIndex = 5;
     m_schema["worldMatrix"] = def;
 
-    def.type        = UT_SAMPLER2D;
+    def.type = UT_SAMPLER2D;
     def.logicalIndex = 6;
     m_schema["diffuseTex"] = def;
 
@@ -57,7 +59,7 @@ protected:
 // AC 1: UniformBinder compiles in Nebulae:: namespace
 // ============================================================================
 
-TEST(UniformBinderTest, NamespaceIsNebulae)
+TEST( UniformBinderTest, NamespaceIsNebulae )
 {
   UniformBinder binder;
   // If this compiles and links, the class exists in Nebulae::.
@@ -68,7 +70,7 @@ TEST(UniformBinderTest, NamespaceIsNebulae)
 // AC 2: SetSchema sets the validation schema
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, SetSchemaAcceptsMap)
+TEST_F( UniformBinderSchemaTest, SetSchemaAcceptsMap )
 {
   // Schema was set in SetUp. Setting a float that matches should record.
   m_binder.Set<float>( "lightIntensity", 1.5f );
@@ -80,86 +82,86 @@ TEST_F(UniformBinderSchemaTest, SetSchemaAcceptsMap)
 //       Set<Matrix4> each record correct UniformType + payload bytes
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, SetFloatRecordsFloat1)
+TEST_F( UniformBinderSchemaTest, SetFloatRecordsFloat1 )
 {
   m_binder.Set<float>( "lightIntensity", 3.14f );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_FLOAT1, m_binder.GetBindings()[0].type );
-  EXPECT_EQ( sizeof(float), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( sizeof( float ), m_binder.GetBindings()[0].payload.size() );
 
   float readBack;
-  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof(float) );
+  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof( float ) );
   EXPECT_FLOAT_EQ( 3.14f, readBack );
 }
 
-TEST_F(UniformBinderSchemaTest, SetVector2RecordsFloat2)
+TEST_F( UniformBinderSchemaTest, SetVector2RecordsFloat2 )
 {
   Vector2 v( 1.0f, 2.0f );
   m_binder.Set<Vector2>( "uvScale", v );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_FLOAT2, m_binder.GetBindings()[0].type );
-  EXPECT_EQ( sizeof(Vector2), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( sizeof( Vector2 ), m_binder.GetBindings()[0].payload.size() );
 
   Vector2 readBack;
-  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof(Vector2) );
+  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof( Vector2 ) );
   EXPECT_FLOAT_EQ( 1.0f, readBack.x );
   EXPECT_FLOAT_EQ( 2.0f, readBack.y );
 }
 
-TEST_F(UniformBinderSchemaTest, SetVector4RecordsFloat4)
+TEST_F( UniformBinderSchemaTest, SetVector4RecordsFloat4 )
 {
   Vector4 v( 0.5f, 0.6f, 0.7f, 1.0f );
   m_binder.Set<Vector4>( "color", v );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_FLOAT4, m_binder.GetBindings()[0].type );
-  EXPECT_EQ( sizeof(Vector4), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( sizeof( Vector4 ), m_binder.GetBindings()[0].payload.size() );
 
   Vector4 readBack;
-  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof(Vector4) );
+  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof( Vector4 ) );
   EXPECT_FLOAT_EQ( 0.5f, readBack.x );
   EXPECT_FLOAT_EQ( 0.6f, readBack.y );
   EXPECT_FLOAT_EQ( 0.7f, readBack.z );
   EXPECT_FLOAT_EQ( 1.0f, readBack.w );
 }
 
-TEST_F(UniformBinderSchemaTest, SetInt32RecordsInt1)
+TEST_F( UniformBinderSchemaTest, SetInt32RecordsInt1 )
 {
   int32 value = 42;
   m_binder.Set<int32>( "flags", value );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_INT1, m_binder.GetBindings()[0].type );
-  EXPECT_EQ( sizeof(int32), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( sizeof( int32 ), m_binder.GetBindings()[0].payload.size() );
 
   int32 readBack = 0;
-  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof(int32) );
+  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof( int32 ) );
   EXPECT_EQ( 42, readBack );
 }
 
-TEST_F(UniformBinderSchemaTest, SetMatrix3RecordsMatrix3x3)
+TEST_F( UniformBinderSchemaTest, SetMatrix3RecordsMatrix3x3 )
 {
   Matrix3 m;
-  m.setValue( 1,2,3,4,5,6,7,8,9 );
+  m.setValue( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
   m_binder.Set<Matrix3>( "normalMatrix", m );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_MATRIX_3X3, m_binder.GetBindings()[0].type );
-  EXPECT_EQ( sizeof(Matrix3), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( sizeof( Matrix3 ), m_binder.GetBindings()[0].payload.size() );
 }
 
-TEST_F(UniformBinderSchemaTest, SetMatrix4RecordsMatrix4x4)
+TEST_F( UniformBinderSchemaTest, SetMatrix4RecordsMatrix4x4 )
 {
   Matrix4 m;
   m.SetIdentity();
   m_binder.Set<Matrix4>( "worldMatrix", m );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_MATRIX_4X4, m_binder.GetBindings()[0].type );
-  EXPECT_EQ( sizeof(Matrix4), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( sizeof( Matrix4 ), m_binder.GetBindings()[0].payload.size() );
 }
 
 // ============================================================================
 // AC 4: SetMatrix4 records payloadBytes = 64 (16 floats × 4 bytes)
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, SetMatrix4PayloadIs64Bytes)
+TEST_F( UniformBinderSchemaTest, SetMatrix4PayloadIs64Bytes )
 {
   Matrix4 m;
   m.SetIdentity();
@@ -172,7 +174,7 @@ TEST_F(UniformBinderSchemaTest, SetMatrix4PayloadIs64Bytes)
 // AC 5: SetTexture records a SamplerBinding with correct unit + tex pointer
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, SetTextureRecordsSamplerBinding)
+TEST_F( UniformBinderSchemaTest, SetTextureRecordsSamplerBinding )
 {
   // We don't need a real Texture* — just test that the pointer is stored.
   const Texture* fakeTex = reinterpret_cast<const Texture*>( 0xDEADBEEF );
@@ -189,7 +191,7 @@ TEST_F(UniformBinderSchemaTest, SetTextureRecordsSamplerBinding)
 //       arraySize=2 and double payload
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, SetArrayMatrix4RecordsArraySize2)
+TEST_F( UniformBinderSchemaTest, SetArrayMatrix4RecordsArraySize2 )
 {
   Matrix4 mats[2];
   mats[0].SetIdentity();
@@ -200,7 +202,7 @@ TEST_F(UniformBinderSchemaTest, SetArrayMatrix4RecordsArraySize2)
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
   EXPECT_EQ( UT_MATRIX_4X4, m_binder.GetBindings()[0].type );
   EXPECT_EQ( 2, m_binder.GetBindings()[0].arraySize );
-  EXPECT_EQ( 2 * sizeof(Matrix4), m_binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( 2 * sizeof( Matrix4 ), m_binder.GetBindings()[0].payload.size() );
   EXPECT_EQ( 128u, m_binder.GetBindings()[0].payload.size() );
 }
 
@@ -208,7 +210,7 @@ TEST_F(UniformBinderSchemaTest, SetArrayMatrix4RecordsArraySize2)
 // AC 7: Re-setting same name replaces previous entry (last-write-wins)
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, ReSetSameNameReplacesInPlace)
+TEST_F( UniformBinderSchemaTest, ReSetSameNameReplacesInPlace )
 {
   m_binder.Set<float>( "lightIntensity", 1.0f );
   ASSERT_EQ( 1, m_binder.GetBindings().size() );
@@ -218,11 +220,11 @@ TEST_F(UniformBinderSchemaTest, ReSetSameNameReplacesInPlace)
   ASSERT_EQ( 1, m_binder.GetBindings().size() ); // still one entry
 
   float readBack = 0;
-  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof(float) );
+  std::memcpy( &readBack, m_binder.GetBindings()[0].payload.data(), sizeof( float ) );
   EXPECT_FLOAT_EQ( 99.0f, readBack );
 }
 
-TEST_F(UniformBinderSchemaTest, ReSetSameNameReplacesSampler)
+TEST_F( UniformBinderSchemaTest, ReSetSameNameReplacesSampler )
 {
   const Texture* tex1 = reinterpret_cast<const Texture*>( 0x1 );
   const Texture* tex2 = reinterpret_cast<const Texture*>( 0x2 );
@@ -240,7 +242,7 @@ TEST_F(UniformBinderSchemaTest, ReSetSameNameReplacesSampler)
 // AC 8: Unknown name silently skips (no binding recorded, no crash)
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, UnknownNameSkipsSilently)
+TEST_F( UniformBinderSchemaTest, UnknownNameSkipsSilently )
 {
   // "nonexistent" is not in the schema.
   m_binder.Set<float>( "nonexistent", 1.0f );
@@ -258,7 +260,7 @@ TEST_F(UniformBinderSchemaTest, UnknownNameSkipsSilently)
 // AC 9: Type mismatch vs schema silently skips (no binding recorded, no crash)
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, TypeMismatchSkipsSilently)
+TEST_F( UniformBinderSchemaTest, TypeMismatchSkipsSilently )
 {
   // "lightIntensity" is UT_FLOAT1 in schema, but we try to set a Vector4.
   m_binder.Set<Vector4>( "lightIntensity", Vector4() );
@@ -277,7 +279,7 @@ TEST_F(UniformBinderSchemaTest, TypeMismatchSkipsSilently)
 // AC 10: Clear() removes all bindings
 // ============================================================================
 
-TEST_F(UniformBinderSchemaTest, ClearRemovesUniformBindings)
+TEST_F( UniformBinderSchemaTest, ClearRemovesUniformBindings )
 {
   m_binder.Set<float>( "lightIntensity", 1.0f );
   m_binder.Set<Vector4>( "color", Vector4() );
@@ -287,7 +289,7 @@ TEST_F(UniformBinderSchemaTest, ClearRemovesUniformBindings)
   EXPECT_EQ( 0, m_binder.GetBindings().size() );
 }
 
-TEST_F(UniformBinderSchemaTest, ClearRemovesSamplerBindings)
+TEST_F( UniformBinderSchemaTest, ClearRemovesSamplerBindings )
 {
   const Texture* tex = reinterpret_cast<const Texture*>( 0x1 );
   m_binder.SetTexture( "diffuseTex", tex, 0 );
@@ -297,7 +299,7 @@ TEST_F(UniformBinderSchemaTest, ClearRemovesSamplerBindings)
   EXPECT_EQ( 0, m_binder.GetSamplerBindings().size() );
 }
 
-TEST_F(UniformBinderSchemaTest, ClearRemovesBoth)
+TEST_F( UniformBinderSchemaTest, ClearRemovesBoth )
 {
   m_binder.Set<float>( "lightIntensity", 1.0f );
   const Texture* tex = reinterpret_cast<const Texture*>( 0x1 );
@@ -314,7 +316,7 @@ TEST_F(UniformBinderSchemaTest, ClearRemovesBoth)
 // Additional edge cases
 // ============================================================================
 
-TEST(UniformBinderTest, NoSchemaAllowsAnyName)
+TEST( UniformBinderTest, NoSchemaAllowsAnyName )
 {
   UniformBinder binder; // no schema set
   binder.Set<float>( "anything", 1.0f );
@@ -322,7 +324,7 @@ TEST(UniformBinderTest, NoSchemaAllowsAnyName)
   EXPECT_EQ( "anything", binder.GetBindings()[0].name );
 }
 
-TEST(UniformBinderTest, MultipleDistinctNames)
+TEST( UniformBinderTest, MultipleDistinctNames )
 {
   UniformBinder binder;
   binder.Set<float>( "a", 1.0f );
@@ -334,7 +336,7 @@ TEST(UniformBinderTest, MultipleDistinctNames)
   EXPECT_EQ( "c", binder.GetBindings()[2].name );
 }
 
-TEST(UniformBinderTest, SetArrayFloatRecordsCorrectPayload)
+TEST( UniformBinderTest, SetArrayFloatRecordsCorrectPayload )
 {
   UniformBinder binder;
   float values[3] = { 1.0f, 2.0f, 3.0f };
@@ -343,16 +345,16 @@ TEST(UniformBinderTest, SetArrayFloatRecordsCorrectPayload)
   ASSERT_EQ( 1, binder.GetBindings().size() );
   EXPECT_EQ( UT_FLOAT1, binder.GetBindings()[0].type );
   EXPECT_EQ( 3, binder.GetBindings()[0].arraySize );
-  EXPECT_EQ( 3 * sizeof(float), binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( 3 * sizeof( float ), binder.GetBindings()[0].payload.size() );
 
   float readBack[3];
-  std::memcpy( readBack, binder.GetBindings()[0].payload.data(), sizeof(readBack) );
+  std::memcpy( readBack, binder.GetBindings()[0].payload.data(), sizeof( readBack ) );
   EXPECT_FLOAT_EQ( 1.0f, readBack[0] );
   EXPECT_FLOAT_EQ( 2.0f, readBack[1] );
   EXPECT_FLOAT_EQ( 3.0f, readBack[2] );
 }
 
-TEST(UniformBinderTest, SetArrayReplacesByName)
+TEST( UniformBinderTest, SetArrayReplacesByName )
 {
   UniformBinder binder;
   float vals1[2] = { 1, 2 };
@@ -365,10 +367,10 @@ TEST(UniformBinderTest, SetArrayReplacesByName)
   binder.SetArray<float>( "arr", vals2, 3 );
   ASSERT_EQ( 1, binder.GetBindings().size() );
   EXPECT_EQ( 3, binder.GetBindings()[0].arraySize );
-  EXPECT_EQ( 3 * sizeof(float), binder.GetBindings()[0].payload.size() );
+  EXPECT_EQ( 3 * sizeof( float ), binder.GetBindings()[0].payload.size() );
 }
 
-TEST(UniformBinderTest, SetTextureWithoutSchema)
+TEST( UniformBinderTest, SetTextureWithoutSchema )
 {
   UniformBinder binder;
   const Texture* tex = reinterpret_cast<const Texture*>( 0x1234 );
@@ -380,7 +382,7 @@ TEST(UniformBinderTest, SetTextureWithoutSchema)
   EXPECT_EQ( tex, binder.GetSamplerBindings()[0].tex );
 }
 
-TEST(UniformBinderTest, MultipleSamplers)
+TEST( UniformBinderTest, MultipleSamplers )
 {
   UniformBinder binder;
   const Texture* tex0 = reinterpret_cast<const Texture*>( 0xA );
@@ -394,7 +396,7 @@ TEST(UniformBinderTest, MultipleSamplers)
   EXPECT_EQ( 1, binder.GetSamplerBindings()[1].unit );
 }
 
-TEST(UniformBinderTest, ClearEmptyBinderIsSafe)
+TEST( UniformBinderTest, ClearEmptyBinderIsSafe )
 {
   UniformBinder binder;
   binder.Clear(); // should not crash
@@ -402,7 +404,7 @@ TEST(UniformBinderTest, ClearEmptyBinderIsSafe)
   EXPECT_EQ( 0, binder.GetSamplerBindings().size() );
 }
 
-TEST(UniformBinderTest, NullSchemaPointerDisablesValidation)
+TEST( UniformBinderTest, NullSchemaPointerDisablesValidation )
 {
   UniformBinder binder;
   UniformDefinitionMap schema;

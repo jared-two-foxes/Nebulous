@@ -112,32 +112,31 @@ public:
   virtual bool ReflectProgram( ProgramObject& program, UniformDefinitionMap& out ) = 0;
   virtual void ExecuteStream( const RenderStream& stream ) = 0;
 
-   // shader binding functions.
-   template <typename T> UniformDefinition<T> GetUniformByName( const char* name ) const
-   {
-     auto base = GetUniformImpl( name );
+  // shader binding functions.
+  template <typename T> UniformDefinition<T> GetUniformByName( const char* name ) const
+  {
+    auto base = GetUniformImpl( name );
 
-     if ( !base.IsValid() )
-     {
-       return UniformDefinition<T>(); // Invalid Definition
-     }
+    if ( !base.IsValid() )
+    {
+      return UniformDefinition<T>(); // Invalid Definition
+    }
 
-     if ( base.type != UniformTypeTraits<T>::value )
-     {
-       NE_LOG( "Type mismatch for uniform '%s': expected %s, but found %s", name,
-               GetUniformTypeName( UniformTypeTraits<T>::value ), GetUniformTypeName( base.type ) );
-       return UniformDefinition<T>();
-     }
+    if ( base.type != UniformTypeTraits<T>::value )
+    {
+      NE_LOG( "Type mismatch for uniform '%s': expected %s, but found %s", name,
+              GetUniformTypeName( UniformTypeTraits<T>::value ), GetUniformTypeName( base.type ) );
+      return UniformDefinition<T>();
+    }
 
-     return UniformDefinition<T>( base );
-   }
+    return UniformDefinition<T>( base );
+  }
 
   virtual void SetBufferBinding( uint32 iTarget, uint32 iCount, HardwareBuffer* pBuffer );
   virtual void SetSamplerBinding( uint32 iTarget, uint32 iIndex, Sampler* pImpl );
   // virtual void SetTextureBinding( uint32 iTarget, uint32 iIndex, Texture* pImpl );
 
-  template <typename T, typename U>
-  void SetUniformBinding( UniformDefinition<T>& def, U&& value )
+  template <typename T, typename U> void SetUniformBinding( UniformDefinition<T>& def, U&& value )
   {
     if ( !def.IsValid() )
     {
@@ -149,16 +148,18 @@ public:
 
     // Accept if U converts to T, OR if both are pointers and differ only by const on pointee
     static_assert(
-      std::is_convertible_v<DecayedU,T> ||
-      (std::is_pointer_v<T> && std::is_pointer_v<DecayedU> &&
-       std::is_same_v<std::remove_const_t<std::remove_pointer_t<T>>,
-                      std::remove_const_t<std::remove_pointer_t<DecayedU>>>),
-      "Type mismatch for uniform binding");
+      std::is_convertible_v<DecayedU, T> || (std::is_pointer_v<T> && std::is_pointer_v<DecayedU> &&
+                                             std::is_same_v<std::remove_const_t<std::remove_pointer_t<T>>,
+                                                            std::remove_const_t<std::remove_pointer_t<DecayedU>>>),
+      "Type mismatch for uniform binding" );
 
-    if constexpr ( std::is_pointer_v<T> && !std::is_convertible_v<DecayedU, T> ) {
-      SetUniformImpl( def, const_cast<T>(value) );
-    } else {
-      SetUniformImpl( def, std::forward<U>(value) );
+    if constexpr ( std::is_pointer_v<T> && !std::is_convertible_v<DecayedU, T> )
+    {
+      SetUniformImpl( def, const_cast<T>( value ) );
+    }
+    else
+    {
+      SetUniformImpl( def, std::forward<U>( value ) );
     }
   }
 

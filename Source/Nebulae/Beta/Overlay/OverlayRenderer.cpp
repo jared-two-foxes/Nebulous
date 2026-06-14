@@ -164,11 +164,11 @@ void OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& 
     const int windowHeight = window->GetHeight();
     const Real colourModifier = 1 / 255.f;
     const Vector2 windowOffset( Real( upperLeft.x ),
-                                   Real( windowHeight ) - Real( lowerRight.y ) ); //< ll position in render projection.
-    const Vector2 size( Real( lowerRight.x ) - Real( upperLeft.x ),
-                                 Real( lowerRight.y ) - Real( upperLeft.y ) );
-    const Vector4 modifiedColour( colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier, colour.a * colourModifier );
-    Vector4 texCoord { 0.0f, 0.0f, 1.0f, 1.0f };
+                                Real( windowHeight ) - Real( lowerRight.y ) ); //< ll position in render projection.
+    const Vector2 size( Real( lowerRight.x ) - Real( upperLeft.x ), Real( lowerRight.y ) - Real( upperLeft.y ) );
+    const Vector4 modifiedColour( colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier,
+                                  colour.a * colourModifier );
+    Vector4 texCoord{ 0.0f, 0.0f, 1.0f, 1.0f };
 
     static Texture* defaultWhiteTexture = renderer->FindTextureByName( "white.png" );
     if ( !defaultWhiteTexture )
@@ -271,20 +271,20 @@ void OverlayRenderer::DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::
     renderer->SetInputLayout( inputLayout );
   }
 
-   //
-   // Create the uniform values for current pass.
-   //
-   auto leftVarDef = renderer->GetUniformByName<Vector4>( "left" );
-   auto rightVarDef = renderer->GetUniformByName<Vector4>( "right" );
-   auto diffuseVarDef = renderer->GetUniformByName<Texture*>( "diffuseTexture" );
-   auto colourVarDef = renderer->GetUniformByName<Vector4>( "colour" );
-   auto texCoordVarDef = renderer->GetUniformByName<Vector4>( "texcoord" );
-   auto depthVarDef = renderer->GetUniformByName<float>( "depth" );
+  //
+  // Create the uniform values for current pass.
+  //
+  auto leftVarDef = renderer->GetUniformByName<Vector4>( "left" );
+  auto rightVarDef = renderer->GetUniformByName<Vector4>( "right" );
+  auto diffuseVarDef = renderer->GetUniformByName<Texture*>( "diffuseTexture" );
+  auto colourVarDef = renderer->GetUniformByName<Vector4>( "colour" );
+  auto texCoordVarDef = renderer->GetUniformByName<Vector4>( "texcoord" );
+  auto depthVarDef = renderer->GetUniformByName<float>( "depth" );
 
 
   const Real colourModifier = 1 / 255.f;
   const Vector4 modifiedColour( colour.r * colourModifier, colour.g * colourModifier, colour.b * colourModifier,
-                                 colour.a * colourModifier );
+                                colour.a * colourModifier );
   const Vector4 leftCoords( Real( ll_.x ), Real( ll_.y ), Real( ul_.x ), Real( ul_.y ) );
   const Vector4 rightCoords( Real( lr_.x ), Real( lr_.y ), Real( ur_.x ), Real( ur_.y ) );
   Vector4 texCoords( 0, 0, 1.0f, 1.0f );

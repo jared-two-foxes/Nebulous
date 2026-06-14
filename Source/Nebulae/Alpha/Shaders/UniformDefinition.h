@@ -21,8 +21,8 @@ struct UniformDefinitionBase
     : type( UT_UNKNOWN ),
       logicalIndex( -1 ),
       physicalIndex( std::numeric_limits<size_t>::max() ),
-      elementSize( static_cast<std::size_t>(0) ),
-      arraySize( static_cast<std::size_t>(1) )
+      elementSize( static_cast<std::size_t>( 0 ) ),
+      arraySize( static_cast<std::size_t>( 1 ) )
   {
   }
 

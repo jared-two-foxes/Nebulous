@@ -94,26 +94,26 @@ void WidgetRenderer::Render( const std::list<Widget*>& widgets )
   Matrix4 projection;
   projection.MakeOrthoMatrix( fLeft, fRight, fBottom, fTop, fNear, fFar );
 
-   // Grab the material that we are using.
-   if ( m_basicMaterial != NULL )
-   {
-     Pass* pass = m_basicMaterial->GetPass( 0 );
+  // Grab the material that we are using.
+  if ( m_basicMaterial != NULL )
+  {
+    Pass* pass = m_basicMaterial->GetPass( 0 );
 
-     m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
+    m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
 
-     UniformDefinition<Matrix4> projectionDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
-     m_renderDevice->SetUniformBinding( projectionDef, projection );
-   }
+    UniformDefinition<Matrix4> projectionDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
+    m_renderDevice->SetUniformBinding( projectionDef, projection );
+  }
 
-   if ( m_complexMaterial != NULL )
-   {
-     Pass* pass = m_complexMaterial->GetPass( 0 );
+  if ( m_complexMaterial != NULL )
+  {
+    Pass* pass = m_complexMaterial->GetPass( 0 );
 
-     m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
+    m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
 
-     UniformDefinition<Matrix4> projectionDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
-     m_renderDevice->SetUniformBinding( projectionDef, projection );
-   }
+    UniformDefinition<Matrix4> projectionDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
+    m_renderDevice->SetUniformBinding( projectionDef, projection );
+  }
 
   m_renderDevice->SetBlendingState( true );
   m_renderDevice->SetDepthTest( false );

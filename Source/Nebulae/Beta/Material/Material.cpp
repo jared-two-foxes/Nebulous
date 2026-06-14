@@ -58,12 +58,12 @@ void Material::AddUniformDefinition( const std::string& name, UniformType type, 
     return;
   }
 
-   UniformDefinitionBase def;
-   def.arraySize = arraySize;
-   def.type = type;
-   // for compatibility we do not pad values to multiples of 4
-   // when it comes to arrays, user is responsible for creating matching definitions
-   def.elementSize = UniformDefinition<float>::GetElementSize( type, false );
+  UniformDefinitionBase def;
+  def.arraySize = arraySize;
+  def.type = type;
+  // for compatibility we do not pad values to multiples of 4
+  // when it comes to arrays, user is responsible for creating matching definitions
+  def.elementSize = UniformDefinition<float>::GetElementSize( type, false );
 
   // not used
   def.logicalIndex = 0;

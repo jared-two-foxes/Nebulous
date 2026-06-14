@@ -18,9 +18,9 @@ namespace Nebulae
 /// A single uniform binding: name, type, array size, and raw payload bytes.
 struct UniformBinding
 {
-  std::string        name;
-  UniformType        type;
-  std::uint16_t      arraySize;
+  std::string name;
+  UniformType type;
+  std::uint16_t arraySize;
   std::vector<std::uint8_t> payload;
 
   UniformBinding() : type( UT_UNKNOWN ), arraySize( 0 ) {}
@@ -28,13 +28,14 @@ struct UniformBinding
   UniformBinding( const std::string& name_, UniformType type_, std::uint16_t arraySize_,
                   const std::vector<std::uint8_t>& payload_ )
     : name( name_ ), type( type_ ), arraySize( arraySize_ ), payload( payload_ )
-  {}
+  {
+  }
 };
 
 /// A single sampler binding: name, texture unit, and texture pointer.
 struct SamplerBinding
 {
-  std::string  name;
+  std::string name;
   std::int32_t unit;
   const Texture* tex;
 
@@ -42,7 +43,8 @@ struct SamplerBinding
 
   SamplerBinding( const std::string& name_, std::int32_t unit_, const Texture* tex_ )
     : name( name_ ), unit( unit_ ), tex( tex_ )
-  {}
+  {
+  }
 };
 
 /** UniformBinder
@@ -68,8 +70,7 @@ public:
   void SetSchema( const UniformDefinitionMap* schema ) { m_schema = schema; }
 
   /// Set a uniform value. Records one binding with arraySize=1.
-  template <typename T>
-  void Set( const std::string& name, const T& value )
+  template <typename T> void Set( const std::string& name, const T& value )
   {
     constexpr UniformType type = UniformTypeTraits<T>::value;
 
@@ -85,8 +86,7 @@ public:
   }
 
   /// Set an array of uniform values. Records ONE binding with arraySize = count.
-  template <typename T>
-  void SetArray( const std::string& name, const T* values, std::uint16_t count )
+  template <typename T> void SetArray( const std::string& name, const T* values, std::uint16_t count )
   {
     constexpr UniformType type = UniformTypeTraits<T>::value;
 
@@ -143,9 +143,9 @@ private:
     {
       if ( b.name == name )
       {
-        b.type      = type;
+        b.type = type;
         b.arraySize = arraySize;
-        b.payload   = std::move( payload );
+        b.payload = std::move( payload );
         return;
       }
     }
@@ -161,7 +161,7 @@ private:
       if ( b.name == name )
       {
         b.unit = unit;
-        b.tex  = tex;
+        b.tex = tex;
         return;
       }
     }
@@ -170,8 +170,8 @@ private:
   }
 
   const UniformDefinitionMap* m_schema;
-  std::vector<UniformBinding>  m_bindings;
-  std::vector<SamplerBinding>  m_samplerBindings;
+  std::vector<UniformBinding> m_bindings;
+  std::vector<SamplerBinding> m_samplerBindings;
 };
 
 } // namespace Nebulae

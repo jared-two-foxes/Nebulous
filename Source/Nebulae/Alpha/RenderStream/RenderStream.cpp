@@ -5,8 +5,7 @@ namespace Nebulae
 {
 
 
-void
-RenderStream::Clear()
+void RenderStream::Clear()
 {
   // Reset size to zero but retain allocated capacity.
   m_data.clear();

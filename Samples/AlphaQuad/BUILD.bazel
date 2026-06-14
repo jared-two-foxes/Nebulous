@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+# ============================================================================
+# BUILD.bazel — AlphaQuad Sample
+# Samples/AlphaQuad/BUILD.bazel
+# ============================================================================
+
+cc_library(
+    name = "quad_resources",
+    srcs = ["quad_resources.cpp"],
+    hdrs = ["quad_resources.h"],
+    deps = ["//Source/Nebulae:nebulae"],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "alpha_quad",
+    srcs = ["main.cpp"],
+    data = [
+        "textured_quad_vs.glsl",
+        "textured_quad_ps.glsl",
+    ] + ["//RenderSystems/GL:nebulous_gl3"],
+    linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    deps = [":quad_resources"],
+)

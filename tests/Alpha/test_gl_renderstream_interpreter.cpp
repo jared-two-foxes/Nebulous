@@ -52,7 +52,7 @@ PFNGLGETACTIVEUNIFORMPROC glGetActiveUniform = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation = nullptr;
 
 PFNGLACTIVETEXTUREPROC glActiveTexture = nullptr;
-typedef void (APIENTRY *PFNGLBINDTEXTUREPROC)(GLenum, GLuint);
+typedef void( APIENTRY* PFNGLBINDTEXTUREPROC )( GLenum, GLuint );
 PFNGLBINDTEXTUREPROC glBindTexture = nullptr;
 
 struct GLUniformCallState
@@ -186,8 +186,7 @@ void CaptureLog( const char* message )
   }
 }
 
-template <typename T>
-T MakePacket( std::uint16_t packetType )
+template <typename T> T MakePacket( std::uint16_t packetType )
 {
   T packet{};
   packet.header.type = packetType;
@@ -195,7 +194,8 @@ T MakePacket( std::uint16_t packetType )
   return packet;
 }
 
-std::size_t AppendUniformPacket( RenderStream& stream, const UniformWrite& write, const std::vector<std::uint8_t>& payload )
+std::size_t AppendUniformPacket( RenderStream& stream, const UniformWrite& write,
+                                 const std::vector<std::uint8_t>& payload )
 {
   PacketSetUniform p = MakePacket<PacketSetUniform>( PT_SetUniform );
   p.write = write;
@@ -228,7 +228,10 @@ public:
 class ShaderImplProbe : public HardwareShaderImpl_OGL
 {
 public:
-  ShaderImplProbe( HardwareShaderType type, GLuint handle ) : HardwareShaderImpl_OGL( "test", type ) { m_iHandle = handle; }
+  ShaderImplProbe( HardwareShaderType type, GLuint handle ) : HardwareShaderImpl_OGL( "test", type )
+  {
+    m_iHandle = handle;
+  }
 };
 
 class RenderSystemOGLStreamSpy : public RenderSystem_OGL
@@ -316,9 +319,16 @@ public:
   }
 
   // Pure virtual method stubs (not tested, just needed for instantiation)
-  HardwareBufferImpl* CreateBufferImpl( const Flags<HardwareBufferUsage>&, std::size_t, HardwareBufferBinding, void* ) override { return nullptr; }
+  HardwareBufferImpl* CreateBufferImpl( const Flags<HardwareBufferUsage>&, std::size_t, HardwareBufferBinding,
+                                        void* ) override
+  {
+    return nullptr;
+  }
   HardwareShaderImpl* CreateShaderImpl( const std::string&, HardwareShaderType ) override { return nullptr; }
-  InputLayoutImpl* CreateInputLayoutImpl( const VertexDeceleration*, const HardwareShader* ) override { return nullptr; }
+  InputLayoutImpl* CreateInputLayoutImpl( const VertexDeceleration*, const HardwareShader* ) override
+  {
+    return nullptr;
+  }
   Sampler::Impl* CreateSamplerImpl() override { return nullptr; }
   TextureImpl* CreateTextureImpl( const std::string& ) override { return nullptr; }
   UniformDefinitionBase GetUniformImpl( const char* ) const override { return UniformDefinitionBase{}; }
@@ -625,13 +635,13 @@ TEST_F( GLRenderStreamInterpreterTest, UniformDispatchUsesUniformTypeNotElementC
     vecLike.payloadBytes = static_cast<std::uint16_t>( sizeof( float4Payload ) );
 
     AppendUniformPacket( stream, matrixLike,
-                         std::vector<std::uint8_t>( reinterpret_cast<const std::uint8_t*>( matrix2x2Payload ),
-                                                    reinterpret_cast<const std::uint8_t*>( matrix2x2Payload ) +
-                                                      sizeof( matrix2x2Payload ) ) );
-    AppendUniformPacket( stream, vecLike,
-                         std::vector<std::uint8_t>( reinterpret_cast<const std::uint8_t*>( float4Payload ),
-                                                    reinterpret_cast<const std::uint8_t*>( float4Payload ) +
-                                                      sizeof( float4Payload ) ) );
+                         std::vector<std::uint8_t>(
+                           reinterpret_cast<const std::uint8_t*>( matrix2x2Payload ),
+                           reinterpret_cast<const std::uint8_t*>( matrix2x2Payload ) + sizeof( matrix2x2Payload ) ) );
+    AppendUniformPacket(
+      stream, vecLike,
+      std::vector<std::uint8_t>( reinterpret_cast<const std::uint8_t*>( float4Payload ),
+                                 reinterpret_cast<const std::uint8_t*>( float4Payload ) + sizeof( float4Payload ) ) );
 
     rs.ExecuteStream( stream );
 
@@ -651,7 +661,8 @@ TEST_F( GLRenderStreamInterpreterTest, UniformDispatchCoversScalarIntVectorAndMa
     RenderSystem_OGL rs( nullptr, nullptr );
     RenderStream stream;
 
-    auto appendFloat = [&]( UniformType type, int location, std::size_t count ) {
+    auto appendFloat = [&]( UniformType type, int location, std::size_t count )
+    {
       std::vector<float> payload( GetUniformElementCount( type ) * count, 1.0f );
       UniformWrite write{};
       write.gpuLocation = location;
@@ -664,7 +675,8 @@ TEST_F( GLRenderStreamInterpreterTest, UniformDispatchCoversScalarIntVectorAndMa
                                                         payload.size() * sizeof( float ) ) );
     };
 
-    auto appendInt = [&]( UniformType type, int location, std::size_t count ) {
+    auto appendInt = [&]( UniformType type, int location, std::size_t count )
+    {
       std::vector<std::int32_t> payload( GetUniformElementCount( type ) * count, 7 );
       UniformWrite write{};
       write.gpuLocation = location;

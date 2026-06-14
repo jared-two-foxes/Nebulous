@@ -88,19 +88,19 @@ void SimpleState::Render() const
   InputLayout* pInputLayout = m_pRenderSystem->FindInputLayoutByName( "DebugLayout" );
   m_pRenderSystem->SetInputLayout( pInputLayout );
 
-   // Create projection variable from desc.
-   auto worldVarDesc = m_pRenderSystem->GetUniformByName<Matrix4>( "world" );
-   auto viewVarDesc = m_pRenderSystem->GetUniformByName<Matrix4>( "view" );
-   auto projectionVarDesc = m_pRenderSystem->GetUniformByName<Matrix4>( "projection" );
+  // Create projection variable from desc.
+  auto worldVarDesc = m_pRenderSystem->GetUniformByName<Matrix4>( "world" );
+  auto viewVarDesc = m_pRenderSystem->GetUniformByName<Matrix4>( "view" );
+  auto projectionVarDesc = m_pRenderSystem->GetUniformByName<Matrix4>( "projection" );
 
-   // Calculate the local transform of the particle
-   Matrix4 worldMatrix;
-   worldMatrix.SetIdentity();
+  // Calculate the local transform of the particle
+  Matrix4 worldMatrix;
+  worldMatrix.SetIdentity();
 
-   // Set camera transforms for pass
-   m_pRenderSystem->SetUniformBinding( worldVarDesc, worldMatrix );
-   m_pRenderSystem->SetUniformBinding( viewVarDesc, m_pCamera->GetViewMatrix() );
-   m_pRenderSystem->SetUniformBinding( projectionVarDesc, m_pCamera->GetProjectionMatrix() );
+  // Set camera transforms for pass
+  m_pRenderSystem->SetUniformBinding( worldVarDesc, worldMatrix );
+  m_pRenderSystem->SetUniformBinding( viewVarDesc, m_pCamera->GetViewMatrix() );
+  m_pRenderSystem->SetUniformBinding( projectionVarDesc, m_pCamera->GetProjectionMatrix() );
 
   // Draw particle.
   m_pRenderSystem->Draw( 2, 0 );
