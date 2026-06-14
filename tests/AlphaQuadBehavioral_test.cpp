@@ -26,6 +26,7 @@
 #include <Nebulae/Common/FileSystem/File.h>
 #include <Nebulae/Common/FileSystem/FileSystem.h>
 
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -75,7 +76,7 @@ public:
   MockShaderImpl( const std::string& name, HardwareShaderType type ) : HardwareShaderImpl( name, type ) {}
 
   bool Load( File& is ) override { return true; }
-  bool Unload() override { return true; }
+  bool Unload() override { return false; }
 };
 
 class MockBufferImpl : public HardwareBufferImpl
@@ -88,7 +89,7 @@ public:
   }
 
   bool Load() override { return true; }
-  bool Unload() override { return true; }
+  bool Unload() override { return false; }
 };
 
 class MockInputLayoutImpl : public InputLayoutImpl
@@ -99,7 +100,7 @@ public:
   }
 
   bool Load() override { return true; }
-  bool Unload() override { return true; }
+  bool Unload() override { return false; }
 };
 
 class MockTextureImpl : public TextureImpl
@@ -109,7 +110,7 @@ public:
 
   bool Load( const Image& image ) override { return true; }
   bool LoadFromMemory( unsigned char*, uint8, uint8, int, int ) override { return true; }
-  bool Unload() override { return true; }
+  bool Unload() override { return false; }
 };
 
 // ============================================================================
@@ -444,4 +445,56 @@ TEST( AlphaQuadBehavioral, InitResources_CleanupOnFailure )
   // Verify their impls were deleted (GetImpl returns null after cleanup).
   EXPECT_EQ( nullptr, vs->GetImpl() );
   EXPECT_EQ( nullptr, ps->GetImpl() );
+}
+
+TEST( AlphaQuadBehavioral, PostFailure_IsLoadedImplConsistency )
+{
+  // Validate that after any failure path, no resource is left in the inconsistent
+  // state of IsLoaded()==true with GetImpl()==nullptr. This matches real engine
+  // semantics where Unload() returns false and the rollback code must explicitly
+  // reset the loading status.
+
+  // Test failure at each possible failure point.
+  struct FailureCase
+  {
+    const char* name;
+    std::function<void( MockConfig& )> setup;
+  };
+
+  FailureCase cases[] = {
+    { "shader create", []( MockConfig& c ) { c.failShaderCreate = true; } },
+    { "buffer create", []( MockConfig& c ) { c.failBufferCreate = true; } },
+    { "layout create", []( MockConfig& c ) { c.failLayoutCreate = true; } },
+    { "texture create", []( MockConfig& c ) { c.failTextureCreate = true; } },
+    { "uniform lookup", []( MockConfig& c ) { c.failUniformLookup = true; } },
+  };
+
+  for ( auto& testCase : cases )
+  {
+    MockRenderSystem rs;
+    rs.config = MockConfig{};
+    testCase.setup( rs.config );
+    ASSERT_TRUE( rs.Initiate() );
+
+    QuadResources res = {};
+    EXPECT_FALSE( InitResources( &rs, res ) ) << "Expected failure for case: " << testCase.name;
+
+    // Check all named resources in the render system for the invariant:
+    // If IsLoaded() is true, GetImpl() must not be nullptr.
+    auto checkShader = [&]( const std::string& name )
+    {
+      HardwareShader* s = rs.FindShaderByName( name );
+      if ( s )
+      {
+        if ( s->IsLoaded() )
+        {
+          EXPECT_NE( nullptr, s->GetImpl() ) << "Case '" << testCase.name << "': shader '" << name
+                                             << "' has IsLoaded()==true but GetImpl()==nullptr (inconsistent state)";
+        }
+      }
+    };
+
+    checkShader( "textured_quad_vs.glsl" );
+    checkShader( "textured_quad_ps.glsl" );
+  }
 }

@@ -21,6 +21,9 @@ public:
   virtual const std::string& GetName() const { return m_name; }
 
   MOCK_METHOD0( Clear, void() );
+  MOCK_METHOD2( ReflectProgram, bool( ProgramObject&, UniformDefinitionMap& ) );
+  MOCK_METHOD1( ExecuteStream, void( const RenderStream& ) );
+
 
   // factory functions.
   MOCK_METHOD2( CreateInputLayoutImpl,

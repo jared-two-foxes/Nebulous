@@ -26,10 +26,10 @@ bool InitResources( RenderSystem* renderSystem, QuadResources& res )
   if ( !tmp.pixelShader || !tmp.pixelShader->IsLoaded() )
   {
     std::fprintf( stderr, "Failed to create pixel shader.\n" );
-    // Rollback: unload vertex shader and release its impl to prevent leak on retry.
-    tmp.vertexShader->Unload();
+    // Rollback: release vertex shader impl and reset state for potential retry.
     delete tmp.vertexShader->GetImpl();
     tmp.vertexShader->SetImpl( nullptr );
+    tmp.vertexShader->ResetLoadingStatus();
     return false;
   }
 
@@ -44,13 +44,13 @@ bool InitResources( RenderSystem* renderSystem, QuadResources& res )
   if ( !tmp.vertexBuffer || !tmp.vertexBuffer->IsLoaded() )
   {
     std::fprintf( stderr, "Failed to create vertex buffer.\n" );
-    // Rollback: unload shaders and release their impls.
-    tmp.pixelShader->Unload();
+    // Rollback: release shader impls and reset state for potential retry.
     delete tmp.pixelShader->GetImpl();
     tmp.pixelShader->SetImpl( nullptr );
-    tmp.vertexShader->Unload();
+    tmp.pixelShader->ResetLoadingStatus();
     delete tmp.vertexShader->GetImpl();
     tmp.vertexShader->SetImpl( nullptr );
+    tmp.vertexShader->ResetLoadingStatus();
     return false;
   }
 
@@ -62,16 +62,16 @@ bool InitResources( RenderSystem* renderSystem, QuadResources& res )
   if ( !tmp.inputLayout || !tmp.inputLayout->IsLoaded() )
   {
     std::fprintf( stderr, "Failed to create input layout.\n" );
-    // Rollback: unload vertex buffer, shaders, release their impls.
-    tmp.vertexBuffer->Unload();
+    // Rollback: release all resource impls and reset state for potential retry.
     delete tmp.vertexBuffer->GetImpl();
     tmp.vertexBuffer->SetImpl( nullptr );
-    tmp.pixelShader->Unload();
+    tmp.vertexBuffer->ResetLoadingStatus();
     delete tmp.pixelShader->GetImpl();
     tmp.pixelShader->SetImpl( nullptr );
-    tmp.vertexShader->Unload();
+    tmp.pixelShader->ResetLoadingStatus();
     delete tmp.vertexShader->GetImpl();
     tmp.vertexShader->SetImpl( nullptr );
+    tmp.vertexShader->ResetLoadingStatus();
     return false;
   }
 
@@ -80,43 +80,43 @@ bool InitResources( RenderSystem* renderSystem, QuadResources& res )
     0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
   };
   tmp.texture = renderSystem->CreateTexture( "Checkerboard", false );
-  if ( !tmp.texture )
+  if ( !tmp.texture || !tmp.texture->GetImpl() )
   {
     std::fprintf( stderr, "Failed to create texture.\n" );
-    // Rollback: unload input layout, vertex buffer, shaders, release their impls.
-    tmp.inputLayout->Unload();
+    // Rollback: release all resource impls and reset state for potential retry.
     delete tmp.inputLayout->GetImpl();
     tmp.inputLayout->SetImpl( nullptr );
-    tmp.vertexBuffer->Unload();
+    tmp.inputLayout->ResetLoadingStatus();
     delete tmp.vertexBuffer->GetImpl();
     tmp.vertexBuffer->SetImpl( nullptr );
-    tmp.pixelShader->Unload();
+    tmp.vertexBuffer->ResetLoadingStatus();
     delete tmp.pixelShader->GetImpl();
     tmp.pixelShader->SetImpl( nullptr );
-    tmp.vertexShader->Unload();
+    tmp.pixelShader->ResetLoadingStatus();
     delete tmp.vertexShader->GetImpl();
     tmp.vertexShader->SetImpl( nullptr );
+    tmp.vertexShader->ResetLoadingStatus();
     return false;
   }
   if ( !tmp.texture->LoadFromMemory( textureData, 4, 4, 2, 2 ) )
   {
     std::fprintf( stderr, "Failed to load texture from memory.\n" );
-    // Rollback: unload texture and all prior resources, release their impls.
-    tmp.texture->Unload();
+    // Rollback: release all resource impls and reset state for potential retry.
     delete tmp.texture->GetImpl();
     tmp.texture->SetImpl( nullptr );
-    tmp.inputLayout->Unload();
+    tmp.texture->ResetLoadingStatus();
     delete tmp.inputLayout->GetImpl();
     tmp.inputLayout->SetImpl( nullptr );
-    tmp.vertexBuffer->Unload();
+    tmp.inputLayout->ResetLoadingStatus();
     delete tmp.vertexBuffer->GetImpl();
     tmp.vertexBuffer->SetImpl( nullptr );
-    tmp.pixelShader->Unload();
+    tmp.vertexBuffer->ResetLoadingStatus();
     delete tmp.pixelShader->GetImpl();
     tmp.pixelShader->SetImpl( nullptr );
-    tmp.vertexShader->Unload();
+    tmp.pixelShader->ResetLoadingStatus();
     delete tmp.vertexShader->GetImpl();
     tmp.vertexShader->SetImpl( nullptr );
+    tmp.vertexShader->ResetLoadingStatus();
     return false;
   }
 
@@ -130,22 +130,22 @@ bool InitResources( RenderSystem* renderSystem, QuadResources& res )
   if ( !tmp.uniformDef.IsValid() )
   {
     std::fprintf( stderr, "Failed to locate uniform 's_texture' in shader program.\n" );
-    // Rollback: unload all resources, release their impls.
-    tmp.texture->Unload();
+    // Rollback: release all resource impls and reset state for potential retry.
     delete tmp.texture->GetImpl();
     tmp.texture->SetImpl( nullptr );
-    tmp.inputLayout->Unload();
+    tmp.texture->ResetLoadingStatus();
     delete tmp.inputLayout->GetImpl();
     tmp.inputLayout->SetImpl( nullptr );
-    tmp.vertexBuffer->Unload();
+    tmp.inputLayout->ResetLoadingStatus();
     delete tmp.vertexBuffer->GetImpl();
     tmp.vertexBuffer->SetImpl( nullptr );
-    tmp.pixelShader->Unload();
+    tmp.vertexBuffer->ResetLoadingStatus();
     delete tmp.pixelShader->GetImpl();
     tmp.pixelShader->SetImpl( nullptr );
-    tmp.vertexShader->Unload();
+    tmp.pixelShader->ResetLoadingStatus();
     delete tmp.vertexShader->GetImpl();
     tmp.vertexShader->SetImpl( nullptr );
+    tmp.vertexShader->ResetLoadingStatus();
     return false;
   }
 

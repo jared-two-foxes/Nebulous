@@ -38,6 +38,11 @@ public:
   virtual bool Load( File* is );
   virtual bool Unload();
 
+  /// Resets the loading status to Unloaded, allowing the resource to be re-initialized.
+  /// This is used during error recovery rollback when the underlying impl has been
+  /// destroyed but the Resource object itself is retained for retry.
+  void ResetLoadingStatus();
+
 private:
   virtual bool LoadImpl_( File* is ) = 0;
   virtual bool UnloadImpl_() = 0;

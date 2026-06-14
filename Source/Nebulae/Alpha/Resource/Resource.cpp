@@ -73,3 +73,6 @@ bool Resource::Unload()
 
   return true;
 }
+
+
+void Resource::ResetLoadingStatus() { m_loadingStatus = LoadingStatus::Unloaded; }
