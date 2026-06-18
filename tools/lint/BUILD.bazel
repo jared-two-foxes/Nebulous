@@ -3,26 +3,14 @@
 load("@rules_python//python:defs.bzl", "py_binary")
 
 # ============================================================================
-# FORMAT CHECK TARGET
-# ============================================================================
-# Validates C/C++ formatting using clang-format
-# Usage: bazel run //tools/lint:format_check
-
-py_binary(
-    name = "format_check",
-    srcs = ["format_check.py"],
-    visibility = ["//visibility:public"],
-)
-
-# ============================================================================
 # FORMAT FIX TARGET
 # ============================================================================
 # Auto-fixes C/C++ formatting using clang-format
 # Usage: bazel run //tools/lint:format_fix
 
 py_binary(
-    name = "format_fix",
-    srcs = ["format_fix.py"],
+    name = "clang_format",
+    srcs = ["clang_format.py"],
     visibility = ["//visibility:public"],
 )
 

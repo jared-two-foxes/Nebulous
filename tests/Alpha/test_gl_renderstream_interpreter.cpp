@@ -3,6 +3,9 @@
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
 #include <Nebulae/Alpha/RenderStream/RenderStream.h>
 #include <Nebulae/Alpha/Shaders/UniformTypeHelpers.h>
+#include <Nebulae/Common/Base/Log/ISink.h>
+#include <Nebulae/Common/Base/Log/Logger.h>
+#include <Nebulae/Common/Base/Log/ModuleLogger.h>
 
 // Test-only private access for white-box validation of program cache behavior.
 #define private public
@@ -12,12 +15,11 @@
 #include <Includes/TextureImpl_OGL.h>
 #undef private
 
-#include <Nebulae/Common/Log.h>
-
 #include <fstream>
 #include <cstdint>
 #include <cstring>
 #include <iterator>
+#include <memory>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -76,6 +78,14 @@ struct GLUniformCallState
 
 GLUniformCallState g_uniformCalls;
 std::vector<std::string> g_logMessages;
+
+class TestCaptureSink : public ISink
+{
+public:
+  void Write( const LogRecord& record ) override { g_logMessages.emplace_back( record.message ); }
+
+  void Flush() override {}
+};
 
 void APIENTRY StubUniform1fv( GLint location, GLsizei count, const GLfloat* )
 {
@@ -176,14 +186,6 @@ void APIENTRY StubGetProgramiv( GLuint, GLenum pname, GLint* params )
   }
 
   *params = 0;
-}
-
-void CaptureLog( const char* message )
-{
-  if ( message != nullptr )
-  {
-    g_logMessages.emplace_back( message );
-  }
 }
 
 template <typename T> T MakePacket( std::uint16_t packetType )
@@ -370,10 +372,20 @@ protected:
   PFNGLACTIVETEXTUREPROC oldActiveTexture = nullptr;
   PFNGLBINDTEXTUREPROC oldBindTexture = nullptr;
 
+  Logger* oldModuleLogger = nullptr;
+  std::unique_ptr<Logger> testLogger;
+  std::shared_ptr<ISink> testSink;
+
   void SetUp() override
   {
     g_uniformCalls = GLUniformCallState{};
     g_logMessages.clear();
+
+    oldModuleLogger = NE_GetModuleLogger();
+    testLogger = std::make_unique<Logger>( "GLRenderStreamInterpreterTest", Level::Trace );
+    testSink = std::make_shared<TestCaptureSink>();
+    testLogger->AddSink( testSink, Level::Trace );
+    NE_SetModuleLogger( testLogger.get() );
 
     oldUniform1fv = glUniform1fv;
     oldUniform2fv = glUniform2fv;
@@ -424,8 +436,6 @@ protected:
     glGetUniformLocation = &StubGetUniformLocation;
     glActiveTexture = &StubActiveTexture;
     glBindTexture = &StubBindTexture;
-
-    SetLogCallback( &CaptureLog );
   }
 
   void TearDown() override
@@ -455,7 +465,21 @@ protected:
     glActiveTexture = oldActiveTexture;
     glBindTexture = oldBindTexture;
 
-    SetLogCallback( nullptr );
+    if ( testLogger )
+    {
+      testLogger->Flush();
+    }
+    NE_SetModuleLogger( oldModuleLogger );
+    testSink.reset();
+    testLogger.reset();
+  }
+
+  void FlushCapturedLogs()
+  {
+    if ( testLogger )
+    {
+      testLogger->Flush();
+    }
   }
 };
 
@@ -513,6 +537,7 @@ TEST_F( GLRenderStreamInterpreterTest, HeaderWalkDispatchesAndSkipsUnknownPacket
     stream.Write( draw );
 
     rs.ExecuteStream( stream );
+    FlushCapturedLogs();
 
     EXPECT_EQ( 1, rs.drawCalls );
     EXPECT_EQ( 11u, rs.lastDrawCount );
@@ -733,6 +758,7 @@ TEST_F( GLRenderStreamInterpreterTest, SetSamplerNullTextureLogsWarningAndDoesNo
     stream.Write( packet );
 
     rs.ExecuteStream( stream );
+    FlushCapturedLogs();
 
     EXPECT_EQ( 0, g_uniformCalls.uniform1iCalls );
     EXPECT_FALSE( g_logMessages.empty() ) << "Null texture should emit warning log.";

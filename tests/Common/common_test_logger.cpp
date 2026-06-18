@@ -9,7 +9,7 @@ using namespace Nebulae;
 TEST( Logger, Log_EmptyStringParameter_IsNotAddedToLoggedMessages )
 {
   // arrange
-  Logger logger;
+  Logger logger{ "default", Level::Trace };
 
   // act
   logger.Log( "" );
@@ -22,7 +22,7 @@ TEST( Logger, Log_EmptyStringParameter_IsNotAddedToLoggedMessages )
 TEST( Logger, Log_NewLineString_IsAddedToLoggedMessages )
 {
   // arrange
-  Logger logger;
+  Logger logger{ "default", Level::Trace };
 
   // act
   logger.Log( "\n" );
@@ -34,7 +34,7 @@ TEST( Logger, Log_NewLineString_IsAddedToLoggedMessages )
 TEST( Logger, Log_StandardString_AddedToMessages )
 {
   // arrange
-  Logger logger;
+  Logger logger{ "default", Level::Trace };
 
   // act
   logger.Log( "Log a message!" );
@@ -46,7 +46,7 @@ TEST( Logger, Log_StandardString_AddedToMessages )
 TEST( Logger, Log_StandardStringWithExtraStringWhichIsNotReferenced_UnmodifiedStringAddedToMessages )
 {
   // arrange
-  Logger logger;
+  Logger logger{ "default", Level::Trace };
 
   // act
   logger.Log( "This message has numbers 123456", "second" );
@@ -63,7 +63,7 @@ TEST( Logger, Log_StandardStringWithExtraStringWhichIsNotReferenced_UnmodifiedSt
 TEST( Logger, Log_StandardStringWithExtraString_AddedToMessages )
 {
   // arrange
-  Logger logger;
+  Logger logger{ "default", Level::Trace };
 
   // act
   logger.Log( "Log a '%s' message!", "second" );
@@ -80,7 +80,7 @@ TEST( Logger, Log_StandardStringWithExtraString_AddedToMessages )
 TEST( Logger, Log_StandardStringWithExtraNumbers_AddedToMessages )
 {
   // arrange
-  Logger logger;
+  Logger logger{ "default", Level::Trace };
 
   // act
   logger.Log( "This message has numbers %d%d%d", 7, 8, 9 );

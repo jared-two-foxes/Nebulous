@@ -1,7 +1,7 @@
 #ifndef __NEBULAE_COMMON_ASSERT_H__
 #define __NEBULAE_COMMON_ASSERT_H__
 
-#include <Nebulae/Common/Log.h>
+#include <Nebulae/Common/Base/Log/Log.h>
 
 //----- The breakpoint ----
 #ifdef NE_DEBUG
@@ -38,16 +38,16 @@ public:
 // Keep NE_SOURCE_INFO for backward compatibility
 #define NE_SOURCE_INFO ""
 
-// Simplified assert macro using the new Log system
 #ifdef NE_DEBUG
-#define NE_ASSERT( condition, ... )                                   \
-  do                                                                  \
-  {                                                                   \
-    if ( !( condition ) )                                             \
-    {                                                                 \
-      Nebulae::Log( "ASSERT: " #condition " failed - " __VA_ARGS__ ); \
-      NE_BREAKPOINT;                                                  \
-    }                                                                 \
+#define NE_ASSERT( condition, ... )                                 \
+  do                                                                \
+  {                                                                 \
+    if ( !( condition ) )                                           \
+    {                                                               \
+      NE_LOG_ERROR( "Assert", "Assertion failed: {}", #condition ); \
+      __VA_OPT__( NE_LOG_ERROR( "Assert", __VA_ARGS__ ); )          \
+      NE_BREAKPOINT;                                                \
+    }                                                               \
   } while ( 0 )
 #else
 #define NE_ASSERT( condition, ... ) ( (void)0 )

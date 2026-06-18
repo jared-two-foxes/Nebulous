@@ -11,7 +11,7 @@ build --host_compiler=msvc
 # ============================================================================
 # COMPILATION FLAGS
 # ============================================================================
-# build --cxxopt=/std:c++14  # removed — each lib specifies its own standard
+build --cxxopt=/std:c++20
 build --cxxopt=/EHsc
 build --cxxopt=/MP
 build --copt=/W4
@@ -28,6 +28,7 @@ build:opt --linkopt=/OPT:ICF
 build --test_output=summary
 test --cxxopt=/EHsc
 test --cxxopt=/MP
+test --cxxopt=/std:c++20
 test:exhaustive --test_size_filters=small,medium,large
 
 

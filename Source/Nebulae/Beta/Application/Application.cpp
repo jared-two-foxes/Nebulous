@@ -5,6 +5,7 @@
 #include <Nebulae/Common/FileSystem/DiskFileDevice.h>
 #include <Nebulae/Common/FileSystem/ManifestDiskFileDevice.h>
 #include <Nebulae/Common/FileSystem/ZipFileDevice.h>
+#include <Nebulae/Common/Base/Log/Sinks/ConsoleSink.h>
 
 
 #include <Nebulae/Alpha/Alpha.h>
@@ -18,7 +19,11 @@ Application::Application()
   ///
   /// Default Constructor
   ///
-  : m_bInitialized( false ), m_pPlatform( NULL ), m_pMainWindow( NULL ), m_pRenderSystem( NULL )
+  : m_bInitialized( false ),
+    m_pPlatform( NULL ),
+    m_pMainWindow( NULL ),
+    m_pRenderSystem( NULL ),
+    m_logger( "Application", Nebulae::Level::Info )
 {
 }
 
@@ -44,7 +49,8 @@ void Application::Initiate( int w, int h )
   /// Creates the platform object.
   CreatePlatform();
 
-  m_logger.Register( std::cout, false );
+  m_logger.AddSink( std::make_shared<ConsoleSink>( false ) );
+  NE_SetModuleLogger( &m_logger );
 
   /// Create the main application sWindow and apply RenderSystem.
   Setup( w, h );
@@ -65,6 +71,7 @@ void Application::Destroy()
   m_pPlatform->DestroyWindow( m_pMainWindow );
   m_pMainWindow.reset();
   m_pPlatform.reset();
+  NE_SetModuleLogger( nullptr );
 
   // Flag Application as not being initialized
   m_bInitialized = false;

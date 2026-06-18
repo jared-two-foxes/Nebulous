@@ -22,7 +22,7 @@ cc_library(
     hdrs = glob(["**/*.h"]),
     includes = ["../.."],
     copts = [
-        "/std:c++17",
+        "/std:c++20",
         "/D_CRT_SECURE_NO_WARNINGS",
         "/DWIN32",
     ],

@@ -1,7 +1,6 @@
 // main.cpp
 
 #include <Nebulae/Alpha/Plugin/PluginAccessor.h>
-#include <Nebulae/Common/Log.h>
 
 #include <Includes/RenderSystem_OGL.h>
 
@@ -21,4 +20,6 @@ NE_PLUGIN_EXPORT void DestroyRenderer( Nebulae::RenderSystem* renderer )
   renderer = nullptr;
 }
 
-NE_PLUGIN_EXPORT void SetLogCallback( Nebulae::LogCallback cb ) { Nebulae::SetLogCallback( cb ); }
+// We could extend this to allow for setting multiple loggers or a logger factory, but for now this is sufficient to
+// allow the application to pass a logger to
+NE_PLUGIN_EXPORT void SetLogger( Nebulae::Logger* logger ) { NE_SetModuleLogger( logger ); }

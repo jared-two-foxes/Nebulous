@@ -45,8 +45,8 @@ template <class T> const std::vector<T*>& ResourceFactory<T>::GetResources() con
 
 template <class T> T* ResourceFactory<T>::FindByIdentifier( int32 identifier ) const
 {
-  std::vector<T*>::const_iterator end_it = m_resources.end();
-  for ( std::vector<T*>::const_iterator it = m_resources.begin(); it != end_it; ++it )
+  auto end_it = m_resources.end();
+  for ( auto it = m_resources.begin(); it != end_it; ++it )
   {
     if ( ( *it )->GetIdentifier() == identifier )
     {
@@ -59,8 +59,8 @@ template <class T> T* ResourceFactory<T>::FindByIdentifier( int32 identifier ) c
 
 template <class T> T* ResourceFactory<T>::FindByName( const char* name ) const
 {
-  std::vector<T*>::const_iterator end_it = m_resources.end();
-  for ( std::vector<T*>::const_iterator it = m_resources.begin(); it != end_it; ++it )
+  auto end_it = m_resources.end();
+  for ( auto it = m_resources.begin(); it != end_it; ++it )
   {
     if ( ( *it )->GetName().compare( name ) == 0 )
     {

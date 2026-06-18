@@ -3,7 +3,6 @@
 
 #include <Nebulae/Common/Base/Base.h>
 #include <Nebulae/Common/Config.h>
-#include <Nebulae/Common/Log.h>
 
 #include <Nebulae/Common/Math/Math.h>
 
@@ -14,7 +13,6 @@
 #include <Nebulae/Common/FileSystem/FileDevice.h>
 
 #include <Nebulae/Common/Singleton/Singleton.h>
-#include <Nebulae/Common/Logger/Logger.h>
 #include <Nebulae/Common/Serialize/JsonUtil.h>
 
 #include <Nebulae/Common/Window/KeyCodes.h>

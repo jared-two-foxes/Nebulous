@@ -3,8 +3,6 @@
 
 #include <Nebulae/Alpha/Alpha.h>
 
-#include <Nebulae/Common/Logger/Logger.h>
-
 #include <Nebulae/Alpha/Buffer/HardwareBuffer.h>
 #include <Nebulae/Alpha/InputLayout/InputLayout.h>
 #include <Nebulae/Alpha/RenderSystem/OperationType.h>
@@ -22,11 +20,9 @@
 namespace Nebulae
 {
 
-
 class FileSystem;
 class ProgramObject;
 class Window;
-
 
 /** RenderSystem.
  */
@@ -124,8 +120,8 @@ public:
 
     if ( base.type != UniformTypeTraits<T>::value )
     {
-      NE_LOG( "Type mismatch for uniform '%s': expected %s, but found %s", name,
-              GetUniformTypeName( UniformTypeTraits<T>::value ), GetUniformTypeName( base.type ) );
+      NE_LOG_WARN( "RenderSystem", "Type mismatch for uniform '%s': expected %s, but found %s", name,
+                   GetUniformTypeName( UniformTypeTraits<T>::value ), GetUniformTypeName( base.type ) );
       return UniformDefinition<T>();
     }
 
@@ -140,7 +136,7 @@ public:
   {
     if ( !def.IsValid() )
     {
-      NE_LOG_WARNING( "Attempting to set invalid uniform" );
+      NE_LOG_WARN( "RenderSystem", "Attempting to set invalid uniform" );
       return;
     }
 

@@ -24,7 +24,7 @@ class Window;
 // Define a type for the static function pointer.
 NE_EXTERN typedef RenderSystem* ( *LPFNCREATERENDERDEVICE )( std::shared_ptr<FileSystem>, std::shared_ptr<Window> );
 NE_EXTERN typedef void ( *LPFNDESTROYRENDERDEVICE )( RenderSystem* );
-NE_EXTERN typedef void ( *LPFNSETLOGCALLBACK )( LogCallback );
+NE_EXTERN typedef void ( *LPFNSETLOGGER )( Logger* );
 
 // Plugin details structure that's exposed to the application.
 struct PluginDetails

@@ -1,7 +1,6 @@
 
 #include "Includes/RenderSystem_OGL.h"
 
-#include <Nebulae/Common/Log.h>
 #include <Nebulae/Common/Window/Win32/Win32Window.h>
 #include <fstream>
 #include <iomanip>
@@ -74,7 +73,7 @@ const std::string& RenderSystem_OGL::GetName() const { return m_name; }
 
 bool RenderSystem_OGL::Initiate()
 {
-  Nebulae::Log( "RenderSystem_OGL::Initiate() entered" );
+  NE_LOG_TRACE( "RenderSystem", "Initiate() entered" );
   BYTE bits = 32;
 
   // pfd Tells Windows How We Want Things To Be
@@ -405,7 +404,7 @@ void RenderSystem_OGL::DrawIndexed( std::size_t iIndexCount, std::size_t iStartI
 
 void RenderSystem_OGL::SetBufferBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, HardwareBuffer* /*pImpl*/ )
 {
-  Nebulae::Log( "RenderSystem_OGL::SetBufferBinding() not yet implemented" );
+  NE_LOG_ERROR( "RenderSystem", "SetBufferBinding() not yet implemented" );
   NE_BREAKPOINT;
 }
 
@@ -424,7 +423,7 @@ UniformDefinitionBase RenderSystem_OGL::GetUniformImpl( const char* name ) const
 
 void RenderSystem_OGL::SetSamplerBinding( uint32 /*iTarget*/, uint32 /*iIndex*/, Sampler* /*pImpl*/ )
 {
-  Nebulae::Log( "RenderSystem_OGL::SetSamplerBinding() not yet implemented" );
+  NE_LOG_ERROR( "RenderSystem", "SetSamplerBinding() not yet implemented" );
 }
 
 
@@ -539,7 +538,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     // Check if there's enough data for the header
     if ( offset + sizeof( PacketHeader ) > size )
     {
-      NE_LOG_WARNING( "RenderStream: insufficient data for packet header at offset %zu", offset );
+      NE_LOG_WARN( "RenderSystem", "insufficient data for packet header at offset %zu", offset );
       break;
     }
 
@@ -548,7 +547,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     // Check if the packet fits in the stream
     if ( offset + header->size > size )
     {
-      NE_LOG_WARNING( "RenderStream: packet at offset %zu exceeds stream size (header.size=%u)", offset, header->size );
+      NE_LOG_WARN( "RenderSystem", "packet at offset %zu exceeds stream size (header.size=%u)", offset, header->size );
       break;
     }
 
@@ -621,7 +620,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
         glUniformMatrix4fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
         break;
       default:
-        NE_LOG_WARNING( "Unknown uniform type %d in ExecuteStream", write.type );
+        NE_LOG_WARN( "RenderSystem", "Unknown uniform type %d in ExecuteStream", write.type );
         break;
       }
       CheckForGLError();
@@ -635,7 +634,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 
       if ( write.tex == nullptr )
       {
-        NE_LOG_WARNING( "Null texture in PT_SetSampler" );
+        NE_LOG_WARN( "RenderSystem", "Null texture in PT_SetSampler" );
         break;
       }
 
@@ -657,7 +656,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     break;
 
     default:
-      NE_LOG_WARNING( "Unknown packet type %d in ExecuteStream", header->type );
+      NE_LOG_WARN( "RenderSystem", "Unknown packet type %d in ExecuteStream", header->type );
       break;
     }
 

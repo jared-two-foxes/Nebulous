@@ -75,11 +75,6 @@ void ExampleScreen::Enter( StateStack* /*caller*/ )
   Real aspect = fabsf( 800.f / 600.f );
   m_camera->SetPerspective( gDegreesToRadians * 90.0f, aspect, 0.1f, 1000.0f );
 
-  static std::ofstream logFile( "nebulous_debug.log" );
-  logFile << std::unitbuf;
-  Logger::Get().Register( logFile, true );
-  NE_LOG( "NE_LOG: Debug logging initialized. Logging to nebulous_debug.log" );
-
   HardwareBuffer* buffer = m_renderSystem->FindBufferByName( "CubeBuffer" );
   if ( NULL == buffer )
   {

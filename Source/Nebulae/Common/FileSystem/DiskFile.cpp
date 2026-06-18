@@ -21,7 +21,7 @@ DiskFile::DiskFile( const std::string& filename, bool bReadOnly ) : File()
   {
     if ( bReadOnly )
     {
-      NE_LOG( "Requested path, %s, does not exist!", filename.c_str() );
+      NE_LOG_INFO( "Requested path, %s, does not exist!", filename.c_str() );
       return;
     }
 

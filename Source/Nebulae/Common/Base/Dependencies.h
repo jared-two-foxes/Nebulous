@@ -4,9 +4,12 @@
 // Std header includes
 #include <assert.h>
 #include <cctype>
+#include <cstdarg>
+#include <cstdint>
 #include <cmath>
 #include <cstring>
-#include <string.h>
+#include <ctime>
+#include <source_location>
 
 // IO Streams
 #include <fstream>
@@ -18,18 +21,25 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <deque>
 #include <queue>
 #include <set>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 // STL algorithms & functions
 #include <algorithm>
+#include <atomic>
 #include <chrono> // cpp11
+#include <condition_variable>
 #include <functional>
+#include <future>
 #include <limits>
-#include <random>        // cpp11
-#include <unordered_map> //cpp11
+#include <mutex>
+#include <random> // cpp11
+#include <thread>
+#include <utility>
 
 // boost includes
 #include <boost/any.hpp>

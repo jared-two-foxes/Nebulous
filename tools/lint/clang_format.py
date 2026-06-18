@@ -6,14 +6,16 @@ import sys
 import os
 from pathlib import Path
 
+
 def check_tool_available(tool_name):
     """Check if a tool is available on PATH"""
     result = subprocess.run(
         ["which" if sys.platform != "win32" else "where", tool_name],
         capture_output=True,
-        text=True
+        text=True,
     )
     return result.returncode == 0
+
 
 def get_workspace_root():
     """Get workspace root, handling both direct python and bazel run usage."""
@@ -21,6 +23,7 @@ def get_workspace_root():
     if workspace:
         return workspace
     return os.getcwd()
+
 
 def main():
     if not check_tool_available("clang-format"):
@@ -46,11 +49,11 @@ def main():
             for file in files:
                 if file.endswith((".cpp", ".h", ".hpp", ".cc")):
                     filepath = os.path.join(root, file)
-                    print(f"  Formatting: {filepath}")
                     subprocess.run(["clang-format", "-i", filepath], check=True)
 
     print("Formatting complete!")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

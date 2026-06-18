@@ -1,7 +1,6 @@
 
 #include "Includes/ProgramObject.h"
 #include "Includes/HardwareShaderImpl_OGL.h"
-#include <Nebulae/Common/Log.h>
 
 PFNGLATTACHSHADERPROC glAttachShader = NULL;
 PFNGLCREATEPROGRAMPROC glCreateProgram = NULL;
@@ -150,7 +149,7 @@ bool ProgramObject::Load()
     msg += szLog;
     delete[] szLog;
 
-    Nebulae::Log( "%s", msg.c_str() );
+    NE_LOG_ERROR( "RenderSystem", "%s", msg.c_str() );
 
     return false;
   }

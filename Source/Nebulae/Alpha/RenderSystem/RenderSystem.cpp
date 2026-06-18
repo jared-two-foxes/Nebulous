@@ -163,7 +163,7 @@ HardwareShader* RenderSystem::CreateShader( const std::string& identifier, Hardw
       File* file = m_fileSystem->Open( NE_DEFAULT_ROOTDEVICE, identifier );
       if ( file == nullptr )
       {
-        NE_LOG( "CreateShader: failed to open file '%s'", identifier.c_str() );
+        NE_LOG_WARN( "RenderSystem", "CreateShader: failed to open file '%s'", identifier.c_str() );
       }
       shader->Load( file );
     }
@@ -180,7 +180,12 @@ Texture* RenderSystem::CreateTexture( const std::string& identifier, bool should
     texture->SetImpl( CreateTextureImpl( identifier ) );
     if ( shouldLoad )
     {
-      texture->Load( m_fileSystem->Open( NE_DEFAULT_ROOTDEVICE, identifier ) );
+      File* file = m_fileSystem->Open( NE_DEFAULT_ROOTDEVICE, identifier );
+      if ( file == nullptr )
+      {
+        NE_LOG_WARN( "RenderSystem", "CreateTexture: failed to open file '%s'", identifier.c_str() );
+      }
+      texture->Load( file );
     }
   }
 

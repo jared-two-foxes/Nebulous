@@ -88,16 +88,12 @@ std::shared_ptr<Nebulae::RenderSystem> CreateRenderSystem( RenderSystemType type
       throw std::runtime_error(
         "Plugin ABI version mismatch." ); // Expected %s, got %s.", NE_PLUGIN_API_VERSION, info->apiVersion ) );
 
-    // Set up log callback for the DLL
-    Nebulae::LPFNSETLOGCALLBACK SetLogCb;
-    lib.Symbol( "SetLogCallback", (void**)&SetLogCb );
-    if ( SetLogCb != nullptr )
-    {
-      SetLogCb( Nebulae::DllFileCallback );
-    }
-
     Nebulae::LPFNCREATERENDERDEVICE CreateRenderDevice;
     lib.Symbol( "CreateRenderer", (void**)&CreateRenderDevice );
+
+    Nebulae::LPFNSETLOGGER SetLoggerFunc;
+    lib.Symbol( "SetLogger", (void**)&SetLoggerFunc );
+    SetLoggerFunc( NE_GetModuleLogger() );
 
     return std::shared_ptr<Nebulae::RenderSystem>( CreateRenderDevice( fileSystem, window ) );
   }

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_UNIFORMTYPEHELPERS_H__
-#define NEBULAE_ALPHA_UNIFORMTYPEHELPERS_H__
+#ifndef NEBULAE_ALPHA_UNIFORMTYPEHELPERS_H_
+#define NEBULAE_ALPHA_UNIFORMTYPEHELPERS_H_
 
 #include <cstddef>
 #include <Nebulae/Alpha/Shaders/UniformType.h>
@@ -135,4 +135,4 @@ constexpr inline std::size_t GetUniformPayloadBytes( UniformType type, std::size
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_UNIFORMTYPEHELPERS_H__
+#endif // NEBULAE_ALPHA_UNIFORMTYPEHELPERS_H_

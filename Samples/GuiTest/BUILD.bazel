@@ -18,5 +18,6 @@ cc_binary(
         allow_empty = True,
     ) + ["//RenderSystems/GL:nebulous_gl3"],
     linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    visibility = ["//visibility:public"],
     deps = ["//Source/Nebulae:nebulae"],
 )

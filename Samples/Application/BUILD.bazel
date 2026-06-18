@@ -10,5 +10,6 @@ cc_binary(
     srcs = glob(["*.cpp", "*.h"]),
     data = glob(["*.vsh", "*.fsh"]) + ["//RenderSystems/GL:nebulous_gl3"],
     linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    visibility = ["//visibility:public"],
     deps = ["//Source/Nebulae:nebulae"],
 )

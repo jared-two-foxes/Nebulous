@@ -6,6 +6,8 @@ lib/
 Projects/
 share/
 _build/
+scratch/
+.session_note.md
 
 # Bazel build system
 bazel-bin

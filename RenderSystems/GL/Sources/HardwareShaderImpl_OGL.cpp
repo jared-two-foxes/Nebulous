@@ -2,7 +2,6 @@
 
 #include <Nebulae/Alpha/Texture/Texture.h>
 #include <Nebulae/Common/FileSystem/FileSystem.h>
-#include <Nebulae/Common/Log.h>
 
 
 PFNGLCOMPILESHADERPROC glCompileShader = NULL;
@@ -96,7 +95,7 @@ bool HardwareShaderImpl_OGL::Load( File& is )
     msg += szLog;
     delete[] szLog;
 
-    Nebulae::Log( "%s", msg.c_str() );
+    NE_LOG_ERROR( "RenderSystem", "%s", msg.c_str() );
 
     glDeleteShader( m_iHandle );
 

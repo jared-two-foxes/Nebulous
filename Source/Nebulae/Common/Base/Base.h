@@ -6,6 +6,10 @@
 #include <Nebulae/Common/Base/Scalar.h>
 
 #include <Nebulae/Common/Base/Macro.h>
+#include <Nebulae/Common/Base/Log/Log.h>
+#include <Nebulae/Common/Base/Log/Sinks/ConsoleSink.h>
+#include <Nebulae/Common/Base/Log/Sinks/FileSink.h>
+#include <Nebulae/Common/Base/Log/Sinks/DebugOutputSink.h>
 
 #include <Nebulae/Common/Base/Assert.h>
 

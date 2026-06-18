@@ -135,7 +135,8 @@ File* ManifestDiskFileDevice::Open( const std::string& path, FileSystem::Mode mo
   File* result = m_fallback->Open( path, mode );
   if ( result == nullptr )
   {
-    NE_LOG( "ManifestDiskFileDevice::Open: failed to resolve '%s' (manifest and fallback both failed)", path.c_str() );
+    NE_LOG_INFO( "ManifestDiskFileDevice::Open: failed to resolve '%s' (manifest and fallback both failed)",
+                 path.c_str() );
   }
   return result;
 }

@@ -21,5 +21,6 @@ cc_binary(
         "textured_quad_ps.glsl",
     ] + ["//RenderSystems/GL:nebulous_gl3"],
     linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    visibility = ["//visibility:public"],
     deps = [":quad_resources"],
 )

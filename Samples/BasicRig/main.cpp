@@ -70,6 +70,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nCmdShow )
 {
+  Logger logger( "Application", Level::Trace );
+  logger.AddSink( std::make_shared<FileSink>( "nebulous_debug.log" ), Level::Trace );
+  logger.AddSink( std::make_shared<ConsoleSink>(), Level::Warning );
+  NE_SetModuleLogger( &logger );
+  NE_LOG_TRACE( "Application", "Debug logging initialized. Logging to nebulous_debug.log" );
+
   // Setup engine required platforming systems.
   Win32Utils::InitiateOS();
 

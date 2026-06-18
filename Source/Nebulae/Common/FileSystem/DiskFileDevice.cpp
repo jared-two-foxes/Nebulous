@@ -70,7 +70,7 @@ File* DiskFileDevice::Open( const std::string& path, FileSystem::Mode mode )
     }
   }
 
-  NE_LOG( "DiskFileDevice::Open: file not found '%s' (tried disk and manifest)", path.c_str() );
+  NE_LOG_INFO( "DiskFileDevice::Open: file not found '%s' (tried disk and manifest)", path.c_str() );
   return nullptr;
 }
 

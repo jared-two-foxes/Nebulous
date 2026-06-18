@@ -71,6 +71,7 @@ cc_binary(
     srcs = glob(["*.cpp", "*.h"], allow_empty = True),
     data = glob(["*.glsl", "*.vsh", "*.fsh", "*.png"], allow_empty = True) + ["//RenderSystems/GL:nebulous_gl3"],
     linkopts = ["/SUBSYSTEM:WINDOWS", "/ENTRY:WinMainCRTStartup"],
+    visibility = ["//visibility:public"],
     deps = [
         ":entity_components",
         ":entity_core",
