@@ -5,8 +5,8 @@
 //  Created by jessica mccormack on 16/11/13.
 //  Copyright (c) 2013 jessica mccormack. All rights reserved.
 //
-#ifndef __NEBULAE_EAGL2VIEWCONTROLLER_H__
-#define __NEBULAE_EAGL2VIEWCONTROLLER_H__
+#ifndef NEBULAE_RENDERSYSTEMS_GLES2_EAGL_EAGLVIEWCONTROLLER_H_
+#define NEBULAE_RENDERSYSTEMS_GLES2_EAGL_EAGLVIEWCONTROLLER_H_
 
 #ifdef __OBJC__
 
@@ -32,4 +32,4 @@ class TouchesDelegate;
 
 #endif // __OBJC__
 
-#endif // __NEBULAE_EAGL2VIEWCONTROLLER_H__
+#endif // NEBULAE_RENDERSYSTEMS_GLES2_EAGL_EAGLVIEWCONTROLLER_H_

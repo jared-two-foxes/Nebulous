@@ -1,8 +1,8 @@
 /** \file Box.h \brief Contains the utility class Box, which represents a simple
     box in Nebulae. */
 
-#ifndef __NEBULAE_COMMON_PIXELBOX_H__
-#define __NEBULAE_COMMON_PIXELBOX_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_PIXEL_PIXELBOX_H_
+#define NEBULAE_SOURCE_NEBULAE_COMMON_PIXEL_PIXELBOX_H_
 
 namespace Nebulae
 {
@@ -113,4 +113,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_COMMON_PIXELBOX_H__
+#endif // NEBULAE_SOURCE_NEBULAE_COMMON_PIXEL_PIXELBOX_H_

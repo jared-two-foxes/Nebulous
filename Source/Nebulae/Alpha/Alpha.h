@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_H__
-#define NEBULAE_ALPHA_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_ALPHA_ALPHA_H_
+#define NEBULAE_SOURCE_NEBULAE_ALPHA_ALPHA_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -23,4 +23,4 @@ std::shared_ptr<Nebulae::RenderSystem> CreateRenderSystem( RenderSystemType type
                                                            std::shared_ptr<Nebulae::Window> window );
 
 
-#endif // NEBULAE_ALPHA_H__
+#endif // NEBULAE_SOURCE_NEBULAE_ALPHA_ALPHA_H_

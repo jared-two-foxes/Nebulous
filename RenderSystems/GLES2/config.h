@@ -1,5 +1,5 @@
-#ifndef NE_GLES2_CONFIG_H__
-#define NE_GLES2_CONFIG_H__
+#ifndef NEBULAE_RENDERSYSTEMS_GLES2_CONFIG_H_
+#define NEBULAE_RENDERSYSTEMS_GLES2_CONFIG_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -13,4 +13,4 @@
 
 bool CheckForGLESError();
 
-#endif // NE_GLES2_CONFIG_H__
+#endif // NEBULAE_RENDERSYSTEMS_GLES2_CONFIG_H_

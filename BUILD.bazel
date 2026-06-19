@@ -32,12 +32,27 @@ alias(
     visibility = ["//visibility:public"],
 )
 
+# Build all currently enabled samples
+filegroup(
+    name = "all_samples",
+    srcs = [
+        "//Samples/AlphaQuad:alpha_quad",
+        "//Samples/Application:application",
+        "//Samples/BasicRig:basic_rig",
+        #"//Samples/Entity:entity",
+        #"//Samples/GuiTest:gui_test",
+        "//Samples/Simple:simple",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 # Top-level aggregator: bazel build //... builds everything available
-# RenderSystems plugins and Samples will be added in Phases 5 and 6.
+# Includes engine libraries and all enabled samples.
 filegroup(
     name = "all",
     srcs = [
         ":engine_libs",
+        ":all_samples",
     ],
     visibility = ["//visibility:public"],
 )
@@ -58,6 +73,20 @@ alias(
 alias(
     name = "buildifier_fix",
     actual = "@buildifier_prebuilt//:buildifier",
+)
+
+# ============================================================================
+# COMPILE COMMANDS (for clangd / clang-tidy)
+# ============================================================================
+load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+
+refresh_compile_commands(
+    name = "refresh_compile_commands",
+    targets = {
+        "//:engine_libs": "",
+        "//tests:all_tests": "",
+        "//:all_samples": "",
+    },
 )
 
 # ============================================================================

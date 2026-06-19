@@ -15,8 +15,8 @@ software.
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef __TRANSFORM_H__
-#define __TRANSFORM_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_MATH_TRANSFORM_H_
+#define NEBULAE_SOURCE_NEBULAE_COMMON_MATH_TRANSFORM_H_
 
 
 /**@brief The btTransform class supports rigid transforms with only translation and rotation and no scaling/shear.
@@ -208,4 +208,4 @@ inline bool operator==( const Transform& t1, const Transform& t2 )
   return ( t1.getBasis() == t2.getBasis() && t1.getOrigin() == t2.getOrigin() );
 }
 
-#endif // BT_TRANSFORM_H
+#endif // NEBULAE_SOURCE_NEBULAE_COMMON_MATH_TRANSFORM_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_GL_CONFIG_H__
-#define NEBULAE_ALPHA_GL_CONFIG_H__
+#ifndef NEBULAE_RENDERSYSTEMS_GL_CONFIG_H_
+#define NEBULAE_RENDERSYSTEMS_GL_CONFIG_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -17,4 +17,4 @@
 
 bool CheckForGLError();
 
-#endif // NEBULAE_ALPHA_CONFIG_H__
+#endif // NEBULAE_RENDERSYSTEMS_GL_CONFIG_H_

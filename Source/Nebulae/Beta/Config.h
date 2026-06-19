@@ -1,6 +1,6 @@
 //  Nebulae/Beta/Config.hpp  ---------------------------------------------------//
 
-#ifndef NE_BETA_CONFIG_H
-#define NE_BETA_CONFIG_H
+#ifndef NEBULAE_SOURCE_NEBULAE_BETA_CONFIG_H_
+#define NEBULAE_SOURCE_NEBULAE_BETA_CONFIG_H_
 
-#endif // NE_BETA_CONFIG_H
+#endif // NEBULAE_SOURCE_NEBULAE_BETA_CONFIG_H_

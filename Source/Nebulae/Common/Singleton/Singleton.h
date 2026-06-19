@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_COMMON_SINGLETON_H__
-#define __NEBULAE_COMMON_SINGLETON_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_SINGLETON_SINGLETON_H_
+#define NEBULAE_SOURCE_NEBULAE_COMMON_SINGLETON_SINGLETON_H_
 
 #include <Nebulae/Common/Base/Base.h>
 
@@ -51,4 +51,4 @@ template <typename T> T* Singleton<T>::ms_instance = nullptr;
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_COMMON_SINGLETON_H__
+#endif // NEBULAE_SOURCE_NEBULAE_COMMON_SINGLETON_SINGLETON_H_

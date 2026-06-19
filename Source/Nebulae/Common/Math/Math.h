@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_COMMON_MATH_H__
-#define __NEBULAE_COMMON_MATH_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_MATH_MATH_H_
+#define NEBULAE_SOURCE_NEBULAE_COMMON_MATH_MATH_H_
 
 #include <Nebulae/Common/Math/Vector2.h>
 #include <Nebulae/Common/Math/Vector4.h>
@@ -11,4 +11,4 @@
 #include <Nebulae/Common/Math/Matrix3.inl>
 #include <Nebulae/Common/Math/Matrix4.inl>
 
-#endif // __NEBULAE_COMMON_MATH_H__
+#endif // NEBULAE_SOURCE_NEBULAE_COMMON_MATH_MATH_H_

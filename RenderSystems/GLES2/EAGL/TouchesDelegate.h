@@ -5,8 +5,8 @@
 //  Created by jessica mccormack on 6/02/13.
 //  Copyright 2013 auckland university. All rights reserved.
 //
-#ifndef __NEBULAE_TOUCHESDELEGATE_H__
-#define __NEBULAE_TOUCHESDELEGATE_H__
+#ifndef NEBULAE_RENDERSYSTEMS_GLES2_EAGL_TOUCHESDELEGATE_H_
+#define NEBULAE_RENDERSYSTEMS_GLES2_EAGL_TOUCHESDELEGATE_H_
 
 #ifdef __OBJC__
 
@@ -46,4 +46,4 @@ private:
 
 #endif
 
-#endif // __NEBULAE_TOUCHESDELEGATE_H__
+#endif // NEBULAE_RENDERSYSTEMS_GLES2_EAGL_TOUCHESDELEGATE_H_

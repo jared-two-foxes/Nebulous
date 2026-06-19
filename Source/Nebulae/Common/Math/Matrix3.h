@@ -1,5 +1,5 @@
-#ifndef __MATRIX3_H__
-#define __MATRIX3_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_MATH_MATRIX3_H_
+#define NEBULAE_SOURCE_NEBULAE_COMMON_MATH_MATRIX3_H_
 
 /** @brief Basic 3x3 matrix.  Stored Row Major as 9 contiguous Real values.
  *
@@ -405,4 +405,4 @@ inline bool operator==( const Matrix3& m1, const Matrix3& m2 )
            m1[2][2] == m2[2][2] );
 }
 
-#endif // __MATRIX3_H__
+#endif // NEBULAE_SOURCE_NEBULAE_COMMON_MATH_MATRIX3_H_

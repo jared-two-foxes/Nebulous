@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_BETA_H__
-#define __NEBULAE_BETA_H__
+#ifndef NEBULAE_SOURCE_NEBULAE_BETA_BETA_H_
+#define NEBULAE_SOURCE_NEBULAE_BETA_BETA_H_
 
 /*
  *  The beta library represents the various classes and functions that make up the 'Nebulae'
@@ -19,4 +19,4 @@
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 
-#endif // __NEBULAE_BETA_H__
+#endif // NEBULAE_SOURCE_NEBULAE_BETA_BETA_H_

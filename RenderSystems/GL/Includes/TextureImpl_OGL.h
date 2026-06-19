@@ -1,5 +1,5 @@
-#ifndef __TEXTUREIMPL_OGL_H__
-#define __TEXTUREIMPL_OGL_H__
+#ifndef NEBULAE_RENDERSYSTEMS_GL_INCLUDES_TEXTUREIMPL_OGL_H_
+#define NEBULAE_RENDERSYSTEMS_GL_INCLUDES_TEXTUREIMPL_OGL_H_
 
 #include <Config.h>
 #include <Nebulae/Alpha/Texture/TextureImpl.h>
@@ -29,4 +29,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __TEXTUREIMPL_OGL_H__
+#endif // NEBULAE_RENDERSYSTEMS_GL_INCLUDES_TEXTUREIMPL_OGL_H_

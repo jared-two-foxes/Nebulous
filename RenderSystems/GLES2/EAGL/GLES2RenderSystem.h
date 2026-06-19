@@ -5,8 +5,8 @@
 //  Created by jessica mccormack on 6/02/13.
 //  Copyright 2013 auckland university. All rights reserved.
 //
-#ifndef __NEBULAE_GLES2_RENDERSYSTEM_H__
-#define __NEBULAE_GLES2_RENDERSYSTEM_H__
+#ifndef NEBULAE_RENDERSYSTEMS_GLES2_EAGL_GLES2RENDERSYSTEM_H_
+#define NEBULAE_RENDERSYSTEMS_GLES2_EAGL_GLES2RENDERSYSTEM_H_
 
 #include <Nebulae/Alpha/GLES2/config.h>
 #include <Nebulae/Alpha/Shared/RenderSystem/RenderSystem.h>
@@ -93,4 +93,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_GLES2_RENDERSYSTEM_H__
+#endif // NEBULAE_RENDERSYSTEMS_GLES2_EAGL_GLES2RENDERSYSTEM_H_
