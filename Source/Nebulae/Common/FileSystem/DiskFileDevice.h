@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_DISKFILEDEVICE_H__
-#define __NEBULAE_DISKFILEDEVICE_H__
+#ifndef NEBULAE_COMMON_FILESYSTEM_DISKFILEDEVICE_H_
+#define NEBULAE_COMMON_FILESYSTEM_DISKFILEDEVICE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -24,4 +24,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_FILESYSTEM_H__
+#endif // NEBULAE_COMMON_FILESYSTEM_DISKFILEDEVICE_H_

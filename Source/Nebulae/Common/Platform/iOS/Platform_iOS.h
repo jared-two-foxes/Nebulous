@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_PLATFORM_iOS_H__
-#define __NEBULAE_PLATFORM_iOS_H__
+#ifndef NEBULAE_COMMON_PLATFORM_IOS_PLATFORM_IOS_H_
+#define NEBULAE_COMMON_PLATFORM_IOS_PLATFORM_IOS_H_
 
 #include <Nebulae/Beta/Platform/Platform.h>
 #include <Nebulae/Common/Base/Base.h>
@@ -22,4 +22,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_PLATFORM_iOS_H__
+#endif // NEBULAE_COMMON_PLATFORM_IOS_PLATFORM_IOS_H_

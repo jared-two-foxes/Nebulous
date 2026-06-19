@@ -1,5 +1,5 @@
-#ifndef COMMON_LOG_ISINK_H__
-#define COMMON_LOG_ISINK_H__
+#ifndef NEBULAE_COMMON_BASE_LOG_ISINK_H_
+#define NEBULAE_COMMON_BASE_LOG_ISINK_H_
 
 #include <Nebulae/Common/Base/Log/LogRecord.h>
 
@@ -16,4 +16,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // COMMON_LOG_ISINK_H__
+#endif // NEBULAE_COMMON_BASE_LOG_ISINK_H_

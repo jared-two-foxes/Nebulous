@@ -1,5 +1,5 @@
-#ifndef NEBULAE_WIDGETSERIALIZER_H__
-#define NEBULAE_WIDGETSERIALIZER_H__
+#ifndef NEBULAE_BETA_GUI_WIDGETSERIALIZER_H_
+#define NEBULAE_BETA_GUI_WIDGETSERIALIZER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -37,4 +37,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_WIDGETSERIALIZER_H__
+#endif // NEBULAE_BETA_GUI_WIDGETSERIALIZER_H_

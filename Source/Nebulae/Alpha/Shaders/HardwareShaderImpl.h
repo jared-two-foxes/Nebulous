@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_HARDWARESHADERIMPL_H__
-#define NEBULAE_ALPHA_HARDWARESHADERIMPL_H__
+#ifndef NEBULAE_ALPHA_SHADERS_HARDWARESHADERIMPL_H_
+#define NEBULAE_ALPHA_SHADERS_HARDWARESHADERIMPL_H_
 
 #include <Nebulae/Alpha/Shaders/HardwareShader.h>
 #include <Nebulae/Alpha/Shaders/UniformDefinition.h>
@@ -28,4 +28,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_HARDWARESHADERIMPL_H__
+#endif // NEBULAE_ALPHA_SHADERS_HARDWARESHADERIMPL_H_

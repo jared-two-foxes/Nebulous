@@ -1,5 +1,5 @@
-#ifndef _SCALAR_H
-#define _SCALAR_H
+#ifndef NEBULAE_COMMON_BASE_SCALAR_H_
+#define NEBULAE_COMMON_BASE_SCALAR_H_
 
 
 #define _USE_MATH_DEFINES
@@ -22,4 +22,4 @@ typedef __m128 SimdFloat4;
 #endif
 
 
-#endif //_SCALAR_H
+#endif // NEBULAE_COMMON_BASE_SCALAR_H_

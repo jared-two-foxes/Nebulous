@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_MACRO_H__
-#define __NEBULAE_MACRO_H__
+#ifndef NEBULAE_COMMON_BASE_MACRO_H_
+#define NEBULAE_COMMON_BASE_MACRO_H_
 
 /// allows member functions to be made abstract. uses nonstandard C++ extensions provided by MSVC
 #define NE_ABSTRACT abstract
@@ -125,4 +125,4 @@
 #define NE_EXTERN // nothing
 #endif
 
-#endif // NEBULAE_MACRO_H__
+#endif // NEBULAE_COMMON_BASE_MACRO_H_

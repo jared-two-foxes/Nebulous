@@ -1,5 +1,5 @@
-#ifndef __STATES_SAMPLESTATE_H__
-#define __STATES_SAMPLESTATE_H__
+#ifndef NEBULAE_ENTITY_STATES_SAMPLESTATE_H_
+#define NEBULAE_ENTITY_STATES_SAMPLESTATE_H_
 
 #include <Nebulae/Beta/StateStack/State.h>
 #include <Nebulae/Common/Common.h>
@@ -49,4 +49,4 @@ public:
 
 } // namespace Sample
 
-#endif // __STATES_SAMPLESTATE_H__
+#endif // NEBULAE_ENTITY_STATES_SAMPLESTATE_H_

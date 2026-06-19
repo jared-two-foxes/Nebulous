@@ -1,5 +1,5 @@
-#ifndef __CORE_ENTITY_H__
-#define __CORE_ENTITY_H__
+#ifndef NEBULAE_ENTITY_CORE_ENTITY_H_
+#define NEBULAE_ENTITY_CORE_ENTITY_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -45,4 +45,4 @@ private:
 
 } // namespace Sample
 
-#endif // __CORE_ENTITY_H__
+#endif // NEBULAE_ENTITY_CORE_ENTITY_H_

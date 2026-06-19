@@ -28,8 +28,8 @@
     an OpenGL texture object; and the TextureManager class, which provides
     GUI-wide management of Texture objects. */
 
-#ifndef __NEBULAE_ALPHA_SUBTEXTURE_H__
-#define __NEBULAE_ALPHA_SUBTEXTURE_H__
+#ifndef NEBULAE_ALPHA_TEXTURE_SUBTEXTURE_H_
+#define NEBULAE_ALPHA_TEXTURE_SUBTEXTURE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -75,4 +75,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //__NEBULAE_ALPHA_SUBTEXTURE_H__
+#endif // NEBULAE_ALPHA_TEXTURE_SUBTEXTURE_H_

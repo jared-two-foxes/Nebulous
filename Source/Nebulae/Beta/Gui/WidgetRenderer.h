@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_BETA_GUI_WIDGETRENDERER_H__
-#define __NEBULAE_BETA_GUI_WIDGETRENDERER_H__
+#ifndef NEBULAE_BETA_GUI_WIDGETRENDERER_H_
+#define NEBULAE_BETA_GUI_WIDGETRENDERER_H_
 
 #include <Nebulae/Beta/Overlay/OverlayRenderer.h>
 
@@ -60,4 +60,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_BETA_GUI_WIDGETRENDERER_H__
+#endif // NEBULAE_BETA_GUI_WIDGETRENDERER_H_

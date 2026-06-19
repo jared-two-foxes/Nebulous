@@ -1,5 +1,5 @@
-#ifndef __APPLICATION_EXAMPLESCREEN_H__
-#define __APPLICATION_EXAMPLESCREEN_H__
+#ifndef NEBULAE_APPLICATION_EXAMPLESCREEN_H_
+#define NEBULAE_APPLICATION_EXAMPLESCREEN_H_
 
 #include <Nebulae/Beta/StateStack/State.h>
 #include <Nebulae/Common/Common.h>
@@ -49,4 +49,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __APPLICATION_EXAMPLESCREEN_H__
+#endif // NEBULAE_APPLICATION_EXAMPLESCREEN_H_

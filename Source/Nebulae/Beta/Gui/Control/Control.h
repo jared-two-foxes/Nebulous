@@ -3,8 +3,8 @@
  *  \brief Contains the Control class, the base class for all Gui controls.
  */
 
-#ifndef __CONTROL_H__
-#define __CONTROL_H__
+#ifndef NEBULAE_BETA_GUI_CONTROL_CONTROL_H_
+#define NEBULAE_BETA_GUI_CONTROL_CONTROL_H_
 
 #include <Nebulae/Beta/Gui/Widget.h>
 
@@ -65,4 +65,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __CONTROL_H__
+#endif // NEBULAE_BETA_GUI_CONTROL_CONTROL_H_

@@ -1,5 +1,5 @@
-#ifndef ANIMATIONCONTROL_H__
-#define ANIMATIONCONTROL_H__
+#ifndef NEBULAE_BETA_ANIMATION_ANIMATIONCONTROL_H_
+#define NEBULAE_BETA_ANIMATION_ANIMATIONCONTROL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -41,4 +41,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // ANIMATIONCONTROL_H__
+#endif // NEBULAE_BETA_ANIMATION_ANIMATIONCONTROL_H_

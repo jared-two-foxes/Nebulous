@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_SCENEGRAPH_H__
-#define __NEBULAE_SCENEGRAPH_H__
+#ifndef NEBULAE_BETA_SCENE_SCENEGRAPH_H_
+#define NEBULAE_BETA_SCENE_SCENEGRAPH_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -58,4 +58,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_SCENEGRAPH_H__
+#endif // NEBULAE_BETA_SCENE_SCENEGRAPH_H_

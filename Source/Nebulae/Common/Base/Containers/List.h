@@ -77,10 +77,8 @@
  ***/
 
 
-#ifdef LIST_H
-#error "Header included more than once"
-#endif
-#define LIST_H
+#ifndef NEBULAE_COMMON_BASE_CONTAINERS_LIST_H_
+#define NEBULAE_COMMON_BASE_CONTAINERS_LIST_H_
 
 
 /******************************************************************************
@@ -440,3 +438,5 @@ template <class T, size_t offset> TListDeclare<T, offset>::TListDeclare() : TLis
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //===================================
+
+#endif // NEBULAE_COMMON_BASE_CONTAINERS_LIST_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_BETA_MATERIAL_H__
-#define NEBULAE_BETA_MATERIAL_H__
+#ifndef NEBULAE_BETA_MATERIAL_MATERIAL_H_
+#define NEBULAE_BETA_MATERIAL_MATERIAL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -72,4 +72,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_BETA_MATERIAL_H__
+#endif // NEBULAE_BETA_MATERIAL_MATERIAL_H_

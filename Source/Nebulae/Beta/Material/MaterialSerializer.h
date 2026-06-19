@@ -1,5 +1,5 @@
-#ifndef NEBULAE_BETA_MATERIALSERIALIZER_H__
-#define NEBULAE_BETA_MATERIALSERIALIZER_H__
+#ifndef NEBULAE_BETA_MATERIAL_MATERIALSERIALIZER_H_
+#define NEBULAE_BETA_MATERIAL_MATERIALSERIALIZER_H_
 
 #include <Nebulae/Alpha/Shaders/HardwareShader.h>
 #include <Nebulae/Common/Common.h>
@@ -32,4 +32,4 @@ private:
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_BETA_MATERIAL_MATERIALSERIALIZER_H_

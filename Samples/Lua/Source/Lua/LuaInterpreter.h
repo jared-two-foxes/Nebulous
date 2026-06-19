@@ -1,5 +1,5 @@
-#ifndef __LUAINTERPRETER_H__
-#define __LUAINTERPRETER_H__
+#ifndef NEBULAE_LUA_SOURCE_LUA_LUAINTERPRETER_H_
+#define NEBULAE_LUA_SOURCE_LUA_LUAINTERPRETER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -36,4 +36,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __LUAINTERPRETER_H__
+#endif // NEBULAE_LUA_SOURCE_LUA_LUAINTERPRETER_H_

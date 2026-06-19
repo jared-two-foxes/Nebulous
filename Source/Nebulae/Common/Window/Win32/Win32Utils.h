@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_WINDOWUTILS_H__
-#define __NEBULAE_WINDOWUTILS_H__
+#ifndef NEBULAE_COMMON_WINDOW_WIN32_WIN32UTILS_H_
+#define NEBULAE_COMMON_WINDOW_WIN32_WIN32UTILS_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -32,4 +32,4 @@ bool TeardownOS();
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_
+#endif // NEBULAE_COMMON_WINDOW_WIN32_WIN32UTILS_H_

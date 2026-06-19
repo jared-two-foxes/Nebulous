@@ -2,8 +2,8 @@
 // JsonUtil.h
 //
 
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_SERIALIZE_JSONUTIL_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_SERIALIZE_JSONUTIL_H_
+#ifndef NEBULAE_COMMON_SERIALIZE_JSONUTIL_H_
+#define NEBULAE_COMMON_SERIALIZE_JSONUTIL_H_
 
 namespace Json
 {
@@ -235,4 +235,4 @@ template <typename T> T Nebulae::json_cast_with_default( const Json::Value& valu
   }
 }
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_SERIALIZE_JSONUTIL_H_
+#endif // NEBULAE_COMMON_SERIALIZE_JSONUTIL_H_

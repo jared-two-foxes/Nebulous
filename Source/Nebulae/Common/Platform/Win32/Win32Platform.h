@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_WIN32_PLATFORM_H__
-#define __NEBULAE_WIN32_PLATFORM_H__
+#ifndef NEBULAE_COMMON_PLATFORM_WIN32_WIN32PLATFORM_H_
+#define NEBULAE_COMMON_PLATFORM_WIN32_WIN32PLATFORM_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/Platform/Platform.h>
@@ -35,4 +35,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_WIN32_PLATFORM_H__
+#endif // NEBULAE_COMMON_PLATFORM_WIN32_WIN32PLATFORM_H_

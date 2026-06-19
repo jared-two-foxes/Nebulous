@@ -1,5 +1,5 @@
-#ifndef GUIINPUTLISTENER_H__
-#define GUIINPUTLISTENER_H__
+#ifndef NEBULAE_GUITEST_GUIINPUTLISTENER_H_
+#define NEBULAE_GUITEST_GUIINPUTLISTENER_H_
 
 #include <Nebulae/Beta/Gui/GuiManager.h>
 #include <Nebulae/Common/Common.h>
@@ -49,4 +49,4 @@ public:
 
 } // namespace Nebulae
 
-#endif GUIINPUTLISTENER_H__
+#endif // NEBULAE_GUITEST_GUIINPUTLISTENER_H_

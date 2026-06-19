@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_BASEPLATFORM_H__
-#define __NEBULAE_BASEPLATFORM_H__
+#ifndef NEBULAE_COMMON_PLATFORM_PLATFORM_H_
+#define NEBULAE_COMMON_PLATFORM_PLATFORM_H_
 
 #include <Nebulae/Common/Platform/Clock.h>
 #include <Nebulae/Common/Platform/Keyboard.h>
@@ -63,4 +63,4 @@ std::shared_ptr<Platform> CreateAndInitiatePlatform();
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_BASEPLATFORM_H__
+#endif // NEBULAE_COMMON_PLATFORM_PLATFORM_H_

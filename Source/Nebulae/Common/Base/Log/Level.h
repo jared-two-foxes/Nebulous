@@ -1,5 +1,5 @@
-#ifndef COMMON_LOG_LEVEL_H__
-#define COMMON_LOG_LEVEL_H__
+#ifndef NEBULAE_COMMON_BASE_LOG_LEVEL_H_
+#define NEBULAE_COMMON_BASE_LOG_LEVEL_H_
 
 #include <cstdint>
 
@@ -21,4 +21,4 @@ const char* LevelToString( Level level );
 
 } // namespace Nebulae
 
-#endif // COMMON_LOG_LEVEL_H__
+#endif // NEBULAE_COMMON_BASE_LOG_LEVEL_H_

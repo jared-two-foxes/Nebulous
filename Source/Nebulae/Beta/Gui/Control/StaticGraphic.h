@@ -3,8 +3,8 @@
  *  \brief Contains the StaticGraphic class, a fixed image control.
  */
 
-#ifndef __STATICGRAPHIC_H__
-#define __STATICGRAPHIC_H__
+#ifndef NEBULAE_BETA_GUI_CONTROL_STATICGRAPHIC_H_
+#define NEBULAE_BETA_GUI_CONTROL_STATICGRAPHIC_H_
 
 #include <Nebulae/Beta/Gui/Control/Control.h>
 
@@ -36,4 +36,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __STATICGRAPHIC_H__
+#endif // NEBULAE_BETA_GUI_CONTROL_STATICGRAPHIC_H_

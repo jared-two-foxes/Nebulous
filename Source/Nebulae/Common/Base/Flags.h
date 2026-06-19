@@ -26,8 +26,8 @@
 /** \file Flags.h \brief Contains Flags and related classes, used to ensure
     typesafety when using bitflags. */
 
-#ifndef _NEBULAE_FLAGS_H_
-#define _NEBULAE_FLAGS_H_
+#ifndef NEBULAE_COMMON_BASE_FLAGS_H_
+#define NEBULAE_COMMON_BASE_FLAGS_H_
 
 namespace Nebulae
 {
@@ -205,7 +205,7 @@ public:
   {
 #ifndef NDEBUG
     bool insert_successful =
-#endif
+#endif // NEBULAE_COMMON_BASE_FLAGS_H_
       m_flags.insert( flag ).second;
 #ifndef NDEBUG
     (void)insert_successful;
@@ -464,4 +464,4 @@ typename std::enable_if<is_flag_type<FlagType>::value, Flags<FlagType>>::type op
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_COMMON_BASE_FLAGS_H_

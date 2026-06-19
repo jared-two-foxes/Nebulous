@@ -1,8 +1,8 @@
 /** \file AlignmentFlags.h \brief Contains the Alignment flag type and the
     global alignment flag constants. **/
 
-#ifndef __NEBULAE_ALIGNMENTFLAGS_H__
-#define __NEBULAE_ALIGNMENTFLAGS_H__
+#ifndef NEBULAE_BETA_FONT_ALIGNMENTFLAGS_H_
+#define NEBULAE_BETA_FONT_ALIGNMENTFLAGS_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -21,4 +21,4 @@ extern const Alignment ALIGN_RIGHT;   ///< Aligned to right.
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_ALIGNMENTFLAGS_H__
+#endif // NEBULAE_BETA_FONT_ALIGNMENTFLAGS_H_

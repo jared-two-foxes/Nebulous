@@ -1,5 +1,5 @@
-#ifndef __CORE_ENTITYMANAGER_H__
-#define __CORE_ENTITYMANAGER_H__
+#ifndef NEBULAE_ENTITY_CORE_ENTITYPOOL_H_
+#define NEBULAE_ENTITY_CORE_ENTITYPOOL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -34,4 +34,4 @@ public:
 
 } // namespace Sample
 
-#endif // __CORE_ENTITYMANAGER_H__
+#endif // NEBULAE_ENTITY_CORE_ENTITYPOOL_H_

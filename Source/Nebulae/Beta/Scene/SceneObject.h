@@ -1,5 +1,5 @@
-#ifndef SCENEOBJECT_H__
-#define SCENEOBJECT_H__
+#ifndef NEBULAE_BETA_SCENE_SCENEOBJECT_H_
+#define NEBULAE_BETA_SCENE_SCENEOBJECT_H_
 
 #include <Nebulae/Beta/Scene/UniformParameters.h>
 #include <Nebulae/Common/Common.h>
@@ -68,4 +68,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // SCENEOBJECT_H__
+#endif // NEBULAE_BETA_SCENE_SCENEOBJECT_H_

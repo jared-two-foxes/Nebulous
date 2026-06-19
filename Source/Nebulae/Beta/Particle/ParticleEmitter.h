@@ -1,5 +1,5 @@
-#ifndef __PARTICLEEMITTER_H__
-#define __PARTICLEEMITTER_H__
+#ifndef NEBULAE_BETA_PARTICLE_PARTICLEEMITTER_H_
+#define NEBULAE_BETA_PARTICLE_PARTICLEEMITTER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -63,4 +63,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __PARTICLEEMITTER_H__
+#endif // NEBULAE_BETA_PARTICLE_PARTICLEEMITTER_H_

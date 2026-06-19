@@ -1,5 +1,5 @@
-#ifndef NEBULAE_COMMON_LOG_LOGREGISTRY_H
-#define NEBULAE_COMMON_LOG_LOGREGISTRY_H
+#ifndef NEBULAE_COMMON_BASE_LOG_LOGREGISTRY_H_
+#define NEBULAE_COMMON_BASE_LOG_LOGREGISTRY_H_
 
 #include <Nebulae/Common/Base/Dependencies.h>
 #include <Nebulae/Common/Base/Log/Level.h>
@@ -30,4 +30,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_COMMON_LOG_LOGREGISTRY_H
+#endif // NEBULAE_COMMON_BASE_LOG_LOGREGISTRY_H_

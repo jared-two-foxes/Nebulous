@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_AUDIOSOUNDINTERFACE_H__
-#define __NEBULAE_AUDIOSOUNDINTERFACE_H__
+#ifndef NEBULAE_AUDIO_AUDIOSOUNDINTERFACE_H_
+#define NEBULAE_AUDIO_AUDIOSOUNDINTERFACE_H_
 
 #include <Nebulae/Audio/AudioTrackParams.h>
 #include <Nebulae/Common/Common.h>
@@ -42,4 +42,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_AUDIOSOUNDINTERFACE_H__
+#endif // NEBULAE_AUDIO_AUDIOSOUNDINTERFACE_H_

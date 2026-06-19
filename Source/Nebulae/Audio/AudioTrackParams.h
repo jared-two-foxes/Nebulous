@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_AUDIOTRACKPARAMS_H__
-#define __NEBULAE_AUDIOTRACKPARAMS_H__
+#ifndef NEBULAE_AUDIO_AUDIOTRACKPARAMS_H_
+#define NEBULAE_AUDIO_AUDIOTRACKPARAMS_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -18,4 +18,4 @@ struct AudioTrackParams
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_AUDIOTRACKPARAMS_H__
+#endif // NEBULAE_AUDIO_AUDIOTRACKPARAMS_H_

@@ -26,8 +26,8 @@
 /** \file ZList.h \brief Contains the ZList class, which maintains the
     Z-/depth-position of Wnds for GUI. */
 
-#ifndef _NEBULAE_GUI_DepthList_h_
-#define _NEBULAE_GUI_DepthList_h_
+#ifndef NEBULAE_BETA_GUI_DEPTHLIST_H_
+#define NEBULAE_BETA_GUI_DEPTHLIST_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -111,4 +111,4 @@ private:
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_BETA_GUI_DEPTHLIST_H_

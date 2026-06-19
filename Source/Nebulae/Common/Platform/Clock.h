@@ -1,5 +1,5 @@
-#ifndef NEBULAE_BETA_CLOCK_H__
-#define NEBULAE_BETA_CLOCK_H__
+#ifndef NEBULAE_COMMON_PLATFORM_CLOCK_H_
+#define NEBULAE_COMMON_PLATFORM_CLOCK_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -33,4 +33,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_BETA_CLOCK_H__
+#endif // NEBULAE_COMMON_PLATFORM_CLOCK_H_

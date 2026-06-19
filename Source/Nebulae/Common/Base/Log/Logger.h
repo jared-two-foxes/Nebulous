@@ -1,5 +1,5 @@
-#ifndef NEBULAE_COMMON_LOG_LOGGER_H
-#define NEBULAE_COMMON_LOG_LOGGER_H
+#ifndef NEBULAE_COMMON_BASE_LOG_LOGGER_H_
+#define NEBULAE_COMMON_BASE_LOG_LOGGER_H_
 
 #include <Nebulae/Common/Base/Log/Level.h>
 #include <Nebulae/Common/Base/Log/ISink.h>
@@ -71,4 +71,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_COMMON_LOG_LOGGER_H
+#endif // NEBULAE_COMMON_BASE_LOG_LOGGER_H_

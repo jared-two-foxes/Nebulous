@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_TEXTUREIMPL_H__
-#define NEBULAE_ALPHA_TEXTUREIMPL_H__
+#ifndef NEBULAE_ALPHA_TEXTURE_TEXTUREIMPL_H_
+#define NEBULAE_ALPHA_TEXTURE_TEXTUREIMPL_H_
 
 #include <Nebulae/Alpha/Texture/Texture.h>
 
@@ -35,4 +35,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_TEXTURE_H__
+#endif // NEBULAE_ALPHA_TEXTURE_TEXTUREIMPL_H_

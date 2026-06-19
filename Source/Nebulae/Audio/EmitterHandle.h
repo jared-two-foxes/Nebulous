@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_EMITTERHANDLE_H__
-#define __NEBULAE_EMITTERHANDLE_H__
+#ifndef NEBULAE_AUDIO_EMITTERHANDLE_H_
+#define NEBULAE_AUDIO_EMITTERHANDLE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -51,4 +51,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_EMITTERHANDLE_H__
+#endif // NEBULAE_AUDIO_EMITTERHANDLE_H_

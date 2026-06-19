@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_FILEDEVICE_H__
-#define __NEBULAE_FILEDEVICE_H__
+#ifndef NEBULAE_COMMON_FILESYSTEM_FILEDEVICE_H_
+#define NEBULAE_COMMON_FILESYSTEM_FILEDEVICE_H_
 
 namespace Nebulae
 {
@@ -18,4 +18,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_FILESYSTEM_H__
+#endif // NEBULAE_COMMON_FILESYSTEM_FILEDEVICE_H_

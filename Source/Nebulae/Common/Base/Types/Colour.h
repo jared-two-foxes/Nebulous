@@ -26,8 +26,8 @@
 /** \file Colour.h \brief Contains the utility class Colour, which represents colors
     in Nebulae. */
 
-#ifndef _NEBULAE_COMMON_COLOUR_H_
-#define _NEBULAE_COMMON_COLOUR_H_
+#ifndef NEBULAE_COMMON_BASE_TYPES_COLOUR_H_
+#define NEBULAE_COMMON_BASE_TYPES_COLOUR_H_
 
 
 namespace Nebulae
@@ -78,4 +78,4 @@ inline bool operator!=( const Colour& rhs, const Colour& lhs ) { return !( rhs =
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_COMMON_BASE_TYPES_COLOUR_H_

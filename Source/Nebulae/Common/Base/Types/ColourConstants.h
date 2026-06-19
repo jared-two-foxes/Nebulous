@@ -25,8 +25,8 @@
 
 /** \file ColourConstants.h \brief Contains some useful constants of type Colour. */
 
-#ifndef _NEBULAE_COMMON_COLOURCONSTANTS_H_
-#define _NEBULAE_COMMON_COLOURCONSTANTS_H_
+#ifndef NEBULAE_COMMON_BASE_TYPES_COLOURCONSTANTS_H_
+#define NEBULAE_COMMON_BASE_TYPES_COLOURCONSTANTS_H_
 
 
 namespace Nebulae
@@ -47,4 +47,4 @@ extern const Colour CLR_MAGENTA;
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_COMMON_BASE_TYPES_COLOURCONSTANTS_H_

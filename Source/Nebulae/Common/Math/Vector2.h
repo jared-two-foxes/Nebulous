@@ -9,8 +9,8 @@
  *
  * Copyright (C) 2011 Song Ho Ahn
  */
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_MATH_VECTOR2_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_MATH_VECTOR2_H_
+#ifndef NEBULAE_COMMON_MATH_VECTOR2_H_
+#define NEBULAE_COMMON_MATH_VECTOR2_H_
 
 #include <Nebulae/Common/Base/Assert.h>
 #include <cmath>
@@ -182,4 +182,4 @@ inline std::ostream& operator<<( std::ostream& os, const Vector2& vec )
   return os;
 }
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_MATH_VECTOR2_H_
+#endif // NEBULAE_COMMON_MATH_VECTOR2_H_

@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_PLATFORM_H__
-#define __NEBULAE_PLATFORM_H__
+#ifndef NEBULAE_COMMON_BASE_PLATFORM_H_
+#define NEBULAE_COMMON_BASE_PLATFORM_H_
 
 
 //----------------------------------------------------------------------------
@@ -161,4 +161,4 @@ typedef char int8;
 #endif
 
 
-#endif // __NEBULAE_PLATFORM_H__
+#endif // NEBULAE_COMMON_BASE_PLATFORM_H_

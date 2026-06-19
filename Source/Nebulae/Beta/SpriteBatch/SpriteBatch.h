@@ -1,5 +1,5 @@
-#ifndef NEBULAE_BETA_SPRITEBATCH_H__
-#define NEBULAE_BETA_SPRITEBATCH_H__
+#ifndef NEBULAE_BETA_SPRITEBATCH_SPRITEBATCH_H_
+#define NEBULAE_BETA_SPRITEBATCH_SPRITEBATCH_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -123,4 +123,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_BETA_SPRITEBATCH_H__
+#endif // NEBULAE_BETA_SPRITEBATCH_SPRITEBATCH_H_

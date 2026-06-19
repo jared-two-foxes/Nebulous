@@ -1,5 +1,5 @@
-#ifndef __WIDGET_H__
-#define __WIDGET_H__
+#ifndef NEBULAE_BETA_GUI_WIDGET_H_
+#define NEBULAE_BETA_GUI_WIDGET_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/Window/KeyCodes.h>
@@ -467,4 +467,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __WIDGET_H__
+#endif // NEBULAE_BETA_GUI_WIDGET_H_

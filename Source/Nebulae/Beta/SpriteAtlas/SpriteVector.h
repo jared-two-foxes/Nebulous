@@ -1,5 +1,5 @@
-#ifndef __SPRITEVECTOR_H__
-#define __SPRITEVECTOR_H__
+#ifndef NEBULAE_BETA_SPRITEATLAS_SPRITEVECTOR_H_
+#define NEBULAE_BETA_SPRITEATLAS_SPRITEVECTOR_H_
 
 #include <Nebulae/Common/Base/Base.h>
 
@@ -15,4 +15,4 @@ struct SpriteVector
 
 } // namespace Nebulae
 
-#endif // __SPRITEVECTOR_H__
+#endif // NEBULAE_BETA_SPRITEATLAS_SPRITEVECTOR_H_

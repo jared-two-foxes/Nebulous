@@ -1,5 +1,5 @@
-#ifndef NEBULAE_COMMON_LOG_LOGRECORD_H
-#define NEBULAE_COMMON_LOG_LOGRECORD_H
+#ifndef NEBULAE_COMMON_BASE_LOG_LOGRECORD_H_
+#define NEBULAE_COMMON_BASE_LOG_LOGRECORD_H_
 
 #include <Nebulae/Common/Base/Dependencies.h>
 #include <Nebulae/Common/Base/Log/Level.h>
@@ -18,4 +18,4 @@ struct LogRecord
 
 } // namespace Nebulae
 
-#endif // NEBULAE_COMMON_LOG_LOGRECORD_H
+#endif // NEBULAE_COMMON_BASE_LOG_LOGRECORD_H_

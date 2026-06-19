@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_UNIFORMTYPETRAITS_H__
-#define NEBULAE_ALPHA_UNIFORMTYPETRAITS_H__
+#ifndef NEBULAE_ALPHA_SHADERS_UNIFORMTYPETRAITS_H_
+#define NEBULAE_ALPHA_SHADERS_UNIFORMTYPETRAITS_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Alpha/Shaders/UniformType.h>
@@ -69,4 +69,4 @@ template <> struct UniformTypeTraits<Texture*>
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_UNIFORMTYPETRAITS_H__
+#endif // NEBULAE_ALPHA_SHADERS_UNIFORMTYPETRAITS_H_

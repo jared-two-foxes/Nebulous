@@ -1,5 +1,5 @@
-#ifndef GEOMETRY_H__
-#define GEOMETRY_H__
+#ifndef NEBULAE_BETA_SCENE_GEOMETRY_H_
+#define NEBULAE_BETA_SCENE_GEOMETRY_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -35,4 +35,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // GEOMETRY_H__
+#endif // NEBULAE_BETA_SCENE_GEOMETRY_H_

@@ -1,5 +1,5 @@
-#ifndef __PARTICLEPOOL_H__
-#define __PARTICLEPOOL_H__
+#ifndef NEBULAE_BETA_PARTICLE_PARTICLEPOOL_H_
+#define NEBULAE_BETA_PARTICLE_PARTICLEPOOL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -29,4 +29,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __PARTICLEPOOL_H__
+#endif // NEBULAE_BETA_PARTICLE_PARTICLEPOOL_H_

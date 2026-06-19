@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_ALPHA_PASS_H__
-#define __NEBULAE_ALPHA_PASS_H__
+#ifndef NEBULAE_BETA_MATERIAL_PASS_H_
+#define NEBULAE_BETA_MATERIAL_PASS_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -36,4 +36,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_PASS_H__
+#endif // NEBULAE_BETA_MATERIAL_PASS_H_

@@ -1,7 +1,7 @@
 // sharedlibrary.h
 
-#ifndef NE_PLATFORM_SHAREDLIBRARY_H
-#define NE_PLATFORM_SHAREDLIBRARY_H
+#ifndef NEBULAE_COMMON_PLATFORM_SHAREDLIBRARY_H_
+#define NEBULAE_COMMON_PLATFORM_SHAREDLIBRARY_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -31,4 +31,4 @@ public:
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_COMMON_PLATFORM_SHAREDLIBRARY_H_

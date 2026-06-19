@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_GUI_WIDGETFACTORY_H__
-#define __NEBULAE_GUI_WIDGETFACTORY_H__
+#ifndef NEBULAE_BETA_GUI_WIDGETFACTORY_H_
+#define NEBULAE_BETA_GUI_WIDGETFACTORY_H_
 
 #include <Nebulae/Beta/Font/Font.h>
 #include <Nebulae/Beta/Gui/Widget.h>
@@ -111,4 +111,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_GUI_WIDGETFACTORY_H__
+#endif // NEBULAE_BETA_GUI_WIDGETFACTORY_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_STRING_UTIL_H__
-#define NEBULAE_STRING_UTIL_H__
+#ifndef NEBULAE_COMMON_BASE_STRINGUTIL_H_
+#define NEBULAE_COMMON_BASE_STRINGUTIL_H_
 
 namespace Nebulae
 {
@@ -15,4 +15,4 @@ std::string trim( const std::string& s );
 
 } // namespace Nebulae
 
-#endif // NEBULAE_STRING_UTIL_H__
+#endif // NEBULAE_COMMON_BASE_STRINGUTIL_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_FONT_H__
-#define NEBULAE_FONT_H__
+#ifndef NEBULAE_BETA_FONT_FONT_H_
+#define NEBULAE_BETA_FONT_FONT_H_
 
 #include <Nebulae/Beta/Font/AlignmentFlags.h>
 #include <Nebulae/Beta/Font/UnicodeCharsets.h>
@@ -389,4 +389,4 @@ template <class CharT> struct ValidUTFChar<CharT, false>
 
 inline boost::uint32_t CharToUint32_t( char c ) { return c < 0 ? 256 + c : c; }
 
-#endif // NEBULAE_FONT_H__
+#endif // NEBULAE_BETA_FONT_FONT_H_

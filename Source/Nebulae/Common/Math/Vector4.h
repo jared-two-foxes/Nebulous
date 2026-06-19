@@ -8,8 +8,8 @@
  * Copyright (C) 2011 Song Ho Ahn
  */
 
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_MATH_VECTOR4_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_MATH_VECTOR4_H_
+#ifndef NEBULAE_COMMON_MATH_VECTOR4_H_
+#define NEBULAE_COMMON_MATH_VECTOR4_H_
 
 #include <Nebulae/Common/Base/Scalar.h>
 #include <Nebulae/Common/Base/Assert.h>
@@ -208,4 +208,4 @@ inline Vector4 operator*( const float a, const Vector4 vec )
   return Vector4( a * vec.x, a * vec.y, a * vec.z, a * vec.w );
 }
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_MATH_VECTOR4_H_
+#endif // NEBULAE_COMMON_MATH_VECTOR4_H_

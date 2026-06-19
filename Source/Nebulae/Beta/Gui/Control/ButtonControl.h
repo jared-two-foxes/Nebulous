@@ -3,8 +3,8 @@
  *  \brief Contains the Button class.
  */
 
-#ifndef __NEBULAE_BUTTON_H__
-#define __NEBULAE_BUTTON_H__
+#ifndef NEBULAE_BETA_GUI_CONTROL_BUTTONCONTROL_H_
+#define NEBULAE_BETA_GUI_CONTROL_BUTTONCONTROL_H_
 
 #include <Nebulae/Beta/Gui/Control/TextControl.h>
 #include <boost/signals2.hpp>
@@ -77,4 +77,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __STATICGRAPHIC_H__
+#endif // NEBULAE_BETA_GUI_CONTROL_BUTTONCONTROL_H_

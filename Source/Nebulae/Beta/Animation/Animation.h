@@ -1,5 +1,5 @@
-#ifndef ANIAMTION_H__
-#define ANIAMTION_H__
+#ifndef NEBULAE_BETA_ANIMATION_ANIMATION_H_
+#define NEBULAE_BETA_ANIMATION_ANIMATION_H_
 
 #include <Nebulae/Common/Common.h>
 // #include <Nebulae/Common/Object/Serializable.h>
@@ -47,4 +47,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // ANIMATION_H__
+#endif // NEBULAE_BETA_ANIMATION_ANIMATION_H_

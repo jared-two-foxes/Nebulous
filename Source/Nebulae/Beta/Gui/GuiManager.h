@@ -1,5 +1,5 @@
-#ifndef __GUIMANAGER_H__
-#define __GUIMANAGER_H__
+#ifndef NEBULAE_BETA_GUI_GUIMANAGER_H_
+#define NEBULAE_BETA_GUI_GUIMANAGER_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/Window/InputListener.h>
@@ -159,4 +159,4 @@ bool MatchesOrContains( const Widget* lwidget, const Widget* rwidget );
 
 } // namespace Nebulae
 
-#endif // __GUIMANAGER_H__
+#endif // NEBULAE_BETA_GUI_GUIMANAGER_H_

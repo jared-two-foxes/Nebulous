@@ -26,8 +26,8 @@
 /** \file ListBox.h \brief Contains the ListBox class, a control that contains
     rows of other controls, commonly TextControls. */
 
-#ifndef _NEBULAE_GUI_CONTROL_LISTBOX_h_
-#define _NEBULAE_GUI_CONTROL_LISTBOX_h_
+#ifndef NEBULAE_BETA_GUI_CONTROL_LISTBOX_H_
+#define NEBULAE_BETA_GUI_CONTROL_LISTBOX_H_
 
 #include <Nebulae/Beta/Font/AlignmentFlags.h>
 #include <Nebulae/Beta/Gui/Control/Control.h>
@@ -629,4 +629,4 @@ bool Nebulae::ListBox::DefaultRowCmp<RowType>::operator()( const Nebulae::ListBo
   return static_cast<const RowType&>( lhs ).SortKey( column ) < static_cast<const RowType&>( rhs ).SortKey( column );
 }
 
-#endif //_NEBULAE_GUI_CONTROL_LISTBOX_h_
+#endif // NEBULAE_BETA_GUI_CONTROL_LISTBOX_H_

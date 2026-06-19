@@ -2,8 +2,8 @@
  *  \file Base.h
  *  \brief Contains enums, utility classes, and free functions used throughout GG.
  */
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_WINDOW_KEYCODES_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_WINDOW_KEYCODES_H_
+#ifndef NEBULAE_COMMON_WINDOW_KEYCODES_H_
+#define NEBULAE_COMMON_WINDOW_KEYCODES_H_
 
 /** \namespace Nebulae \brief The namespace that encloses all Nebulae classes,
  *  functions, typedefs, enums, etc.
@@ -272,4 +272,4 @@ enum KeyCode
 
 } // namespace Nebulae
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_WINDOW_KEYCODES_H_
+#endif // NEBULAE_COMMON_WINDOW_KEYCODES_H_

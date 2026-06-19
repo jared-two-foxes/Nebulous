@@ -1,5 +1,5 @@
-#ifndef __MODEL_CORE_COMPONENTCACHE_H__
-#define __MODEL_CORE_COMPONENTCACHE_H__
+#ifndef NEBULAE_ENTITY_CORE_COMPONENTCACHE_H_
+#define NEBULAE_ENTITY_CORE_COMPONENTCACHE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -87,4 +87,4 @@ template <class T> int32 ComponentCache::GetNextAvailableIndex() const
 
 } // namespace Sample
 
-#endif //__MODEL_CORE_COMPONENTCACHE_H__
+#endif // NEBULAE_ENTITY_CORE_COMPONENTCACHE_H_

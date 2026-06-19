@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_AUDIODRIVER_H__
-#define __NEBULAE_AUDIODRIVER_H__
+#ifndef NEBULAE_AUDIO_AUDIODRIVER_H_
+#define NEBULAE_AUDIO_AUDIODRIVER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -42,4 +42,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_AUDIODRIVER_H__
+#endif // NEBULAE_AUDIO_AUDIODRIVER_H_

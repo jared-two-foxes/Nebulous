@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_VARIANT_H__
-#define __NEBULAE_VARIANT_H__
+#ifndef NEBULAE_COMMON_BASE_TYPES_VARIANT_H_
+#define NEBULAE_COMMON_BASE_TYPES_VARIANT_H_
 
 namespace Nebulae
 {
@@ -51,4 +51,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //__NEBULAE_VARIANT_H__
+#endif // NEBULAE_COMMON_BASE_TYPES_VARIANT_H_

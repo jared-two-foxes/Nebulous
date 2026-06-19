@@ -3,8 +3,8 @@
  *  \brief Contains the Slider widget class deceleration.
  */
 
-#ifndef __NEBULAE_CONTROL_SLIDER_H__
-#define __NEBULAE_CONTROL_SLIDER_H__
+#ifndef NEBULAE_BETA_GUI_CONTROL_SLIDER_H_
+#define NEBULAE_BETA_GUI_CONTROL_SLIDER_H_
 
 #include <Nebulae/Beta/Gui/Control/ButtonControl.h>
 #include <boost/signals2.hpp>
@@ -137,4 +137,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_CONTROL_SLIDER_H__
+#endif // NEBULAE_BETA_GUI_CONTROL_SLIDER_H_

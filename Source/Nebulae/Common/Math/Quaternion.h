@@ -14,8 +14,8 @@ required.
 software.
 3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_MATH_QUATERNION_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_MATH_QUATERNION_H_
+#ifndef NEBULAE_COMMON_MATH_QUATERNION_H_
+#define NEBULAE_COMMON_MATH_QUATERNION_H_
 
 #define SIMD_EPSILON 0.0001f
 
@@ -402,4 +402,4 @@ inline const Quaternion& Quaternion::getIdentity()
   return identityQuat;
 }
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_MATH_QUATERNION_H_
+#endif // NEBULAE_COMMON_MATH_QUATERNION_H_

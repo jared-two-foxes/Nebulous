@@ -1,5 +1,5 @@
-#ifndef NEBULAE_FONT_FONTRENDERER_H__
-#define NEBULAE_FONT_FONTRENDERER_H__
+#ifndef NEBULAE_BETA_FONT_FONTRENDERER_H_
+#define NEBULAE_BETA_FONT_FONTRENDERER_H_
 
 #include <Nebulae/Beta/Font/Font.h>
 #include <Nebulae/Beta/Overlay/OverlayRenderer.h>
@@ -74,4 +74,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_FONT_FONTRENDERER_H__
+#endif // NEBULAE_BETA_FONT_FONTRENDERER_H_

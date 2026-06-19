@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_HARDWAREBUFFER_H__
-#define __NEBULAE_HARDWAREBUFFER_H__
+#ifndef NEBULAE_ALPHA_BUFFER_HARDWAREBUFFER_H_
+#define NEBULAE_ALPHA_BUFFER_HARDWAREBUFFER_H_
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 #include <Nebulae/Common/Common.h>
@@ -117,4 +117,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_HARDWAREBUFFER_H__
+#endif // NEBULAE_ALPHA_BUFFER_HARDWAREBUFFER_H_

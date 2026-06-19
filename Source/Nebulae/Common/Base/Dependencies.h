@@ -1,5 +1,5 @@
-﻿#ifndef __NEBULAE_COMMON_DEPENDENCIES_H__
-#define __NEBULAE_COMMON_DEPENDENCIES_H__
+#ifndef NEBULAE_COMMON_BASE_DEPENDENCIES_H_
+#define NEBULAE_COMMON_BASE_DEPENDENCIES_H_
 
 // Std header includes
 #include <assert.h>
@@ -51,4 +51,4 @@
 #include <json/json.h>
 
 
-#endif // __NEBULAE_COMMON_DEPENDENCIES_H__
+#endif // NEBULAE_COMMON_BASE_DEPENDENCIES_H_

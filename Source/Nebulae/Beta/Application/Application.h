@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_APPLICATION_H__
-#define __NEBULAE_APPLICATION_H__
+#ifndef NEBULAE_BETA_APPLICATION_APPLICATION_H_
+#define NEBULAE_BETA_APPLICATION_APPLICATION_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -66,4 +66,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_APPLICATION_H__
+#endif // NEBULAE_BETA_APPLICATION_APPLICATION_H_

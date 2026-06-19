@@ -1,5 +1,5 @@
-#ifndef SKELETON_H__
-#define SKELETON_H__
+#ifndef NEBULAE_BETA_ANIMATION_SKELETON_H_
+#define NEBULAE_BETA_ANIMATION_SKELETON_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -35,4 +35,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // SKELETON_H__
+#endif // NEBULAE_BETA_ANIMATION_SKELETON_H_

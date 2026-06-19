@@ -1,5 +1,5 @@
-#ifndef WINDOW_WIN32_KEYBOARD_H__
-#define WINDOW_WIN32_KEYBOARD_H__
+#ifndef NEBULAE_COMMON_PLATFORM_KEYBOARD_H_
+#define NEBULAE_COMMON_PLATFORM_KEYBOARD_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -67,4 +67,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // WINDOW_WIN32_KEYBOARD_H__
+#endif // NEBULAE_COMMON_PLATFORM_KEYBOARD_H_

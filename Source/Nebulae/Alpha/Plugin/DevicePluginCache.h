@@ -1,5 +1,5 @@
-#ifndef ALPHA_PLUGIN_PLUGINCACHE_H__
-#define ALPHA_PLUGIN_PLUGINCACHE_H__
+#ifndef NEBULAE_ALPHA_PLUGIN_DEVICEPLUGINCACHE_H_
+#define NEBULAE_ALPHA_PLUGIN_DEVICEPLUGINCACHE_H_
 
 #include <Nebulae/Alpha/Alpha.h>
 #include <Nebulae/Common/Common.h>
@@ -31,4 +31,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //
+#endif // NEBULAE_ALPHA_PLUGIN_DEVICEPLUGINCACHE_H_

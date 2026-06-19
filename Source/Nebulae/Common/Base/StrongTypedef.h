@@ -27,8 +27,8 @@
     typedefs", that is value types that are not mutually interoperable with
     each other or with builtin types for extra type safety. */
 
-#ifndef _NEBULAE_STRONGTYPEDEF_H_
-#define _NEBULAE_STRONGTYPEDEF_H_
+#ifndef NEBULAE_COMMON_BASE_STRONGTYPEDEF_H_
+#define NEBULAE_COMMON_BASE_STRONGTYPEDEF_H_
 
 namespace Nebulae
 {
@@ -224,4 +224,4 @@ inline std::size_t Value( std::size_t s ) { return s; }
                                                                                                         \
   void dummy_function_to_force_semicolon()
 
-#endif
+#endif // NEBULAE_COMMON_BASE_STRONGTYPEDEF_H_

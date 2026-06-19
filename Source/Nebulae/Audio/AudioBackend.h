@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_AUDIOBACKEND_H__
-#define __NEBULAE_AUDIOBACKEND_H__
+#ifndef NEBULAE_AUDIO_AUDIOBACKEND_H_
+#define NEBULAE_AUDIO_AUDIOBACKEND_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -63,4 +63,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_AUDIOBACKEND_H__
+#endif // NEBULAE_AUDIO_AUDIOBACKEND_H_

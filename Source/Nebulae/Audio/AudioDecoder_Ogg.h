@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_OGG_AUDIODECODER_H__
-#define __NEBULAE_OGG_AUDIODECODER_H__
+#ifndef NEBULAE_AUDIO_AUDIODECODER_OGG_H_
+#define NEBULAE_AUDIO_AUDIODECODER_OGG_H_
 
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
@@ -32,4 +32,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //  __NEBULAE_OGG_AUDIODECODER_H__
+#endif // NEBULAE_AUDIO_AUDIODECODER_OGG_H_

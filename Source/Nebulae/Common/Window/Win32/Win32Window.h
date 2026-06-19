@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_WIN32WINDOW_H__
-#define __NEBULAE_WIN32WINDOW_H__
+#ifndef NEBULAE_COMMON_WINDOW_WIN32_WIN32WINDOW_H_
+#define NEBULAE_COMMON_WINDOW_WIN32_WIN32WINDOW_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -31,4 +31,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __WIN32_WINDOW_H__
+#endif // NEBULAE_COMMON_WINDOW_WIN32_WIN32WINDOW_H_

@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_STATESTACK_H__
-#define __NEBULAE_STATESTACK_H__
+#ifndef NEBULAE_BETA_STATESTACK_STATESTACK_H_
+#define NEBULAE_BETA_STATESTACK_STATESTACK_H_
 
 #include <Nebulae/Beta/Application/Application.h>
 #include <Nebulae/Common/Common.h>
@@ -50,4 +50,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_APPLICATION_H__
+#endif // NEBULAE_BETA_STATESTACK_STATESTACK_H_

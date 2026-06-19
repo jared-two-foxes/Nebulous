@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_UNIFORMWRITE_H__
-#define NEBULAE_ALPHA_UNIFORMWRITE_H__
+#ifndef NEBULAE_ALPHA_SHADERS_UNIFORMWRITE_H_
+#define NEBULAE_ALPHA_SHADERS_UNIFORMWRITE_H_
 
 #include <Nebulae/Alpha/Shaders/UniformType.h>
 #include <cstdint>
@@ -33,4 +33,4 @@ static_assert( std::is_trivially_copyable_v<SamplerWrite>,
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_UNIFORMWRITE_H__
+#endif // NEBULAE_ALPHA_SHADERS_UNIFORMWRITE_H_

@@ -27,8 +27,8 @@
     functions related to the character sets defined in the Unicode
     standard. */
 
-#ifndef _UnicodeCharsets_h_
-#define _UnicodeCharsets_h_
+#ifndef NEBULAE_BETA_FONT_UNICODECHARSETS_H_
+#define NEBULAE_BETA_FONT_UNICODECHARSETS_H_
 
 #include <Nebulae/Common/Common.h> //Should this be IN common?
 
@@ -79,4 +79,4 @@ const UnicodeCharset* CharsetWithName( const std::string& name );
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_BETA_FONT_UNICODECHARSETS_H_

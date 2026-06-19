@@ -1,5 +1,5 @@
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_BASE_ASSERT_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_BASE_ASSERT_H_
+#ifndef NEBULAE_COMMON_BASE_ASSERT_H_
+#define NEBULAE_COMMON_BASE_ASSERT_H_
 
 #include <Nebulae/Common/Base/Log/Log.h>
 
@@ -53,4 +53,4 @@ public:
 #define NE_ASSERT( condition, ... ) ( (void)0 )
 #endif
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_BASE_ASSERT_H_
+#endif // NEBULAE_COMMON_BASE_ASSERT_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_EFFECT_H__
-#define NEBULAE_EFFECT_H__
+#ifndef NEBULAE_BETA_PRIMITIVEBATCH_EFFECT_H_
+#define NEBULAE_BETA_PRIMITIVEBATCH_EFFECT_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -43,4 +43,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_EFFECT_H__
+#endif // NEBULAE_BETA_PRIMITIVEBATCH_EFFECT_H_

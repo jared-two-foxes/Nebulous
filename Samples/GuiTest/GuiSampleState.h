@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_GUISAMPLESTATE_H__
-#define __NEBULAE_GUISAMPLESTATE_H__
+#ifndef NEBULAE_GUITEST_GUISAMPLESTATE_H_
+#define NEBULAE_GUITEST_GUISAMPLESTATE_H_
 
 #include <Nebulae/Beta/StateStack/State.h>
 #include <Nebulae/Common/Common.h>
@@ -54,4 +54,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_GUISAMPLESTATE_H__
+#endif // NEBULAE_GUITEST_GUISAMPLESTATE_H_

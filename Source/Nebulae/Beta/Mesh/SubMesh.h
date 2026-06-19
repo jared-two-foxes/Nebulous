@@ -1,5 +1,5 @@
-#ifndef NEBULAE_SUBMESH_H__
-#define NEBULAE_SUBMESH_H__
+#ifndef NEBULAE_BETA_MESH_SUBMESH_H_
+#define NEBULAE_BETA_MESH_SUBMESH_H_
 
 #include <Nebulae/Alpha/RenderSystem/OperationType.h>
 #include <Nebulae/Common/Common.h>
@@ -56,4 +56,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_SUBMESH_H__
+#endif // NEBULAE_BETA_MESH_SUBMESH_H_

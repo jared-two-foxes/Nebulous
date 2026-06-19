@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_RESOURCE_H__
-#define NEBULAE_ALPHA_RESOURCE_H__
+#ifndef NEBULAE_ALPHA_RESOURCE_RESOURCE_H_
+#define NEBULAE_ALPHA_RESOURCE_RESOURCE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -51,4 +51,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_RESOURCE_H__
+#endif // NEBULAE_ALPHA_RESOURCE_RESOURCE_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_BETA_FREETYPEHELPER_H__
-#define NEBULAE_BETA_FREETYPEHELPER_H__
+#ifndef NEBULAE_BETA_FONT_FREETYPEHELPER_H_
+#define NEBULAE_BETA_FONT_FREETYPEHELPER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -54,4 +54,4 @@ private:
 } // namespace FT
 } // namespace Nebulae
 
-#endif // NEBULAE_BETA_FREETYPEHELPER_H__
+#endif // NEBULAE_BETA_FONT_FREETYPEHELPER_H_

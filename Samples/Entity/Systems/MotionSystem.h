@@ -1,5 +1,5 @@
-#ifndef __ENTITY_SYSTEMS_MOTIONSYSTEM_H__
-#define __ENTITY_SYSTEMS_MOTIONSYSTEM_H__
+#ifndef NEBULAE_ENTITY_SYSTEMS_MOTIONSYSTEM_H_
+#define NEBULAE_ENTITY_SYSTEMS_MOTIONSYSTEM_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -29,4 +29,4 @@ public:
 
 } // namespace Sample
 
-#endif // __ENTITY_SYSTEMS_MOTIONSYSTEM_H__
+#endif // NEBULAE_ENTITY_SYSTEMS_MOTIONSYSTEM_H_

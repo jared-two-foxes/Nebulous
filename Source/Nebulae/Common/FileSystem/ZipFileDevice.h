@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_ZIPFILEDEVICE_H__
-#define __NEBULAE_ZIPFILEDEVICE_H__
+#ifndef NEBULAE_COMMON_FILESYSTEM_ZIPFILEDEVICE_H_
+#define NEBULAE_COMMON_FILESYSTEM_ZIPFILEDEVICE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -25,4 +25,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_ZIPFILEDEVICE_H__
+#endif // NEBULAE_COMMON_FILESYSTEM_ZIPFILEDEVICE_H_

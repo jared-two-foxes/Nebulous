@@ -1,7 +1,7 @@
 //  Nebulae/Common/config.hpp  ---------------------------------------------------//
 
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_CONFIG_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_CONFIG_H_
+#ifndef NEBULAE_COMMON_CONFIG_H_
+#define NEBULAE_COMMON_CONFIG_H_
 
 
 // Uncomment to use ZipDevice as the default root file access type.
@@ -15,4 +15,4 @@
 #endif
 
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_CONFIG_H_
+#endif // NEBULAE_COMMON_CONFIG_H_

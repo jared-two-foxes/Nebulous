@@ -2,8 +2,8 @@
 /** \file TextControl.h  \brief Contains the TextControl class, a control which
     represents a certain text string in a certain font, justification, etc. */
 
-#ifndef __NEBULAE_TEXTCONTROL_H__
-#define __NEBULAE_TEXTCONTROL_H__
+#ifndef NEBULAE_BETA_GUI_CONTROL_TEXTCONTROL_H_
+#define NEBULAE_BETA_GUI_CONTROL_TEXTCONTROL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -194,4 +194,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_TEXTCONTROL_H__
+#endif // NEBULAE_BETA_GUI_CONTROL_TEXTCONTROL_H_

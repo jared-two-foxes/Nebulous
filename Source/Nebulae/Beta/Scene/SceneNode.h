@@ -1,5 +1,5 @@
-#ifndef SCENENODE_H__
-#define SCENENODE_H__
+#ifndef NEBULAE_BETA_SCENE_SCENENODE_H_
+#define NEBULAE_BETA_SCENE_SCENENODE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -65,4 +65,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // SCENENODE_H__
+#endif // NEBULAE_BETA_SCENE_SCENENODE_H_

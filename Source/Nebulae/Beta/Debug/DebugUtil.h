@@ -1,5 +1,5 @@
-#ifndef __DEBUGUTIL_H__
-#define __DEBUGUTIL_H__
+#ifndef NEBULAE_BETA_DEBUG_DEBUGUTIL_H_
+#define NEBULAE_BETA_DEBUG_DEBUGUTIL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -43,4 +43,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __DEBUGUTIL_H__
+#endif // NEBULAE_BETA_DEBUG_DEBUGUTIL_H_

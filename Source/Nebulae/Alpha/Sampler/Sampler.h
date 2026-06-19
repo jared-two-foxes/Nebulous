@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_SAMPLER_H__
-#define NEBULAE_ALPHA_SAMPLER_H__
+#ifndef NEBULAE_ALPHA_SAMPLER_SAMPLER_H_
+#define NEBULAE_ALPHA_SAMPLER_SAMPLER_H_
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 
@@ -37,4 +37,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_SAMPLER_H__
+#endif // NEBULAE_ALPHA_SAMPLER_SAMPLER_H_

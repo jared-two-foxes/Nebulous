@@ -1,5 +1,5 @@
-#ifndef CONSTANTBUFFERS_H__
-#define CONSTANTBUFFERS_H__
+#ifndef NEBULAE_BETA_SCENE_CONSTANTBUFFERS_H_
+#define NEBULAE_BETA_SCENE_CONSTANTBUFFERS_H_
 
 #include <Nebulae/Common/Base/Base.h>
 
@@ -32,4 +32,4 @@ struct SpriteBuffer
 
 } // namespace Nebulae
 
-#endif // CONSTANTBUFFERS_H__
+#endif // NEBULAE_BETA_SCENE_CONSTANTBUFFERS_H_

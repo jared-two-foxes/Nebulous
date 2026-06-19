@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_PNGCODEC_H__
-#define __NEBULAE_PNGCODEC_H__
+#ifndef NEBULAE_ALPHA_TEXTURE_PNGCODEC_H_
+#define NEBULAE_ALPHA_TEXTURE_PNGCODEC_H_
 
 #include "Nebulae/Alpha/Texture/ImageCodec.h"
 
@@ -30,4 +30,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //__NEBULAE_PNGCODEC_H__
+#endif // NEBULAE_ALPHA_TEXTURE_PNGCODEC_H_

@@ -1,5 +1,5 @@
-#ifndef __CORE_COMPONENTMANAGER_H__
-#define __CORE_COMPONENTMANAGER_H__
+#ifndef NEBULAE_ENTITY_CORE_COMPONENTMANAGER_H_
+#define NEBULAE_ENTITY_CORE_COMPONENTMANAGER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -16,4 +16,4 @@ public:
 
 } // namespace Sample
 
-#endif //__CORE_COMPONENTMANAGER_H__
+#endif // NEBULAE_ENTITY_CORE_COMPONENTMANAGER_H_

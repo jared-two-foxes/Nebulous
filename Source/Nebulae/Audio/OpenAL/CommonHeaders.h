@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_AUDIO_COMMONHEADERS_H__
-#define __NEBULAE_AUDIO_COMMONHEADERS_H__
+#ifndef NEBULAE_AUDIO_OPENAL_COMMONHEADERS_H_
+#define NEBULAE_AUDIO_OPENAL_COMMONHEADERS_H_
 
 //
 // Specifies common headers required for sound driver.
@@ -16,4 +16,4 @@
 
 bool CheckForAudioErrors( const char* message );
 
-#endif // __NEBULAE_AUDIO_COMMONHEADERS_H__
+#endif // NEBULAE_AUDIO_OPENAL_COMMONHEADERS_H_

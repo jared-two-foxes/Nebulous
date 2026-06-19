@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_IMAGECODEC_H__
-#define __NEBULAE_IMAGECODEC_H__
+#ifndef NEBULAE_ALPHA_TEXTURE_IMAGECODEC_H_
+#define NEBULAE_ALPHA_TEXTURE_IMAGECODEC_H_
 
 #include "Nebulae/Common/Common.h"
 #include "Nebulae/Alpha/Texture/Codec.h"
@@ -45,4 +45,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //__NEBULAE_IMAGECODEC_H__
+#endif // NEBULAE_ALPHA_TEXTURE_IMAGECODEC_H_

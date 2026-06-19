@@ -1,5 +1,5 @@
-#ifndef NEBULAE_WIDGET_LAYOUTASSISTANT_H__
-#define NEBULAE_WIDGET_LAYOUTASSISTANT_H__
+#ifndef NEBULAE_BETA_GUI_LAYOUTASSISTANT_H_
+#define NEBULAE_BETA_GUI_LAYOUTASSISTANT_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -100,4 +100,4 @@ private:
 };
 
 } // namespace Nebulae
-#endif // NEBULAE_WIDGET_LAYOUTASSISTANT_H__
+#endif // NEBULAE_BETA_GUI_LAYOUTASSISTANT_H_

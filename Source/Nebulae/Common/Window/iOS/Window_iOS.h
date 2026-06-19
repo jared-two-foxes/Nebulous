@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_WINDOW_H__
-#define __NEBULAE_WINDOW_H__
+#ifndef NEBULAE_COMMON_WINDOW_IOS_WINDOW_IOS_H_
+#define NEBULAE_COMMON_WINDOW_IOS_WINDOW_IOS_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Common/Window/Window.h>
@@ -16,7 +16,7 @@ namespace Nebulae
  *  This is basically a wrapper for the iOS UIWindow objc class. The UIWindow objc class provides an
  *  area for displaying its views and to distribute events to the views. Unless an app can display content
  *  on an external device screen, an app has only one window. To change the content your app displays, you
- *  can change the window’s root view; you don’t create a new window.
+ *  can change the windowï¿½s root view; you donï¿½t create a new window.
  *
  */
 class Window_iOS : public Window
@@ -38,4 +38,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_EAGL2WINDOW_H__
+#endif // NEBULAE_COMMON_WINDOW_IOS_WINDOW_IOS_H_

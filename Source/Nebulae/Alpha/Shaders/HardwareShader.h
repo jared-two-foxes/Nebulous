@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_HARDWARESHADER_H__
-#define NEBULAE_ALPHA_HARDWARESHADER_H__
+#ifndef NEBULAE_ALPHA_SHADERS_HARDWARESHADER_H_
+#define NEBULAE_ALPHA_SHADERS_HARDWARESHADER_H_
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 
@@ -38,4 +38,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // HARDWARESHADER_H__
+#endif // NEBULAE_ALPHA_SHADERS_HARDWARESHADER_H_

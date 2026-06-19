@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_UNIFORMDEFINITION_H__
-#define NEBULAE_ALPHA_UNIFORMDEFINITION_H__
+#ifndef NEBULAE_ALPHA_SHADERS_UNIFORMDEFINITION_H_
+#define NEBULAE_ALPHA_SHADERS_UNIFORMDEFINITION_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Alpha/Shaders/UniformTypeTraits.h>
@@ -186,4 +186,4 @@ using UniformDefinitionMap = std::map<std::string, UniformDefinitionBase>;
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_UNIFORMDEFINITION_H__
+#endif // NEBULAE_ALPHA_SHADERS_UNIFORMDEFINITION_H_

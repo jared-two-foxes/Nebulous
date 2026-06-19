@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_UNIFORMBINDER_H__
-#define NEBULAE_ALPHA_UNIFORMBINDER_H__
+#ifndef NEBULAE_ALPHA_SHADERS_UNIFORMBINDER_H_
+#define NEBULAE_ALPHA_SHADERS_UNIFORMBINDER_H_
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Alpha/Shaders/UniformType.h>
@@ -176,4 +176,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_UNIFORMBINDER_H__
+#endif // NEBULAE_ALPHA_SHADERS_UNIFORMBINDER_H_

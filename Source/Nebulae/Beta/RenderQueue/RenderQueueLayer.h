@@ -1,5 +1,5 @@
-#ifndef RENDERQUEUELAYER_H__
-#define RENDERQUEUELAYER_H__
+#ifndef NEBULAE_BETA_RENDERQUEUE_RENDERQUEUELAYER_H_
+#define NEBULAE_BETA_RENDERQUEUE_RENDERQUEUELAYER_H_
 
 #include <Nebulae/Common/Base/Base.h>
 
@@ -35,4 +35,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // RENDERQUEUELAYER_H__
+#endif // NEBULAE_BETA_RENDERQUEUE_RENDERQUEUELAYER_H_

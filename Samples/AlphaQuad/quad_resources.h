@@ -1,5 +1,5 @@
-#ifndef NEBULAE_SAMPLES_ALPHAQUAD_QUAD_RESOURCES_H__
-#define NEBULAE_SAMPLES_ALPHAQUAD_QUAD_RESOURCES_H__
+#ifndef NEBULAE_ALPHAQUAD_QUAD_RESOURCES_H_
+#define NEBULAE_ALPHAQUAD_QUAD_RESOURCES_H_
 
 #include <Nebulae/Alpha/Buffer/HardwareBuffer.h>
 #include <Nebulae/Alpha/InputLayout/InputLayout.h>
@@ -46,4 +46,4 @@ void RenderFrame( Platform* platform, RenderSystem* renderSystem, const RenderSt
 
 } // namespace Nebulae
 
-#endif // NEBULAE_SAMPLES_ALPHAQUAD_QUAD_RESOURCES_H__
+#endif // NEBULAE_ALPHAQUAD_QUAD_RESOURCES_H_

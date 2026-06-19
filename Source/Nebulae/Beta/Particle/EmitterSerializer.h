@@ -1,5 +1,5 @@
-#ifndef NEBULAE_PARTICLE_EMITTERSERIALIZER_H__
-#define NEBULAE_PARTICLE_EMITTERSERIALIZER_H__
+#ifndef NEBULAE_BETA_PARTICLE_EMITTERSERIALIZER_H_
+#define NEBULAE_BETA_PARTICLE_EMITTERSERIALIZER_H_
 
 #include <Nebulae/Common/Base/Types/DistributionSerializer.h>
 #include <Nebulae/Common/Common.h>
@@ -56,4 +56,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_PARTICLE_EMITTERSERIALIZER_H__
+#endif // NEBULAE_BETA_PARTICLE_EMITTERSERIALIZER_H_

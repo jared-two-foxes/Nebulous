@@ -1,5 +1,5 @@
-#ifndef NEBULAE_DEBUGCONSOLE_H__
-#define NEBULAE_DEBUGCONSOLE_H__
+#ifndef NEBULAE_LUA_SOURCE_WIDGETS_DEBUGCONSOLE_H_
+#define NEBULAE_LUA_SOURCE_WIDGETS_DEBUGCONSOLE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -54,4 +54,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_DEBUGCONSOLE_H__
+#endif // NEBULAE_LUA_SOURCE_WIDGETS_DEBUGCONSOLE_H_

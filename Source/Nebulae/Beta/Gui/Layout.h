@@ -26,8 +26,8 @@
 /** \file Layout.h \brief Contains the Layout class, which is used to size and
     align Widgets. */
 
-#ifndef __BETA_GUI_LAYOUT_H__
-#define __BETA_GUI_LAYOUT_H__
+#ifndef NEBULAE_BETA_GUI_LAYOUT_H_
+#define NEBULAE_BETA_GUI_LAYOUT_H_
 
 #include <Nebulae/Beta/Font/AlignmentFlags.h>
 #include <Nebulae/Common/Common.h>
@@ -277,4 +277,4 @@ private:
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_BETA_GUI_LAYOUT_H_

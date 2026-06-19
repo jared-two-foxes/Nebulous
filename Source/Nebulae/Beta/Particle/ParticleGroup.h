@@ -1,5 +1,5 @@
-#ifndef __PARTICLEGROUP_H__
-#define __PARTICLEGROUP_H__
+#ifndef NEBULAE_BETA_PARTICLE_PARTICLEGROUP_H_
+#define NEBULAE_BETA_PARTICLE_PARTICLEGROUP_H_
 
 #include <Nebulae/Beta/Particle/ParticlePool.h>
 #include <Nebulae/Common/Common.h>
@@ -76,4 +76,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __PARTICLEGROUP_H__
+#endif // NEBULAE_BETA_PARTICLE_PARTICLEGROUP_H_

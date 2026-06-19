@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_CAMERA_H__
-#define NEBULAE_ALPHA_CAMERA_H__
+#ifndef NEBULAE_BETA_CAMERA_CAMERA_H_
+#define NEBULAE_BETA_CAMERA_CAMERA_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -34,4 +34,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_CAMERA_H__
+#endif // NEBULAE_BETA_CAMERA_CAMERA_H_

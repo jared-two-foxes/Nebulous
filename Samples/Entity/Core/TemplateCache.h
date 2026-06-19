@@ -1,5 +1,5 @@
-#ifndef __MODEL_CORE_TEMPLATECACHE_H__
-#define __MODEL_CORE_TEMPLATECACHE_H__
+#ifndef NEBULAE_ENTITY_CORE_TEMPLATECACHE_H_
+#define NEBULAE_ENTITY_CORE_TEMPLATECACHE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -29,4 +29,4 @@ public:
 
 } // namespace Sample
 
-#endif // __MODEL_CORE_TEMPLATECACHE_H__
+#endif // NEBULAE_ENTITY_CORE_TEMPLATECACHE_H_

@@ -1,5 +1,5 @@
-#ifndef COMMON_LOG_LOG_H__
-#define COMMON_LOG_LOG_H__
+#ifndef NEBULAE_COMMON_BASE_LOG_LOG_H_
+#define NEBULAE_COMMON_BASE_LOG_LOG_H_
 
 #include <Nebulae/Common/Base/Dependencies.h>
 
@@ -88,4 +88,4 @@ void DispatchLog( Logger& logger, Level level, const char* system, std::source_l
 #define NE_LOG_ERROR( system, fmt, ... ) NE_LOG_IMPL_( ::Nebulae::Level::Error, system, fmt, ##__VA_ARGS__ )
 #define NE_LOG_CRITICAL( system, fmt, ... ) NE_LOG_IMPL_( ::Nebulae::Level::Critical, system, fmt, ##__VA_ARGS__ )
 
-#endif // __NEBULAE_COMMON_LOG_H__
+#endif // NEBULAE_COMMON_BASE_LOG_LOG_H_

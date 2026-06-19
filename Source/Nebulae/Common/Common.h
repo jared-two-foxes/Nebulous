@@ -1,5 +1,5 @@
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_COMMON_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_COMMON_H_
+#ifndef NEBULAE_COMMON_COMMON_H_
+#define NEBULAE_COMMON_COMMON_H_
 
 #include <Nebulae/Common/Base/Base.h>
 #include <Nebulae/Common/Config.h>
@@ -21,4 +21,4 @@
 
 #include <Nebulae/Common/Platform/Platform.h>
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_COMMON_H_
+#endif // NEBULAE_COMMON_COMMON_H_

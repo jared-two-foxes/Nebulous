@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_WAVAUDIODECODER_H__
-#define __NEBULAE_WAVAUDIODECODER_H__
+#ifndef NEBULAE_AUDIO_AUDIODECODER_WAV_H_
+#define NEBULAE_AUDIO_AUDIODECODER_WAV_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -24,4 +24,4 @@ public:
 
 } // namespace Nebulae
 
-#endif //  __NEBULAE_WAVAUDIODECODER_H__
+#endif // NEBULAE_AUDIO_AUDIODECODER_WAV_H_

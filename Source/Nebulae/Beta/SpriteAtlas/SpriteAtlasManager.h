@@ -1,5 +1,5 @@
-#ifndef __SPRITEATLASMANAGER_H__
-#define __SPRITEATLASMANAGER_H__
+#ifndef NEBULAE_BETA_SPRITEATLAS_SPRITEATLASMANAGER_H_
+#define NEBULAE_BETA_SPRITEATLAS_SPRITEATLASMANAGER_H_
 
 #include <Nebulae/Common/Base/Base.h>
 
@@ -39,4 +39,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __SPRITEATLASMANAGER_H__
+#endif // NEBULAE_BETA_SPRITEATLAS_SPRITEATLASMANAGER_H_

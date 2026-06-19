@@ -1,5 +1,5 @@
-#ifndef __SPRITEANIMATION_H__
-#define __SPRITEANIMATION_H__
+#ifndef NEBULAE_BETA_SPRITEANIMATION_SPRITEANIMATION_H_
+#define NEBULAE_BETA_SPRITEANIMATION_SPRITEANIMATION_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -52,4 +52,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __SPRITEANIMATION_H__
+#endif // NEBULAE_BETA_SPRITEANIMATION_SPRITEANIMATION_H_

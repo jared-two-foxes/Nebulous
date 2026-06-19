@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_BETA_FONT_FONTMANAGER_H__
-#define __NEBULAE_BETA_FONT_FONTMANAGER_H__
+#ifndef NEBULAE_BETA_FONT_FONTMANAGER_H_
+#define NEBULAE_BETA_FONT_FONTMANAGER_H_
 
 // #include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/Font/Font.h>
@@ -32,4 +32,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_BETA_FONT_FONTMANAGER_H__
+#endif // NEBULAE_BETA_FONT_FONTMANAGER_H_

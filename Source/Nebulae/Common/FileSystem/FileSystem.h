@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_FILESYSTEM_H__
-#define __NEBULAE_FILESYSTEM_H__
+#ifndef NEBULAE_COMMON_FILESYSTEM_FILESYSTEM_H_
+#define NEBULAE_COMMON_FILESYSTEM_FILESYSTEM_H_
 
 #include <Nebulae/Common/FileSystem/File.h>
 #include <Nebulae/Common/FileSystem/StreamFunctions.h>
@@ -46,4 +46,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_FILESYSTEM_H__
+#endif // NEBULAE_COMMON_FILESYSTEM_FILESYSTEM_H_

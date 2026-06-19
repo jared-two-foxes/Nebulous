@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_FILESYSTEM_ZIPFILE_H__
-#define __NEBULAE_FILESYSTEM_ZIPFILE_H__
+#ifndef NEBULAE_COMMON_FILESYSTEM_ZIPFILE_H_
+#define NEBULAE_COMMON_FILESYSTEM_ZIPFILE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -55,4 +55,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_FILESYSTEM_ZIPFILE_H__
+#endif // NEBULAE_COMMON_FILESYSTEM_ZIPFILE_H_

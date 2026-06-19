@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_TEXTURE_H__
-#define NEBULAE_ALPHA_TEXTURE_H__
+#ifndef NEBULAE_ALPHA_TEXTURE_TEXTURE_H_
+#define NEBULAE_ALPHA_TEXTURE_TEXTURE_H_
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 #include <Nebulae/Alpha/Texture/Image.h>
@@ -71,4 +71,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // TEXTURE_H__
+#endif // NEBULAE_ALPHA_TEXTURE_TEXTURE_H_

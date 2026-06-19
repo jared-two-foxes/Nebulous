@@ -1,5 +1,5 @@
-#ifndef NEBULAE_ALPHA_VERTEXDECLERATION_H__
-#define NEBULAE_ALPHA_VERTEXDECLERATION_H__
+#ifndef NEBULAE_ALPHA_INPUTLAYOUT_VERTEXDECELERATION_H_
+#define NEBULAE_ALPHA_INPUTLAYOUT_VERTEXDECELERATION_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -107,4 +107,4 @@ bool operator==( const VertexDeceleration& lhs, const VertexDeceleration& rhs );
 
 } // namespace Nebulae
 
-#endif // NEBULAE_ALPHA_VERTEXDECLERATION_H__
+#endif // NEBULAE_ALPHA_INPUTLAYOUT_VERTEXDECELERATION_H_

@@ -1,5 +1,5 @@
-#ifndef __SPRITEATLAS_H__
-#define __SPRITEATLAS_H__
+#ifndef NEBULAE_BETA_SPRITEATLAS_SPRITEATLAS_H_
+#define NEBULAE_BETA_SPRITEATLAS_SPRITEATLAS_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -50,4 +50,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __SPRITEATLAS_H__
+#endif // NEBULAE_BETA_SPRITEATLAS_SPRITEATLAS_H_

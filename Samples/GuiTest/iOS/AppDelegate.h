@@ -1,6 +1,6 @@
 
-#ifndef __NEBULAE_GUISAMPLE_iOS_H__
-#define __NEBULAE_GUISAMPLE_iOS_H__
+#ifndef NEBULAE_GUITEST_IOS_APPDELEGATE_H_
+#define NEBULAE_GUITEST_IOS_APPDELEGATE_H_
 
 // #include "OgrePlatform.h"
 
@@ -38,4 +38,4 @@
 
 #endif // __OBJC__
 
-#endif //__NEBULAE_GUISAMPLE_iOS_H__
+#endif // NEBULAE_GUITEST_IOS_APPDELEGATE_H_

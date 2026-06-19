@@ -3,8 +3,8 @@
 /** \file WidgetEvent.h \brief Contains the WidgetEvent class, which is used
     internally to dispatch event messages to Widgets. */
 
-#ifndef NEBUALE_GUI_WidgetEvent_h_
-#define NEBUALE_GUI_WidgetEvent_h_
+#ifndef NEBULAE_BETA_GUI_WIDGETEVENT_H_
+#define NEBULAE_BETA_GUI_WIDGETEVENT_H_
 
 #include <Nebulae/Common/Common.h> //#include <GG/Base.h>
 #include <Nebulae/Common/Window/KeyCodes.h>
@@ -101,4 +101,4 @@ public:
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_BETA_GUI_WIDGETEVENT_H_

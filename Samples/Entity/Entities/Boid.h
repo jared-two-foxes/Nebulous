@@ -1,5 +1,5 @@
-#ifndef __ENTITIES_BOID_H__
-#define __ENTITIES_BOID_H__
+#ifndef NEBULAE_ENTITY_ENTITIES_BOID_H_
+#define NEBULAE_ENTITY_ENTITIES_BOID_H_
 
 
 #include <Samples/Entity/Components/MotionComponent.h>
@@ -41,4 +41,4 @@ class BoidAllocator : public EntityManager::Allocator
 
 } // namespace Sample
 
-#endif // __ENTITIES_BOID_H__
+#endif // NEBULAE_ENTITY_ENTITIES_BOID_H_

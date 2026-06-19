@@ -1,5 +1,5 @@
-#ifndef __BOUNDINGBOX_H__
-#define __BOUNDINGBOX_H__
+#ifndef NEBULAE_ENTITY_SYSTEMS_BOUNDINGBOX_H_
+#define NEBULAE_ENTITY_SYSTEMS_BOUNDINGBOX_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -24,4 +24,4 @@ public:
 
 } // namespace Sample
 
-#endif // __BOUNDINGBOX_H__
+#endif // NEBULAE_ENTITY_SYSTEMS_BOUNDINGBOX_H_

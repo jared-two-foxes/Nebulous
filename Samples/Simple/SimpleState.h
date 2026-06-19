@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_GUISAMPLESTATE_H__
-#define __NEBULAE_GUISAMPLESTATE_H__
+#ifndef NEBULAE_SIMPLE_SIMPLESTATE_H_
+#define NEBULAE_SIMPLE_SIMPLESTATE_H_
 
 #include <Nebulae/Beta/StateStack/State.h>
 #include <Nebulae/Common/Common.h>
@@ -47,4 +47,4 @@ public:
 
 } // namespace Sample
 
-#endif // __NEBULAE_GUISAMPLESTATE_H__
+#endif // NEBULAE_SIMPLE_SIMPLESTATE_H_

@@ -1,5 +1,5 @@
-#ifndef NEBULAE_COMMON_RESOURCEFACTORY_H__
-#define NEBULAE_COMMON_RESOURCEFACTORY_H__
+#ifndef NEBULAE_ALPHA_RESOURCE_RESOURCEFACTORY_H_
+#define NEBULAE_ALPHA_RESOURCE_RESOURCEFACTORY_H_
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 
@@ -112,4 +112,4 @@ template <class T> bool ResourceFactory<T>::AddToLists( T* resource )
 
 } // namespace Nebulae
 
-#endif // NEBULAE_COMMON_RESOURCEFACTORY_H__
+#endif // NEBULAE_ALPHA_RESOURCE_RESOURCEFACTORY_H_

@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_FILESYSTEM_DISKFILE_H__
-#define __NEBULAE_FILESYSTEM_DISKFILE_H__
+#ifndef NEBULAE_COMMON_FILESYSTEM_DISKFILE_H_
+#define NEBULAE_COMMON_FILESYSTEM_DISKFILE_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -48,4 +48,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_FILESYSTEM_FILE_H__
+#endif // NEBULAE_COMMON_FILESYSTEM_DISKFILE_H_

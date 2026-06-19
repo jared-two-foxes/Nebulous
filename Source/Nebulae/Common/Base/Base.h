@@ -1,5 +1,5 @@
-#ifndef NEBULAE_SOURCE_NEBULAE_COMMON_BASE_BASE_H_
-#define NEBULAE_SOURCE_NEBULAE_COMMON_BASE_BASE_H_
+#ifndef NEBULAE_COMMON_BASE_BASE_H_
+#define NEBULAE_COMMON_BASE_BASE_H_
 
 #include <Nebulae/Common/Base/Dependencies.h>
 #include <Nebulae/Common/Base/Platform.h>
@@ -25,4 +25,4 @@
 #include <Nebulae/Common/Base/Types/PtRect.h>
 #include <Nebulae/Common/Base/Types/Variant.h>
 
-#endif // NEBULAE_SOURCE_NEBULAE_COMMON_BASE_BASE_H_
+#endif // NEBULAE_COMMON_BASE_BASE_H_

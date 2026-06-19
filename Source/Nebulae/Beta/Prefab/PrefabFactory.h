@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_PREFABFACTORY_H__
-#define __NEBULAE_PREFABFACTORY_H__
+#ifndef NEBULAE_BETA_PREFAB_PREFABFACTORY_H_
+#define NEBULAE_BETA_PREFAB_PREFABFACTORY_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -70,4 +70,4 @@ public:
 
 } // namespace Nebulae
 
-#endif // PREFABFACTOR_H__
+#endif // NEBULAE_BETA_PREFAB_PREFABFACTORY_H_

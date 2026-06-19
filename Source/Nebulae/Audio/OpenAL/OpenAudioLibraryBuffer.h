@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_AUDIOBUFFER_H__
-#define __NEBULAE_AUDIOBUFFER_H__
+#ifndef NEBULAE_AUDIO_OPENAL_OPENAUDIOLIBRARYBUFFER_H_
+#define NEBULAE_AUDIO_OPENAL_OPENAUDIOLIBRARYBUFFER_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -42,4 +42,4 @@ private:
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_AUDIOBUFFER_H__
+#endif // NEBULAE_AUDIO_OPENAL_OPENAUDIOLIBRARYBUFFER_H_

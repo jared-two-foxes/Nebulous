@@ -1,5 +1,5 @@
-#ifndef MODEL_MODEL_H__
-#define MODEL_MODEL_H__
+#ifndef NEBULAE_ENTITY_MODEL_H_
+#define NEBULAE_ENTITY_MODEL_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -53,4 +53,4 @@ template <class T> int32 Model::GetComponents( const Entity* entity, std::vector
 
 } // namespace Sample
 
-#endif // MODEL_MODEL_H__
+#endif // NEBULAE_ENTITY_MODEL_H_

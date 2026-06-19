@@ -26,8 +26,8 @@
 /** \file Edit.h \brief Contains the Edit class, a single-line editable
     text-box control. */
 
-#ifndef _NE_Edit_h_
-#define _NE_Edit_h_
+#ifndef NEBULAE_BETA_GUI_CONTROL_EDITCONTROL_H_
+#define NEBULAE_BETA_GUI_CONTROL_EDITCONTROL_H_
 
 #include <Nebulae/Beta/Gui/Control/TextControl.h>
 #include <boost/signals2.hpp>
@@ -199,4 +199,4 @@ void GetTranslatedCodePoint( KeyCode key, uint32 keyCodePoint, Flags<ModKey> mod
 
 } // namespace Nebulae
 
-#endif
+#endif // NEBULAE_BETA_GUI_CONTROL_EDITCONTROL_H_

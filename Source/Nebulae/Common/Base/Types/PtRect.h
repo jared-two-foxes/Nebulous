@@ -1,7 +1,7 @@
 /** \file ptRect.h \brief Contains the utility classes pt and Rect. */
 
-#ifndef _NEBULAE_COMMON_POINT_RECT_h_
-#define _NEBULAE_COMMON_POINT_RECT_h_
+#ifndef NEBULAE_COMMON_BASE_TYPES_PTRECT_H_
+#define NEBULAE_COMMON_BASE_TYPES_PTRECT_H_
 
 
 namespace Nebulae
@@ -146,4 +146,4 @@ inline Rect operator-( const Point& pt, const Rect& rect )
 
 } // namespace Nebulae
 
-#endif //_NEBULAE_pt_RECT_h_
+#endif // NEBULAE_COMMON_BASE_TYPES_PTRECT_H_

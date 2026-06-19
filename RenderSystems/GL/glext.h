@@ -1,5 +1,5 @@
-#ifndef __glext_h_
-#define __glext_h_
+#ifndef NEBULAE_RENDERSYSTEMS_GL_GLEXT_H_
+#define NEBULAE_RENDERSYSTEMS_GL_GLEXT_H_
 
 #ifdef __cplusplus
 extern "C"
@@ -14071,4 +14071,4 @@ extern "C"
 }
 #endif
 
-#endif
+#endif // NEBULAE_RENDERSYSTEMS_GL_GLEXT_H_

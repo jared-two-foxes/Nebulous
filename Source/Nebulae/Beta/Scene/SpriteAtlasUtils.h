@@ -1,5 +1,5 @@
-#ifndef __NEBULAE_SPRITEATLASUTILS_H__
-#define __NEBULAE_SPRITEATLASUTILS_H__
+#ifndef NEBULAE_BETA_SCENE_SPRITEATLASUTILS_H_
+#define NEBULAE_BETA_SCENE_SPRITEATLASUTILS_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -68,4 +68,4 @@ struct SpriteAtlasUtils
 
 } // namespace Nebulae
 
-#endif // __NEBULAE_SPRITEATLASUTILS_H__
+#endif // NEBULAE_BETA_SCENE_SPRITEATLASUTILS_H_

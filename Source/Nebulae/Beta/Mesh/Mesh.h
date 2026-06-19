@@ -1,5 +1,5 @@
-#ifndef MESH_H__
-#define MESH_H__
+#ifndef NEBULAE_BETA_MESH_MESH_H_
+#define NEBULAE_BETA_MESH_MESH_H_
 
 #include <Nebulae/Common/Common.h>
 
@@ -44,4 +44,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // MESH_H__
+#endif // NEBULAE_BETA_MESH_MESH_H_

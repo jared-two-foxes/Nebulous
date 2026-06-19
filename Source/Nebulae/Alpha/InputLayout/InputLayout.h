@@ -1,5 +1,5 @@
-#ifndef __INPUTLAYOUT_H__
-#define __INPUTLAYOUT_H__
+#ifndef NEBULAE_ALPHA_INPUTLAYOUT_INPUTLAYOUT_H_
+#define NEBULAE_ALPHA_INPUTLAYOUT_INPUTLAYOUT_H_
 
 #include <Nebulae/Alpha/Resource/Resource.h>
 #include <Nebulae/Common/Common.h>
@@ -32,4 +32,4 @@ protected:
 
 } // namespace Nebulae
 
-#endif // __INPUTLAYOUT_H__
+#endif // NEBULAE_ALPHA_INPUTLAYOUT_INPUTLAYOUT_H_
