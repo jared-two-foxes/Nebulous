@@ -152,7 +152,7 @@ ImageCodecData* PngCodec::Decode( File& is ) const
 
   png_uint_32 width, height;
   int bitDepth, colorType, interlace_type;
-  png_get_IHDR( png_ptr, info_ptr, &width, &height, &bitDepth, &colorType, &interlace_type, NULL, NULL );
+  png_get_IHDR( png_ptr, info_ptr, &width, &height, &bitDepth, &colorType, &interlace_type, nullptr, nullptr );
 
   //  // Tell libpng to strip 16 bit/color files down to 8 bits/color.
   //  // Use accurate scaling if it's available, otherwise just chop off the
@@ -235,7 +235,7 @@ ImageCodecData* PngCodec::Decode( File& is ) const
     for ( png_uint_32 row = 0; row < height; ++row )
     {
       ptr -= rowSize;
-      png_read_row( png_ptr, (png_bytep)ptr, NULL );
+      png_read_row( png_ptr, (png_bytep)ptr, nullptr );
     }
   }
 

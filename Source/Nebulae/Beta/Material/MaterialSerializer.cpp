@@ -108,7 +108,7 @@ bool MaterialSerializer::ProcessShader( Json::Value& shader, HardwareShaderType 
   const char* name = shader["name"].asCString();
 
   HardwareShader* hardwareShader = m_renderDevice->FindShaderByName( name );
-  if ( NULL == hardwareShader )
+  if ( nullptr == hardwareShader )
   {
     hardwareShader = m_renderDevice->CreateShader( name, shaderType );
   }

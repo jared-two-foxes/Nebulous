@@ -13,7 +13,7 @@ using namespace Nebulae;
 SceneNode::SceneNode( SceneGraph* creator, const std::string& name )
   : m_strName( name ),
     m_pCreator( creator ),
-    m_pParent( NULL ),
+    m_pParent( nullptr ),
     m_Position( 0.0f, 0.0f, 0.0f ),
     m_Rotation( 0.0f, 0.0f, 0.0f, 1.0f ),
     m_Scale( 1.0f, 1.0f, 1.0f ),
@@ -60,7 +60,7 @@ const SceneNode* SceneNode::GetChild( size_t idx ) const
 void SceneNode::GetWorldMatrix( Matrix4* pWorldMatrixOut ) const
 {
   /// Get the matrix from the parent if there is one.
-  if ( m_pParent != NULL )
+  if ( m_pParent != nullptr )
   {
     m_pParent->GetWorldMatrix( pWorldMatrixOut );
   }
@@ -176,7 +176,7 @@ SceneObject* SceneNode::FindSubObject( const Material* material ) const
       return m_Objects[i];
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 

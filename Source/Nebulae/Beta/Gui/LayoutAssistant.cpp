@@ -17,7 +17,7 @@ void LayoutAssistant::SetResolution( const Point& resolution ) { m_resolution = 
 bool LayoutAssistant::Process( Widget* widget )
 {
   NE_ASSERT( widget, "" );
-  if ( widget == NULL )
+  if ( widget == nullptr )
     return false;
 
   float deviceScale = 1.0f;

@@ -23,7 +23,7 @@ private:
 public:
   virtual ~EmitterHandle() {}
 
-  EmitterHandle() : m_id( -1 ), m_pBackend( NULL ), m_pInternal( NULL ) {}
+  EmitterHandle() : m_id( -1 ), m_pBackend( nullptr ), m_pInternal( nullptr ) {}
 
   EmitterHandle( const EmitterHandle& rhs )
     : m_id( rhs.m_id ), m_pBackend( rhs.m_pBackend ), m_pInternal( rhs.m_pInternal )
@@ -41,7 +41,7 @@ public:
   bool operator==( const EmitterHandle& rhs ) { return ( m_id == rhs.m_id ); }
 
 protected:
-  EmitterHandle( std::size_t id, AudioBackend* pBackend = 0, AudioEmitterInterface* object = 0 )
+  EmitterHandle( std::size_t id, AudioBackend* pBackend = nullptr, AudioEmitterInterface* object = nullptr )
   {
     m_id = id;
     m_pBackend = pBackend;

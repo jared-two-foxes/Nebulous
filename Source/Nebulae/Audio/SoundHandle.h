@@ -22,7 +22,7 @@ private:
 
 public:
   virtual ~SoundHandle() {}
-  inline SoundHandle() : m_id( -1 ), m_pBackend( NULL ), m_pInternal( NULL ) {}
+  inline SoundHandle() : m_id( -1 ), m_pBackend( nullptr ), m_pInternal( nullptr ) {}
   inline SoundHandle( const SoundHandle& rhs )
     : m_id( rhs.m_id ), m_pBackend( rhs.m_pBackend ), m_pInternal( rhs.m_pInternal )
   {
@@ -36,7 +36,7 @@ public:
   }
 
 protected:
-  SoundHandle( std::size_t id, AudioBackend* pBackend = 0, AudioSoundInterface* object = 0 )
+  SoundHandle( std::size_t id, AudioBackend* pBackend = nullptr, AudioSoundInterface* object = nullptr )
   {
     m_id = id;
     m_pBackend = pBackend;

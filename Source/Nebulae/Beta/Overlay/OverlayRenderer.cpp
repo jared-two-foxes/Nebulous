@@ -39,12 +39,12 @@ bool OverlayRenderer::Init()
   // Setup the material for rendering gui components.
   //
   HardwareShader* vertexShader = m_renderDevice->FindShaderByName( "gui_quad_vs.glsl" );
-  if ( NULL == vertexShader )
+  if ( nullptr == vertexShader )
   {
     vertexShader = m_renderDevice->CreateShader( "gui_quad_vs.glsl", VERTEX_SHADER );
   }
   HardwareShader* pixelShader = m_renderDevice->FindShaderByName( "gui_quad_fs.glsl" );
-  if ( NULL == pixelShader )
+  if ( nullptr == pixelShader )
   {
     pixelShader = m_renderDevice->CreateShader( "gui_quad_fs.glsl", PIXEL_SHADER );
   }
@@ -56,7 +56,7 @@ bool OverlayRenderer::Init()
   pass->SetPixelShader( pixelShader );
 
   vertexShader = m_renderDevice->FindShaderByName( "gui_complex_quad_vs.glsl" );
-  if ( NULL == vertexShader )
+  if ( nullptr == vertexShader )
   {
     vertexShader = m_renderDevice->CreateShader( "gui_complex_quad_vs.glsl", VERTEX_SHADER );
   }
@@ -71,17 +71,17 @@ bool OverlayRenderer::Init()
   // Create the buffers.
   //
   HardwareBuffer* pBuffer = m_renderDevice->FindBufferByName( "GuiVertexBuffer" );
-  if ( pBuffer == NULL )
+  if ( pBuffer == nullptr )
   {
     pBuffer = m_renderDevice->CreateBuffer( "GuiVertexBuffer", HBU_STATIC_WRITE_ONLY, 12 * sizeof( float ), HBB_VERTEX,
                                             (void*)&g_fRectVertices[0] );
   }
 
   pBuffer = m_renderDevice->FindBufferByName( "QuadBuffer" );
-  if ( pBuffer == NULL )
+  if ( pBuffer == nullptr )
   {
     pBuffer = m_renderDevice->CreateBuffer( "QuadBuffer", HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE, 12 * sizeof( float ),
-                                            HBB_VERTEX, NULL );
+                                            HBB_VERTEX, nullptr );
   }
 
   VertexDeceleration* pVertexDecl = new VertexDeceleration( 2 );
@@ -91,7 +91,7 @@ bool OverlayRenderer::Init()
   // Attempt to grab the input layout
   //
   InputLayout* pInputLayout = m_renderDevice->FindInputLayoutByUsage( pVertexDecl, vertexShader );
-  if ( pInputLayout == NULL )
+  if ( pInputLayout == nullptr )
   {
     // Create the layout based upon the materials first pass.
     pInputLayout = m_renderDevice->CreateInputLayout( "BasicGuiLayout", pVertexDecl, vertexShader );
@@ -99,8 +99,8 @@ bool OverlayRenderer::Init()
 
   delete pVertexDecl;
 
-  return ( ( m_basicMaterial != NULL ) && ( m_complexMaterial != NULL ) && ( pBuffer != NULL ) &&
-           ( pInputLayout != NULL ) );
+  return ( ( m_basicMaterial != nullptr ) && ( m_complexMaterial != nullptr ) && ( pBuffer != nullptr ) &&
+           ( pInputLayout != nullptr ) );
 }
 
 void OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& upperLeft,
@@ -126,7 +126,7 @@ void OverlayRenderer::DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& 
     // Bind the material pass.
     //
     Pass* pass = m_basicMaterial->GetPass( 0 );
-    if ( NULL == pass )
+    if ( nullptr == pass )
     {
       return;
     }
@@ -241,7 +241,7 @@ void OverlayRenderer::DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::
   NE_ASSERT( m_complexMaterial->GetPass( 0 ) != NULL, "Unable to find a pass for binding?" );
 
   Pass* pass = m_complexMaterial->GetPass( 0 );
-  if ( NULL == pass )
+  if ( nullptr == pass )
   {
     return;
   }

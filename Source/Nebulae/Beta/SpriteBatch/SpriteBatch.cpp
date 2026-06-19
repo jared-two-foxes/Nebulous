@@ -164,7 +164,7 @@ void SpriteBatch::Draw()
   // Bind the material pass.
   //
   Pass* pass = m_material->GetPass( 0 );
-  if ( NULL == pass )
+  if ( nullptr == pass )
   {
     return;
   }

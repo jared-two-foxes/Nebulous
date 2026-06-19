@@ -35,10 +35,10 @@ Geometry* PlaneLoader::Create( float width, float depth, int rows, int columns )
   std::size_t vertexSize = vertexDeceleration->GetVertexSize();
 
   HardwareBuffer* vbuf =
-    m_renderDevice.CreateBuffer( "", HBU_STATIC, vertexCount * vertexSize, HardwareBufferBinding::HBB_VERTEX, NULL );
+    m_renderDevice.CreateBuffer( "", HBU_STATIC, vertexCount * vertexSize, HardwareBufferBinding::HBB_VERTEX, nullptr );
 
   HardwareBuffer* ibuf = m_renderDevice.CreateBuffer( "", HBU_STATIC, indexCount * sizeof( uint16 ),
-                                                      HardwareBufferBinding::HBB_INDEX, NULL );
+                                                      HardwareBufferBinding::HBB_INDEX, nullptr );
 
   UpdateIndexBuffer( ibuf, rows, columns );
   UpdateVertexBuffer( vbuf, rows, columns, dx, dz );
@@ -143,9 +143,9 @@ Geometry* CubeLoader::Create( float width, float height, float depth, int rows, 
   geometry->m_vertexDeceleration->AddElement( VET_FLOAT2, VES_TEXTURE_COORDINATES, 0 );
 
   geometry->m_vertexBuffer = m_renderDevice.CreateBuffer( "", HBU_STATIC, NUM_VERTEX_ENTRIES * sizeof( Real ),
-                                                          HardwareBufferBinding::HBB_VERTEX, NULL );
+                                                          HardwareBufferBinding::HBB_VERTEX, nullptr );
   geometry->m_indexBuffer = m_renderDevice.CreateBuffer( "", HBU_STATIC, NUM_INDICES * sizeof( uint16 ),
-                                                         HardwareBufferBinding::HBB_INDEX, NULL );
+                                                         HardwareBufferBinding::HBB_INDEX, nullptr );
 
   UpdateVertexBuffer( geometry->m_vertexBuffer, rows, columns, slices, dx, dy, dz );
   UpdateIndexBuffer( geometry->m_indexBuffer, rows, columns, slices );

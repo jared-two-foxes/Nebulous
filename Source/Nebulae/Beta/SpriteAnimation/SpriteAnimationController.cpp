@@ -30,7 +30,7 @@ SpriteAnimationController::~SpriteAnimationController() {}
 
 SpriteAnimationFrame* SpriteAnimationController::GetCurrentFrame() const
 {
-  return ( m_pCurrentAnimation ? m_pCurrentAnimation->GetFrame( m_iCurrentStep ) : NULL );
+  return ( m_pCurrentAnimation ? m_pCurrentAnimation->GetFrame( m_iCurrentStep ) : nullptr );
 }
 
 void SpriteAnimationController::Update( float elapsed )

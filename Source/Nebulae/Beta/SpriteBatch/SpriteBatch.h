@@ -115,7 +115,7 @@ public:
 
   void AddQuad( GlyphState* state, std::size_t count );
   void AddQuad( const Nebulae::Point& upperLeft, const Nebulae::Point& lowerRight, const Colour& colour = CLR_WHITE,
-                const SubTexture* texture = NULL, Real depth = 0.0f, Real rotation = 0.0f );
+                const SubTexture* texture = nullptr, Real depth = 0.0f, Real rotation = 0.0f );
 
   void Flush();
   void Draw();

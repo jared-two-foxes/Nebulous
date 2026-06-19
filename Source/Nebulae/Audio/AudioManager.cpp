@@ -8,7 +8,7 @@
 using namespace Nebulae;
 
 
-AudioManager::AudioManager( FileSystemPtr fileSystem ) : m_fileSystem( fileSystem ), m_pAudioBackend( NULL ) {}
+AudioManager::AudioManager( FileSystemPtr fileSystem ) : m_fileSystem( fileSystem ), m_pAudioBackend( nullptr ) {}
 
 
 AudioManager::~AudioManager() { Destroy(); }
@@ -23,7 +23,7 @@ bool AudioManager::Initiate()
 ///
 {
   m_pAudioBackend = new AudioBackend( m_fileSystem );
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->Initiate();
 
@@ -42,11 +42,11 @@ void AudioManager::Destroy()
 ///   Nothing.
 ///
 {
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     delete m_pAudioBackend;
   }
-  m_pAudioBackend = 0;
+  m_pAudioBackend = nullptr;
 }
 
 
@@ -54,7 +54,7 @@ void AudioManager::Update( const Real elapsed )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->Update( elapsed );
   }
@@ -68,7 +68,7 @@ SoundHandle AudioManager::CreateSound( const char* szSoundName )
   NE_ASSERT( m_pAudioBackend, "" );
 
   SoundHandle handle;
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     handle = m_pAudioBackend->CreateSound( szSoundName );
   }
@@ -81,7 +81,7 @@ Real AudioManager::GetDuration( SoundHandle sound ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     return m_pAudioBackend->GetDuration( sound );
   }
@@ -95,7 +95,7 @@ EmitterHandle AudioManager::CreateEmitter()
   NE_ASSERT( m_pAudioBackend, "" );
 
   EmitterHandle handle;
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     handle = m_pAudioBackend->CreateEmitter();
   }
@@ -108,7 +108,7 @@ SoundHandle AudioManager::GetCurrentSound( EmitterHandle& handle )
   NE_ASSERT( m_pAudioBackend, "" );
 
   SoundHandle sound;
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     sound = m_pAudioBackend->GetCurrentSound( handle );
   }
@@ -121,7 +121,7 @@ void AudioManager::AddSoundToEmitter( EmitterHandle& emitter, SoundHandle& sound
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->AddSoundToEmitter( emitter, sound, loops, faceTime );
   }
@@ -131,7 +131,7 @@ void AudioManager::Play( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->Play( handle, 0.0f );
   }
@@ -142,7 +142,7 @@ void AudioManager::Stop( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->Stop( handle, 0.0f );
   }
@@ -153,7 +153,7 @@ void AudioManager::Pause( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->Pause( handle, 0.0f );
   }
@@ -164,7 +164,7 @@ void AudioManager::Resume( EmitterHandle& handle )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->Resume( handle, 0.0f );
   }
@@ -175,7 +175,7 @@ Real AudioManager::GetPlayCursor( EmitterHandle& handle ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     return m_pAudioBackend->GetPlayCursor( handle );
   }
@@ -187,7 +187,7 @@ void AudioManager::SetPlayCursor( EmitterHandle& handle, Real time )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->SetPlayCursor( handle, time );
   }
@@ -198,7 +198,7 @@ bool AudioManager::IsPlaying( const EmitterHandle& handle ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     return m_pAudioBackend->IsPlaying( handle );
   }
@@ -210,7 +210,7 @@ bool AudioManager::IsPaused( const EmitterHandle& handle ) const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     return m_pAudioBackend->IsPaused( handle );
   }
@@ -222,7 +222,7 @@ void AudioManager::SetMasterVolume( float volume )
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     m_pAudioBackend->SetMasterVolume( volume );
   }
@@ -233,7 +233,7 @@ float AudioManager::GetMasterVolume() const
 {
   NE_ASSERT( m_pAudioBackend, "" );
 
-  if ( m_pAudioBackend != NULL )
+  if ( m_pAudioBackend != nullptr )
   {
     return m_pAudioBackend->GetMasterVolume();
   }

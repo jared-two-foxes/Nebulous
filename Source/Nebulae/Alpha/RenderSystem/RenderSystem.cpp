@@ -64,8 +64,8 @@ bool RenderSystem::Initiate()
 
 bool RenderSystem::IsInitialized() const
 {
-  return m_bufferFactory != NULL && m_layoutFactory != NULL && m_renderTextureFactory != NULL &&
-         m_samplerFactory != NULL && m_shaderFactory != NULL && m_textureFactory != NULL;
+  return m_bufferFactory != nullptr && m_layoutFactory != nullptr && m_renderTextureFactory != nullptr &&
+         m_samplerFactory != nullptr && m_shaderFactory != nullptr && m_textureFactory != nullptr;
 }
 
 void RenderSystem::SetBlendingState( bool /*enable*/ ) {}
@@ -93,7 +93,7 @@ HardwareBuffer* RenderSystem::CreateBuffer( const std::string& identifier, const
     buffer->SetImpl( CreateBufferImpl( usage, sizeInBytes, bindFlags, sysMem ) );
     if ( shouldLoad )
     {
-      buffer->Load( NULL ); //< buffers do not come from file therefore pass a NULL filestream pointer.
+      buffer->Load( nullptr ); //< buffers do not come from file therefore pass a NULL filestream pointer.
     }
   }
 
@@ -109,7 +109,7 @@ InputLayout* RenderSystem::CreateInputLayout( const std::string& identifier, con
     inputLayout->SetImpl( CreateInputLayoutImpl( pVertexDecl, pVertexShader ) );
     if ( shouldLoad )
     {
-      inputLayout->Load( NULL ); //< inputLayout's do not come from file therefore pass a NULL filestream pointer.
+      inputLayout->Load( nullptr ); //< inputLayout's do not come from file therefore pass a NULL filestream pointer.
     }
   }
 
@@ -124,7 +124,7 @@ Sampler* RenderSystem::CreateSampler( const std::string& identifier, bool should
     sampler->SetImpl( CreateSamplerImpl() );
     if ( shouldLoad )
     {
-      sampler->Load( NULL ); //< sampler's do not come from file therefore pass a NULL filestream pointer.
+      sampler->Load( nullptr ); //< sampler's do not come from file therefore pass a NULL filestream pointer.
     }
   }
 
@@ -145,7 +145,8 @@ RenderTexture* RenderSystem::CreateRenderTexture( const std::string& identifier,
     renderTexture->SetImpl( CreateRenderTextureImpl( width, height ) );
     if ( shouldLoad )
     {
-      renderTexture->Load( NULL ); //< RenderTextures's do not come from file therefore pass a NULL filestream pointer.
+      renderTexture->Load(
+        nullptr ); //< RenderTextures's do not come from file therefore pass a NULL filestream pointer.
     }
   }
 

@@ -48,7 +48,7 @@ SpriteAtlas* SpriteAtlasManager::GetByName( const std::string& name ) const
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 

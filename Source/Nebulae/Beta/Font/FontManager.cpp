@@ -43,7 +43,7 @@ Font* FontManager::GetByName( const std::string& name ) const
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 

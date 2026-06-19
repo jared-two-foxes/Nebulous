@@ -11,7 +11,7 @@ AudioSoundInterface::AudioSoundInterface( File* filehandle )
   ///
   /// Default contructor.
   ///
-  : m_fileHandle( filehandle ), m_decoder( NULL )
+  : m_fileHandle( filehandle ), m_decoder( nullptr )
 {
 }
 

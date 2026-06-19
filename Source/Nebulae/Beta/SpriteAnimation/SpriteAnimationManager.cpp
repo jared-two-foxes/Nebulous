@@ -41,7 +41,7 @@ SpriteAnimation* SpriteAnimationManager::GetByName( const std::string& name ) co
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 void SpriteAnimationManager::addImpl( SpriteAnimation* res )

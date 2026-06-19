@@ -66,7 +66,7 @@ NE_FLAGSPEC_IMPL( LockOptions );
 ///////////////////////////////////////
 
 HardwareBuffer::HardwareBuffer( const std::string& name, RenderSystem* renderDevice )
-  : Resource( name, renderDevice ), m_pImpl( NULL ), m_isLocked( false ), m_lockStart( 0 ), m_lockSize( 0 )
+  : Resource( name, renderDevice ), m_pImpl( nullptr ), m_isLocked( false ), m_lockStart( 0 ), m_lockSize( 0 )
 {
 }
 
@@ -76,7 +76,7 @@ HardwareBuffer::~HardwareBuffer()
   {
     delete m_pImpl;
   }
-  m_pImpl = NULL;
+  m_pImpl = nullptr;
 }
 
 HardwareBufferImpl* HardwareBuffer::GetImpl() const { return m_pImpl; }
@@ -115,7 +115,7 @@ void* HardwareBuffer::Lock( std::size_t offset, size_t length, LockOptions optio
   NE_ASSERT( !IsLocked(), "Cannot lock this buffer, it is already locked!" );
   // NE_ASSERT( (length + offset) < mSizeInBytes, "Lock request out of bounds." )();
 
-  void* ret = NULL;
+  void* ret = nullptr;
 
   // Lock the real buffer if there is no shadow buffer
   if ( m_pImpl != nullptr )

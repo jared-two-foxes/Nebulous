@@ -61,7 +61,7 @@ std::shared_ptr<Nebulae::RenderSystem> CreateRenderSystem( RenderSystemType type
     if ( error != 0 )
     {
       wchar_t exePath[MAX_PATH];
-      if ( GetModuleFileNameW( NULL, exePath, MAX_PATH ) > 0 )
+      if ( GetModuleFileNameW( nullptr, exePath, MAX_PATH ) > 0 )
       {
         std::wstring exeDir = exePath;
         size_t pos = exeDir.find_last_of( L"\\/" );

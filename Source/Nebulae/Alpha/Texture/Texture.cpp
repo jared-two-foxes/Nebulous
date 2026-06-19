@@ -17,7 +17,7 @@ Texture::~Texture()
   {
     delete m_impl;
   }
-  m_impl = NULL;
+  m_impl = nullptr;
 }
 
 

@@ -20,9 +20,9 @@ Application::Application()
   /// Default Constructor
   ///
   : m_bInitialized( false ),
-    m_pPlatform( NULL ),
-    m_pMainWindow( NULL ),
-    m_pRenderSystem( NULL ),
+    m_pPlatform( nullptr ),
+    m_pMainWindow( nullptr ),
+    m_pRenderSystem( nullptr ),
     m_logger( "Application", Nebulae::Level::Info )
 {
 }
@@ -220,11 +220,11 @@ void Application::Setup( int w, int h )
   NE_ASSERT( m_pPlatform != NULL, "Platform is uninitialized." );
 
   // Create the window
-  if ( m_pMainWindow == NULL )
+  if ( m_pMainWindow == nullptr )
   {
     m_pMainWindow = CreateApplicationWindow( w, h );
     NE_ASSERT( m_pMainWindow != NULL, "Unable to create application window" );
-    if ( m_pMainWindow == NULL )
+    if ( m_pMainWindow == nullptr )
     {
       return; // Crap! Window creation failed, exit.
     }
@@ -235,7 +235,7 @@ void Application::Setup( int w, int h )
 
   // Create RenderSystem for the application
   m_pRenderSystem = ::CreateRenderSystem( OPENGL_3, m_pPlatform->GetFileSystem(), m_pMainWindow );
-  if ( m_pRenderSystem == NULL )
+  if ( m_pRenderSystem == nullptr )
   {
     m_pMainWindow.reset();
     return;
@@ -298,7 +298,7 @@ void Application::AddInputListener( InputListener* listener )
   NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" );
   NE_ASSERT( listener != NULL, "Invalid listener." );
 
-  if ( m_pMainWindow != NULL )
+  if ( m_pMainWindow != nullptr )
   {
     m_pMainWindow->AddInputListener( listener );
   }
@@ -312,7 +312,7 @@ void Application::RemoveInputListener( InputListener* listener )
   NE_ASSERT( m_pMainWindow != NULL, "Main window not yet created" );
   NE_ASSERT( listener != NULL, "Invalid listener." );
 
-  if ( m_pMainWindow != NULL )
+  if ( m_pMainWindow != nullptr )
   {
     m_pMainWindow->RemoveInputListener( listener );
   }

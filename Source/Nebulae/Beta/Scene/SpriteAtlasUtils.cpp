@@ -28,9 +28,9 @@ SceneObject* SpriteAtlasUtils::AttachFrameToNode( std::weak_ptr<RenderSystem> re
                                                   SceneNode* pNode, SpriteAtlas* pSpriteAtlas,
                                                   const std::string& strFrameName, int iFlags )
 {
-  if ( renderer.expired() || pNode == NULL || material == NULL )
+  if ( renderer.expired() || pNode == nullptr || material == nullptr )
   {
-    return NULL;
+    return nullptr;
   }
 
   SceneObject* pObj = pNode->CreateObject( material );
@@ -52,7 +52,7 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   NE_ASSERT( pSpriteAtlas, "" );
 
   // Early out if there are any issues with the parameters.
-  if ( renderer.expired() || material == NULL || pObj == NULL || pSpriteAtlas == NULL )
+  if ( renderer.expired() || material == nullptr || pObj == nullptr || pSpriteAtlas == nullptr )
     return;
 
   std::shared_ptr<RenderSystem> renderDevicePtr = renderer.lock();
@@ -61,7 +61,7 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   //
   SubTexture* subTexture = pSpriteAtlas->FindModuleSubTexture( strFrameName );
   NE_ASSERT( subTexture, "" );
-  if ( subTexture == NULL )
+  if ( subTexture == nullptr )
     return;
 
   //
@@ -69,7 +69,7 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   //
   // Grab the vertex buffer.
   HardwareBuffer* buffer = renderDevicePtr->FindBufferByName( "billboardVertexBuffer" );
-  if ( buffer == NULL )
+  if ( buffer == nullptr )
   {
     // Vertex buffer wasn't found, create it.
     buffer = renderDevicePtr->CreateBuffer( "billboardVertexBuffer", HBU_STATIC_WRITE_ONLY, 12 * sizeof( float ),

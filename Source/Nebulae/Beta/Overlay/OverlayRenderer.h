@@ -81,12 +81,12 @@ protected:
                   bool bevelRight, bool bevelBottom ) const;
 
   void DrawQuad( RenderSystemPtr renderer, const Nebulae::Point& upperLeft, const Nebulae::Point& lowerRight,
-                 const Colour& colour = CLR_WHITE, const SubTexture* texture = NULL, float depth = 0.0f,
+                 const Colour& colour = CLR_WHITE, const SubTexture* texture = nullptr, float depth = 0.0f,
                  float rotation = 0.0f ) const;
 
   void DrawComplexQuad( RenderSystemPtr renderer, const Nebulae::Point& ul, const Nebulae::Point& ur,
                         const Nebulae::Point& ll, const Nebulae::Point& lr, const Colour& colour = CLR_WHITE,
-                        const SubTexture* texture = NULL, float depth = 0.0f, float rotation = 0.0f ) const;
+                        const SubTexture* texture = nullptr, float depth = 0.0f, float rotation = 0.0f ) const;
 };
 
 } // namespace Nebulae

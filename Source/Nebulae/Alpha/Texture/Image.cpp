@@ -17,7 +17,7 @@
 using namespace Nebulae;
 
 
-Image::Image() : m_buffer( 0 ) {}
+Image::Image() : m_buffer( nullptr ) {}
 
 
 Image::~Image() { freeMemory(); }
@@ -36,7 +36,7 @@ void Image::freeMemory()
   {
     delete[] m_buffer;
   }
-  m_buffer = NULL;
+  m_buffer = nullptr;
 }
 
 
@@ -67,15 +67,15 @@ Image& Image::flipAroundY()
 
   // mNumMipmaps = 0; // Image operations lose precomputed mipmaps
 
-  uint8* pTempBuffer1 = NULL;
-  uint16* pTempBuffer2 = NULL;
-  uint8* pTempBuffer3 = NULL;
-  uint32* pTempBuffer4 = NULL;
+  uint8* pTempBuffer1 = nullptr;
+  uint16* pTempBuffer2 = nullptr;
+  uint8* pTempBuffer3 = nullptr;
+  uint32* pTempBuffer4 = nullptr;
 
-  uint8 *src1 = m_buffer, *dst1 = NULL;
-  uint16 *src2 = (uint16*)m_buffer, *dst2 = NULL;
-  uint8 *src3 = m_buffer, *dst3 = NULL;
-  uint32 *src4 = (uint32*)m_buffer, *dst4 = NULL;
+  uint8 *src1 = m_buffer, *dst1 = nullptr;
+  uint16 *src2 = (uint16*)m_buffer, *dst2 = nullptr;
+  uint8 *src3 = m_buffer, *dst3 = nullptr;
+  uint32 *src4 = (uint32*)m_buffer, *dst4 = nullptr;
 
   uint16 y;
   switch ( m_pixelSize )

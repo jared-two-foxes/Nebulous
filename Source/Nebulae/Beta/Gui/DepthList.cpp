@@ -43,20 +43,21 @@ const int MAX_SPAN =
 
 Widget* DepthList::Pick( const Point& pt, Widget* modal, const std::set<Widget*>* ignore ) const
 {
-  Widget* retval = 0;
+  Widget* retval = nullptr;
   if ( modal )
   { // if a modal window is active, only look there
     // NOTE: We have to check Visible() separately, because in the
     // rendering code an invisble parent's children are never rendered.
-    retval = modal->IsVisible() && modal->InWindow( pt ) ? PickWithinWindow( pt, modal, ignore ) : 0;
+    retval = modal->IsVisible() && modal->InWindow( pt ) ? PickWithinWindow( pt, modal, ignore ) : nullptr;
   }
   else
   { // otherwise, look in the z-list
     const_iterator end_it = end();
     for ( const_iterator it = begin(); it != end_it; ++it )
     {
-      Widget* temp = 0;
-      if ( ( *it )->IsVisible() && ( *it )->InWindow( pt ) && ( temp = PickWithinWindow( pt, *it, ignore ) ) != NULL )
+      Widget* temp = nullptr;
+      if ( ( *it )->IsVisible() && ( *it )->InWindow( pt ) &&
+           ( temp = PickWithinWindow( pt, *it, ignore ) ) != nullptr )
       {
         retval = temp;
         break;
@@ -69,7 +70,7 @@ Widget* DepthList::Pick( const Point& pt, Widget* modal, const std::set<Widget*>
 
 Widget* DepthList::Find( const char* name, const std::set<Widget*>* ignore ) const
 {
-  Widget* retval = 0;
+  Widget* retval = nullptr;
   const_iterator end_it = end();
   for ( const_iterator it = begin(); it != end_it; ++it )
   {
@@ -79,7 +80,7 @@ Widget* DepthList::Find( const char* name, const std::set<Widget*>* ignore ) con
     }
 
     Widget* temp = FindWithinWidget( name, *it, ignore );
-    if ( temp != 0 )
+    if ( temp != nullptr )
     {
       retval = temp;
       break;
@@ -249,14 +250,14 @@ Widget* DepthList::PickWithinWindow( const Point& pt, Widget* widget, const std:
   Widget* retval =
     ( widget->IsVisible() && widget->IsInteractive() && ( !ignore || ignore->find( widget ) == ignore->end() ) )
       ? widget
-      : 0;
+      : nullptr;
   // look through all the children of wnd, and determine whether pt lies in
   // any of them (or their children)
   std::list<Widget*>::reverse_iterator end_it = widget->m_children.rend();
   for ( std::list<Widget*>::reverse_iterator it = widget->m_children.rbegin(); it != end_it; ++it )
   {
-    Widget* temp = 0;
-    if ( ( *it )->InWindow( pt ) && ( temp = PickWithinWindow( pt, *it, ignore ) ) != NULL )
+    Widget* temp = nullptr;
+    if ( ( *it )->InWindow( pt ) && ( temp = PickWithinWindow( pt, *it, ignore ) ) != nullptr )
     {
       retval = temp;
       break;
@@ -268,7 +269,7 @@ Widget* DepthList::PickWithinWindow( const Point& pt, Widget* widget, const std:
 
 Widget* DepthList::FindWithinWidget( const char* name, Widget* widget, const std::set<Widget*>* ignore ) const
 {
-  Widget* retval = 0;
+  Widget* retval = nullptr;
 
   if ( !ignore || ignore->find( widget ) == ignore->end() )
   {
@@ -283,7 +284,7 @@ Widget* DepthList::FindWithinWidget( const char* name, Widget* widget, const std
       }
 
       retval = FindWithinWidget( name, *it, ignore );
-      if ( retval != NULL )
+      if ( retval != nullptr )
       {
         break;
       }

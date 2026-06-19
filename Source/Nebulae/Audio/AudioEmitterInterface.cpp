@@ -91,7 +91,7 @@ Real AudioEmitterInterface::GetPlayCursor() const
 ///
 {
   AudioSoundInterface* playingSound = GetPlayingSound();
-  if ( playingSound != NULL )
+  if ( playingSound != nullptr )
   {
     return playingSound->Tell();
   }

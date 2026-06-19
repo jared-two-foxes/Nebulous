@@ -10,12 +10,12 @@ namespace Nebulae
 // constructor
 SubMesh::SubMesh( Mesh* parent )
   : m_pParent( parent ),
-    m_pVertexElements( NULL ),
+    m_pVertexElements( nullptr ),
     m_DeleteDecleration( false ),
-    m_pVertexBuffer( NULL ),
+    m_pVertexBuffer( nullptr ),
     m_iVertexCount( 0 ),
     m_iVertexSize( 0 ),
-    m_pIndexBuffer( NULL ),
+    m_pIndexBuffer( nullptr ),
     m_iIndexCount( 0 ),
     m_PrimitiveTopology( OT_UNKNOWN ),
     m_Skinned( false )

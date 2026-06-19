@@ -58,11 +58,11 @@ public:
   /** \name Accessors */ ///@{
   /** Returns pointer to the window under the point pt; constrains pick to
       modal if nonzero, and ignores \a ignore if nonzero. */
-  Widget* Pick( const Point& pt, Widget* modal, const std::set<Widget*>* ignore = 0 ) const;
+  Widget* Pick( const Point& pt, Widget* modal, const std::set<Widget*>* ignore = nullptr ) const;
 
   /** Returns pointer to the widget which has been given the name \a name;
       ignores \a ignore if nonzero. */
-  Widget* Find( const char* name, const std::set<Widget*>* ignore = 0 ) const;
+  Widget* Find( const char* name, const std::set<Widget*>* ignore = nullptr ) const;
   //@}
 
   /** \name Mutators */ ///@{

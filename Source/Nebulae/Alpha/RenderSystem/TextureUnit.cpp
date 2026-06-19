@@ -7,7 +7,7 @@
 using namespace Nebulae;
 
 
-TextureUnit::TextureUnit( RenderSystem* renderer ) : m_renderer( NULL ), m_texture( NULL ) {}
+TextureUnit::TextureUnit( RenderSystem* renderer ) : m_renderer( nullptr ), m_texture( nullptr ) {}
 
 
 bool TextureUnit::Load()

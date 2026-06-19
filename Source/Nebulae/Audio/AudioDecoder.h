@@ -20,7 +20,7 @@ protected:
   AudioTrackParams m_trackParams; ///< Basic track information.
 
 public:
-  AudioDecoder() : m_stream( NULL ) {}
+  AudioDecoder() : m_stream( nullptr ) {}
   virtual ~AudioDecoder() {}
 
   /** Mutators */

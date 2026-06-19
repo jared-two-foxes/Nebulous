@@ -6,7 +6,7 @@ using namespace Nebulae;
 
 Widget::Widget( const WidgetFactory& factory, int x, int y, int w, int h, uint32 flags )
   : m_id( -1 ),
-    m_parent( NULL ),
+    m_parent( nullptr ),
     m_upperLeft( x, y ),
     m_lowerRight( x + w, y + h ),
     m_zorder( 0 ),
@@ -488,7 +488,7 @@ void Widget::DetachChild( Widget* widget )
     if ( it != m_children.end() )
     {
       m_children.erase( it );
-      widget->m_parent = 0;
+      widget->m_parent = nullptr;
     }
   }
 }

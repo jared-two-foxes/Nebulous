@@ -25,7 +25,10 @@ public:
 
 // constructor
 SceneGraph::SceneGraph( RenderSystemPtr pRenderSystem )
-  : m_pRenderQueue( NULL ), m_pRenderSystem( pRenderSystem ), m_pCameraInProgress( NULL ), m_RootSceneNode( NULL )
+  : m_pRenderQueue( nullptr ),
+    m_pRenderSystem( pRenderSystem ),
+    m_pCameraInProgress( nullptr ),
+    m_RootSceneNode( nullptr )
 {
 }
 
@@ -109,7 +112,7 @@ void SceneGraph::RemoveSceneNode( SceneNode* pNode )
   {
     pParent->RemoveChild( pNode );
   }
-  pNode->SetParent( NULL );
+  pNode->SetParent( nullptr );
 
   // Remove it from node list.
   std::vector<SceneNode*>::iterator end_it = m_Nodes.end();

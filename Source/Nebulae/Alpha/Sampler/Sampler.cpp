@@ -12,7 +12,7 @@ Sampler::~Sampler()
   {
     delete m_impl;
   }
-  m_impl = NULL;
+  m_impl = nullptr;
 }
 
 void Sampler::SetImpl( Impl* impl ) { m_impl = impl; }

@@ -54,7 +54,7 @@ bool SpriteAnimation::Load( File* stream )
   //
   // Grab the frames.
   //
-  SpriteAtlas* pAtlas = NULL;
+  SpriteAtlas* pAtlas = nullptr;
   Json::Value animation = root["Animation"];
   NE_ASSERT( !animation.isNull() && animation.isObject(),
              "Found invalid animation node while parsing sprite animation." );
@@ -70,7 +70,7 @@ bool SpriteAnimation::Load( File* stream )
 
     // Grab or create the Sprite Atlas.
     pAtlas = m_atlasManager->GetByName( strSpriteSheetName );
-    if ( pAtlas == NULL )
+    if ( pAtlas == nullptr )
     {
       pAtlas = m_atlasManager->Create( strSpriteSheetName );
     }

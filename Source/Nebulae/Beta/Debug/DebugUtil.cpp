@@ -18,7 +18,11 @@ namespace Nebulae
 #define MAX_DEBUG_LINES 128
 
 DebugUtil::DebugUtil( RenderSystemPtr renderer )
-  : m_primitiveCount( 0 ), m_renderSystem( renderer ), m_material( NULL ), m_vertexBuffer( NULL ), m_inputLayout( NULL )
+  : m_primitiveCount( 0 ),
+    m_renderSystem( renderer ),
+    m_material( nullptr ),
+    m_vertexBuffer( nullptr ),
+    m_inputLayout( nullptr )
 {
 }
 
@@ -39,10 +43,10 @@ void DebugUtil::Init()
   const uint32 bufferSize = MAX_DEBUG_LINES * vertexSize;
 
   m_vertexBuffer = m_renderSystem->FindBufferByName( "DebugBuffer" );
-  if ( m_vertexBuffer == NULL )
+  if ( m_vertexBuffer == nullptr )
   {
     // Unable to find an existing buffer, create a new one.
-    m_vertexBuffer = m_renderSystem->CreateBuffer( "DebugBuffer", HBU_DYNAMIC, bufferSize, HBB_VERTEX, (void*)NULL );
+    m_vertexBuffer = m_renderSystem->CreateBuffer( "DebugBuffer", HBU_DYNAMIC, bufferSize, HBB_VERTEX, (void*)nullptr );
   }
 
   // @todo [jared.watt 25.05.2013] Leaks. Needs to be deleted somewhere.
@@ -52,7 +56,7 @@ void DebugUtil::Init()
 
   // Attempt to find a valid input layout
   m_inputLayout = m_renderSystem->FindInputLayoutByUsage( pVertexDecl, vertexShader );
-  if ( m_inputLayout == NULL )
+  if ( m_inputLayout == nullptr )
   {
     // Create the layout based upon the materials pass.
     m_inputLayout = m_renderSystem->CreateInputLayout( "DebugLayout", pVertexDecl, vertexShader );

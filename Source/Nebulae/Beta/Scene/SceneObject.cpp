@@ -30,7 +30,7 @@ SceneObject::SceneObject( SceneNode* parent, const Material* material )
 SceneObject::~SceneObject()
 {
   Clear();
-  m_node = NULL;
+  m_node = nullptr;
 }
 
 
@@ -67,7 +67,7 @@ bool SceneObject::Initialize()
 ///   true if success else false.
 ///
 {
-  if ( NULL == m_material )
+  if ( nullptr == m_material )
     return false;
 
   //@todo Setup the uniform parameters based upon the Material.
@@ -171,7 +171,7 @@ void SceneObject::Render( RenderSystemPtr renderDevice ) const
     }
 
     // Draw function
-    if ( m_passData[i]->Geometry->m_indexBuffer != NULL )
+    if ( m_passData[i]->Geometry->m_indexBuffer != nullptr )
     {
       renderDevice->SetIndexBuffer( m_passData[i]->Geometry->m_indexBuffer, 0 );
       renderDevice->DrawIndexed( m_passData[i]->Geometry->m_indexCount, 0, 0 );

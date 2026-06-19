@@ -7,7 +7,7 @@
 using namespace Nebulae;
 
 
-Pass::Pass() : m_vertexShader( NULL ), m_pixelShader( NULL ) {}
+Pass::Pass() : m_vertexShader( nullptr ), m_pixelShader( nullptr ) {}
 
 
 Pass::~Pass() {}

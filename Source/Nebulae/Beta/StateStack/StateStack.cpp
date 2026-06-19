@@ -153,7 +153,7 @@ State* StateStack::GetCurrentState()
 {
   if ( m_States.empty() )
   {
-    return NULL;
+    return nullptr;
   }
 
   return m_States.back();
@@ -172,7 +172,7 @@ State* StateStack::FindState( const char* szStateName ) const
 {
   if ( m_States.empty() )
   {
-    return NULL;
+    return nullptr;
   }
 
   std::list<State*>::const_iterator end_it = m_States.end();
@@ -184,5 +184,5 @@ State* StateStack::FindState( const char* szStateName ) const
     }
   }
 
-  return NULL;
+  return nullptr;
 }

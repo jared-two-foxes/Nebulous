@@ -14,7 +14,7 @@ using namespace Nebulae;
 struct Nebulae::GUIImpl
 {
   GUIImpl( GuiManager::FileArchivePtr fileSystem, std::shared_ptr<RenderSystem> renderSystem )
-    : m_focusWidget( 0 ),
+    : m_focusWidget( nullptr ),
       m_mousePos( -1000, -1000 ),
       m_mouseRel( 0, 0 ),
       m_modKeys(),
@@ -25,25 +25,25 @@ struct Nebulae::GUIImpl
       m_minDragTime( 50 ),    // m_minDragTime(250),
       m_minDragDistance( 1 ), // m_minDragDistance(5),
       m_prevButtonPressTime( static_cast<uint64>( -1 ) ),
-      m_prevWidgetUnderCursor( 0 ),
+      m_prevWidgetUnderCursor( nullptr ),
       m_prevWidgetUnderCursorTime( -1 ),
-      m_currWidgetUnderCursor( 0 ),
+      m_currWidgetUnderCursor( nullptr ),
       m_dragWidgets(),
       m_currDragWidgetDragged( false ),
-      m_currDragWidget( 0 ),
-      m_currDragDropHereWidget( 0 ),
+      m_currDragWidget( nullptr ),
+      m_currDragDropHereWidget( nullptr ),
       m_widgetRegion( WR_NONE ),
-      m_dragDropOriginatingWidget( 0 ),
+      m_dragDropOriginatingWidget( nullptr ),
       m_delta_t( 0 ),
       m_renderingDragDropWidgets( false ),
-      m_doubleClickWidget( 0 ),
+      m_doubleClickWidget( nullptr ),
       m_doubleClickStartTime( -1 ),
       m_doubleClickTime( -1 ),
       m_fileSystem( fileSystem ),
       m_widgetFactory( new WidgetFactory() )
   {
     m_buttonState[0] = m_buttonState[1] = m_buttonState[2] = false;
-    m_dragWidgets[0] = m_dragWidgets[1] = m_dragWidgets[2] = 0;
+    m_dragWidgets[0] = m_dragWidgets[1] = m_dragWidgets[2] = nullptr;
 
     m_start = std::chrono::high_resolution_clock::now();
   }
@@ -136,7 +136,7 @@ bool GUIImpl::HandlePress( GuiManager* mgr, uint32 mouseButton, const Point& pos
   }
 
   // if this window is not a disabled Control window, it becomes the focus window
-  Control* control = 0;
+  Control* control = nullptr;
   if ( m_dragWidgets[mouseButton] &&
        ( !( ( control = dynamic_cast<Control*>( m_dragWidgets[mouseButton] ) ) ) || !control->IsDisabled() ) )
   {
@@ -170,7 +170,7 @@ bool GUIImpl::HandlePress( GuiManager* mgr, uint32 mouseButton, const Point& pos
 
   m_prevWidgetUnderCursor = m_currWidgetUnderCursor; // update this for the next time around
 
-  return ( m_prevWidgetUnderCursor != NULL && m_prevWidgetUnderCursor->IsInteractive() );
+  return ( m_prevWidgetUnderCursor != nullptr && m_prevWidgetUnderCursor->IsInteractive() );
 }
 
 
@@ -292,7 +292,7 @@ bool GUIImpl::HandleDrag( GuiManager* mgr, uint32 mouseButton, const Point& pos,
     }
   }
 
-  return ( m_prevWidgetUnderCursor != NULL && m_prevWidgetUnderCursor->IsInteractive() );
+  return ( m_prevWidgetUnderCursor != nullptr && m_prevWidgetUnderCursor->IsInteractive() );
 }
 
 
@@ -314,7 +314,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
                                                     clickWidget->GetDragDropDataType() != "" && mouseButton == 0;
 
   m_buttonState[mouseButton] = false;
-  m_dragWidgets[mouseButton] = 0; // if the mouse button is released, stop tracking the drag window.
+  m_dragWidgets[mouseButton] = nullptr; // if the mouse button is released, stop tracking the drag window.
   m_widgetRegion = WR_NONE;       // and clear this, just in case
 
   // if the release is over the Widget where the button-down event occurred, and Widget has not been dragged
@@ -324,7 +324,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
     // the time limit -- it's a double-click, not a click
     if ( m_doubleClickTime > 0 && m_doubleClickWidget == clickWidget && m_doubleClickButton == mouseButton )
     {
-      m_doubleClickWidget = 0;
+      m_doubleClickWidget = nullptr;
       m_doubleClickStartTime = -1;
       m_doubleClickTime = -1;
       clickWidget->HandleEvent( WidgetEvent( WidgetEvent::DoubleClicked, pos, m_modKeys ) );
@@ -333,7 +333,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
     {
       if ( m_doubleClickTime > 0 )
       {
-        m_doubleClickWidget = 0;
+        m_doubleClickWidget = nullptr;
         m_doubleClickStartTime = -1;
         m_doubleClickTime = -1;
       }
@@ -349,7 +349,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
   }
   else
   {
-    m_doubleClickWidget = 0;
+    m_doubleClickWidget = nullptr;
     m_doubleClickTime = -1;
     if ( clickWidget )
     {
@@ -363,7 +363,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
         {
           m_dragDropOriginatingWidget = clickWidget->GetParent();
           m_currWidgetUnderCursor->HandleEvent( WidgetEvent( WidgetEvent::DragDropLeave ) );
-          m_currDragDropHereWidget = 0;
+          m_currDragDropHereWidget = nullptr;
           m_dragDropWidgetsAcceptable[clickWidget] = false;
           m_currWidgetUnderCursor->DropsAcceptable( m_dragDropWidgetsAcceptable.begin(),
                                                     m_dragDropWidgetsAcceptable.end(), pos );
@@ -391,7 +391,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
       else
       {
         m_currWidgetUnderCursor->HandleEvent( WidgetEvent( WidgetEvent::DragDropLeave ) );
-        m_currDragDropHereWidget = 0;
+        m_currDragDropHereWidget = nullptr;
         m_currWidgetUnderCursor->DropsAcceptable( m_dragDropWidgetsAcceptable.begin(),
                                                   m_dragDropWidgetsAcceptable.end(), pos );
         std::vector<Widget*> acceptedWidgets;
@@ -420,14 +420,14 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
       }
     }
   }
-  m_dragDropOriginatingWidget = 0;
+  m_dragDropOriginatingWidget = nullptr;
   m_prevWidgetUnderCursor = m_currWidgetUnderCursor; // update this for the next time around
   m_currDragWidgetDragged = false;
-  m_currDragWidget = 0;
+  m_currDragWidget = nullptr;
   m_dragDropWidgets.clear();
   m_dragDropWidgetsAcceptable.clear();
 
-  return ( m_prevWidgetUnderCursor != NULL && m_prevWidgetUnderCursor->IsInteractive() );
+  return ( m_prevWidgetUnderCursor != nullptr && m_prevWidgetUnderCursor->IsInteractive() );
 }
 
 
@@ -556,7 +556,7 @@ bool GuiManager::HandleEvents( EventType eventType, KeyCode key, uint32 key_code
     {
       m_impl->m_doubleClickStartTime = -1;
       m_impl->m_doubleClickTime = -1;
-      m_impl->m_doubleClickWidget = 0;
+      m_impl->m_doubleClickWidget = nullptr;
     }
   }
 
@@ -564,7 +564,7 @@ bool GuiManager::HandleEvents( EventType eventType, KeyCode key, uint32 key_code
   {
   case IDLE:
   {
-    if ( ( m_impl->m_currWidgetUnderCursor = CheckedGetWindowUnder( pos, modKeys ) ) != NULL )
+    if ( ( m_impl->m_currWidgetUnderCursor = CheckedGetWindowUnder( pos, modKeys ) ) != nullptr )
     {
       if ( m_impl->m_buttonDownRepeatDelay && m_impl->m_currWidgetUnderCursor->RepeatButtonDown() &&
            m_impl->m_dragWidgets[0] == m_impl->m_currWidgetUnderCursor )
@@ -638,7 +638,7 @@ bool GuiManager::HandleEvents( EventType eventType, KeyCode key, uint32 key_code
     }
     m_impl->m_prevWidgetUnderCursor = m_impl->m_currWidgetUnderCursor; // update this for the next time around
 
-    return ( m_impl->m_currWidgetUnderCursor != NULL );
+    return ( m_impl->m_currWidgetUnderCursor != nullptr );
   }
 
   case TOUCHDOWN:
@@ -698,7 +698,7 @@ void GuiManager::Remove( Widget* widget )
   {
     if ( m_impl->m_currWidgetUnderCursor == widget )
     {
-      m_impl->m_currWidgetUnderCursor = 0;
+      m_impl->m_currWidgetUnderCursor = nullptr;
     }
     if ( !m_impl->m_modalWidgets.empty() && m_impl->m_modalWidgets.back().first == widget )
     { // if it's the current modal window, remove it from the modal list
@@ -719,7 +719,7 @@ void GuiManager::WidgetDying( Widget* widget )
     Remove( widget );
     if ( MatchesOrContains( widget, m_impl->m_focusWidget ) )
     {
-      m_impl->m_focusWidget = 0;
+      m_impl->m_focusWidget = nullptr;
     }
     for ( std::list<std::pair<Widget*, Widget*>>::iterator it = m_impl->m_modalWidgets.begin();
           it != m_impl->m_modalWidgets.end(); ++it )
@@ -741,40 +741,40 @@ void GuiManager::WidgetDying( Widget* widget )
     }
     if ( MatchesOrContains( widget, m_impl->m_prevWidgetUnderCursor ) )
     {
-      m_impl->m_prevWidgetUnderCursor = 0;
+      m_impl->m_prevWidgetUnderCursor = nullptr;
     }
     if ( MatchesOrContains( widget, m_impl->m_currWidgetUnderCursor ) )
     {
-      m_impl->m_currWidgetUnderCursor = 0;
+      m_impl->m_currWidgetUnderCursor = nullptr;
     }
     if ( MatchesOrContains( widget, m_impl->m_dragWidgets[0] ) )
     {
-      m_impl->m_dragWidgets[0] = 0;
+      m_impl->m_dragWidgets[0] = nullptr;
       m_impl->m_widgetRegion = WR_NONE;
     }
     if ( MatchesOrContains( widget, m_impl->m_dragWidgets[1] ) )
     {
-      m_impl->m_dragWidgets[1] = 0;
+      m_impl->m_dragWidgets[1] = nullptr;
       m_impl->m_widgetRegion = WR_NONE;
     }
     if ( MatchesOrContains( widget, m_impl->m_dragWidgets[2] ) )
     {
-      m_impl->m_dragWidgets[2] = 0;
+      m_impl->m_dragWidgets[2] = nullptr;
       m_impl->m_widgetRegion = WR_NONE;
     }
     if ( MatchesOrContains( widget, m_impl->m_currDragDropHereWidget ) )
     {
-      m_impl->m_currDragDropHereWidget = 0;
+      m_impl->m_currDragDropHereWidget = nullptr;
     }
     if ( MatchesOrContains( widget, m_impl->m_dragDropOriginatingWidget ) )
     {
-      m_impl->m_dragDropOriginatingWidget = 0;
+      m_impl->m_dragDropOriginatingWidget = nullptr;
     }
     m_impl->m_dragDropWidgets.erase( widget );
     m_impl->m_dragDropWidgetsAcceptable.erase( widget );
     if ( MatchesOrContains( widget, m_impl->m_doubleClickWidget ) )
     {
-      m_impl->m_doubleClickWidget = 0;
+      m_impl->m_doubleClickWidget = nullptr;
       m_impl->m_doubleClickStartTime = -1;
       m_impl->m_doubleClickTime = -1;
     }
@@ -858,7 +858,7 @@ std::shared_ptr<Font> GuiManager::GetFont( const std::string& filename, unsigned
   }
 
   File* is = m_impl->m_fileSystem->Open( NE_DEFAULT_ROOTDEVICE, filename );
-  if ( is == NULL )
+  if ( is == nullptr )
   {
     return std::shared_ptr<Font>();
   }
@@ -873,7 +873,7 @@ std::shared_ptr<Font> GuiManager::GetFont( const std::string& filename, unsigned
 
 Widget* GuiManager::GetModalWindow() const
 {
-  Widget* retval = 0;
+  Widget* retval = nullptr;
   if ( !m_impl->m_modalWidgets.empty() )
   {
     retval = m_impl->m_modalWidgets.back().first;
@@ -893,7 +893,7 @@ Widget* GuiManager::CheckedGetWindowUnder( const Point& pt, Flags<ModKey> mod_ke
   if ( m_impl->m_currDragDropHereWidget && !unregisteredDragDrop && !registeredDragDrop )
   {
     m_impl->m_currDragDropHereWidget->HandleEvent( WidgetEvent( WidgetEvent::DragDropLeave ) );
-    m_impl->m_currDragDropHereWidget = 0;
+    m_impl->m_currDragDropHereWidget = nullptr;
   }
   if ( widget != m_impl->m_currWidgetUnderCursor )
   {
@@ -903,7 +903,7 @@ Widget* GuiManager::CheckedGetWindowUnder( const Point& pt, Flags<ModKey> mod_ke
       {
         m_impl->m_currWidgetUnderCursor->HandleEvent( WidgetEvent( WidgetEvent::DragDropLeave ) );
         m_impl->m_dragDropWidgetsAcceptable[draggedWidget] = false;
-        m_impl->m_currDragDropHereWidget = 0;
+        m_impl->m_currDragDropHereWidget = nullptr;
       }
       else if ( registeredDragDrop )
       {
@@ -913,7 +913,7 @@ Widget* GuiManager::CheckedGetWindowUnder( const Point& pt, Flags<ModKey> mod_ke
         {
           it->second = false;
         }
-        m_impl->m_currDragDropHereWidget = 0;
+        m_impl->m_currDragDropHereWidget = nullptr;
       }
       else
       {

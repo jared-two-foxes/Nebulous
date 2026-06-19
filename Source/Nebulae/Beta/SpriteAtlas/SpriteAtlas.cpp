@@ -24,7 +24,7 @@ SpriteAtlas::~SpriteAtlas() {}
 
 bool SpriteAtlas::Load( File* is )
 {
-  if ( NULL == is )
+  if ( nullptr == is )
   {
     return false;
   }
@@ -90,7 +90,7 @@ SubTexture* SpriteAtlas::FindModuleSubTexture( const std::string& moduleName ) c
 /// 	The module if found.
 ///
 {
-  SpriteAtlasModule* pModule = NULL;
+  SpriteAtlasModule* pModule = nullptr;
   for ( std::size_t i = 0, n = m_modules.size(); i < n; ++i )
   {
     if ( strcmp( m_modules[i]->m_name.c_str(), moduleName.c_str() ) == 0 )
@@ -104,7 +104,7 @@ SubTexture* SpriteAtlas::FindModuleSubTexture( const std::string& moduleName ) c
     NE_ASSERT( pModule->m_subTexture, "" );
     return pModule->m_subTexture;
   }
-  return NULL;
+  return nullptr;
 }
 
 

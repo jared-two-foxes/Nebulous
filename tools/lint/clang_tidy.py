@@ -44,6 +44,7 @@ def main():
         print(f"ERROR: Source directory not found at {source_dir}")
         return 1
 
+    extra_args = sys.argv[1:]
     print("Running clang-tidy over Source directory...")
 
     # Find all C/C++ source files in Source directory
@@ -55,6 +56,7 @@ def main():
                 subprocess.run(
                     ["clang-tidy", "-p", "compile_commands.json",
                      "--extra-arg=/std:c++20",
+                     *extra_args,
                      filepath]
                 )
 
