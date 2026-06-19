@@ -57,9 +57,9 @@ SceneNode* SceneGraph::GetRootSceneNode() const { return m_RootSceneNode; }
 
 void SceneGraph::Clear()
 {
-  for ( std::size_t i = 0, n = m_Nodes.size(); i < n; ++i )
+  for ( auto& node : m_Nodes )
   {
-    delete m_Nodes[i];
+    delete node;
   }
   m_Nodes.clear();
 
@@ -154,10 +154,9 @@ void SceneGraph::RenderVisibleObjects_( Camera* pCamera )
   // Render each separate queue
   RenderQueue::LayersList layers = m_pRenderQueue->GetQueueLayers_();
 
-  for ( std::size_t i = 0, n = layers.size(); i < n; ++i )
+  for ( auto layer : layers )
   {
     // Skip this one if not to be processed
-    RenderQueueLayer* layer = layers[i];
     //	if( !layer->IsRenderQueueToBeProcessed(qId) )
     //	{
     //		continue;
@@ -184,10 +183,10 @@ void SceneGraph::RenderObjects_( std::vector<SceneObject*>& objects, Camera* cam
     // Sort by z depth.
     std::sort( objects.begin(), objects.end(), SceneObjectGreater() );
 
-    for ( std::size_t i = 0, n = objects.size(); i < n; ++i )
+    for ( auto& object : objects )
     {
-      objects[i]->PreRender( camera );
-      objects[i]->Render( m_pRenderSystem );
+      object->PreRender( camera );
+      object->Render( m_pRenderSystem );
     }
   }
 }

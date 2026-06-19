@@ -18,9 +18,9 @@ SpriteAtlasManager::SpriteAtlasManager( FileArchivePtr fileSystem, RenderSystemP
 SpriteAtlasManager::~SpriteAtlasManager()
 {
   // Delete the resource from the list.
-  for ( std::size_t i = 0, n = m_Resources.size(); i < n; i++ )
+  for ( auto& resource : m_Resources )
   {
-    delete ( m_Resources[i] );
+    delete resource;
   }
   m_Resources.clear();
 }

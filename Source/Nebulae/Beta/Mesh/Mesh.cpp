@@ -11,11 +11,11 @@ Mesh::Mesh( const std::string& name ) : m_name( name ) {}
 
 Mesh::~Mesh()
 {
-  for ( int i = 0; i < MAX_LOD_COUNT; ++i )
+  for ( auto& lod : m_lods )
   {
-    for ( std::size_t j = 0, n = m_lods[i].m_SubMeshes.size(); j < n; ++j )
+    for ( std::size_t j = 0, n = lod.m_SubMeshes.size(); j < n; ++j )
     {
-      delete m_lods[i].m_SubMeshes[j];
+      delete lod.m_SubMeshes[j];
     }
   }
 }

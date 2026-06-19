@@ -10,14 +10,14 @@ AnimationContainer::AnimationContainer() {}
 // destructor
 AnimationContainer::~AnimationContainer()
 {
-  for ( std::size_t i = 0, n = m_Animations.size(); i < n; i++ )
+  for ( auto& animation : m_Animations )
   {
-    delete m_Animations[i];
+    delete animation;
   }
 
-  for ( std::size_t i = 0, n = m_Skeletons.size(); i < n; ++i )
+  for ( auto& skeleton : m_Skeletons )
   {
-    delete m_Skeletons[i];
+    delete skeleton;
   }
 }
 
@@ -73,17 +73,17 @@ void AnimationContainer::write( std::ostream& os ) const
   // Write the animation data.
   size = m_Animations.size();
   os.write( (char*)&size, sizeof( int ) );
-  for ( std::size_t i = 0, n = m_Animations.size(); i < n; i++ )
+  for ( auto animation : m_Animations )
   {
-    m_Animations[i]->write( os );
+    animation->write( os );
   }
 
   // Write the skeleton data.
   size = m_Skeletons.size();
   os.write( (char*)&size, sizeof( int ) );
-  for ( std::size_t i = 0, n = m_Skeletons.size(); i < n; i++ )
+  for ( auto skeleton : m_Skeletons )
   {
-    m_Skeletons[i]->write( os );
+    skeleton->write( os );
   }
 }
 } // namespace Nebulae

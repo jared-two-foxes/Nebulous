@@ -169,11 +169,11 @@ bool SceneNode::DetachObject( SceneObject* pObject )
 
 SceneObject* SceneNode::FindSubObject( const Material* material ) const
 {
-  for ( std::size_t i = 0, n = m_Objects.size(); i < n; ++i )
+  for ( auto object : m_Objects )
   {
-    if ( m_Objects[i]->GetMaterial() == material )
+    if ( object->GetMaterial() == material )
     {
-      return m_Objects[i];
+      return object;
     }
   }
   return nullptr;
@@ -186,17 +186,17 @@ void SceneNode::FindVisibleObjects_( Camera* camera, RenderQueue* renderQueue )
 
   if ( m_bVisible )
   {
-    for ( std::size_t i = 0, n = m_Objects.size(); i < n; i++ )
+    for ( auto& object : m_Objects )
     {
-      if ( m_Objects[i]->IsVisible() )
+      if ( object->IsVisible() )
       {
-        renderQueue->AddRenderable( m_Objects[i] );
+        renderQueue->AddRenderable( object );
       }
     }
 
-    for ( std::size_t i = 0, n = m_ChildNodes.size(); i < n; ++i )
+    for ( auto& childNode : m_ChildNodes )
     {
-      m_ChildNodes[i]->FindVisibleObjects_( camera, renderQueue );
+      childNode->FindVisibleObjects_( camera, renderQueue );
     }
   }
 }

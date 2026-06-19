@@ -377,16 +377,15 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
                                                   m_dragDropWidgetsAcceptable.end(), pos );
         std::vector<Widget*> acceptedWidgets;
         std::vector<const Widget*> unacceptedWidgets;
-        for ( std::map<const Widget*, bool>::iterator it = m_dragDropWidgetsAcceptable.begin();
-              it != m_dragDropWidgetsAcceptable.end(); ++it )
+        for ( auto& it : m_dragDropWidgetsAcceptable )
         {
-          if ( it->second )
+          if ( it.second )
           {
-            acceptedWidgets.push_back( const_cast<Widget*>( it->first ) );
+            acceptedWidgets.push_back( const_cast<Widget*>( it.first ) );
           }
           else
           {
-            unacceptedWidgets.push_back( it->first );
+            unacceptedWidgets.push_back( it.first );
           }
         }
         if ( m_dragDropOriginatingWidget )
@@ -702,20 +701,19 @@ void GuiManager::WidgetDying( Widget* widget )
     {
       m_impl->m_focusWidget = nullptr;
     }
-    for ( std::list<std::pair<Widget*, Widget*>>::iterator it = m_impl->m_modalWidgets.begin();
-          it != m_impl->m_modalWidgets.end(); ++it )
+    for ( auto& modalWidget : m_impl->m_modalWidgets )
     {
-      if ( MatchesOrContains( widget, it->second ) )
+      if ( MatchesOrContains( widget, modalWidget.second ) )
       {
-        if ( MatchesOrContains( widget, it->first ) )
+        if ( MatchesOrContains( widget, modalWidget.first ) )
         {
-          it->second = 0;
+          modalWidget.second = 0;
         }
         else
         { // if the modal window for the removed window's focus level is available, revert focus to the modal window
-          if ( ( it->second = it->first ) != NULL )
+          if ( ( modalWidget.second = modalWidget.first ) != NULL )
           {
-            it->first->HandleEvent( WidgetEvent( WidgetEvent::GainingFocus ) );
+            modalWidget.first->HandleEvent( WidgetEvent( WidgetEvent::GainingFocus ) );
           }
         }
       }
@@ -889,10 +887,9 @@ Widget* GuiManager::CheckedGetWindowUnder( const Point& pt, Flags<ModKey> mod_ke
       else if ( registeredDragDrop )
       {
         m_impl->m_currWidgetUnderCursor->HandleEvent( WidgetEvent( WidgetEvent::DragDropLeave ) );
-        for ( std::map<const Widget*, bool>::iterator it = m_impl->m_dragDropWidgetsAcceptable.begin();
-              it != m_impl->m_dragDropWidgetsAcceptable.end(); ++it )
+        for ( auto& it : m_impl->m_dragDropWidgetsAcceptable )
         {
-          it->second = false;
+          it.second = false;
         }
         m_impl->m_currDragDropHereWidget = nullptr;
       }

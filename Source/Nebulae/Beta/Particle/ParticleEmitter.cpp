@@ -109,9 +109,9 @@ const Quaternion& ParticleEmitter::GetRotation() const { return m_rotation; }
 bool ParticleEmitter::IsEmpty() const
 {
   bool empty = true;
-  for ( std::vector<ReservoirElement>::const_iterator it = m_reservoir.begin(); it != m_reservoir.end(); ++it )
+  for ( const auto& elem : m_reservoir )
   {
-    if ( ( *it ).m_tank > 0 )
+    if ( elem.m_tank > 0 )
     {
       empty = false;
       break;

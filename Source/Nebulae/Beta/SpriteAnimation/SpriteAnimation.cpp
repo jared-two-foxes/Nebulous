@@ -15,9 +15,9 @@ SpriteAnimation::SpriteAnimation( const std::string& strName, const AtlasManager
 
 SpriteAnimation::~SpriteAnimation()
 {
-  for ( std::size_t i = 0, n = m_Frames.size(); i < n; ++i )
+  for ( auto& frame : m_Frames )
   {
-    delete m_Frames[i];
+    delete frame;
   }
   m_Frames.clear();
 }

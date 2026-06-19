@@ -81,9 +81,9 @@ void UniformParameters::RemoveUniformDefinition( const std::string& name )
     // bool isFloat = def.IsFloat();
     std::size_t numElems = def.elementSize * def.arraySize;
 
-    for ( UniformDefinitionMap::iterator j = m_definitions.begin(); j != m_definitions.end(); ++j )
+    for ( auto& definition : m_definitions )
     {
-      UniformDefinitionBase& otherDef = j->second;
+      UniformDefinitionBase& otherDef = definition.second;
       // bool otherIsFloat = otherDef.IsFloat();
 
       // same type, and comes after in the buffer

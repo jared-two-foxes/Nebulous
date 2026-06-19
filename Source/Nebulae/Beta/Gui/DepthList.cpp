@@ -319,9 +319,9 @@ bool DepthList::NeedsRealignment() const
 void DepthList::Realign()
 {
   int z = DESIRED_LOWEST_Z; // z-value to place next element at
-  for ( reverse_iterator it = rbegin(); it != rend(); ++it )
+  for ( auto& it : std::views::reverse( *this ) )
   {
-    ( *it )->m_zorder = z;
+    it->m_zorder = z;
     z += DESIRED_GAP_SIZE + 1;
   }
 }

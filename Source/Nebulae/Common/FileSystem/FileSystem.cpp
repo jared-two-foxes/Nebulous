@@ -69,9 +69,9 @@ File* FileSystem::Open( const char* devices, const std::string& path, Mode mode 
 
   File* file = nullptr;
 
-  for ( std::vector<std::string>::reverse_iterator listItr = elems.rbegin(); listItr != elems.rend(); ++listItr )
+  for ( auto it = elems.rbegin(); it != elems.rend(); ++it )
   {
-    DeviceList& deviceList = m_devices[*listItr];
+    DeviceList& deviceList = m_devices[*it];
 
     NE_ASSERT( !deviceList.empty(), "Unable to find a Device of type '%s'" );
 

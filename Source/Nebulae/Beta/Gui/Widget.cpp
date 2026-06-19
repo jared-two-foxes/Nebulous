@@ -1,5 +1,6 @@
 
 #include "Widget.h"
+
 #include "WidgetEvent.h"
 
 using namespace Nebulae;
@@ -20,19 +21,19 @@ Widget::Widget( const WidgetFactory& factory, int x, int y, int w, int h, uint32
 Widget::~Widget()
 {
   // remove this-references from Wnds that this Widget filters
-  for ( std::set<Widget*>::iterator it1 = m_filtering.begin(); it1 != m_filtering.end(); ++it1 )
+  for ( auto it1 : m_filtering )
   {
-    std::vector<Widget*>::iterator it2 = std::find( ( *it1 )->m_filters.begin(), ( *it1 )->m_filters.end(), this );
-    if ( it2 != ( *it1 )->m_filters.end() )
+    std::vector<Widget*>::iterator it2 = std::find( it1->m_filters.begin(), it1->m_filters.end(), this );
+    if ( it2 != it1->m_filters.end() )
     {
-      ( *it1 )->m_filters.erase( it2 );
+      it1->m_filters.erase( it2 );
     }
   }
 
   // remove this-references from Widgets that filter this Widget
-  for ( std::vector<Widget*>::iterator it1 = m_filters.begin(); it1 != m_filters.end(); ++it1 )
+  for ( auto& filter : m_filters )
   {
-    ( *it1 )->m_filtering.erase( this );
+    filter->m_filtering.erase( this );
   }
 
   if ( Widget* parent = GetParent() )
@@ -299,9 +300,9 @@ void Widget::CancellingChildDragDrop( const std::vector<const Widget*>& /*widget
 
 void Widget::ChildrenDraggedAway( const std::vector<Widget*>& widgets, const Widget* /*destination*/ )
 {
-  for ( std::vector<Widget*>::const_iterator it = widgets.begin(); it != widgets.end(); ++it )
+  for ( auto widget : widgets )
   {
-    DetachChild( *it );
+    DetachChild( widget );
   }
 }
 
@@ -636,9 +637,9 @@ void Widget::KeyRelease( KeyCode /*key*/, uint32 /*key_code_point*/, Flags<ModKe
 
 void Widget::HandleEvent( const WidgetEvent& event )
 {
-  for ( std::vector<Widget*>::reverse_iterator it = m_filters.rbegin(); it != m_filters.rend(); ++it )
+  for ( auto& filter : std::views::reverse( m_filters ) )
   {
-    if ( ( *it )->EventFilter( this, event ) )
+    if ( filter->EventFilter( this, event ) )
     {
       return;
     }

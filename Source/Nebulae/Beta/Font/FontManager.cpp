@@ -13,9 +13,9 @@ FontManager::FontManager() {}
 
 FontManager::~FontManager()
 {
-  for ( std::size_t i = 0, n = m_Resources.size(); i < n; i++ )
+  for ( auto& m_Resource : m_Resources )
   {
-    delete m_Resources[i];
+    delete resource;
   }
   m_Resources.clear();
 }

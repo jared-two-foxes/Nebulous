@@ -199,14 +199,14 @@ InputLayout* RenderSystem::FindInputLayoutByName( const std::string& identifier 
 InputLayout* RenderSystem::FindInputLayoutByUsage( VertexDeceleration* decleration, HardwareShader* vertexShader ) const
 {
   const std::vector<InputLayout*>& layouts = m_layoutFactory->GetResources();
-  for ( std::vector<InputLayout*>::const_iterator itr = layouts.begin(); itr != layouts.end(); ++itr )
+  for ( auto layout : layouts )
   {
-    InputLayoutImpl* impl = ( *itr )->GetImpl();
+    InputLayoutImpl* impl = layout->GetImpl();
 
     //@todo.  Add a comparison operation for VertexDecleration objects.
     if ( *impl->GetVertexDecleration() == *decleration && impl->GetVertexShader() == vertexShader )
     {
-      return ( *itr );
+      return layout;
     }
   }
 

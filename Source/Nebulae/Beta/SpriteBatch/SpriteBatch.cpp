@@ -194,9 +194,9 @@ void SpriteBatch::Draw()
   m_renderDevice->SetUniformBinding( projectionDef, projection );
 
 
-  for ( auto it = m_quads.begin(); it != m_quads.end(); ++it )
+  for ( auto& quad : m_quads )
   {
-    VertexArray& array = it->second;
+    VertexArray& array = quad.second;
     if ( array.GetUsed() == 0 )
       continue;
 
@@ -204,9 +204,9 @@ void SpriteBatch::Draw()
     // Create the uniform values for current pass.
     //
     UniformDefinition<Texture*> diffuseVarDef = m_renderDevice->GetUniformByName<Texture*>( "diffuseTexture" );
-    NE_ASSERT( it->first, "VertexList is not associated with a valid Texture" );
-    int32 identifier = it->first->GetIdentifier();
-    m_renderDevice->SetUniformBinding( diffuseVarDef, it->first );
+    NE_ASSERT( quad.first, "VertexList is not associated with a valid Texture" );
+    int32 identifier = quad.first->GetIdentifier();
+    m_renderDevice->SetUniformBinding( diffuseVarDef, quad.first );
 
 
     //

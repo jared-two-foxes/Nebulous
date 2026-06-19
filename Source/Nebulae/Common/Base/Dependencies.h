@@ -38,6 +38,7 @@
 #include <limits>
 #include <mutex>
 #include <random> // cpp11
+#include <ranges>
 #include <thread>
 #include <utility>
 

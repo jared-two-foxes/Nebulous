@@ -7,18 +7,18 @@ RenderQueue::RenderQueue() : m_DefaultLayer( 0 ) { m_Layers.push_back( new Rende
 //--------------------------------------------------------------------------------------
 RenderQueue::~RenderQueue()
 {
-  for ( std::size_t i = 0, n = m_Layers.size(); i < n; i++ )
+  for ( auto& layer : m_Layers )
   {
-    delete m_Layers[i];
+    delete layer;
   }
   m_Layers.clear();
 }
 //--------------------------------------------------------------------------------------
 void RenderQueue::Clear()
 {
-  for ( std::size_t i = 0, n = m_Layers.size(); i < n; ++i )
+  for ( auto& layer : m_Layers )
   {
-    m_Layers[i]->Clear();
+    layer->Clear();
   }
 }
 //--------------------------------------------------------------------------------------

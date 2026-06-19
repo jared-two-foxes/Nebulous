@@ -51,9 +51,9 @@ UniformParameters& SceneObject::GetUniformParameters() { return m_uniforms; }
 
 void SceneObject::Clear()
 {
-  for ( uint32 i = 0; i < m_passData.size(); ++i )
+  for ( auto& passData : m_passData )
   {
-    delete m_passData[i];
+    delete passData;
   }
   m_passData.clear();
 }

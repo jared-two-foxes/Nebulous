@@ -21,9 +21,9 @@ AnimatedSkeleton::~AnimatedSkeleton()
 void AnimatedSkeleton::update( float deltaTimeStep )
 {
   // Update the animation controls.
-  for ( std::size_t i = 0, n = m_AnimationControls.size(); i < n; ++i )
+  for ( auto& animationControl : m_AnimationControls )
   {
-    m_AnimationControls[i]->update( deltaTimeStep );
+    animationControl->update( deltaTimeStep );
   }
 }
 } // namespace Nebulae

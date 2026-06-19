@@ -91,11 +91,11 @@ SubTexture* SpriteAtlas::FindModuleSubTexture( const std::string& moduleName ) c
 ///
 {
   SpriteAtlasModule* pModule = nullptr;
-  for ( std::size_t i = 0, n = m_modules.size(); i < n; ++i )
+  for ( auto module : m_modules )
   {
-    if ( strcmp( m_modules[i]->m_name.c_str(), moduleName.c_str() ) == 0 )
+    if ( strcmp( module->m_name.c_str(), moduleName.c_str() ) == 0 )
     {
-      pModule = m_modules[i];
+      pModule = module;
       break;
     }
   }

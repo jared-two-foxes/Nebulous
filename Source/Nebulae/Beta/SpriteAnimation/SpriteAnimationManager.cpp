@@ -12,9 +12,9 @@ SpriteAnimationManager::SpriteAnimationManager( const FileArchivePtr& fileSystem
 SpriteAnimationManager::~SpriteAnimationManager()
 {
   // Delete the resource from the list.
-  for ( std::size_t i = 0, n = m_resources.size(); i < n; i++ )
+  for ( auto& resource : m_resources )
   {
-    delete m_resources[i];
+    delete resource;
   }
   m_resources.clear();
 }

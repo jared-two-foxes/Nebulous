@@ -12,9 +12,9 @@ Material::Material( const std::string& name ) : m_name( name ) {}
 Material::~Material()
 {
   // Release passes
-  for ( std::size_t i = 0, n = m_passes.size(); i < n; ++i )
+  for ( auto& pass : m_passes )
   {
-    delete m_passes[i];
+    delete pass;
   }
 }
 
