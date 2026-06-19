@@ -20,14 +20,14 @@ protected:
 
 public:
   InputLayout( const std::string& strName, RenderSystem* renderDevice );
-  ~InputLayout();
+  ~InputLayout() override;
 
   void SetImpl( InputLayoutImpl* impl );
   InputLayoutImpl* GetImpl() const;
 
 protected:
-  virtual bool LoadImpl_( File* is ) override;
-  virtual bool UnloadImpl_() override;
+  bool LoadImpl_( File* is ) override;
+  bool UnloadImpl_() override;
 };
 
 } // namespace Nebulae

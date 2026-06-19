@@ -16,10 +16,10 @@ private:
 
 public:
   WavAudioDecoder();
-  virtual ~WavAudioDecoder() {}
+  ~WavAudioDecoder() override {}
 
-  virtual bool Parse( File* datastream ) override;
-  virtual int32 Stream( uint32 start, uint32 size, char* data ) override;
+  bool Parse( File* datastream ) override;
+  int32 Stream( uint32 start, uint32 size, char* data ) override;
 };
 
 } // namespace Nebulae

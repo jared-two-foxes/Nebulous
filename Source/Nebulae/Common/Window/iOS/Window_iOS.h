@@ -23,10 +23,10 @@ class Window_iOS : public Window
 {
 public:
   Window_iOS();
-  virtual ~Window_iOS();
-  virtual bool Initiate( void* creationData );
-  virtual void Destroy();
-  virtual void Show();
+  ~Window_iOS() override;
+  bool Initiate( void* creationData ) override;
+  void Destroy() override;
+  void Show() override;
 
 #ifdef __OBJC__
   UIWindow* GetHandle() const { return m_pWindow; }

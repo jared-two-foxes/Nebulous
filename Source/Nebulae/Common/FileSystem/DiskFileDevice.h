@@ -17,9 +17,9 @@ public:
   DiskFileDevice( const char* path );
   virtual ~DiskFileDevice();
 
-  virtual File* Open( const std::string& path, FileSystem::Mode mode ) override;
-  virtual File* Open( File* file ) override;
-  virtual void Close( File* file ) override;
+  File* Open( const std::string& path, FileSystem::Mode mode ) override;
+  File* Open( File* file ) override;
+  void Close( File* file ) override;
 };
 
 } // namespace Nebulae

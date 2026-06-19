@@ -23,7 +23,7 @@ protected:
 
 public:
   HardwareShader( const std::string& name, RenderSystem* renderer );
-  virtual ~HardwareShader();
+  ~HardwareShader() override;
 
   /** Get a the lower-level implementation of the hardware shader (Used by the RenderSystem). */
   HardwareShaderImpl* GetImpl() const;

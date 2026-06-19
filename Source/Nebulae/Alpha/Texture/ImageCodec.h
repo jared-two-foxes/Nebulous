@@ -30,10 +30,10 @@ class ImageCodec : public Codec
 public:
   /** Standard Destructor.
    */
-  virtual ~ImageCodec() {}
+  ~ImageCodec() override {}
 
   /// @copydoc Codec::decode
-  virtual ImageCodecData* Decode( File& is ) const override = 0;
+  ImageCodecData* Decode( File& is ) const override = 0;
 
   /** Converts a chunk of data from its current encoding.
    */

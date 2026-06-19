@@ -23,7 +23,7 @@ private:
 public:
   /** \name Structors */ ///@{
   StateStack();
-  virtual ~StateStack();
+  ~StateStack() override;
   //@}
 
   /** \name Accessors */ ///@{
@@ -36,8 +36,8 @@ public:
   void PushState( State* newstate );
   void PopState();
 
-  virtual void ProcessSimulation( uint64 iTimeElapsed );
-  virtual void ProcessFrame( uint64 elapsed );
+  void ProcessSimulation( uint64 iTimeElapsed ) override;
+  void ProcessFrame( uint64 elapsed ) override;
   //@}
 
 private:

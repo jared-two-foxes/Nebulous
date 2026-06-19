@@ -31,7 +31,7 @@ public:
   /** Default Constructor. */
   Texture( const std::string& name, RenderSystem* renderDevice );
   /** Destructor. */
-  virtual ~Texture();
+  ~Texture() override;
 
   TextureImpl* GetImpl() const;
   TextureType GetTextureType() const;
@@ -64,8 +64,8 @@ public:
   bool LoadFromMemory( unsigned char* data, uint8 srcDataType, uint8 channels, int width, int height );
 
 private:
-  virtual bool LoadImpl_( File* is ) override;
-  virtual bool UnloadImpl_() override;
+  bool LoadImpl_( File* is ) override;
+  bool UnloadImpl_() override;
 
 }; // Texture
 

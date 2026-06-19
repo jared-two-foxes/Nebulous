@@ -13,12 +13,12 @@ protected:
 
 public:
   KeyframedAnimation();
-  virtual ~KeyframedAnimation();
+  ~KeyframedAnimation() override;
 
-  virtual void sampleTracks( Real time, Transform* transformTracksOut ) const;
-  virtual std::size_t getNumOriginalFrames() const;
-  virtual void read( std::istream& is );
-  virtual void write( std::ostream& os ) const;
+  void sampleTracks( Real time, Transform* transformTracksOut ) const override;
+  std::size_t getNumOriginalFrames() const override;
+  void read( std::istream& is ) override;
+  void write( std::ostream& os ) const override;
 
   void addKeyFrame( Transform* transformTracks );
 

@@ -15,16 +15,15 @@ public:
 
   /** Standard Destructor.
    */
-  virtual ~FreeImageCodec();
+  ~FreeImageCodec() override;
 
   /// @copydoc Codec::decode
-  virtual ImageCodecData* Decode( File& is ) const override;
+  ImageCodecData* Decode( File& is ) const override;
 
   /** Converts a chunk of data from its current encoding.
    */
-  virtual ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width,
-                                              std::size_t height, std::size_t pitch, uint8 bpp,
-                                              PixelFormat returnFormat ) const;
+  ImageCodecData* ConvertFromRawBits( uint8* bits, PixelFormat originalformat, std::size_t width, std::size_t height,
+                                      std::size_t pitch, uint8 bpp, PixelFormat returnFormat ) const override;
 
 }; // ImageCodec
 

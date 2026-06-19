@@ -20,7 +20,7 @@ public:
   /** Default Constructor. */
   RenderTexture( const std::string& name, RenderSystem* renderDevice );
   /** Destructor. */
-  virtual ~RenderTexture();
+  ~RenderTexture() override;
 
   RenderTextureImpl* GetImpl() const;
   Texture* GetColourTexture() const;
@@ -35,8 +35,8 @@ public:
   bool BindDepthTexture( Texture* texture );
 
 private:
-  virtual bool LoadImpl_( File* is ) override;
-  virtual bool UnloadImpl_() override;
+  bool LoadImpl_( File* is ) override;
+  bool UnloadImpl_() override;
 };
 
 } // namespace Nebulae

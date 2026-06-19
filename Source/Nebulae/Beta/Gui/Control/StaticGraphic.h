@@ -25,10 +25,10 @@ public:
                  ,
                  uint32 flags = INTERACTIVE );
 
-  virtual ~StaticGraphic();
+  ~StaticGraphic() override;
   //@}
 
-  virtual WidgetType GetWidgetType() const { return STATIC; }
+  WidgetType GetWidgetType() const override { return STATIC; }
 
   const SubTexture* GetGraphic() const { return m_pGraphic; }
 

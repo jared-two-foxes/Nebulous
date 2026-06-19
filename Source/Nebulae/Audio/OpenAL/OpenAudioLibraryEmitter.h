@@ -18,23 +18,23 @@ private:
 
 public:
   OpenAudioLibraryEmitter( AudioBufferInterface** streamBuffers, int count );
-  virtual ~OpenAudioLibraryEmitter();
+  ~OpenAudioLibraryEmitter() override;
 
-  virtual bool Initiate() override;
-  virtual void Destroy() override;
+  bool Initiate() override;
+  void Destroy() override;
 
-  virtual void Play() override;
-  virtual void Stop() override;
-  virtual void Pause() override;
-  virtual void Resume() override;
+  void Play() override;
+  void Stop() override;
+  void Pause() override;
+  void Resume() override;
 
-  virtual bool IsPlaying() const override;
-  virtual bool IsPaused() const override;
+  bool IsPlaying() const override;
+  bool IsPaused() const override;
 
 private:
-  virtual int _BufferProcessed() const override;
-  virtual bool _EnqueueBuffer( AudioBufferInterface* sound ) override;
-  virtual bool _UnqueueBuffer( AudioBufferInterface* sound ) override;
+  int _BufferProcessed() const override;
+  bool _EnqueueBuffer( AudioBufferInterface* sound ) override;
+  bool _UnqueueBuffer( AudioBufferInterface* sound ) override;
 };
 
 } // namespace Nebulae

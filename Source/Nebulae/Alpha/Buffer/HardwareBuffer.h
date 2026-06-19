@@ -85,7 +85,7 @@ private:
 
 public:
   HardwareBuffer( const std::string& name, RenderSystem* renderer );
-  virtual ~HardwareBuffer();
+  ~HardwareBuffer() override;
 
   HardwareBufferImpl* GetImpl() const;
   bool IsLocked() const;
@@ -111,8 +111,8 @@ public:
   void Unlock();
 
 private:
-  virtual bool LoadImpl_( File* is ) override;
-  virtual bool UnloadImpl_() override;
+  bool LoadImpl_( File* is ) override;
+  bool UnloadImpl_() override;
 };
 
 } // namespace Nebulae

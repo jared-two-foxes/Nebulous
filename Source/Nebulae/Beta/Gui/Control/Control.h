@@ -28,14 +28,14 @@ protected:
 public:
   /** \name Structors */ ///@{
   Control( const WidgetFactory& factory, int x, int y, int w, int h, uint32 flags = INTERACTIVE );
-  virtual ~Control();
+  ~Control() override;
   //@}
 
   /** \name Accessors */ ///@{
   /** Returns the widget type of this widget. */
-  virtual WidgetType GetWidgetType() const { return CONTROL; }
+  WidgetType GetWidgetType() const override { return CONTROL; }
 
-  virtual void DropsAcceptable( DropsAcceptableIter first, DropsAcceptableIter last, const Point& pt ) const override;
+  void DropsAcceptable( DropsAcceptableIter first, DropsAcceptableIter last, const Point& pt ) const override;
 
   /* Returns the color of the control. */
   const Colour& GetColour() const;
@@ -45,7 +45,7 @@ public:
   //@}
 
   /** \name Mutators */ ///@{
-  virtual void AcceptDrops( const std::vector<Widget*>& widgets, const Point& pt ) override;
+  void AcceptDrops( const std::vector<Widget*>& widgets, const Point& pt ) override;
 
   /** Sets the color of the control. */
   virtual void SetColour( const Colour& c );
@@ -57,8 +57,8 @@ public:
 protected:
   /** \name Mutators */ ///@{
   // virtual void MouseWheel( const Point& pt, int move, Flags<ModKey> modKeys );
-  virtual void KeyPress( KeyCode key, uint32 keyCodePoint, Flags<ModKey> modKeys ) override;
-  virtual void KeyRelease( KeyCode key, uint32 keyCodePoint, Flags<ModKey> modKeys ) override;
+  void KeyPress( KeyCode key, uint32 keyCodePoint, Flags<ModKey> modKeys ) override;
+  void KeyRelease( KeyCode key, uint32 keyCodePoint, Flags<ModKey> modKeys ) override;
   //@}
 
 }; // Control

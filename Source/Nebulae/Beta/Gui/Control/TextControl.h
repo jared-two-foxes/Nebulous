@@ -47,13 +47,13 @@ public:
   TextControl( const WidgetFactory& factory, int x, int y, const std::string& str, const std::shared_ptr<Font>& font,
                Colour color = CLR_BLACK, Flags<TextFormat> format = FORMAT_NONE, uint32 flags = 0 );
 
-  virtual ~TextControl();
+  ~TextControl() override;
   //@}
 
   /** \name Accessors */ ///@{
-  virtual WidgetType GetWidgetType() const { return LABEL; }
+  WidgetType GetWidgetType() const override { return LABEL; }
 
-  virtual Point GetMinUsableSize() const;
+  Point GetMinUsableSize() const override;
 
   /** Returns the text displayed in this control. */
   const std::string& GetText() const;
@@ -139,7 +139,7 @@ public:
       whatever space the newly rendered text occupies. */
   virtual void SetText( const std::string& str );
 
-  virtual void SizeMove( const Point& ul, const Point& lr );
+  void SizeMove( const Point& ul, const Point& lr ) override;
 
   /** Sets the text format; ensures that the flags are sane. */
   void SetTextFormat( TextFormat format );

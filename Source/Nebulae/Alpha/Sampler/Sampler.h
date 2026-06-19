@@ -25,14 +25,14 @@ private:
 
 public:
   Sampler( const std::string& name, RenderSystem* renderer );
-  virtual ~Sampler();
+  ~Sampler() override;
 
   void SetImpl( Impl* impl );
   Impl* GetImpl() const;
 
 private:
-  virtual bool LoadImpl_( File* is ) override;
-  virtual bool UnloadImpl_() override;
+  bool LoadImpl_( File* is ) override;
+  bool UnloadImpl_() override;
 };
 
 } // namespace Nebulae

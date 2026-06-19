@@ -19,32 +19,27 @@ private:
 public:
   UserInterfaceInputListener( const UserInterfaceControllerPtr& gui ) : m_gui( gui ) {}
 
-  virtual void KeyPressed( Nebulae::KeyCode keyCode, uint32 key_code_point,
-                           Nebulae::Flags<Nebulae::ModKey> modKeys ) override
+  void KeyPressed( Nebulae::KeyCode keyCode, uint32 key_code_point, Nebulae::Flags<Nebulae::ModKey> modKeys ) override
   {
     m_gui->HandleEvents( GuiManager::KEYPRESS, keyCode, key_code_point, modKeys, Point( 0, 0 ), Point( 0, 0 ) );
   }
 
-  virtual void KeyReleased( Nebulae::KeyCode keyCode, uint32 key_code_point,
-                            Nebulae::Flags<Nebulae::ModKey> modKeys ) override
+  void KeyReleased( Nebulae::KeyCode keyCode, uint32 key_code_point, Nebulae::Flags<Nebulae::ModKey> modKeys ) override
   {
     m_gui->HandleEvents( GuiManager::KEYRELEASE, keyCode, key_code_point, modKeys, Point( 0, 0 ), Point( 0, 0 ) );
   }
 
-  virtual void MousePressed( Nebulae::MouseButton button, int32 x, int32 y,
-                             Nebulae::Flags<Nebulae::ModKey> modKeys ) override
+  void MousePressed( Nebulae::MouseButton button, int32 x, int32 y, Nebulae::Flags<Nebulae::ModKey> modKeys ) override
   {
     m_gui->HandleEvents( GuiManager::TOUCHDOWN, VKC_UNKNOWN, 0, modKeys, Point( x, y ), Point( 0, 0 ) );
   }
 
-  virtual void MouseReleased( Nebulae::MouseButton button, int32 x, int32 y,
-                              Nebulae::Flags<Nebulae::ModKey> modKeys ) override
+  void MouseReleased( Nebulae::MouseButton button, int32 x, int32 y, Nebulae::Flags<Nebulae::ModKey> modKeys ) override
   {
     m_gui->HandleEvents( GuiManager::TOUCHUP, VKC_UNKNOWN, 0, modKeys, Point( x, y ), Point( 0, 0 ) );
   }
 
-  virtual void MouseMove( Nebulae::MouseButton button, int32 x, int32 y,
-                          Nebulae::Flags<Nebulae::ModKey> modKeys ) override
+  void MouseMove( Nebulae::MouseButton button, int32 x, int32 y, Nebulae::Flags<Nebulae::ModKey> modKeys ) override
   {
     m_gui->HandleEvents( GuiManager::TOUCHDRAG, VKC_UNKNOWN, 0, modKeys, Point( x, y ), Point() );
   }

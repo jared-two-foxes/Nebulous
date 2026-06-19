@@ -18,9 +18,9 @@ public:
   ZipFileDevice( const char* path, const char* archiveName, const char* extention = "zip" );
   virtual ~ZipFileDevice();
 
-  virtual File* Open( const std::string& path, FileSystem::Mode mode ) override;
-  virtual File* Open( File* file ) override;
-  virtual void Close( File* file ) override;
+  File* Open( const std::string& path, FileSystem::Mode mode ) override;
+  File* Open( File* file ) override;
+  void Close( File* file ) override;
 };
 
 } // namespace Nebulae
