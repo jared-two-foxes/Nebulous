@@ -6,7 +6,7 @@ using Nebulae::HardwareShader;
 using Nebulae::HardwareShaderImpl;
 
 HardwareShader::HardwareShader( const std::string& strFileName, Nebulae::RenderSystem* renderDevice )
-  : Resource( strFileName, renderDevice ), m_impl( nullptr )
+  : Resource( strFileName, renderDevice )
 {
 }
 

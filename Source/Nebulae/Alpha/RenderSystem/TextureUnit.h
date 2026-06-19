@@ -13,9 +13,9 @@ class Texture;
 class TextureUnit
 {
 private:
-  RenderSystem* m_renderer;
+  RenderSystem* m_renderer{ nullptr };
   std::string m_name;
-  Texture* m_texture;
+  Texture* m_texture{ nullptr };
 
 public:
   TextureUnit( RenderSystem* renderer );

@@ -11,20 +11,14 @@ namespace Nebulae
 
 struct UniformDefinitionBase
 {
-  UniformType type;
-  std::size_t logicalIndex;  ///< Logical index - used to communicate this constant to the rendersystem
-  std::size_t physicalIndex; ///< Physical start index in buffer (either float or int buffer)
-  std::size_t elementSize;   ///< Number of raw buffer slots per element.
-  std::size_t arraySize;     ///< Length of array.A
+  UniformType type{ UT_UNKNOWN };
+  std::size_t logicalIndex{
+    static_cast<std::size_t>( -1 ) }; ///< Logical index - used to communicate this constant to the rendersystem
+  std::size_t physicalIndex;          ///< Physical start index in buffer (either float or int buffer)
+  std::size_t elementSize{ static_cast<std::size_t>( 0 ) }; ///< Number of raw buffer slots per element.
+  std::size_t arraySize{ static_cast<std::size_t>( 1 ) };   ///< Length of array.A
 
-  UniformDefinitionBase()
-    : type( UT_UNKNOWN ),
-      logicalIndex( -1 ),
-      physicalIndex( std::numeric_limits<size_t>::max() ),
-      elementSize( static_cast<std::size_t>( 0 ) ),
-      arraySize( static_cast<std::size_t>( 1 ) )
-  {
-  }
+  UniformDefinitionBase() : physicalIndex( std::numeric_limits<size_t>::max() ) {}
 
   bool IsValid() const { return ( type != UT_UNKNOWN && logicalIndex != static_cast<std::size_t>( -1 ) ); }
 

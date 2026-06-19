@@ -46,9 +46,9 @@ struct VertexElement
 class VertexDeceleration
 {
 protected:
-  int32 m_iElementCount;     ///< The size of the vertex deceleration array.
-  uint32 m_iInternalCount;   ///< The number of elements currently in the array
-  VertexElement* m_Elements; ///< The vertex elements.
+  int32 m_iElementCount;        ///< The size of the vertex deceleration array.
+  uint32 m_iInternalCount{ 0 }; ///< The number of elements currently in the array
+  VertexElement* m_Elements;    ///< The vertex elements.
 
 public:
   VertexDeceleration( int elementCount );

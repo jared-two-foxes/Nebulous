@@ -78,10 +78,10 @@ class HardwareBuffer : public Resource
 ///
 {
 private:
-  HardwareBufferImpl* m_pImpl;
-  bool m_isLocked;
-  std::size_t m_lockStart;
-  std::size_t m_lockSize;
+  HardwareBufferImpl* m_pImpl{ nullptr };
+  bool m_isLocked{ false };
+  std::size_t m_lockStart{ 0 };
+  std::size_t m_lockSize{ 0 };
 
 public:
   HardwareBuffer( const std::string& name, RenderSystem* renderer );

@@ -23,7 +23,7 @@ bool Nebulae::operator==( const VertexDeceleration& lhs, const VertexDeceleratio
 }
 
 // constructor
-VertexDeceleration::VertexDeceleration( int elementCount ) : m_iElementCount( elementCount ), m_iInternalCount( 0 )
+VertexDeceleration::VertexDeceleration( int elementCount ) : m_iElementCount( elementCount )
 {
   NE_ASSERT( elementCount > 0, "Element count must be greater than zero" );
 

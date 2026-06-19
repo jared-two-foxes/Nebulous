@@ -10,11 +10,11 @@ class TextureImpl
 {
 protected:
   std::string m_filename;
-  TextureType m_type;
-  PixelFormat m_pixelFormat;
-  std::size_t m_width;
-  std::size_t m_height;
-  std::size_t m_depth;
+  TextureType m_type{ TextureType::UNKNOWN };
+  PixelFormat m_pixelFormat{ PF_UNKNOWN };
+  std::size_t m_width{ 0 };
+  std::size_t m_height{ 0 };
+  std::size_t m_depth{ 0 };
 
 public:
   TextureImpl( std::string strFilename );

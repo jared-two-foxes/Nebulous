@@ -17,9 +17,6 @@
 using namespace Nebulae;
 
 
-Image::Image() : m_buffer( nullptr ) {}
-
-
 Image::~Image() { freeMemory(); }
 
 

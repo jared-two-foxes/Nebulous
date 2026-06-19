@@ -4,15 +4,7 @@
 using namespace Nebulae;
 
 
-TextureImpl::TextureImpl( std::string strFileName )
-  : m_filename( strFileName ),
-    m_type( TextureType::UNKNOWN ),
-    m_pixelFormat( PF_UNKNOWN ),
-    m_width( 0 ),
-    m_height( 0 ),
-    m_depth( 0 )
-{
-}
+TextureImpl::TextureImpl( std::string strFileName ) : m_filename( strFileName ) {}
 
 
 TextureImpl::~TextureImpl() {}

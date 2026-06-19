@@ -9,16 +9,16 @@ namespace Nebulae
 class Image
 {
 private:
-  std::size_t m_width;   ///< The width of the image in pixels
-  std::size_t m_height;  ///< The height of the image in pixels
-  std::size_t m_bufSize; ///< The size of the image buffer
-  PixelFormat m_format;  ///< The pixel format of the image
-  uint8 m_pixelSize;     ///< The number of bytes per pixel
-  uint8* m_buffer;       ///< The internal image buffer.
+  std::size_t m_width;        ///< The width of the image in pixels
+  std::size_t m_height;       ///< The height of the image in pixels
+  std::size_t m_bufSize;      ///< The size of the image buffer
+  PixelFormat m_format;       ///< The pixel format of the image
+  uint8 m_pixelSize;          ///< The number of bytes per pixel
+  uint8* m_buffer{ nullptr }; ///< The internal image buffer.
 
 public:
   /** Standard constructor. */
-  Image();
+  Image() {}
 
   /** Copy-constructor - copies all the data from the target image. */
   Image( const Image& image );

@@ -16,7 +16,7 @@ class VertexDeceleration;
 class InputLayout : public Resource
 {
 protected:
-  InputLayoutImpl* m_impl;
+  InputLayoutImpl* m_impl{ nullptr };
 
 public:
   InputLayout( const std::string& strName, RenderSystem* renderDevice );

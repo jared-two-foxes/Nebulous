@@ -19,7 +19,7 @@ enum HardwareShaderType
 class HardwareShader : public Resource
 {
 protected:
-  HardwareShaderImpl* m_impl;
+  HardwareShaderImpl* m_impl{ nullptr };
 
 public:
   HardwareShader( const std::string& name, RenderSystem* renderer );

@@ -6,7 +6,7 @@
 using Nebulae::InputLayout;
 
 InputLayout::InputLayout( const std::string& name, Nebulae::RenderSystem* renderDevice )
-  : Resource( name, renderDevice ), m_impl( nullptr )
+  : Resource( name, renderDevice )
 {
 }
 

@@ -3,10 +3,7 @@
 
 using namespace Nebulae;
 
-RenderTextureImpl::RenderTextureImpl( int32 width, int32 height )
-  : m_width( width ), m_height( height ), m_colour( nullptr ), m_depth( nullptr )
-{
-}
+RenderTextureImpl::RenderTextureImpl( int32 width, int32 height ) : m_width( width ), m_height( height ) {}
 
 RenderTextureImpl::~RenderTextureImpl() {}
 

@@ -7,13 +7,11 @@ namespace Nebulae
 {
 struct AudioTrackParams
 {
-  int32 numChannels;
-  int32 samplingRate;
-  int32 bitsPerSample;
-  uint32 numSamples;
-  uint64 m_dataSize;
-
-  AudioTrackParams() : numChannels( 0 ), samplingRate( 0 ), bitsPerSample( 0 ), numSamples( 0 ), m_dataSize( 0 ) {}
+  int32 numChannels{ 0 };
+  int32 samplingRate{ 0 };
+  int32 bitsPerSample{ 0 };
+  uint32 numSamples{ 0 };
+  uint64 m_dataSize{ 0 };
 };
 
 } // namespace Nebulae

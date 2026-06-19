@@ -64,8 +64,6 @@ struct SamplerBinding
 class UniformBinder
 {
 public:
-  UniformBinder() : m_schema( nullptr ) {}
-
   /// Provide an optional validation schema. Pass nullptr to disable validation.
   void SetSchema( const UniformDefinitionMap* schema ) { m_schema = schema; }
 
@@ -169,7 +167,7 @@ private:
     m_samplerBindings.emplace_back( name, unit, tex );
   }
 
-  const UniformDefinitionMap* m_schema;
+  const UniformDefinitionMap* m_schema{ nullptr };
   std::vector<UniformBinding> m_bindings;
   std::vector<SamplerBinding> m_samplerBindings;
 };

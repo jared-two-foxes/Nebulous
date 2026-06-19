@@ -9,14 +9,7 @@ using namespace Nebulae;
 
 
 RenderSystem::RenderSystem( FileSystemPtr fileSystem, WindowPtr window )
-  : m_fileSystem( fileSystem ),
-    m_window( window ),
-    m_bufferFactory( nullptr ),
-    m_layoutFactory( nullptr ),
-    m_renderTextureFactory( nullptr ),
-    m_samplerFactory( nullptr ),
-    m_shaderFactory( nullptr ),
-    m_textureFactory( nullptr )
+  : m_fileSystem( fileSystem ), m_window( window )
 {
 }
 

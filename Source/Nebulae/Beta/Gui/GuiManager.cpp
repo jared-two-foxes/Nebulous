@@ -14,31 +14,9 @@ using namespace Nebulae;
 struct Nebulae::GUIImpl
 {
   GUIImpl( GuiManager::FileArchivePtr fileSystem, std::shared_ptr<RenderSystem> renderSystem )
-    : m_focusWidget( nullptr ),
-      m_mousePos( -1000, -1000 ),
+    : m_mousePos( -1000, -1000 ),
       m_mouseRel( 0, 0 ),
       m_modKeys(),
-      m_buttonDownRepeatDelay( 250 ),
-      m_buttonDownRepeatInterval( 66 ),
-      m_lastButtonDownRepeatTime( 0 ),
-      m_doubleClickInterval( 500 ),
-      m_minDragTime( 50 ),    // m_minDragTime(250),
-      m_minDragDistance( 1 ), // m_minDragDistance(5),
-      m_prevButtonPressTime( static_cast<uint64>( -1 ) ),
-      m_prevWidgetUnderCursor( nullptr ),
-      m_prevWidgetUnderCursorTime( -1 ),
-      m_currWidgetUnderCursor( nullptr ),
-      m_dragWidgets(),
-      m_currDragWidgetDragged( false ),
-      m_currDragWidget( nullptr ),
-      m_currDragDropHereWidget( nullptr ),
-      m_widgetRegion( WR_NONE ),
-      m_dragDropOriginatingWidget( nullptr ),
-      m_delta_t( 0 ),
-      m_renderingDragDropWidgets( false ),
-      m_doubleClickWidget( nullptr ),
-      m_doubleClickStartTime( -1 ),
-      m_doubleClickTime( -1 ),
       m_fileSystem( fileSystem ),
       m_widgetFactory( new WidgetFactory() )
   {
@@ -54,8 +32,8 @@ struct Nebulae::GUIImpl
 
   GuiManager::FileArchivePtr m_fileSystem; ///< File archive controller.
   DepthList m_zlist;                       ///< object that keeps the GUI windows in the correct depth ordering
-  Widget* m_focusWidget; ///< GUI window that currently has the input focus (this is the base level focus window, used
-                         ///< when no modal windows are active)
+  Widget* m_focusWidget{ nullptr }; ///< GUI window that currently has the input focus (this is the base level focus
+                                    ///< window, used when no modal windows are active)
   std::list<std::pair<Widget*, Widget*>>
     m_modalWidgets; ///< modal GUI windows, and the window with focus for that modality (only the one in back is active,
                     ///< simulating a stack but allowing traversal of the list)
@@ -67,49 +45,52 @@ struct Nebulae::GUIImpl
   Point m_mouseRel;        ///< relative position of mouse, based on last MOUSEMOVE event
   Flags<ModKey> m_modKeys; ///< currently-depressed modifier keys, based on last KEYPRESS event
 
-  uint64 m_buttonDownRepeatDelay; ///< see note above GUI class definition
-  uint64 m_buttonDownRepeatInterval;
-  uint64 m_lastButtonDownRepeatTime; ///< last time of a simulated button-down message
+  uint64 m_buttonDownRepeatDelay{ 250 }; ///< see note above GUI class definition
+  uint64 m_buttonDownRepeatInterval{ 66 };
+  uint64 m_lastButtonDownRepeatTime{ 0 }; ///< last time of a simulated button-down message
 
-  int64 m_doubleClickInterval; ///< the maximum interval allowed between clicks that is still considered a double-click,
-                               ///< in ms
-  uint64
-    m_minDragTime; ///< the minimum amount of time that a drag must be in progress before it is considered a drag, in ms
-  int m_minDragDistance; ///< the minimum distance that a drag must cover before it is considered a drag
+  int64 m_doubleClickInterval{ 500 }; ///< the maximum interval allowed between clicks that is still considered a
+                                      ///< double-click, in ms
+  uint64 m_minDragTime{
+    50 }; ///< the minimum amount of time that a drag must be in progress before it is considered a drag, in ms
+  int m_minDragDistance{ 1 }; ///< the minimum distance that a drag must cover before it is considered a drag
 
-  uint64 m_prevButtonPressTime;      ///< the time of the most recent mouse button press
-  Point m_prevButtonPressPos;        ///< the location of the most recent mouse button press
-  Widget* m_prevWidgetUnderCursor;   ///< GUI window most recently under the input cursor; may be 0
-  int64 m_prevWidgetUnderCursorTime; ///< the time at which prev_wnd_under_cursor was initially set to its current value
-  Widget* m_currWidgetUnderCursor;   ///< GUI window currently under the input cursor; may be 0
-  Widget* m_dragWidgets[3];          ///< GUI window currently being clicked or dragged by each mouse button
+  uint64 m_prevButtonPressTime{ static_cast<uint64>( -1 ) }; ///< the time of the most recent mouse button press
+  Point m_prevButtonPressPos;                                ///< the location of the most recent mouse button press
+  Widget* m_prevWidgetUnderCursor{ nullptr }; ///< GUI window most recently under the input cursor; may be 0
+  int64 m_prevWidgetUnderCursorTime{
+    -1 }; ///< the time at which prev_wnd_under_cursor was initially set to its current value
+  Widget* m_currWidgetUnderCursor{ nullptr }; ///< GUI window currently under the input cursor; may be 0
+  Widget* m_dragWidgets[3]{};                 ///< GUI window currently being clicked or dragged by each mouse button
   Point
     m_prevWidgetDragPosition; ///< the upper-left corner of the dragged window when the last *Drag message was generated
   Point m_widgetDragOffset;   ///< the offset from the upper left corner of the dragged window to the cursor for the
                               ///< current drag
-  bool m_currDragWidgetDragged; ///< true iff the currently-pressed window (m_drag_wnds[N]) has actually been dragged
-                                ///< some distance (in which case releasing the mouse button is not a click)
-  Widget* m_currDragWidget; ///< nonzero iff m_curr_drag_wnd_dragged is true (that is, we have actually started dragging
-                            ///< the Wnd, not just pressed the mouse button); will always be one of m_drag_wnds
-  Widget* m_currDragDropHereWidget; ///< the Wnd that most recently received a DragDropEnter or DragDropHere message (0
-                                    ///< if DragDropLeave was sent as well, or if none)
-  Point m_widgetResizeOffset;  ///< offset from the cursor of either the upper-left or lower-right corner of the GUI
-                               ///< window currently being resized
-  WidgetRegion m_widgetRegion; ///< window region currently being dragged or clicked; for non-frame windows, this will
-                               ///< always be WR_NONE
+  bool m_currDragWidgetDragged{
+    false }; ///< true iff the currently-pressed window (m_drag_wnds[N]) has actually been dragged
+             ///< some distance (in which case releasing the mouse button is not a click)
+  Widget* m_currDragWidget{
+    nullptr }; ///< nonzero iff m_curr_drag_wnd_dragged is true (that is, we have actually started dragging
+               ///< the Wnd, not just pressed the mouse button); will always be one of m_drag_wnds
+  Widget* m_currDragDropHereWidget{ nullptr }; ///< the Wnd that most recently received a DragDropEnter or DragDropHere
+                                               ///< message (0 if DragDropLeave was sent as well, or if none)
+  Point m_widgetResizeOffset; ///< offset from the cursor of either the upper-left or lower-right corner of the GUI
+                              ///< window currently being resized
+  WidgetRegion m_widgetRegion{ WR_NONE }; ///< window region currently being dragged or clicked; for non-frame windows,
+                                          ///< this will always be WR_NONE
 
-  Widget* m_dragDropOriginatingWidget; ///< the window that originally owned the Wnds in drag_drop_wnds
+  Widget* m_dragDropOriginatingWidget{ nullptr }; ///< the window that originally owned the Wnds in drag_drop_wnds
   std::map<Widget*, Point>
     m_dragDropWidgets; ///< the Wnds (and their offsets) that are being dragged and dropped between Wnds
   std::map<const Widget*, bool> m_dragDropWidgetsAcceptable; ///< the Wnds being dragged and dropped, and whether they
                                                              ///< are acceptable for dropping over their current target.
 
-  uint64 m_delta_t;                ///< the number of ms since the last frame
-  bool m_renderingDragDropWidgets; ///< Currently rendering drag and drop widgets.
-  Widget* m_doubleClickWidget;     ///< GUI window most recently clicked
-  int64 m_doubleClickButton;       ///< the index of the mouse button used in the last click
-  int64 m_doubleClickStartTime;    ///< the time from which we started measuring double_click_time, in ms
-  int64 m_doubleClickTime;         ///< time elapsed since last click, in ms
+  uint64 m_delta_t{ 0 };                    ///< the number of ms since the last frame
+  bool m_renderingDragDropWidgets{ false }; ///< Currently rendering drag and drop widgets.
+  Widget* m_doubleClickWidget{ nullptr };   ///< GUI window most recently clicked
+  int64 m_doubleClickButton;                ///< the index of the mouse button used in the last click
+  int64 m_doubleClickStartTime{ -1 };       ///< the time from which we started measuring double_click_time, in ms
+  int64 m_doubleClickTime{ -1 };            ///< time elapsed since last click, in ms
 
   std::shared_ptr<WidgetFactory> m_widgetFactory;
   std::vector<std::shared_ptr<Font>> m_fonts;
@@ -315,7 +296,7 @@ bool GUIImpl::HandleRelease( GuiManager* mgr, uint32 mouseButton, const Point& p
 
   m_buttonState[mouseButton] = false;
   m_dragWidgets[mouseButton] = nullptr; // if the mouse button is released, stop tracking the drag window.
-  m_widgetRegion = WR_NONE;       // and clear this, just in case
+  m_widgetRegion = WR_NONE;             // and clear this, just in case
 
   // if the release is over the Widget where the button-down event occurred, and Widget has not been dragged
   if ( !inDragDrop && clickWidget && m_currWidgetUnderCursor == clickWidget )

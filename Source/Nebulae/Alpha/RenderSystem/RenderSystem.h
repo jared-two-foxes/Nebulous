@@ -44,12 +44,12 @@ protected:
   RenderSystemType m_type;
   FileSystemPtr m_fileSystem;
   WindowPtr m_window;
-  BufferFactory* m_bufferFactory;
-  LayoutFactory* m_layoutFactory;
-  RenderTextureFactory* m_renderTextureFactory;
-  SamplerFactory* m_samplerFactory;
-  ShaderFactory* m_shaderFactory;
-  TextureFactory* m_textureFactory;
+  BufferFactory* m_bufferFactory{ nullptr };
+  LayoutFactory* m_layoutFactory{ nullptr };
+  RenderTextureFactory* m_renderTextureFactory{ nullptr };
+  SamplerFactory* m_samplerFactory{ nullptr };
+  ShaderFactory* m_shaderFactory{ nullptr };
+  TextureFactory* m_textureFactory{ nullptr };
 
 public:
   RenderSystem( FileSystemPtr fileSystem, WindowPtr window );

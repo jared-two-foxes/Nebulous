@@ -16,11 +16,10 @@ class AudioDecoder
 ///
 {
 protected:
-  File* m_stream;                 ///< file stream object.
+  File* m_stream{ nullptr };      ///< file stream object.
   AudioTrackParams m_trackParams; ///< Basic track information.
 
 public:
-  AudioDecoder() : m_stream( nullptr ) {}
   virtual ~AudioDecoder() {}
 
   /** Mutators */

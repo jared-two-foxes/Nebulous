@@ -8,7 +8,7 @@
 using Nebulae::RenderTexture;
 
 RenderTexture::RenderTexture( const std::string& name, Nebulae::RenderSystem* renderDevice )
-  : Resource( name, renderDevice ), m_impl( nullptr ), m_colour( nullptr ), m_depth( nullptr )
+  : Resource( name, renderDevice )
 {
 }
 

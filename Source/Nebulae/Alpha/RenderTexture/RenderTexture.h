@@ -12,9 +12,9 @@ class Texture;
 class RenderTexture : public Resource
 {
 private:
-  RenderTextureImpl* m_impl;
-  Texture* m_colour;
-  Texture* m_depth;
+  RenderTextureImpl* m_impl{ nullptr };
+  Texture* m_colour{ nullptr };
+  Texture* m_depth{ nullptr };
 
 public:
   /** Default Constructor. */

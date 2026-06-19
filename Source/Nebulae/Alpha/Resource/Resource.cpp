@@ -7,10 +7,7 @@ using namespace Nebulae;
 int32 g_nextIdentifier = 0;
 
 Resource::Resource( const std::string& name, RenderSystem* renderDevice )
-  : m_identifier( g_nextIdentifier++ ),
-    m_name( name ),
-    m_loadingStatus( LoadingStatus::Unloaded ),
-    m_renderDevice( renderDevice )
+  : m_identifier( g_nextIdentifier++ ), m_name( name ), m_renderDevice( renderDevice )
 {
 }
 

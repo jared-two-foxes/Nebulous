@@ -65,8 +65,7 @@ NE_FLAGSPEC_IMPL( LockOptions );
 // HardwareBuffer
 ///////////////////////////////////////
 
-HardwareBuffer::HardwareBuffer( const std::string& name, RenderSystem* renderDevice )
-  : Resource( name, renderDevice ), m_pImpl( nullptr ), m_isLocked( false ), m_lockStart( 0 ), m_lockSize( 0 )
+HardwareBuffer::HardwareBuffer( const std::string& name, RenderSystem* renderDevice ) : Resource( name, renderDevice )
 {
 }
 

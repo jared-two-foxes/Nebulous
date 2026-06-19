@@ -74,10 +74,8 @@ public:
   /// This needs to be a linked list of VertexList.
   {
     std::array<QuadVertex, MAX_VERTICES_PER_BUFFER> vertices;
-    std::size_t currentIndex;
-    int32 remaining;
-
-    VertexArray() : currentIndex( 0 ), remaining( MAX_VERTICES_PER_BUFFER ) {}
+    std::size_t currentIndex{ 0 };
+    int32 remaining{ MAX_VERTICES_PER_BUFFER };
 
     void Clear()
     {

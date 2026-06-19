@@ -24,7 +24,7 @@ class Resource
 protected:
   int32 m_identifier;
   std::string m_name;
-  LoadingStatus::Status m_loadingStatus;
+  LoadingStatus::Status m_loadingStatus{ LoadingStatus::Unloaded };
   RenderSystem* m_renderDevice;
 
 public:

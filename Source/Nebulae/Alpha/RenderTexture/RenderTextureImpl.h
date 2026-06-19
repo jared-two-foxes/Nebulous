@@ -13,8 +13,8 @@ class RenderTextureImpl
 public:
   int32 m_width;
   int32 m_height;
-  Texture* m_colour;
-  Texture* m_depth;
+  Texture* m_colour{ nullptr };
+  Texture* m_depth{ nullptr };
 
 public:
   /** Default Constructor. */

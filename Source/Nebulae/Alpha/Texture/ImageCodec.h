@@ -13,14 +13,12 @@ namespace Nebulae
 class ImageCodecData : public CodecData
 {
 public:
-  ImageCodecData() : height( 0 ), width( 0 ), size( 0 ), format( PF_UNKNOWN ), bpp( 0 ), datastream( nullptr ) {}
-
-  std::size_t height;
-  std::size_t width;
-  std::size_t size;
-  PixelFormat format;
-  uint8 bpp;
-  uint8* datastream;
+  std::size_t height{ 0 };
+  std::size_t width{ 0 };
+  std::size_t size{ 0 };
+  PixelFormat format{ PF_UNKNOWN };
+  uint8 bpp{ 0 };
+  uint8* datastream{ nullptr };
 
 }; // ImageCodecData
 
