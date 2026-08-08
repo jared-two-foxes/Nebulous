@@ -12,3 +12,14 @@ fmt_check_cmd = "bazel run //tools/lint:clang_format"
 # Lint: clang_tidy.py runs clang-tidy static analysis (no auto-fix mode)
 clippy_fix_cmd = "python -c pass"
 clippy_cmd = "bazel run //tools/lint:clang_tidy"
+
+# Git workflow: trunk-based, branch-per-ticket, auto-PR on validation.
+# The pipeline creates a ticket/<id> branch from base_branch on push-ticket,
+# commits each criterion as it goes, and after TICKET_VALIDATE succeeds it
+# pushes the branch to origin and opens a PR via `gh`.
+git_workflow = true
+base_branch = "master"
+forge = "github"
+forge_remote = "origin"
+pr_on_validate = true
+branch_prefix = "ticket/"
