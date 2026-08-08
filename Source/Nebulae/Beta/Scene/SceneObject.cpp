@@ -68,7 +68,9 @@ bool SceneObject::Initialize()
 ///
 {
   if ( nullptr == m_material )
+  {
     return false;
+  }
 
   //@todo Setup the uniform parameters based upon the Material.
   const UniformDefinitionMap& uniforms = m_material->GetUniformDefinitions();

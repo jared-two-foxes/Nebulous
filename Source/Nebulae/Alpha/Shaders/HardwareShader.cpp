@@ -13,7 +13,9 @@ HardwareShader::HardwareShader( const std::string& strFileName, Nebulae::RenderS
 HardwareShader::~HardwareShader()
 {
   if ( m_impl )
+  {
     delete m_impl;
+  }
   m_impl = nullptr;
 }
 

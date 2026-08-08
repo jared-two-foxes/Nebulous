@@ -248,7 +248,9 @@ void ParticleGroup::Render( Camera* camera ) const
   // @todo - Enable multi-pass particle shader's.
   Pass* pass = m_pMaterial->GetPass( 0 );
   if ( nullptr == pass )
+  {
     return;
+  }
   m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
 
   // Set the Vertex Buffer

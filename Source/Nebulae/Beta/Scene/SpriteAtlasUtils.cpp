@@ -53,7 +53,9 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
 
   // Early out if there are any issues with the parameters.
   if ( renderer.expired() || material == nullptr || pObj == nullptr || pSpriteAtlas == nullptr )
+  {
     return;
+  }
 
   std::shared_ptr<RenderSystem> renderDevicePtr = renderer.lock();
   //
@@ -62,7 +64,9 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   SubTexture* subTexture = pSpriteAtlas->FindModuleSubTexture( strFrameName );
   NE_ASSERT( subTexture, "" );
   if ( subTexture == nullptr )
+  {
     return;
+  }
 
   //
   // Setup the Geometry struct for render operation.

@@ -24,3 +24,6 @@ MODULE.bazel.lock
 
 # User-level Bazel cache (set up in global gitignore)
 .tdd-plan.md
+
+# Scaffold pipeline state
+.scaffold/

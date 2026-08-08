@@ -73,7 +73,9 @@ public:
     constexpr UniformType type = UniformTypeTraits<T>::value;
 
     if ( !Validate( name, type ) )
+    {
       return;
+    }
 
     const std::uint16_t arraySize = 1;
     const std::uint16_t payloadBytes = static_cast<std::uint16_t>( sizeof( T ) );
@@ -89,7 +91,9 @@ public:
     constexpr UniformType type = UniformTypeTraits<T>::value;
 
     if ( !Validate( name, type ) )
+    {
       return;
+    }
 
     const std::uint16_t payloadBytes = static_cast<std::uint16_t>( count * sizeof( T ) );
     std::vector<std::uint8_t> payload( payloadBytes );
@@ -121,14 +125,20 @@ private:
   bool Validate( const std::string& name, UniformType type ) const
   {
     if ( m_schema == nullptr )
+    {
       return true;
+    }
 
     auto it = m_schema->find( name );
     if ( it == m_schema->end() )
+    {
       return false; // unknown name
+    }
 
     if ( it->second.type != type )
+    {
       return false; // type mismatch
+    }
 
     return true;
   }

@@ -84,7 +84,9 @@ void SpriteBatch::AddQuad( GlyphState* state, std::size_t count )
   for ( std::size_t i = 0; i < count; ++i )
   {
     if ( !state[i].sub_texture )
+    {
       continue;
+    }
 
     const Texture* texture = state[i].sub_texture->GetTexture();
 
@@ -198,7 +200,9 @@ void SpriteBatch::Draw()
   {
     VertexArray& array = quad.second;
     if ( array.GetUsed() == 0 )
+    {
       continue;
+    }
 
     //
     // Create the uniform values for current pass.

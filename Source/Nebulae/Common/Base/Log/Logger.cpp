@@ -19,7 +19,9 @@ Logger::~Logger() { Shutdown(); }
 void Logger::AddSink( std::shared_ptr<ISink> sink, Level minLevel )
 {
   if ( !sink )
+  {
     return;
+  }
 
   std::lock_guard<std::mutex> lock( m_sinkMutex );
   m_sinks.emplace_back( std::move( sink ), minLevel );
@@ -44,12 +46,16 @@ void Logger::Enqueue( LogRecord record )
   auto completion = isCritical ? std::make_shared<std::promise<void>>() : nullptr;
   std::future<void> waitFuture;
   if ( completion )
+  {
     waitFuture = completion->get_future();
+  }
 
   {
     std::lock_guard<std::mutex> lock( m_mutex );
     if ( m_shutdown )
+    {
       return;
+    }
 
     if ( !isCritical && m_pendingCount.load( std::memory_order_relaxed ) >= kMaxQueueDepth )
     {
@@ -64,7 +70,9 @@ void Logger::Enqueue( LogRecord record )
   m_cv.notify_one();
 
   if ( completion )
+  {
     waitFuture.wait();
+  }
 }
 
 void Logger::Flush()
@@ -75,7 +83,9 @@ void Logger::Flush()
   {
     std::lock_guard<std::mutex> lock( m_mutex );
     if ( m_shutdown )
+    {
       return;
+    }
 
     m_queue.push_back( Entry{ LogRecord{}, completion, true } );
   }
@@ -88,13 +98,17 @@ void Logger::Flush()
     std::lock_guard<std::mutex> sinkLock( m_sinkMutex );
     sinks.reserve( m_sinks.size() );
     for ( const auto& sink : m_sinks )
+    {
       sinks.push_back( sink.first );
+    }
   }
 
   for ( const auto& sink : sinks )
   {
     if ( sink )
+    {
       sink->Flush();
+    }
   }
 }
 
@@ -103,27 +117,35 @@ void Logger::Shutdown()
   {
     std::lock_guard<std::mutex> lock( m_mutex );
     if ( m_shutdown )
+    {
       return;
+    }
     m_shutdown = true;
   }
 
   m_cv.notify_one();
 
   if ( m_thread.joinable() )
+  {
     m_thread.join();
+  }
 
   std::vector<std::shared_ptr<ISink>> sinks;
   {
     std::lock_guard<std::mutex> sinkLock( m_sinkMutex );
     sinks.reserve( m_sinks.size() );
     for ( const auto& sink : m_sinks )
+    {
       sinks.push_back( sink.first );
+    }
   }
 
   for ( const auto& sink : sinks )
   {
     if ( sink )
+    {
       sink->Flush();
+    }
   }
 }
 
@@ -136,7 +158,9 @@ uint64_t Logger::DroppedCriticalCount() const { return m_droppedCriticalCount.lo
 void Logger::Log( const char* message, ... )
 {
   if ( message == nullptr )
+  {
     return;
+  }
 
   va_list args;
   va_start( args, message );
@@ -144,7 +168,9 @@ void Logger::Log( const char* message, ... )
   va_end( args );
 
   if ( formatted.empty() )
+  {
     return;
+  }
 
   {
     std::lock_guard<std::mutex> lock( m_messagesMutex );
@@ -173,7 +199,9 @@ void Logger::ConsumerThreadFunc()
       if ( m_queue.empty() )
       {
         if ( m_shutdown )
+        {
           break;
+        }
         continue;
       }
 
@@ -185,7 +213,9 @@ void Logger::ConsumerThreadFunc()
       if ( entry.isFlushBarrier )
       {
         if ( entry.completion )
+        {
           entry.completion->set_value();
+        }
         continue;
       }
 
@@ -193,7 +223,9 @@ void Logger::ConsumerThreadFunc()
       m_pendingCount.fetch_sub( 1, std::memory_order_relaxed );
 
       if ( entry.completion )
+      {
         entry.completion->set_value();
+      }
     }
   }
 
@@ -208,14 +240,18 @@ void Logger::ConsumerThreadFunc()
     if ( entry.isFlushBarrier )
     {
       if ( entry.completion )
+      {
         entry.completion->set_value();
+      }
       continue;
     }
 
     DispatchRecord( entry.record );
     m_pendingCount.fetch_sub( 1, std::memory_order_relaxed );
     if ( entry.completion )
+    {
       entry.completion->set_value();
+    }
   }
 }
 
@@ -230,9 +266,13 @@ void Logger::DispatchRecord( const LogRecord& record )
   for ( const auto& sink : sinks )
   {
     if ( !sink.first )
+    {
       continue;
+    }
     if ( record.level < sink.second )
+    {
       continue;
+    }
     sink.first->Write( record );
   }
 }
@@ -240,7 +280,9 @@ void Logger::DispatchRecord( const LogRecord& record )
 std::string Logger::VFormat( const char* message, va_list args )
 {
   if ( message == nullptr )
+  {
     return {};
+  }
 
   va_list argsCopy;
   va_copy( argsCopy, args );
@@ -256,7 +298,9 @@ std::string Logger::VFormat( const char* message, va_list args )
   out.resize( static_cast<size_t>( needed ) );
 
   if ( needed > 0 )
+  {
     std::vsnprintf( &out[0], static_cast<size_t>( needed ) + 1, message, args );
+  }
 
   return out;
 }

@@ -18,9 +18,13 @@ Effect::Effect() : m_vertexShader( nullptr ), m_pixelShader( nullptr ) {}
 Effect::~Effect()
 {
   if ( m_vertexShader )
+  {
     delete m_vertexShader;
+  }
   if ( m_pixelShader )
+  {
     delete m_pixelShader;
+  }
 }
 
 

@@ -14,11 +14,19 @@ int convertToInt( char* buffer, int len )
 {
   int a = 0;
   if ( !isBigEndian() )
+  {
     for ( int i = 0; i < len; i++ )
+    {
       ( (char*)&a )[i] = buffer[i];
+    }
+  }
   else
+  {
     for ( int i = 0; i < len; i++ )
+    {
       ( (char*)&a )[3 - i] = buffer[i];
+    }
+  }
   return a;
 }
 
@@ -70,7 +78,9 @@ int32 WavAudioDecoder::Stream( uint32 start, uint32 size, char* data )
 
   // Bounds checks (and adjustments if possible)
   if ( startPos > endPos )
+  {
     return 0;
+  }
 
   // Stream file to that point.
   m_stream->Seek( startPos );
@@ -78,7 +88,9 @@ int32 WavAudioDecoder::Stream( uint32 start, uint32 size, char* data )
 
   // Check that we don't overflow.
   if ( ( startPos + amountToRead ) > endPos )
+  {
     amountToRead = endPos - startPos;
+  }
 
   // Attempt to read data.
   m_stream->Read( data, amountToRead );

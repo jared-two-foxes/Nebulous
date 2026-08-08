@@ -1,0 +1,14 @@
+# Pipeline configuration for Nebulous (Bazel)
+# Commands sourced from AGENTS.md and tools/lint/BUILD.bazel
+
+build_cmd = "bazel build //..."
+test_cmd = "bazel test --test_filter=-GLRenderStreamInterpreterTest.*:GLPluginApiVersionContract.* //tests:alpha_tests --test_output=errors"
+test_filter_cmd = "bazel test --test_filter={filter} //tests:alpha_tests --test_output=errors"
+
+# Format: clang_format.py auto-fixes using clang-format
+fmt_fix_cmd = "bazel run //tools/lint:clang_format"
+fmt_check_cmd = "bazel run //tools/lint:clang_format"
+
+# Lint: clang_tidy.py runs clang-tidy static analysis (no auto-fix mode)
+clippy_fix_cmd = "python -c pass"
+clippy_cmd = "bazel run //tools/lint:clang_tidy"

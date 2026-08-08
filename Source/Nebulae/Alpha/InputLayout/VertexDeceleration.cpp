@@ -5,7 +5,9 @@ using namespace Nebulae;
 bool Nebulae::operator==( const VertexDeceleration& lhs, const VertexDeceleration& rhs )
 {
   if ( lhs.GetElementCount() != rhs.GetElementCount() )
+  {
     return false;
+  }
 
   for ( int32 i = 0; i < lhs.GetElementCount(); ++i )
   {
