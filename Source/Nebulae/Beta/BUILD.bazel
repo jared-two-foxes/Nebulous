@@ -1,5 +1,10 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
+exports_files(
+    ["Material/MaterialSerializer.cpp"],
+    visibility = ["//visibility:public"],
+)
+
 cc_library(
     name = "beta",
     srcs = glob(
