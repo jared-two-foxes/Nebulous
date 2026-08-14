@@ -190,7 +190,9 @@ void SceneNode::FindVisibleObjects_( Camera* camera, RenderQueue* renderQueue )
     {
       if ( object->IsVisible() )
       {
-        renderQueue->AddRenderable( object );
+        // TODO(Phase 5.1, SA-441): emit a DrawItem instead of quenueing the
+        // object directly. The DrawItem will contain a pointer to the
+        // SceneObject and a sort key.
       }
     }
 

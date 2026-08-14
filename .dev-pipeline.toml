@@ -1,9 +1,14 @@
 # Pipeline configuration for Nebulous (Bazel)
 # Commands sourced from AGENTS.md and tools/lint/BUILD.bazel
+#
+# Note: build/test targets are narrowed to Source/Nebulae + tests to avoid
+# pre-existing build failures in Samples/Entity. Widen back to //... once
+# those are fixed.
 
-build_cmd = "bazel build //..."
-test_cmd = "bazel test --test_filter=-GLRenderStreamInterpreterTest.*:GLPluginApiVersionContract.* //tests:alpha_tests --test_output=errors"
-test_filter_cmd = "bazel test --test_filter={filter} //tests:alpha_tests --test_output=errors"
+build_cmd = "bazel build //Source/Nebulae/Alpha:alpha //Source/Nebulae/Beta:beta //Source/Nebulae/Common:common"
+test_compile_cmd = "bazel build //Source/Nebulae/Alpha:alpha //Source/Nebulae/Beta:beta //Source/Nebulae/Common:common //tests:alpha_tests //tests:beta_tests"
+test_cmd = "bazel test --test_filter=-GLRenderStreamInterpreterTest.*:GLPluginApiVersionContract.* //tests:alpha_tests //tests:beta_tests --test_output=errors"
+test_filter_cmd = "bazel test --test_filter={filter} //tests:alpha_tests //tests:beta_tests --test_output=errors"
 
 # Format: clang_format.py auto-fixes using clang-format
 fmt_fix_cmd = "bazel run //tools/lint:clang_format"

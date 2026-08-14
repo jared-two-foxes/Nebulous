@@ -27,3 +27,7 @@ MODULE.bazel.lock
 
 # Scaffold pipeline state
 .scaffold/
+
+# --- ticket-pipeline state (git-native workflow) ---------
+.criteria-stack.json
+.pipeline-git-state.json
