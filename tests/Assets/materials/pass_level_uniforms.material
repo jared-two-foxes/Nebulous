@@ -1,0 +1,15 @@
+{
+  "passes": [
+    {
+      "vertexshader": {
+        "name": "shaders/debug_vs.glsl"
+      },
+      "fragmentshader": {
+        "name": "shaders/debug_fs.glsl"
+      },
+      "uniforms": [
+        { "name": "world", "type": "mat4" }
+      ]
+    }
+  ]
+}

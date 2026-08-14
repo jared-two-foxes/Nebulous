@@ -4,57 +4,9 @@
 
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 #include <Nebulae/Alpha/Shaders/HardwareShader.h>
-#include <Nebulae/Alpha/Shaders/UniformDefinition.h>
 
 
 using namespace Nebulae;
-
-
-UniformType ConvertStringToUniformType( const std::string& str )
-{
-  if ( str.compare( "float" ) == 0 )
-  {
-    return UT_FLOAT1;
-  }
-  else if ( str.compare( "vec2" ) == 0 )
-  {
-    return UT_FLOAT2;
-  }
-  else if ( str.compare( "vec3" ) == 0 )
-  {
-    return UT_FLOAT3;
-  }
-  else if ( str.compare( "vec4" ) == 0 )
-  {
-    return UT_FLOAT4;
-  }
-  else if ( str.compare( "mat2" ) == 0 )
-  {
-    return UT_MATRIX_2X2;
-  }
-  else if ( str.compare( "mat3" ) == 0 )
-  {
-    return UT_MATRIX_3X3;
-  }
-  else if ( str.compare( "mat4" ) == 0 )
-  {
-    return UT_MATRIX_4X4;
-  }
-  else if ( str.compare( "sampler1D" ) == 0 )
-  {
-    return UT_SAMPLER1D;
-  }
-  else if ( str.compare( "sampler2D" ) == 0 )
-  {
-    return UT_SAMPLER2D;
-  }
-  else if ( str.compare( "sampler3D" ) == 0 )
-  {
-    return UT_SAMPLER3D;
-  }
-
-  return UT_UNKNOWN;
-}
 
 
 MaterialSerializer::MaterialSerializer( RenderSystemPtr renderDevice ) : m_renderDevice( renderDevice ) {}
@@ -97,6 +49,13 @@ bool MaterialSerializer::ProcessPass( Json::Value& passData, Material* material 
   Pass* pass = material->CreatePass();
   bool success = true;
 
+  // Warn about deprecated pass-level "uniforms" block.
+  if ( !passData["uniforms"].isNull() )
+  {
+    NE_LOG_WARN( "Material", "Deprecated 'uniforms' block found in material file; "
+                             "uniforms are now auto-reflected from shaders." );
+  }
+
   success |= ProcessShader( passData["vertexshader"], VERTEX_SHADER, material, pass );
   // success |= ProcessShader( passData["geometryShader"], GEOMETRY_SHADER, material, pass );
   success |= ProcessShader( passData["fragmentshader"], PIXEL_SHADER, material, pass );
@@ -127,6 +86,13 @@ bool MaterialSerializer::ProcessShader( Json::Value& shader, HardwareShaderType 
   else
   {
     NE_ASSERT( false, "Shader type not yet supported" );
+  }
+
+  // Warn about deprecated "uniforms" block (auto-reflected since Phase 3.1).
+  if ( !shader["uniforms"].isNull() )
+  {
+    NE_LOG_WARN( "Material", "Deprecated 'uniforms' block found in material file; "
+                             "uniforms are now auto-reflected from shaders." );
   }
 
   return true;

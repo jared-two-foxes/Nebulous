@@ -92,6 +92,12 @@ cc_test(
 # Beta Library Tests
 # ============================================================================
 
+filegroup(
+    name = "material_serializer_source",
+    srcs = ["//Source/Nebulae/Beta:Material/MaterialSerializer.cpp"],
+    visibility = ["//visibility:public"],
+)
+
 cc_test(
     name = "beta_tests",
     size = "small",
@@ -103,7 +109,10 @@ cc_test(
         "@boost.chrono",
         "@boost.thread",
     ],
-    data = [":test_assets"],
+    data = [
+        ":test_assets",
+        ":material_serializer_source",
+    ],
     visibility = ["//visibility:public"],
 )
 
