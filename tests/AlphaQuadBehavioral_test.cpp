@@ -189,6 +189,7 @@ public:
   void Clear() override {}
 
   bool ReflectProgram( ProgramObject&, UniformDefinitionMap& ) override { return true; }
+  bool ReflectProgramShaders( HardwareShader*, HardwareShader*, UniformDefinitionMap& ) override { return true; }
 
   void ExecuteStream( const RenderStream& ) override {}
 

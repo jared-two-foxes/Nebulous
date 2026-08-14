@@ -5,6 +5,7 @@
 
 #include <Nebulae/Alpha/Alpha.h>
 #include <Nebulae/Alpha/Shaders/HardwareShader.h>
+#include <Nebulae/Alpha/Shaders/UniformDefinition.h>
 
 namespace Nebulae
 {
@@ -12,8 +13,9 @@ namespace Nebulae
 class Pass
 {
 private:
-  HardwareShader* m_vertexShader; ///< Vertex shader which is to be applied for pass.
-  HardwareShader* m_pixelShader;  ///< Pixel shader which is to be applied for pass.
+  HardwareShader* m_vertexShader;            ///< Vertex shader which is to be applied for pass.
+  HardwareShader* m_pixelShader;             ///< Pixel shader which is to be applied for pass.
+  UniformDefinitionMap m_uniformDefinitions; ///< List of all of the uniforms registered for this pass.
 
 public:
   Pass();
@@ -31,6 +33,8 @@ public:
   /** Sets the HardwareShader that is to be used in the pixel/fragment portion of the rendering emulation. */
   void SetPixelShader( HardwareShader* pixelShader );
 
+  const UniformDefinitionMap& GetUniformSchema() const;
+  void SetUniformSchema( const UniformDefinitionMap& schema );
 
 }; // Pass
 

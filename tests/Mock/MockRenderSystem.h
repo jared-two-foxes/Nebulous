@@ -22,6 +22,7 @@ public:
 
   MOCK_METHOD0( Clear, void() );
   MOCK_METHOD2( ReflectProgram, bool( ProgramObject&, UniformDefinitionMap& ) );
+  MOCK_METHOD3( ReflectProgramShaders, bool( HardwareShader*, HardwareShader*, UniformDefinitionMap& ) );
   MOCK_METHOD1( ExecuteStream, void( const RenderStream& ) );
 
 

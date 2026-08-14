@@ -106,6 +106,7 @@ public:
 
   // stream API functions.
   virtual bool ReflectProgram( ProgramObject& program, UniformDefinitionMap& out ) = 0;
+  virtual bool ReflectProgramShaders( HardwareShader* vs, HardwareShader* ps, UniformDefinitionMap& out ) = 0;
   virtual void ExecuteStream( const RenderStream& stream ) = 0;
 
   // shader binding functions.
