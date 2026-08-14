@@ -122,13 +122,21 @@ inline bool Vector2::operator!=( const Vector2& rhs ) const { return ( x != rhs.
 inline bool Vector2::operator<( const Vector2& rhs ) const
 {
   if ( x < rhs.x )
+  {
     return true;
+  }
   if ( x > rhs.x )
+  {
     return false;
+  }
   if ( y < rhs.y )
+  {
     return true;
+  }
   if ( y > rhs.y )
+  {
     return false;
+  }
   return false;
 }
 
@@ -158,7 +166,9 @@ inline Vector2& Vector2::normalize()
   const float EPSILON = 0.000001f;
   float xxyy = x * x + y * y;
   if ( xxyy < EPSILON )
+  {
     return *this;
+  }
 
   // float invLength = invSqrt(xxyy);
   float invLength = 1.0f / sqrtf( xxyy );

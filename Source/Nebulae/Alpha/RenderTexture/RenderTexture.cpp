@@ -15,7 +15,9 @@ RenderTexture::RenderTexture( const std::string& name, Nebulae::RenderSystem* re
 RenderTexture::~RenderTexture()
 {
   if ( m_impl != nullptr )
+  {
     delete m_impl;
+  }
   m_impl = nullptr;
 }
 
@@ -44,9 +46,13 @@ bool RenderTexture::BindColourBuffer( int32 index, int32 width, int32 height )
   //@todo handle multiple index binding!
 
   if ( width == -1 )
+  {
     width = static_cast<int32>( GetWidth() ); // size_t-to-int32, range safe as texture dimensions fit in int32
+  }
   if ( height == -1 )
+  {
     height = static_cast<int32>( GetHeight() ); // size_t-to-int32, range safe as texture dimensions fit in int32
+  }
 
   if ( m_impl != nullptr && m_impl->BindColourBuffer( index, width, height ) )
   {
@@ -62,7 +68,9 @@ bool RenderTexture::BindColourTexture( int32 index, Nebulae::Texture* texture )
   //@todo handle multiple index binding!
 
   if ( texture == m_colour )
+  {
     return true;
+  }
 
   if ( m_impl != nullptr && m_impl->BindColourTexture( index, texture ) )
   {
@@ -76,9 +84,13 @@ bool RenderTexture::BindColourTexture( int32 index, Nebulae::Texture* texture )
 bool RenderTexture::BindDepthBuffer( int32 width, int32 height )
 {
   if ( width == -1 )
+  {
     width = (int32)GetWidth();
+  }
   if ( height == -1 )
+  {
     height = (int32)GetHeight();
+  }
 
   if ( m_impl != nullptr && m_impl->BindDepthBuffer( width, height ) )
   {
@@ -92,7 +104,9 @@ bool RenderTexture::BindDepthBuffer( int32 width, int32 height )
 bool RenderTexture::BindDepthTexture( Nebulae::Texture* texture )
 {
   if ( texture == m_depth )
+  {
     return true;
+  }
 
   if ( m_impl != nullptr && m_impl->BindDepthTexture( texture ) )
   {

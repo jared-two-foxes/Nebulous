@@ -18,7 +18,9 @@ bool LayoutAssistant::Process( Widget* widget )
 {
   NE_ASSERT( widget, "" );
   if ( widget == nullptr )
+  {
     return false;
+  }
 
   float deviceScale = 1.0f;
   if ( m_defaultCreationHeight > m_defaultCreationWidth )

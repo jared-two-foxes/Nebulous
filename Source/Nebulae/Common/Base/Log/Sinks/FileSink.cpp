@@ -11,7 +11,9 @@ FileSink::~FileSink()
 {
   Flush();
   if ( m_file.is_open() )
+  {
     m_file.close();
+  }
 }
 
 void FileSink::Write( const LogRecord& record )
@@ -20,7 +22,9 @@ void FileSink::Write( const LogRecord& record )
   {
     m_file.open( m_filePath.c_str(), std::ios::out | std::ios::app );
     if ( !m_file.is_open() )
+    {
       return;
+    }
   }
 
   m_file << "[" << LevelToString( record.level ) << "]"
@@ -30,7 +34,9 @@ void FileSink::Write( const LogRecord& record )
 void FileSink::Flush()
 {
   if ( m_file.is_open() )
+  {
     m_file.flush();
+  }
 }
 
 } // namespace Nebulae

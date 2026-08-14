@@ -24,3 +24,10 @@ MODULE.bazel.lock
 
 # User-level Bazel cache (set up in global gitignore)
 .tdd-plan.md
+
+# Scaffold pipeline state
+.scaffold/
+
+# --- ticket-pipeline state (git-native workflow) ---------
+.criteria-stack.json
+.pipeline-git-state.json

@@ -128,7 +128,9 @@ bool MaterialSerializer::ProcessShader( Json::Value& shader, HardwareShaderType 
 
   Json::Value uniforms = shader["uniforms"];
   if ( uniforms.isNull() )
+  {
     return true;
+  }
 
   if ( !uniforms.isArray() )
   {
@@ -145,7 +147,9 @@ bool MaterialSerializer::ProcessShader( Json::Value& shader, HardwareShaderType 
     const char* uniformName = uniform["name"].asCString();
     Json::Value countValue = uniform["count"];
     if ( !countValue.isNull() )
+    {
       count = static_cast<std::size_t>( countValue.asUInt() );
+    }
 
     material->AddUniformDefinition( uniformName, uniformType, count );
 

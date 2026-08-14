@@ -24,7 +24,9 @@ ParticlePool::ParticlePool( uint32 capacity )
 ParticlePool::~ParticlePool()
 {
   if ( m_pParticles )
+  {
     delete[] m_pParticles;
+  }
 }
 
 Particle* ParticlePool::fetch()

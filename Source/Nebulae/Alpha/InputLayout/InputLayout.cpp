@@ -13,7 +13,9 @@ InputLayout::InputLayout( const std::string& name, Nebulae::RenderSystem* render
 InputLayout::~InputLayout()
 {
   if ( m_impl != nullptr )
+  {
     delete m_impl;
+  }
   m_impl = nullptr;
 }
 

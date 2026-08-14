@@ -32,7 +32,9 @@ template <typename... Args> std::string Format( const char* format, Args&&... ar
   {
     const size_t pos = result.find( "{}" );
     if ( pos == std::string::npos )
+    {
       break;
+    }
     result.replace( pos, 2, value );
   }
 

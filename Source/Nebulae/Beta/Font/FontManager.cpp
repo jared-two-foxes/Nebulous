@@ -15,7 +15,7 @@ FontManager::~FontManager()
 {
   for ( auto& m_Resource : m_Resources )
   {
-    delete resource;
+    delete m_Resource;
   }
   m_Resources.clear();
 }

@@ -666,7 +666,7 @@ void GuiManager::RegisterModal( Widget* widget )
 {
   if ( widget && widget->IsModal() )
   {
-    m_impl->m_modalWidgets.push_back( std::make_pair( widget, widget ) );
+    m_impl->m_modalWidgets.emplace_back( widget, widget );
     widget->HandleEvent( WidgetEvent( WidgetEvent::GainingFocus ) );
   }
 }

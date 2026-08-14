@@ -36,30 +36,44 @@ Nebulae::PixelFormat EnginePixelFormatFromPng( int colorType, int bitDepth )
   if ( colorType == PNG_COLOR_TYPE_GRAY ) // possible bit-depths; 1, 2, 4, 8, 16
   {
     if ( bitDepth == 8 )
+    {
       return PF_L8;
+    }
     else if ( bitDepth == 16 )
+    {
       return PF_L16;
+    }
   }
   else if ( colorType == PNG_COLOR_TYPE_GRAY_ALPHA ) // possible bit-depths; 8, 16
   {
     if ( bitDepth == 8 )
+    {
       return PF_BYTE_LA;
+    }
     // else if (bitDepth == 16)
     //   return PF_L16A16; //??
   }
   else if ( colorType == PNG_COLOR_TYPE_RGB ) // possible bit-depths; 8, 16
   {
     if ( bitDepth == 8 )
+    {
       return PF_BYTE_BGR;
+    }
     else if ( bitDepth == 16 )
+    {
       return PF_FLOAT16_RGB; //> This is actually probably incorrect, should be BGR?
+    }
   }
   else if ( colorType == PNG_COLOR_TYPE_RGB_ALPHA ) // possible bit-depths; 8, 16
   {
     if ( bitDepth == 8 )
+    {
       return PF_B8G8R8A8;
+    }
     else if ( bitDepth == 16 )
+    {
       return PF_FLOAT16_RGBA; //> This is actually probably incorrect, should be BGR?
+    }
   }
 
   return PF_UNKNOWN;

@@ -128,9 +128,13 @@ RenderTexture* RenderSystem::CreateRenderTexture( const std::string& identifier,
                                                   bool shouldLoad )
 {
   if ( width == -1 )
+  {
     width = m_window->GetWidth();
+  }
   if ( height == -1 )
+  {
     height = m_window->GetHeight();
+  }
 
   RenderTexture* renderTexture = m_renderTextureFactory->Create( identifier.c_str() );
   if ( renderTexture != nullptr && !renderTexture->IsLoaded() )

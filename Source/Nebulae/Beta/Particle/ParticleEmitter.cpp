@@ -33,7 +33,9 @@ void ParticleEmitter::Update( const uint64 elapsed )
 {
   // Early out if we are not currently active.
   if ( !m_active )
+  {
     return;
+  }
 
   float deltaSeconds = float( elapsed ) / 1000000; //< convert microseconds to seconds.
 
@@ -69,7 +71,9 @@ void ParticleEmitter::Update( const uint64 elapsed )
     }
 
     if ( ( *it ).m_tank > 0 )
+    {
       reservoirEmpty = false;
+    }
 
     //
     // Create particles.

@@ -40,7 +40,9 @@ Pass* Material::CreatePass()
 void Material::RemovePass( uint16 index )
 {
   if ( index >= m_passes.size() )
+  {
     return;
+  }
 
   std::vector<Pass*>::iterator itr = m_passes.begin() + index;
   if ( itr != m_passes.end() )

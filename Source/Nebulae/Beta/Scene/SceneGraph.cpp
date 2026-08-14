@@ -3,7 +3,6 @@
 
 #include <Nebulae/Alpha/Alpha.h>
 
-#include <Nebulae/Beta/RenderQueue/RenderQueue.h>
 #include <Nebulae/Beta/Scene/ConstantBuffers.h>
 #include <Nebulae/Beta/Scene/SceneNode.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
@@ -11,24 +10,9 @@
 using namespace Nebulae;
 
 
-class SceneObjectGreater
-{
-public:
-  bool operator()( const SceneObject* pObj1, const SceneObject* pObj2 ) const
-  {
-    float a = pObj1->GetNode()->GetPosition().z;
-    float b = pObj2->GetNode()->GetPosition().z;
-    return ( a < b );
-  }
-};
-
-
 // constructor
 SceneGraph::SceneGraph( RenderSystemPtr pRenderSystem )
-  : m_pRenderQueue( nullptr ),
-    m_pRenderSystem( pRenderSystem ),
-    m_pCameraInProgress( nullptr ),
-    m_RootSceneNode( nullptr )
+  : m_pRenderSystem( pRenderSystem ), m_pCameraInProgress( nullptr ), m_RootSceneNode( nullptr )
 {
 }
 
@@ -37,16 +21,8 @@ SceneGraph::~SceneGraph()
 {
   Clear();
 
-  if ( m_pRenderQueue )
-  {
-    delete m_pRenderQueue;
-  }
-
   m_pRenderSystem.reset();
 }
-
-
-RenderQueue* SceneGraph::GetRenderQueue() const { return m_pRenderQueue; }
 
 
 SceneGraph::RenderSystemPtr SceneGraph::GetRenderSystem() const { return m_pRenderSystem; }
@@ -72,9 +48,6 @@ bool SceneGraph::Initialize()
 {
   // Create root SceneNode
   m_RootSceneNode = CreateSceneNode( "root" );
-
-  // Create a RenderQueue
-  m_pRenderQueue = new RenderQueue();
 
   return true;
 }
@@ -140,53 +113,16 @@ void SceneGraph::Render( Camera* pCamera )
 }
 
 
-void SceneGraph::PrepareRenderQueue_() { m_pRenderQueue->Clear(); }
+void SceneGraph::PrepareRenderQueue_() {}
 
 
 void SceneGraph::FindVisibleObjects_( Camera* pCamera )
 {
-  m_RootSceneNode->FindVisibleObjects_( pCamera, m_pRenderQueue );
+  // TODO(Phase 5.1, SA-441): emit a DrawItem instead of queueing SceneObject.
 }
 
 
 void SceneGraph::RenderVisibleObjects_( Camera* pCamera )
 {
-  // Render each separate queue
-  RenderQueue::LayersList layers = m_pRenderQueue->GetQueueLayers_();
-
-  for ( auto layer : layers )
-  {
-    // Skip this one if not to be processed
-    //	if( !layer->IsRenderQueueToBeProcessed(qId) )
-    //	{
-    //		continue;
-    //	}
-
-    RenderQueueGroupObjects_( layer, pCamera );
-  }
-}
-
-
-void SceneGraph::RenderQueueGroupObjects_( RenderQueueLayer* group, Camera* pCamera )
-{
-  // Do Solids
-  RenderObjects_( group->GetRenderables(), pCamera );
-  // Do transparents (alwas decending)
-  // RenderObjects_(group->getTransparents());
-}
-
-
-void SceneGraph::RenderObjects_( std::vector<SceneObject*>& objects, Camera* camera )
-{
-  if ( objects.size() > 0 )
-  {
-    // Sort by z depth.
-    std::sort( objects.begin(), objects.end(), SceneObjectGreater() );
-
-    for ( auto& object : objects )
-    {
-      object->PreRender( camera );
-      object->Render( m_pRenderSystem );
-    }
-  }
+  // TODO(Phase 5.1, SA-441): compile DrawItems into a RenderStream
 }
