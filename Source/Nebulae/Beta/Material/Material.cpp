@@ -1,6 +1,7 @@
 
 #include "Material.h"
 
+#include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 #include <Nebulae/Beta/Material/Pass.h>
 
 
@@ -51,38 +52,40 @@ void Material::RemovePass( uint16 index )
   }
 }
 
-void Material::AddUniformDefinition( const std::string& name, UniformType type, std::size_t arraySize )
+void Material::RefreshUniformSchemas( RenderSystem* renderSystem )
 {
-  // Definition exists if it does exit.
-  if ( m_uniformDefinitions.find( name ) != m_uniformDefinitions.end() )
+  m_uniformDefinitions.clear();
+
+  for ( auto& pass : m_passes )
   {
-    // log out to console.
-    return;
+    HardwareShader* vs = pass->GetVertexShader();
+    HardwareShader* ps = pass->GetPixelShader();
+
+    UniformDefinitionMap passSchema;
+    if ( !renderSystem->ReflectProgramShaders( vs, ps, passSchema ) )
+    {
+      // Program not linked yet; skip this pass.
+      continue;
+    }
+
+    pass->SetUniformSchema( passSchema );
+
+    // Build merged name->type index (no locations).
+    for ( const auto& [name, def] : passSchema )
+    {
+      auto it = m_uniformDefinitions.find( name );
+      if ( it == m_uniformDefinitions.end() )
+      {
+        // First pass to introduce this uniform - add with no location.
+        UniformDefinitionBase merged = def;
+        merged.logicalIndex = static_cast<std::size_t>( -1 );
+        m_uniformDefinitions[name] = merged;
+      }
+      else if ( it->second.type != def.type )
+      {
+        NE_LOG_WARN( "Material", "Uniform '%s' has conflicting types across passes: %d vs %d", name.c_str(),
+                     it->second.type, def.type );
+      }
+    }
   }
-
-  UniformDefinitionBase def;
-  def.arraySize = arraySize;
-  def.type = type;
-  // for compatibility we do not pad values to multiples of 4
-  // when it comes to arrays, user is responsible for creating matching definitions
-  def.elementSize = UniformDefinition<float>::GetElementSize( type, false );
-
-  // not used
-  def.logicalIndex = 0;
-  // def.variability = (uint16)GPV_GLOBAL;
-
-  m_uniformDefinitions[name] = def;
 }
-
-
-void Material::RemoveUniformDefinition( const std::string& name )
-{
-  UniformDefinitionMap::iterator i = m_uniformDefinitions.find( name );
-  if ( i != m_uniformDefinitions.end() )
-  {
-    m_uniformDefinitions.erase( i );
-  }
-}
-
-
-void Material::RemoveAllUniformDefinitions() { m_uniformDefinitions.clear(); }

@@ -85,6 +85,9 @@ bool MaterialSerializer::Serialize( File& stream, Material* material )
     index++;
   }
 
+  // Reflect uniform schemas from each pass's program.
+  material->RefreshUniformSchemas( m_renderDevice.get() );
+
   return true;
 }
 
@@ -124,36 +127,6 @@ bool MaterialSerializer::ProcessShader( Json::Value& shader, HardwareShaderType 
   else
   {
     NE_ASSERT( false, "Shader type not yet supported" );
-  }
-
-  Json::Value uniforms = shader["uniforms"];
-  if ( uniforms.isNull() )
-  {
-    return true;
-  }
-
-  if ( !uniforms.isArray() )
-  {
-    // printf( "Found 'uniforms' node does not confirm, expected type array." );
-    return false;
-  }
-
-  Json::ArrayIndex index = 0u;
-  while ( uniforms.isValidIndex( index ) )
-  {
-    Json::Value uniform = uniforms[index];
-    std::size_t count = 1;
-    UniformType uniformType = ConvertStringToUniformType( uniform["type"].asCString() );
-    const char* uniformName = uniform["name"].asCString();
-    Json::Value countValue = uniform["count"];
-    if ( !countValue.isNull() )
-    {
-      count = static_cast<std::size_t>( countValue.asUInt() );
-    }
-
-    material->AddUniformDefinition( uniformName, uniformType, count );
-
-    index++;
   }
 
   return true;

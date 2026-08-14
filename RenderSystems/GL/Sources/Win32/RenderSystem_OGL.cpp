@@ -520,6 +520,19 @@ bool RenderSystem_OGL::ReflectProgram( ProgramObject& prog, UniformDefinitionMap
   return true;
 }
 
+bool RenderSystem_OGL::ReflectProgramShaders( HardwareShader* vs, HardwareShader* ps, UniformDefinitionMap& out )
+{
+  for ( auto* prog : m_programObjects )
+  {
+    if ( vs == prog->GetVertexShader() && ps == prog->GetFragmentShader() )
+    {
+      out = prog->GetUniformDefinitions();
+      return true;
+    }
+  }
+
+  return false;
+}
 
 void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 {

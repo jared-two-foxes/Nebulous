@@ -11,6 +11,8 @@
 namespace Nebulae
 {
 
+class RenderSystem;
+
 /** This is really a single 'Technique' which will control the appearance of a rendered object.
  */
 class Material
@@ -50,23 +52,7 @@ public:
   /** Removes all Passes from Material. */
   void RemoveAllPasses();
 
-  /** Add a new UniformDefinition to this shared set of parameters.
-  @remarks
-    Unlike GpuProgramParameters, where the parameter list is defined by the
-    program being compiled, this shared parameter set is defined by the
-    user. Only parameters which have been predefined here may be later
-    updated.
-  */
-  void AddUniformDefinition( const std::string& name, UniformType type, std::size_t arraySize = 1 );
-
-  /** Remove a UniformDefinition from this shared set of parameters.
-   */
-  void RemoveUniformDefinition( const std::string& name );
-
-  /** Remove a UniformDefinition from this shared set of parameters.
-   */
-  void RemoveAllUniformDefinitions();
-
+  void RefreshUniformSchemas( RenderSystem* renderSystem );
 
 }; // Material
 

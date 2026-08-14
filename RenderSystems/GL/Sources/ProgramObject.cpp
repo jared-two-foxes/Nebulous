@@ -175,12 +175,15 @@ bool ProgramObject::Load()
     name[nameLen] = 0;
 
     GLuint location = glGetUniformLocation( m_handle, name );
-    NE_ASSERT( location != -1, "Unable to find a valid location for uniform." );
+    if ( location == static_cast<GLuint>( -1 ) )
+    {
+      continue; // build-in uniform, skip
+    }
 
     UniformDefinitionBase definition;
     definition.type = ConvertGLUnformTypeToNebulaeType( type );
     definition.logicalIndex = location;
-    definition.elementSize = 1;
+    definition.elementSize = UniformDefinitionBase::GetElementSize( definition.type, false );
     definition.arraySize = num;
 
     m_uniformDefinitions.insert( std::pair<std::string, UniformDefinitionBase>( name, definition ) );

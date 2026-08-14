@@ -61,6 +61,7 @@ public:
 
   // stream API functions
   virtual bool ReflectProgram( ProgramObject& prog, UniformDefinitionMap& out ) override;
+  virtual bool ReflectProgramShaders( HardwareShader* vs, HardwareShader* ps, UniformDefinitionMap& out ) override;
   virtual void ExecuteStream( const RenderStream& stream ) override;
 
 private:

@@ -23,3 +23,7 @@ void Pass::SetVertexShader( HardwareShader* vertexShader ) { m_vertexShader = ve
 
 
 void Pass::SetPixelShader( HardwareShader* pixelShader ) { m_pixelShader = pixelShader; }
+
+const UniformDefinitionMap& Pass::GetUniformSchema() const { return m_uniformDefinitions; }
+
+void Pass::SetUniformSchema( const UniformDefinitionMap& schema ) { m_uniformDefinitions = schema; }
