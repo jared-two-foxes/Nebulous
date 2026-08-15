@@ -203,3 +203,20 @@ void SceneObject::Render( RenderSystemPtr renderDevice ) const
     }
   }
 }
+
+void SceneObject::AddProvider( const std::string& key, UniformProvider provider )
+{
+  for ( auto& slot : m_slots )
+  {
+    auto it = std::find_if( slot.providers.begin(), slot.providers.end(),
+                            [&key]( const std::pair<std::string, UniformProvider>& p ) { return p.first == key; } );
+    if ( it != slot.providers.end() )
+    {
+      it->second = provider; // Update existing provider
+    }
+    else
+    {
+      slot.providers.emplace_back( key, provider ); // Add new provider
+    }
+  }
+}

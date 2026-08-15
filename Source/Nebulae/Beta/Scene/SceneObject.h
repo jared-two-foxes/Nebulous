@@ -1,8 +1,9 @@
 #ifndef NEBULAE_BETA_SCENE_SCENEOBJECT_H_
 #define NEBULAE_BETA_SCENE_SCENEOBJECT_H_
 
-#include <Nebulae/Beta/Scene/UniformParameters.h>
 #include <Nebulae/Common/Common.h>
+#include <Nebulae/Beta/Scene/UniformParameters.h>
+#include <Nebulae/Beta/RenderQueue/UniformProvider.h>
 
 namespace Nebulae
 {
@@ -25,6 +26,7 @@ struct PassData
 struct RenderSlot
 {
   const Material* material;
+  std::vector<std::pair<std::string, UniformProvider>> providers;
 };
 
 /**
@@ -73,6 +75,7 @@ public:
   void SetInputLayout( std::size_t iPass, InputLayout* pInputLayout );
   void PreRender( Camera* pCamera );
   void Render( RenderSystemPtr renderSystem ) const;
+  void AddProvider( const std::string& key, UniformProvider provider );
 
 }; // SceneObject
 
