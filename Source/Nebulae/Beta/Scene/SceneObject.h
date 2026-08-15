@@ -22,6 +22,11 @@ struct PassData
   int RenderTargetViewCount;
 };
 
+struct RenderSlot
+{
+  const Material* material;
+};
+
 /**
  *  An object that represents a single render operation at the specified scene node location.
  *
@@ -43,9 +48,11 @@ private:
   std::vector<PassData*> m_passData;
   UniformParameters m_uniforms;
   bool m_visible;
+  std::vector<RenderSlot> m_slots;
 
 public:
   explicit SceneObject( SceneNode* parent, const Material* pMaterial );
+  explicit SceneObject( SceneNode* parent );
   ~SceneObject();
 
   // getters
@@ -57,6 +64,9 @@ public:
 
   // functions
   void Clear();
+  std::size_t AddSlot( const Material* material );
+  std::size_t GetSlotCount() const;
+  const RenderSlot& GetSlot( std::size_t index ) const;
   bool Initialize();
   void SetVisible( bool bVisible );
   void SetGeometry( std::size_t iPass, Geometry* pGeometry );

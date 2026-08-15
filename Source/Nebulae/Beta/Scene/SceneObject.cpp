@@ -27,6 +27,12 @@ SceneObject::SceneObject( SceneNode* parent, const Material* material )
 }
 
 
+SceneObject::SceneObject( SceneNode* parent )
+  : m_identifier( ms_nextIdentifier++ ), m_node( parent ), m_material( nullptr ), m_visible( true )
+{
+}
+
+
 SceneObject::~SceneObject()
 {
   Clear();
@@ -47,6 +53,19 @@ const Material* SceneObject::GetMaterial() const { return m_material; }
 
 
 UniformParameters& SceneObject::GetUniformParameters() { return m_uniforms; }
+
+
+std::size_t SceneObject::AddSlot( const Material* material )
+{
+  m_slots.push_back( RenderSlot{ material } );
+  return m_slots.size() - 1;
+}
+
+
+std::size_t SceneObject::GetSlotCount() const { return m_slots.size(); }
+
+
+const RenderSlot& SceneObject::GetSlot( std::size_t index ) const { return m_slots[index]; }
 
 
 void SceneObject::Clear()
