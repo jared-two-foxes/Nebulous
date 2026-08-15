@@ -2,7 +2,6 @@
 #define NEBULAE_BETA_SCENE_SCENEOBJECT_H_
 
 #include <Nebulae/Common/Common.h>
-#include <Nebulae/Beta/Scene/UniformParameters.h>
 #include <Nebulae/Beta/RenderQueue/UniformProvider.h>
 
 namespace Nebulae
@@ -48,7 +47,6 @@ private:
   SceneNode* m_node;
   const Material* m_material;
   std::vector<PassData*> m_passData;
-  UniformParameters m_uniforms;
   bool m_visible;
   std::vector<RenderSlot> m_slots;
 
@@ -62,7 +60,6 @@ public:
   SceneNode* GetNode() const;
   bool IsVisible() const;
   const Material* GetMaterial() const;
-  UniformParameters& GetUniformParameters();
 
   // functions
   void Clear();
@@ -73,8 +70,6 @@ public:
   void SetVisible( bool bVisible );
   void SetGeometry( std::size_t iPass, Geometry* pGeometry );
   void SetInputLayout( std::size_t iPass, InputLayout* pInputLayout );
-  void PreRender( Camera* pCamera );
-  void Render( RenderSystemPtr renderSystem ) const;
   void AddProvider( const std::string& key, UniformProvider provider );
 
 }; // SceneObject
