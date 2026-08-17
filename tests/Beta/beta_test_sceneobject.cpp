@@ -1,4 +1,5 @@
 #include <Nebulae/Beta/Material/Material.h>
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Beta/RenderQueue/UniformProvider.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
 
@@ -91,4 +92,47 @@ TEST( SceneObject, AddProvider_WithExistingKey_ReplacesProvider )
   object.AddSlot( nullptr );
 
   AssertProviderReplacement( object );
+}
+
+template <typename T, typename = void>
+struct HasEmitDrawItems : std::false_type
+{
+};
+
+template <typename T>
+struct HasEmitDrawItems<
+  T,
+  std::void_t<decltype( std::declval<T&>().EmitDrawItems(
+    std::declval<DrawItemList&>(), 0, 0 ) )>>
+  : std::true_type
+{
+};
+
+template <typename T>
+void AssertDrawItemEmission( T& object, DrawItemList& items )
+{
+  if constexpr ( HasEmitDrawItems<T>::value )
+  {
+    object.EmitDrawItems( items, 0, 0 );
+    EXPECT_EQ( std::size_t( 3 ), items.Size() );
+  }
+  else
+  {
+    ADD_FAILURE() << "SceneObject does not expose EmitDrawItems";
+  }
+}
+
+TEST( SceneObject, EmitDrawItems_EmitsOneItemPerSlotAndMaterialPass )
+{
+  SceneObject object( nullptr );
+  Material onePass( "one_pass" );
+  Material twoPass( "two_pass" );
+  onePass.CreatePass();
+  twoPass.CreatePass();
+  twoPass.CreatePass();
+  object.AddSlot( &onePass );
+  object.AddSlot( &twoPass );
+
+  DrawItemList items;
+  AssertDrawItemEmission( object, items );
 }

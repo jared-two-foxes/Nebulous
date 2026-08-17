@@ -11,6 +11,7 @@
 #include <Nebulae/Alpha/Texture/Texture.h>
 
 #include <Nebulae/Beta/Material/Material.h>
+#include <Nebulae/Beta/Material/Pass.h>
 #include <Nebulae/Beta/Scene/Geometry.h>
 
 
@@ -125,6 +126,30 @@ void SceneObject::AddProvider( const std::string& key, UniformProvider provider 
     else
     {
       slot.providers.emplace_back( key, provider ); // Add new provider
+    }
+  }
+}
+
+void SceneObject::EmitDrawItems( DrawItemList& items, int layer, int depth )
+{
+  for ( const auto& slot : m_slots )
+  {
+    if ( slot.material == nullptr )
+    {
+      continue; // Skip if no material assigned
+    }
+
+    for ( std::size_t p = 0, n = slot.material->GetPassCount(); p < n; ++p )
+    {
+      const Pass* pass = slot.material->GetPass( p );
+      assert( pass != nullptr );
+
+      int sortKey = MakeSortKey( pass, layer );
+
+      DrawItem item;
+      item.sortKey = sortKey;
+      item.submissionOrder = static_cast<int>( items.Size() );
+      items.Add( item );
     }
   }
 }

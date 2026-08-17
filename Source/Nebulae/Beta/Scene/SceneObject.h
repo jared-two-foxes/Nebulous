@@ -3,6 +3,8 @@
 
 #include <Nebulae/Common/Common.h>
 #include <Nebulae/Beta/RenderQueue/UniformProvider.h>
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
+#include <Nebulae/Beta/RenderQueue/SortKey.h>
 
 namespace Nebulae
 {
@@ -71,6 +73,7 @@ public:
   void SetGeometry( std::size_t iPass, Geometry* pGeometry );
   void SetInputLayout( std::size_t iPass, InputLayout* pInputLayout );
   void AddProvider( const std::string& key, UniformProvider provider );
+  void EmitDrawItems( DrawItemList& items, int layer, int depth );
 
 }; // SceneObject
 

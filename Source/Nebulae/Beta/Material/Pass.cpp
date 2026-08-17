@@ -27,3 +27,7 @@ void Pass::SetPixelShader( HardwareShader* pixelShader ) { m_pixelShader = pixel
 const UniformDefinitionMap& Pass::GetUniformSchema() const { return m_uniformDefinitions; }
 
 void Pass::SetUniformSchema( const UniformDefinitionMap& schema ) { m_uniformDefinitions = schema; }
+
+const BlendState& Pass::GetBlendState() const { return m_blendState; }
+
+void Pass::SetBlendState( const BlendState& blendState ) { m_blendState = blendState; }
