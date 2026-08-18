@@ -129,8 +129,8 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     }
 
     // Set pass data for object.
-    pObj->SetGeometry( i, pGeometry );
-    pObj->SetInputLayout( i, inputLayout );
+    pObj->SetSlotGeometry( 0, pGeometry );
+    pObj->SetSlotInputLayout( 0, inputLayout );
   }
 }
 

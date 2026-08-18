@@ -1,7 +1,10 @@
 
 #include "SceneNode.h"
 
-// #include <Nebulae/Alpha/Alpha.h>
+#include <Nebulae/Alpha/InputLayout/InputLayout.h>
+#include <Nebulae/Alpha/InputLayout/VertexDeceleration.h>
+
+#include <Nebulae/Beta/Material/Material.h>
 #include <Nebulae/Beta/RenderQueue/RenderQueue.h>
 #include <Nebulae/Beta/Scene/SceneGraph.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
@@ -140,8 +143,8 @@ void SceneNode::RemoveChild( SceneNode* pNode )
 
 SceneObject* SceneNode::CreateObject( const Material* pMaterial )
 {
-  SceneObject* pObj = new SceneObject( this, pMaterial );
-  pObj->Initialize();
+  SceneObject* pObj = new SceneObject( this );
+  pObj->AddSlot( pMaterial );
   m_Objects.push_back( pObj );
   return pObj;
 }
@@ -171,9 +174,12 @@ SceneObject* SceneNode::FindSubObject( const Material* material ) const
 {
   for ( auto object : m_Objects )
   {
-    if ( object->GetMaterial() == material )
+    for ( std::size_t slotIndex = 0, slotCount = object->GetSlotCount(); slotIndex < slotCount; ++slotIndex )
     {
-      return object;
+      if ( object->GetSlot( slotIndex ).material == material )
+      {
+        return object;
+      }
     }
   }
   return nullptr;
@@ -202,78 +208,3 @@ void SceneNode::FindVisibleObjects_( Camera* camera, RenderQueue* renderQueue )
     }
   }
 }
-
-
-// AttachMesh
-/*SceneObject* SceneNode::AttachMesh( const Mesh* mesh )
-{
-  //TODO: Maybe make the assumption that the mesh is loaded so we can pass a const reference here?
-  assert( mesh->IsLoaded() );
-
-  //TODO: Somehow handle LOD.
-  int lod = 0;
-  for (int i = 0, n = mesh->GetSubMeshCount(lod); i<n; ++i)
-  {
-    SubMesh* sm = mesh->GetSubMesh( lod, i );
-
-    Material* mat = MaterialManager::getSingletonPtr()->GetByName( sm->m_strMaterialName );
-    assert(mat != NULL);
-
-    if (!mat->IsLoaded())
-    {
-      mat->Load();
-    }
-
-    ScenebObject* pSubObj = new SceneObject( this, mat );
-
-    pSubObj->Initialize();
-
-    //pObj->m_pSubMesh = sm;
-    //pObj->initialize();
-
-    // Convert sm into geometry and attach to objects
-    Geometry* pGeometry = new Geometry();
-    pGeometry->m_pVertexBuffer	= sm->m_pVertexBuffer;
-    pGeometry->m_VertexCount = sm->m_iVertexCount;
-    pGeometry->m_VertexSize	= sm->m_iVertexSize;
-    pGeometry->m_pIndexBuffer = sm->m_pIndexBuffer;
-    pGeometry->m_IndexCount = sm->m_iIndexCount;
-    pGeometry->m_PrimitiveTopology = sm->m_PrimitiveTopology;
-
-    for ( int j = 0, m = mat->GetPassCount(); j<m; ++j )
-    {
-      Pass* pPass = mat->GetPass( j );
-
-      //
-      //@todo do something smarter with the naming of the input layouts!
-      //
-
-      // Attempt to grab the input layout
-      InputLayout* pInputLayout = InputLayoutManager::getSingletonPtr()->GetByName( "basic_mesh_layout" );
-      if ( pInputLayout == NULL )
-      {
-        //
-        //TODO: Use the vertex description from the sm.
-        //
-        VertexDeceleration* pVertexDecl = NULL;
-
-        // Was unable to find an existing layout, create a new one.
-        pInputLayout = InputLayoutManager::getSingletonPtr()->Create( "basic_mesh_layout", NULL, pPass, pVertexDecl );
-        // Load the layout.
-        pInputLayout->Load();
-      }
-
-      pSubObj->SetGeometry( j, pGeometry );
-      pSubObj->SetInputLayout( j, pInputLayout );
-      //pSubObj->SetRenderTarget( j, 1, Window::DefaultRenderTarget );
-    }
-
-    pObj->AddSubObject( pSubObj );
-  }
-
-  pObj->Initialize();
-
-  m_AttachedObjects.push_back( pObj );
-
-  return pObj;
-}*/

@@ -20,24 +20,12 @@ using namespace Nebulae;
 
 int SceneObject::ms_nextIdentifier = 0;
 
-
-SceneObject::SceneObject( SceneNode* parent, const Material* material )
-  : m_identifier( ms_nextIdentifier++ ), m_node( parent ), m_material( material ), m_visible( true )
+SceneObject::SceneObject( SceneNode* parent ) : m_identifier( ms_nextIdentifier++ ), m_node( parent ), m_visible( true )
 {
 }
 
 
-SceneObject::SceneObject( SceneNode* parent )
-  : m_identifier( ms_nextIdentifier++ ), m_node( parent ), m_material( nullptr ), m_visible( true )
-{
-}
-
-
-SceneObject::~SceneObject()
-{
-  Clear();
-  m_node = nullptr;
-}
+SceneObject::~SceneObject() { m_node = nullptr; }
 
 
 int SceneObject::GetIdentifier() const { return m_identifier; }
@@ -47,9 +35,6 @@ SceneNode* SceneObject::GetNode() const { return m_node; }
 
 
 bool SceneObject::IsVisible() const { return m_visible; }
-
-
-const Material* SceneObject::GetMaterial() const { return m_material; }
 
 
 std::size_t SceneObject::AddSlot( const Material* material )
@@ -65,52 +50,7 @@ std::size_t SceneObject::GetSlotCount() const { return m_slots.size(); }
 const RenderSlot& SceneObject::GetSlot( std::size_t index ) const { return m_slots[index]; }
 
 
-void SceneObject::Clear()
-{
-  for ( auto& passData : m_passData )
-  {
-    delete passData;
-  }
-  m_passData.clear();
-}
-
-
-bool SceneObject::Initialize()
-///
-/// Creates a PassData structure for each Material pass for m_material.
-///
-/// @return
-///   true if success else false.
-///
-{
-  if ( nullptr == m_material )
-  {
-    return false;
-  }
-
-  for ( std::size_t idx = 0, n = m_material->GetPassCount(); idx < n; ++idx )
-  {
-    PassData* pData = new PassData();
-    pData->VertexLayout = nullptr;
-    pData->Geometry = nullptr;
-
-    m_passData.push_back( pData );
-  }
-
-  return true;
-}
-
-
 void SceneObject::SetVisible( bool bVisible ) { m_visible = bVisible; }
-
-
-void SceneObject::SetGeometry( std::size_t iPass, Geometry* pGeometry ) { m_passData[iPass]->Geometry = pGeometry; }
-
-
-void SceneObject::SetInputLayout( std::size_t iPass, InputLayout* pInputLayout )
-{
-  m_passData[iPass]->VertexLayout = pInputLayout;
-}
 
 
 void SceneObject::AddProvider( const std::string& key, UniformProvider provider )
@@ -151,5 +91,23 @@ void SceneObject::EmitDrawItems( DrawItemList& items, int layer, int depth )
       item.submissionOrder = static_cast<int>( items.Size() );
       items.Add( item );
     }
+  }
+}
+
+
+void SceneObject::SetSlotGeometry( std::size_t slotIndex, Geometry* geometry )
+{
+  if ( slotIndex < m_slots.size() )
+  {
+    m_slots[slotIndex].geometry = geometry;
+  }
+}
+
+
+void SceneObject::SetSlotInputLayout( std::size_t slotIndex, InputLayout* inputLayout )
+{
+  if ( slotIndex < m_slots.size() )
+  {
+    m_slots[slotIndex].inputLayout = inputLayout;
   }
 }

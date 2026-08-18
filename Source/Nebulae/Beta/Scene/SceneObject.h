@@ -17,16 +17,11 @@ class InputLayout;
 class RenderSystem;
 class SceneNode;
 
-struct PassData
-{
-  Geometry* Geometry;
-  InputLayout* VertexLayout;
-  int RenderTargetViewCount;
-};
-
 struct RenderSlot
 {
-  const Material* material;
+  const Material* material = nullptr;
+  Geometry* geometry = nullptr;
+  InputLayout* inputLayout = nullptr;
   std::vector<std::pair<std::string, UniformProvider>> providers;
 };
 
@@ -47,32 +42,23 @@ private:
 
   int m_identifier;
   SceneNode* m_node;
-  const Material* m_material;
-  std::vector<PassData*> m_passData;
   bool m_visible;
   std::vector<RenderSlot> m_slots;
 
 public:
-  explicit SceneObject( SceneNode* parent, const Material* pMaterial );
   explicit SceneObject( SceneNode* parent );
   ~SceneObject();
 
-  // getters
   int GetIdentifier() const;
   SceneNode* GetNode() const;
   bool IsVisible() const;
-  const Material* GetMaterial() const;
-
-  // functions
-  void Clear();
   std::size_t AddSlot( const Material* material );
   std::size_t GetSlotCount() const;
   const RenderSlot& GetSlot( std::size_t index ) const;
-  bool Initialize();
   void SetVisible( bool bVisible );
-  void SetGeometry( std::size_t iPass, Geometry* pGeometry );
-  void SetInputLayout( std::size_t iPass, InputLayout* pInputLayout );
   void AddProvider( const std::string& key, UniformProvider provider );
+  void SetSlotGeometry( std::size_t slotIndex, Geometry* geometry );
+  void SetSlotInputLayout( std::size_t slotIndex, InputLayout* inputLayout );
   void EmitDrawItems( DrawItemList& items, int layer, int depth );
 
 }; // SceneObject
