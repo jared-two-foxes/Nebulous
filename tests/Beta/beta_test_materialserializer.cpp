@@ -95,12 +95,14 @@ TEST_F( MaterialSerializerFixture, Serialize_PassLevelUniforms_LogsDeprecationWa
   ASSERT_TRUE( serializer->Serialize( *stream, &material ) );
 
   logger.Flush();
-  const auto warning = std::find_if( sink->records.begin(), sink->records.end(), []( const LogRecord& record ) {
-    return record.message ==
-           "Deprecated 'uniforms' block found in material file; uniforms are now auto-reflected from shaders.";
-  } );
-  EXPECT_NE( warning, sink->records.end() )
-    << "A legacy uniforms block at pass level must emit a deprecation warning.";
+  const auto warning = std::find_if(
+    sink->records.begin(), sink->records.end(),
+    []( const LogRecord& record )
+    {
+      return record.message ==
+             "Deprecated 'uniforms' block found in material file; uniforms are now auto-reflected from shaders.";
+    } );
+  EXPECT_NE( warning, sink->records.end() ) << "A legacy uniforms block at pass level must emit a deprecation warning.";
 
   NE_SetModuleLogger( nullptr );
 }

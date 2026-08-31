@@ -10,12 +10,18 @@
 namespace Nebulae
 {
 
+struct BlendState
+{
+  bool isTransparent = false;
+};
+
 class Pass
 {
 private:
   HardwareShader* m_vertexShader;            ///< Vertex shader which is to be applied for pass.
   HardwareShader* m_pixelShader;             ///< Pixel shader which is to be applied for pass.
   UniformDefinitionMap m_uniformDefinitions; ///< List of all of the uniforms registered for this pass.
+  BlendState m_blendState;                   ///< Blend state for this pass.
 
 public:
   Pass();
@@ -35,6 +41,9 @@ public:
 
   const UniformDefinitionMap& GetUniformSchema() const;
   void SetUniformSchema( const UniformDefinitionMap& schema );
+
+  const BlendState& GetBlendState() const;
+  void SetBlendState( const BlendState& blendState );
 
 }; // Pass
 

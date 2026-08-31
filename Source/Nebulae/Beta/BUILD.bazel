@@ -1,7 +1,11 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 exports_files(
-    ["Material/MaterialSerializer.cpp"],
+    [
+        "Material/MaterialSerializer.cpp",
+        "Scene/SceneObject.cpp",
+        "Scene/SceneObject.h",
+    ],
     visibility = ["//visibility:public"],
 )
 

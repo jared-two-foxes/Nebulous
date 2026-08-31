@@ -7,10 +7,12 @@
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 #include <Nebulae/Alpha/Shaders/HardwareShader.h>
 #include <Nebulae/Alpha/Shaders/UniformDefinition.h>
+#include <Nebulae/Alpha/Shaders/UniformBinder.h>
 #include <Nebulae/Alpha/Texture/SubTexture.h>
 #include <Nebulae/Alpha/Texture/Texture.h>
 
 #include <Nebulae/Beta/Material/Material.h>
+#include <Nebulae/Beta/RenderQueue/UniformProvider.h>
 #include <Nebulae/Beta/Scene/Geometry.h>
 #include <Nebulae/Beta/Scene/SceneNode.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
@@ -93,46 +95,42 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   pGeometry->m_primitiveTopology = OT_TRIANGLES;
 
   //
-  // Setup uniforms.
+  // Setup uniforms via keyed providers.
   //
-  UniformParameters& parameters = pObj->GetUniformParameters();
-  Real pBuf[8];
-
-  pBuf[0] = static_cast<Real>( subTexture->GetWidth() );  // int-to-Real, subtexture width fits in float
-  pBuf[1] = static_cast<Real>( subTexture->GetHeight() ); // int-to-Real, subtexture height fits in float
-  parameters.SetNamedUniform( "size", &pBuf[0], 2 );
-
-  pBuf[2] = 0; // m_pSpriteModule->Offset.x;
-  pBuf[3] = 0; // m_pSpriteModule->Offset.y;
-  parameters.SetNamedUniform( "offset", &pBuf[2], 2 );
-
-  pBuf[4] = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0];
-  pBuf[5] = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1];
-  parameters.SetNamedUniform( "min_uv", &pBuf[4], 2 );
-
-  pBuf[6] = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2];
-  pBuf[7] = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3];
-  parameters.SetNamedUniform( "max_uv", &pBuf[6], 2 );
-
+  float width = static_cast<float>( subTexture->GetWidth() );
+  float height = static_cast<float>( subTexture->GetHeight() );
+  float minU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0];
+  float minV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1];
+  float maxU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2];
+  float maxV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3];
   const Texture* texturePtr = subTexture->GetTexture();
-  parameters.SetNamedUniform( "diffuseTexture", texturePtr->GetIdentifier() );
+
+  pObj->AddProvider( "sprite",
+                     [=]( UniformBinder& binder )
+                     {
+                       binder.Set( "size", Vector2( width, height ) );
+                       binder.Set( "offset", Vector2( 0.0f, 0.0f ) );
+                       binder.Set( "min_uv", Vector2( minU, minV ) );
+                       binder.Set( "max_uv", Vector2( maxU, maxV ) );
+                       binder.SetTexture( "diffuseTexture", texturePtr, 0 );
+                     } );
 
   //
   // Iterate and setup passes.
   //
-  for ( std::size_t i = 0, n = material->GetPassCount(); i < n; ++i )
+  if ( material->GetPassCount() > 0 )
   {
     // Attempt to grab the input layout for this pass.
     InputLayout* inputLayout =
-      renderDevicePtr->FindInputLayoutByUsage( pVertexDecl, material->GetPass( i )->GetVertexShader() );
+      renderDevicePtr->FindInputLayoutByUsage( pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
     if ( inputLayout == nullptr )
     {
-      inputLayout = renderDevicePtr->CreateInputLayout( "", pVertexDecl, material->GetPass( i )->GetVertexShader() );
+      inputLayout = renderDevicePtr->CreateInputLayout( "", pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
     }
 
     // Set pass data for object.
-    pObj->SetGeometry( i, pGeometry );
-    pObj->SetInputLayout( i, inputLayout );
+    pObj->SetSlotGeometry( 0, pGeometry );
+    pObj->SetSlotInputLayout( 0, inputLayout );
   }
 }
 

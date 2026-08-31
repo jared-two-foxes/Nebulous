@@ -98,6 +98,15 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "scene_object_source",
+    srcs = [
+        "//Source/Nebulae/Beta:Scene/SceneObject.cpp",
+        "//Source/Nebulae/Beta:Scene/SceneObject.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 cc_test(
     name = "beta_tests",
     size = "small",
@@ -112,6 +121,7 @@ cc_test(
     data = [
         ":test_assets",
         ":material_serializer_source",
+        ":scene_object_source",
     ],
     visibility = ["//visibility:public"],
 )
