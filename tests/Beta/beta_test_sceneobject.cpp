@@ -136,8 +136,7 @@ template <typename T, typename = void> struct HasLegacyMaterialAccessor : std::f
 };
 
 template <typename T>
-struct HasLegacyMaterialAccessor<T, std::void_t<decltype( std::declval<const T&>().GetMaterial() )>>
-  : std::true_type
+struct HasLegacyMaterialAccessor<T, std::void_t<decltype( std::declval<const T&>().GetMaterial() )>> : std::true_type
 {
 };
 
@@ -166,9 +165,8 @@ template <typename T, typename = void> struct HasLegacyInputLayoutSetter : std::
 };
 
 template <typename T>
-struct HasLegacyInputLayoutSetter<T,
-                                  std::void_t<decltype( std::declval<T&>().SetInputLayout(
-                                    std::declval<std::size_t>(), std::declval<InputLayout*>() ) )>> : std::true_type
+struct HasLegacyInputLayoutSetter<T, std::void_t<decltype( std::declval<T&>().SetInputLayout(
+                                       std::declval<std::size_t>(), std::declval<InputLayout*>() ) )>> : std::true_type
 {
 };
 
@@ -176,8 +174,7 @@ template <typename T, typename = void> struct HasLegacyClear : std::false_type
 {
 };
 
-template <typename T>
-struct HasLegacyClear<T, std::void_t<decltype( std::declval<T&>().Clear() )>> : std::true_type
+template <typename T> struct HasLegacyClear<T, std::void_t<decltype( std::declval<T&>().Clear() )>> : std::true_type
 {
 };
 
