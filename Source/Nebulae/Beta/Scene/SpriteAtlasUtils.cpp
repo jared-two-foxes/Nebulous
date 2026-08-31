@@ -110,22 +110,22 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
                      {
                        binder.Set( "size", Vector2( width, height ) );
                        binder.Set( "offset", Vector2( 0.0f, 0.0f ) );
-                       binder.Set( "min_uv", minU );
-                       binder.Set( "max_uv", maxU );
+                       binder.Set( "min_uv", Vector2( minU, minV ) );
+                       binder.Set( "max_uv", Vector2( maxU, maxV ) );
                        binder.SetTexture( "diffuseTexture", texturePtr, 0 );
                      } );
 
   //
   // Iterate and setup passes.
   //
-  for ( std::size_t i = 0, n = material->GetPassCount(); i < n; ++i )
+  if ( material->GetPassCount() > 0 )
   {
     // Attempt to grab the input layout for this pass.
     InputLayout* inputLayout =
-      renderDevicePtr->FindInputLayoutByUsage( pVertexDecl, material->GetPass( i )->GetVertexShader() );
+      renderDevicePtr->FindInputLayoutByUsage( pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
     if ( inputLayout == nullptr )
     {
-      inputLayout = renderDevicePtr->CreateInputLayout( "", pVertexDecl, material->GetPass( i )->GetVertexShader() );
+      inputLayout = renderDevicePtr->CreateInputLayout( "", pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
     }
 
     // Set pass data for object.
