@@ -12,12 +12,14 @@ ParticlePool::ParticlePool( uint32 capacity )
 
   m_capacity = capacity;
   m_pParticles = new Particle[capacity];
+  m_freeIndices.reserve( capacity );
 
-  // All indices start as unused.
-  for ( size_t i = 0; i < capacity; ++i )
+  // All indices start as unused. Fill in reverse so index zero is fetched first.
+  for ( size_t i = capacity; i > 0; --i )
   {
-    m_pParticles[i].m_index = (int)i;
-    m_UnusedIndices.push( i );
+    const size_t index = i - 1;
+    m_pParticles[index].m_index = static_cast<uint32>( index );
+    m_freeIndices.push_back( index );
   }
 }
 
@@ -32,8 +34,13 @@ ParticlePool::~ParticlePool()
 Particle* ParticlePool::fetch()
 {
   // Grab the next unused index
-  size_t idx = m_UnusedIndices.front();
-  m_UnusedIndices.pop();
+  if ( m_freeIndices.empty() )
+  {
+    return nullptr;
+  }
+
+  size_t idx = m_freeIndices.back();
+  m_freeIndices.pop_back();
   // Return particle at that index.
   return &( m_pParticles[idx] );
 }
@@ -47,5 +54,5 @@ void ParticlePool::replace( Particle* pParticle )
   pParticle->m_life = 0.0f;
 
   // Store particle index so we know that we can use it again.
-  m_UnusedIndices.push( pParticle->m_index );
+  m_freeIndices.push_back( pParticle->m_index );
 }

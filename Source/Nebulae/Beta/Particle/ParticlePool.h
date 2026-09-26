@@ -16,7 +16,7 @@ class ParticlePool
 private:
   int m_capacity;
   Particle* m_pParticles;
-  std::queue<size_t> m_UnusedIndices;
+  std::vector<size_t> m_freeIndices;
 
 public:
   ParticlePool( uint32 capacity );
