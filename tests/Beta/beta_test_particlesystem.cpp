@@ -132,22 +132,29 @@ TEST_F( ParticleSystemTest, ClearingOneGroupKeepsSharedAtlasFrameUsable )
   files.files["atlas.json"] = R"({"meta":{"image":"particle.png","size":{"w":8,"h":8}},"frames":[{"filename":"spark","frame":{"x":0,"y":0,"w":8,"h":8}}]})";
   files.files["atlas-group.json"] = R"({"atlas":"atlas.json","frame":"spark","life":1})";
   auto atlases = std::make_shared<SpriteAtlasManager>( fileSystem, renderer );
+  std::cerr << "atlas test: manager created" << std::endl;
   ParticleSystem first( fileSystem, renderer, atlases );
   ParticleSystem second( fileSystem, renderer, atlases );
+  std::cerr << "atlas test: systems created" << std::endl;
   ASSERT_NE( nullptr, first.CreateGroup( "atlas-group.json" ) );
+  std::cerr << "atlas test: first group created" << std::endl;
   ParticleGroup* remaining = second.CreateGroup( "atlas-group.json" );
+  std::cerr << "atlas test: second group created" << std::endl;
   ASSERT_NE( nullptr, remaining );
   SubTexture* frame = atlases->GetByName( "atlas.json" )->FindModuleSubTexture( "spark" );
   ASSERT_NE( nullptr, frame );
 
   first.Clear();
+  std::cerr << "atlas test: first cleared" << std::endl;
   EXPECT_EQ( frame, atlases->GetByName( "atlas.json" )->FindModuleSubTexture( "spark" ) );
   EXPECT_EQ( 8, frame->GetWidth() );
   ASSERT_NE( nullptr, remaining->SpawnParticle() );
+  std::cerr << "atlas test: particle spawned" << std::endl;
   Camera camera;
   second.SetCamera( &camera );
   EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 1 );
   second.Render();
+  std::cerr << "atlas test: rendered" << std::endl;
 }
 
 TEST_F( ParticleSystemTest, DestroyEmitterAndClearReleaseOwnedObjects )
