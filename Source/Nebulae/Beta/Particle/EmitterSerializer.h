@@ -34,6 +34,7 @@ public:
 
       // Extract from file tank set contents.
       ParticleGroup* group = particleSystem->CreateGroup( tank_data["group"].asCString() );
+      if ( group == nullptr ) return false;
       int32 count = tank_data["count"].asInt();
       float flow = tank_data["flow"].asFloat();
 

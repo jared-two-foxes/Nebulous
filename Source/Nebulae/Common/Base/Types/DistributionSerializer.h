@@ -21,6 +21,7 @@ void DistributionSerializer::Serialize<Vector4>( const Json::Value& value, Distr
     constant.y = json_cast_with_default( value["y"], 0.0f );
     constant.z = json_cast_with_default( value["z"], 0.0f );
     constant.w = json_cast_with_default( value["w"], 0.0f );
+    distribution.SetConstant( constant );
   }
   else
   {
