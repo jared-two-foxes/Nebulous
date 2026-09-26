@@ -18,7 +18,11 @@ ParticleEmitter::ParticleEmitter( const std::string& name )
 
 ParticleEmitter::~ParticleEmitter() {}
 
-void ParticleEmitter::Clear() {}
+void ParticleEmitter::Clear()
+{
+  m_reservoir.clear();
+  m_active = false;
+}
 
 void ParticleEmitter::Start()
 {

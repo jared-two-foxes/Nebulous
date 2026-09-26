@@ -27,7 +27,6 @@ private:
     uint32 m_tank;
     Real m_flow;
     Real m_fraction;
-    Vector4 m_initialscale;
   };
 
 
