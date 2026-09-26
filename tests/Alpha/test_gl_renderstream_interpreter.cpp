@@ -585,7 +585,7 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     geometry.inputLayout = &layout;
     geometry.stride = 24u;
     geometry.offset = 8u;
-    geometry.topology = OT_TRIANGLELIST;
+    geometry.topology = OT_TRIANGLE_STRIP;
     stream.Write( geometry );
 
     PacketSetRenderState rsPacket = MakePacket<PacketSetRenderState>( PT_SetRenderState );
@@ -607,7 +607,7 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     EXPECT_EQ( 1, rs.setLayoutCalls );
     EXPECT_EQ( &layout, rs.lastLayout );
     EXPECT_EQ( 1, rs.setOperationCalls );
-    EXPECT_EQ( OT_TRIANGLELIST, rs.lastOperation );
+    EXPECT_EQ( OT_TRIANGLE_STRIP, rs.lastOperation );
 
     EXPECT_EQ( 1, rs.setBlendCalls );
     EXPECT_TRUE( rs.lastBlendEnabled );

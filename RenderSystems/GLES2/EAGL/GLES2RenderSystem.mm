@@ -288,9 +288,9 @@ GLES2RenderSystem::SetOperationType( OperationType eType )
   {
     case OT_POINTS:       m_operationMode = GL_POINTS; break;
     case OT_LINES:        m_operationMode = GL_LINES; break;
-    case OT_LINELIST:     m_operationMode = GL_LINE_STRIP; break;
+    case OT_LINE_STRIP:     m_operationMode = GL_LINE_STRIP; break;
     case OT_TRIANGLES:    m_operationMode = GL_TRIANGLES; break;
-    case OT_TRIANGLELIST: m_operationMode = GL_TRIANGLE_STRIP; break;
+    case OT_TRIANGLE_STRIP: m_operationMode = GL_TRIANGLE_STRIP; break;
     case OT_TRIANGLEFAN:  m_operationMode = GL_TRIANGLE_FAN; break;
     
     case OT_UNKNOWN:

@@ -9,9 +9,11 @@ enum OperationType
   OT_UNKNOWN = -1,
   OT_POINTS,
   OT_LINES,
-  OT_LINELIST, // Legacy name for a connected line strip.
+  OT_LINE_STRIP,
+  OT_LINELIST = OT_LINE_STRIP, // Compatibility alias.
   OT_TRIANGLES,
-  OT_TRIANGLELIST, // Legacy name for a triangle strip.
+  OT_TRIANGLE_STRIP,
+  OT_TRIANGLELIST = OT_TRIANGLE_STRIP, // Compatibility alias.
   OT_TRIANGLEFAN
 };
 

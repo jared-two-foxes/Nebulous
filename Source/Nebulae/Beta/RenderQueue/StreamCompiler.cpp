@@ -9,6 +9,7 @@
 
 #include <map>
 #include <limits>
+#include <initializer_list>
 
 namespace Nebulae
 {
@@ -25,19 +26,6 @@ UniformProvider MakeCameraProvider( const Camera* camera )
 
 namespace
 {
-struct ScopeStack
-{
-  std::vector<const UniformBinder*> scopes;
-  struct Guard
-  {
-    ScopeStack& stack;
-    Guard( ScopeStack& s, const UniformBinder& binder ) : stack( s ) { stack.scopes.push_back( &binder ); }
-    ~Guard() { stack.scopes.pop_back(); }
-    Guard( const Guard& ) = delete;
-    Guard& operator=( const Guard& ) = delete;
-  };
-};
-
 struct Value
 {
   UniformType type;
@@ -46,18 +34,13 @@ struct Value
   std::int32_t unit = 0;
   const Texture* texture = nullptr;
   bool sampler = false;
-  bool operator==( const Value& rhs ) const
-  {
-    return type == rhs.type && count == rhs.count && bytes == rhs.bytes && unit == rhs.unit &&
-           texture == rhs.texture && sampler == rhs.sampler;
-  }
 };
 
 using Values = std::map<std::string, Value>;
-Values Resolve( const ScopeStack& stack, const UniformDefinitionMap& schema )
+Values Resolve( std::initializer_list<const UniformBinder*> scopes, const UniformDefinitionMap& schema )
 {
   Values values;
-  for ( const auto* scope : stack.scopes )
+  for ( const auto* scope : scopes )
   {
     for ( const auto& binding : scope->GetBindings() )
     {
@@ -85,16 +68,10 @@ Values Resolve( const ScopeStack& stack, const UniformDefinitionMap& schema )
   return values;
 }
 
-void EmitValues( const Values& values, const Values& previous, bool programChanged,
-                 const UniformDefinitionMap& schema, RenderStream& stream )
+void EmitValues( const Values& values, const UniformDefinitionMap& schema, RenderStream& stream )
 {
   for ( const auto& [name, value] : values )
   {
-    auto old = previous.find( name );
-    if ( !programChanged && old != previous.end() && old->second == value )
-    {
-      continue;
-    }
     const auto& definition = schema.at( name );
     if ( !definition.IsValid() || definition.logicalIndex > static_cast<std::size_t>( std::numeric_limits<std::int32_t>::max() ) )
     {
@@ -125,22 +102,6 @@ void StreamCompiler::Compile( DrawItemList items, const Camera* camera, RenderSt
   items.Sort();
   UniformBinder scene;
   MakeCameraProvider( camera )( scene );
-  ScopeStack stack;
-  ScopeStack::Guard sceneGuard( stack, scene );
-  HardwareShader* vertexShader = nullptr;
-  HardwareShader* fragmentShader = nullptr;
-  bool hasProgram = false;
-  Values previous;
-  const SceneNode* previousNode = nullptr;
-  const SceneObject* previousObject = nullptr;
-  std::size_t previousSlot = 0;
-  UniformBinder nodeScope;
-  UniformBinder objectScope;
-  const Geometry* previousGeometry = nullptr;
-  InputLayout* previousLayout = nullptr;
-  const Pass* previousStatePass = nullptr;
-  bool hasGeometry = false;
-  bool hasState = false;
 
   for ( std::size_t i = 0; i < items.Size(); ++i )
   {
@@ -157,69 +118,40 @@ void StreamCompiler::Compile( DrawItemList items, const Camera* camera, RenderSt
     {
       continue;
     }
-    if ( item.node != previousNode )
+    UniformBinder nodeScope;
+    if ( const Matrix4* world = items.GetNodeWorld( item.node ) )
     {
-      nodeScope.Clear();
-      if ( const Matrix4* world = items.GetNodeWorld( item.node ) )
-      {
-        nodeScope.Set( "world", *world );
-      }
-      previousNode = item.node;
+      nodeScope.Set( "world", *world );
     }
-    if ( item.object != previousObject || item.slotIndex != previousSlot )
+    UniformBinder objectScope;
+    for ( const auto& provider : slot.providers )
     {
-      objectScope.Clear();
-      for ( const auto& provider : slot.providers )
-      {
-        provider.second( objectScope );
-      }
-      previousObject = item.object;
-      previousSlot = item.slotIndex;
+      provider.second( objectScope );
     }
-    ScopeStack::Guard nodeGuard( stack, nodeScope );
-    ScopeStack::Guard objectGuard( stack, objectScope );
-    bool programChanged = !hasProgram || vertexShader != item.pass->GetVertexShader() ||
-                          fragmentShader != item.pass->GetPixelShader();
-    if ( programChanged )
-    {
-      vertexShader = item.pass->GetVertexShader();
-      fragmentShader = item.pass->GetPixelShader();
-      PacketSetProgram packet{};
-      packet.header.type = PT_SetProgram;
-      packet.vertexShader = vertexShader;
-      packet.fragmentShader = fragmentShader;
-      stream.Write( packet );
-      hasProgram = true;
-    }
-    const auto& schema = item.pass->GetUniformSchema();
-    Values values = Resolve( stack, schema );
-    EmitValues( values, previous, programChanged, schema, stream );
-    previous = std::move( values );
+    PacketSetProgram program{};
+    program.header.type = PT_SetProgram;
+    program.vertexShader = item.pass->GetVertexShader();
+    program.fragmentShader = item.pass->GetPixelShader();
+    stream.Write( program );
 
-    if ( programChanged || !hasGeometry || previousGeometry != slot.geometry || previousLayout != slot.inputLayout )
-    {
-      PacketSetGeometry packet{};
-      packet.header.type = PT_SetGeometry;
-      packet.inputLayout = slot.inputLayout;
-      packet.vertexBuffer = slot.geometry->m_vertexBuffer;
-      packet.indexBuffer = slot.geometry->m_indexBuffer;
-      packet.stride = slot.geometry->m_vertexDeceleration ? slot.geometry->m_vertexDeceleration->GetVertexSize() : 0;
-      packet.topology = slot.geometry->m_primitiveTopology;
-      stream.Write( packet );
-      previousGeometry = slot.geometry;
-      previousLayout = slot.inputLayout;
-      hasGeometry = true;
-    }
-    if ( !hasState || previousStatePass->GetBlendState().isTransparent != item.pass->GetBlendState().isTransparent )
-    {
-      PacketSetRenderState packet{};
-      packet.header.type = PT_SetRenderState;
-      packet.blendingEnabled = item.pass->GetBlendState().isTransparent;
-      packet.depthTestEnabled = true;
-      stream.Write( packet );
-      previousStatePass = item.pass;
-      hasState = true;
-    }
+    const auto& schema = item.pass->GetUniformSchema();
+    EmitValues( Resolve( { &scene, &nodeScope, &objectScope }, schema ), schema, stream );
+
+    PacketSetGeometry geometry{};
+    geometry.header.type = PT_SetGeometry;
+    geometry.inputLayout = slot.inputLayout;
+    geometry.vertexBuffer = slot.geometry->m_vertexBuffer;
+    geometry.indexBuffer = slot.geometry->m_indexBuffer;
+    geometry.stride = slot.geometry->m_vertexDeceleration ? slot.geometry->m_vertexDeceleration->GetVertexSize() : 0;
+    geometry.topology = slot.geometry->m_primitiveTopology;
+    stream.Write( geometry );
+
+    PacketSetRenderState state{};
+    state.header.type = PT_SetRenderState;
+    state.blendingEnabled = item.pass->GetBlendState().isTransparent;
+    state.depthTestEnabled = true;
+    stream.Write( state );
+
     PacketDraw draw{};
     draw.header.type = PT_Draw;
     draw.indexed = slot.geometry->m_indexBuffer != nullptr;

@@ -19,7 +19,7 @@ public:
   uint32 m_vertexCount{ 0 };
   HardwareBuffer* m_indexBuffer{ nullptr };
   uint32 m_indexCount{ 0 };
-  OperationType m_primitiveTopology{ OT_TRIANGLELIST };
+  OperationType m_primitiveTopology{ OT_TRIANGLE_STRIP };
 }; // Geometry
 
 } // namespace Nebulae

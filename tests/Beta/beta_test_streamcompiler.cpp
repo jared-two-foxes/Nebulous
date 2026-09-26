@@ -80,7 +80,7 @@ float LastUniform( const RenderStream& stream )
 }
 } // namespace
 
-TEST( StreamCompiler, ReusesProgramAndUniformWhenScopeIsUnchanged )
+TEST( StreamCompiler, EmitsCompleteStateForEveryDraw )
 {
   Material material( "same" );
   auto* pass = material.CreatePass();
@@ -97,12 +97,35 @@ TEST( StreamCompiler, ReusesProgramAndUniformWhenScopeIsUnchanged )
   StreamCompiler compiler;
   compiler.Compile( items, nullptr, stream );
   EXPECT_EQ( 2u, CountPackets( stream, PT_Draw ) );
-  EXPECT_EQ( 1u, CountPackets( stream, PT_SetProgram ) );
-  EXPECT_EQ( 1u, CountPackets( stream, PT_SetUniform ) );
-  EXPECT_EQ( 1u, CountPackets( stream, PT_SetGeometry ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetProgram ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetUniform ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetGeometry ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetRenderState ) );
 }
 
-TEST( StreamCompiler, ProgramSwitchFlushesStackAndDeeperScopeWins )
+TEST( StreamCompiler, ResolvesProvidersForEveryDraw )
+{
+  Material material( "dynamic" );
+  material.CreatePass()->SetUniformSchema( Schema() );
+  SceneObject object( nullptr );
+  object.AddSlot( &material );
+  Drawable drawable;
+  drawable.Attach( object );
+  int invocation = 0;
+  object.AddProvider( "value", [&invocation]( UniformBinder& b ) { b.Set( "value", static_cast<float>( ++invocation ) ); } );
+  DrawItemList items;
+  object.EmitDrawItems( items, 0, 0 );
+  items.Add( items[0] );
+
+  RenderStream stream;
+  StreamCompiler compiler;
+  compiler.Compile( items, nullptr, stream );
+  EXPECT_EQ( 2, invocation );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetUniform ) );
+  EXPECT_FLOAT_EQ( 2.0f, LastUniform( stream ) );
+}
+
+TEST( StreamCompiler, ProgramSwitchRebindsGeometryAndDeeperScopeWins )
 {
   Material material( "switch" );
   auto* first = material.CreatePass();
@@ -241,7 +264,7 @@ TEST( StreamCompiler, EmitsIndexedDrawAndPrimitiveTopology )
   HardwareBuffer indices( "ib", nullptr );
   drawable.geometry.m_indexBuffer = &indices;
   drawable.geometry.m_indexCount = 6;
-  drawable.geometry.m_primitiveTopology = OT_TRIANGLELIST;
+  drawable.geometry.m_primitiveTopology = OT_TRIANGLE_STRIP;
   drawable.Attach( object );
   DrawItemList items;
   object.EmitDrawItems( items, 0, 0 );
@@ -258,7 +281,7 @@ TEST( StreamCompiler, EmitsIndexedDrawAndPrimitiveTopology )
     {
       PacketSetGeometry packet;
       std::memcpy( &packet, stream.Data() + offset, sizeof( packet ) );
-      EXPECT_EQ( OT_TRIANGLELIST, packet.topology );
+      EXPECT_EQ( OT_TRIANGLE_STRIP, packet.topology );
     }
     if ( header.type == PT_Draw )
     {

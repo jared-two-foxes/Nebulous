@@ -49,7 +49,7 @@ Geometry* PlaneLoader::Create( float width, float depth, int rows, int columns )
   geometry->m_vertexCount = vertexCount;
   geometry->m_indexBuffer = ibuf;
   geometry->m_indexCount = indexCount;
-  geometry->m_primitiveTopology = OT_TRIANGLELIST;
+  geometry->m_primitiveTopology = OT_TRIANGLE_STRIP;
 
   return geometry;
 }
