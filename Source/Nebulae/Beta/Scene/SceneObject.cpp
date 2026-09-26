@@ -72,8 +72,9 @@ void SceneObject::AddProvider( const std::string& key, UniformProvider provider 
 
 void SceneObject::EmitDrawItems( DrawItemList& items, int layer, int depth )
 {
-  for ( const auto& slot : m_slots )
+  for ( std::size_t slotIndex = 0; slotIndex < m_slots.size(); ++slotIndex )
   {
+    const auto& slot = m_slots[slotIndex];
     if ( slot.material == nullptr )
     {
       continue; // Skip if no material assigned
@@ -89,6 +90,10 @@ void SceneObject::EmitDrawItems( DrawItemList& items, int layer, int depth )
       DrawItem item;
       item.sortKey = sortKey;
       item.submissionOrder = static_cast<int>( items.Size() );
+      item.object = this;
+      item.node = m_node;
+      item.pass = pass;
+      item.slotIndex = slotIndex;
       items.Add( item );
     }
   }

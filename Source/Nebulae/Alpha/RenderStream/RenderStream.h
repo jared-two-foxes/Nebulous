@@ -171,6 +171,16 @@ public:
     std::memcpy( m_data.data() + oldSize + offsetof( PacketHeader, size ), &alignedSize16, sizeof( alignedSize16 ) );
   }
 
+  template <typename T> void WritePayload( const T& packet, const void* payload, std::size_t payloadBytes )
+  {
+    const std::size_t offset = m_data.size();
+    Write( packet, payloadBytes );
+    if ( payloadBytes != 0 )
+    {
+      std::memcpy( m_data.data() + offset + sizeof( T ), payload, payloadBytes );
+    }
+  }
+
 private:
   std::vector<std::uint8_t> m_data;
 };

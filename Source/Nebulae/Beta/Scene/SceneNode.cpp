@@ -5,7 +5,7 @@
 #include <Nebulae/Alpha/InputLayout/VertexDeceleration.h>
 
 #include <Nebulae/Beta/Material/Material.h>
-#include <Nebulae/Beta/RenderQueue/RenderQueue.h>
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Beta/Scene/SceneGraph.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
 
@@ -186,25 +186,27 @@ SceneObject* SceneNode::FindSubObject( const Material* material ) const
 }
 
 
-void SceneNode::FindVisibleObjects_( Camera* camera, RenderQueue* renderQueue )
+void SceneNode::TraverseNode( DrawItemList& items, int layer )
 {
   // @todo: check if node is in the frustum (i.e. Do Culling)
 
   if ( m_bVisible )
   {
+    Matrix4 world;
+    world.SetIdentity();
+    GetWorldMatrix( &world );
+    items.RecordNodeWorld( this, world );
     for ( auto& object : m_Objects )
     {
       if ( object->IsVisible() )
       {
-        // TODO(Phase 5.1, SA-441): emit a DrawItem instead of quenueing the
-        // object directly. The DrawItem will contain a pointer to the
-        // SceneObject and a sort key.
+        object->EmitDrawItems( items, layer, 0 );
       }
     }
 
     for ( auto& childNode : m_ChildNodes )
     {
-      childNode->FindVisibleObjects_( camera, renderQueue );
+      childNode->TraverseNode( items, layer );
     }
   }
 }

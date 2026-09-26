@@ -2,9 +2,11 @@
 #define NEBULAE_BETA_RENDERQUEUE_DRAWITEMLIST_H_
 
 #include <Nebulae/Beta/RenderQueue/DrawItem.h>
+#include <Nebulae/Common/Common.h>
 #include <cstddef>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 namespace Nebulae
 {
@@ -20,7 +22,14 @@ public:
                       []( const DrawItem& a, const DrawItem& b ) { return a.sortKey < b.sortKey; } );
   }
 
-  void Clear() { m_Items.clear(); }
+  void Clear() { m_Items.clear(); m_NodeWorlds.clear(); }
+
+  void RecordNodeWorld( const SceneNode* node, const Matrix4& world ) { m_NodeWorlds[node] = world; }
+  const Matrix4* GetNodeWorld( const SceneNode* node ) const
+  {
+    auto it = m_NodeWorlds.find( node );
+    return it == m_NodeWorlds.end() ? nullptr : &it->second;
+  }
 
   std::size_t Size() const { return m_Items.size(); }
 
@@ -30,6 +39,7 @@ public:
 
 private:
   std::vector<DrawItem> m_Items;
+  std::map<const SceneNode*, Matrix4> m_NodeWorlds;
 };
 
 } // namespace Nebulae
