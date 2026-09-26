@@ -23,15 +23,6 @@ enum SpriteAtlasFlags
   SAF_FLIPY = 2
 };
 
-struct SpriteFrameState
-{
-  Vector2 size;
-  Vector2 offset;
-  Vector2 minUv;
-  Vector2 maxUv;
-  const Texture* texture = nullptr;
-};
-
 struct SpriteAtlasUtils
 {
   /**

@@ -19,8 +19,36 @@
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 
+#include <algorithm>
+
 
 using namespace Nebulae;
+
+namespace
+{
+struct SpriteFrameState
+{
+  Vector2 size;
+  Vector2 offset;
+  Vector2 minUv;
+  Vector2 maxUv;
+  const Texture* texture = nullptr;
+};
+
+struct SpriteFrameProvider
+{
+  std::shared_ptr<SpriteFrameState> state;
+
+  void operator()( UniformBinder& binder ) const
+  {
+    binder.Set( "size", state->size );
+    binder.Set( "offset", state->offset );
+    binder.Set( "min_uv", state->minUv );
+    binder.Set( "max_uv", state->maxUv );
+    binder.SetTexture( "diffuseTexture", state->texture, 0 );
+  }
+};
+} // namespace
 
 
 const float g_fBillboardVertices[] = { 0.0f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f };
@@ -71,30 +99,31 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     return;
   }
 
-  // The provider reads this state on every compile. Changing frames only changes these values.
-  const bool firstFrame = !pObj->m_spriteFrameState;
+  // Reuse the state captured by the registered provider; it lives as long as the provider.
+  const auto& providers = pObj->GetSlot( 0 ).providers;
+  const auto it = std::find_if( providers.begin(), providers.end(),
+                                []( const auto& entry ) { return entry.first == "sprite"; } );
+  const SpriteFrameProvider* existing =
+    it == providers.end() ? nullptr : it->second.target<SpriteFrameProvider>();
+  const bool firstFrame = existing == nullptr;
+  std::shared_ptr<SpriteFrameState> state;
   if ( firstFrame )
   {
-    pObj->m_spriteFrameState = std::make_unique<SpriteFrameState>();
-    SpriteFrameState* state = pObj->m_spriteFrameState.get();
-    pObj->AddProvider( "sprite", [state]( UniformBinder& binder )
-                       {
-                         binder.Set( "size", state->size );
-                         binder.Set( "offset", state->offset );
-                         binder.Set( "min_uv", state->minUv );
-                         binder.Set( "max_uv", state->maxUv );
-                         binder.SetTexture( "diffuseTexture", state->texture, 0 );
-                       } );
+    state = std::make_shared<SpriteFrameState>();
+    pObj->AddProvider( "sprite", SpriteFrameProvider{ state } );
+  }
+  else
+  {
+    state = existing->state;
   }
 
-  SpriteFrameState& state = *pObj->m_spriteFrameState;
-  state.size = Vector2( static_cast<Real>( subTexture->GetWidth() ), static_cast<Real>( subTexture->GetHeight() ) );
-  state.offset = Vector2( 0.0f, 0.0f );
-  state.minUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0],
+  state->size = Vector2( static_cast<Real>( subTexture->GetWidth() ), static_cast<Real>( subTexture->GetHeight() ) );
+  state->offset = Vector2( 0.0f, 0.0f );
+  state->minUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0],
                          iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1] );
-  state.maxUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2],
+  state->maxUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2],
                          iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3] );
-  state.texture = subTexture->GetTexture();
+  state->texture = subTexture->GetTexture();
 
   if ( !firstFrame )
   {

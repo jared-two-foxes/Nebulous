@@ -1,7 +1,6 @@
 
 #include "SceneObject.h"
 #include "SceneNode.h"
-#include "SpriteAtlasUtils.h"
 
 #include <Nebulae/Alpha/InputLayout/InputLayout.h>
 #include <Nebulae/Alpha/InputLayout/VertexDeceleration.h>
