@@ -2,6 +2,7 @@
 #include "SceneGraph.h"
 
 #include <Nebulae/Alpha/Alpha.h>
+#include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 
 #include <Nebulae/Beta/Scene/ConstantBuffers.h>
 #include <Nebulae/Beta/Scene/SceneNode.h>
