@@ -25,8 +25,6 @@ jobs:
       - name: Check Bazel version
         run: bazel --version
       - name: Build renderer and compiler tests
-        run: bazel build //Source/Nebulae/Beta:beta //tests:alpha_tests //tests:beta_tests
-      - name: Run compiler tests
-        run: bazel test //tests:beta_tests --test_output=errors
-      - name: Run GL stream dispatch tests
-        run: bazel test //tests:alpha_tests --test_output=errors --test_arg=--gtest_filter=GLRenderStreamInterpreterTest.HeaderWalkDispatchesAndSkipsUnknownPacketByHeaderSize:GLRenderStreamInterpreterTest.DispatchesSetGeometryAndSetRenderStatePackets:GLRenderStreamInterpreterTest.IndexedDrawPacketDispatchesToDrawIndexed
+        run: bazel build //RenderSystems/GL:nebulous_gl3 //Source/Nebulae/Beta:beta //tests:alpha_tests //tests:beta_tests
+      - name: Run renderer and compiler tests
+        run: bazel test //tests:alpha_tests //tests:beta_tests --test_output=errors

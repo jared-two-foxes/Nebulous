@@ -84,11 +84,7 @@ std::shared_ptr<Nebulae::RenderSystem> CreateRenderSystem( RenderSystemType type
     lib.Symbol( "exports", reinterpret_cast<void**>( &info ) );
 
     // API Version checking
-    if ( info->apiVersion != NE_PLUGIN_API_VERSION )
-    {
-      throw std::runtime_error(
-        "Plugin ABI version mismatch." ); // Expected %s, got %s.", NE_PLUGIN_API_VERSION, info->apiVersion ) );
-    }
+    Nebulae::ValidatePluginApiVersion( *info );
 
     Nebulae::LPFNCREATERENDERDEVICE CreateRenderDevice;
     lib.Symbol( "CreateRenderer", (void**)&CreateRenderDevice );
