@@ -72,3 +72,36 @@ TEST( ParticlePool, EmitterStopsSpawningWhenGroupReachesCapacity )
   EXPECT_TRUE( emitter.IsEmpty() );
   EXPECT_FALSE( emitter.IsActive() );
 }
+
+TEST( ParticleEmitter, ClearDiscardsReservoirAndAllowsFreshEmission )
+{
+  ParticleGroup oldGroup( nullptr, nullptr, "old", 2 );
+  oldGroup.m_template_life.SetConstant( 1.0f );
+  oldGroup.m_template_scale.SetConstant( 1.0f );
+  ParticleGroup newGroup( nullptr, nullptr, "new", 1 );
+  newGroup.m_template_life.SetConstant( 1.0f );
+  newGroup.m_template_scale.SetConstant( 1.0f );
+
+  ParticleEmitter emitter( "test" );
+  Distribution<Vector4> force;
+  force.SetConstant( Vector4( 0, 0, 0 ) );
+  emitter.SetEmissiveForce( force );
+  emitter.AddParticlesToReservoir( &oldGroup, 2, 0.0f );
+  emitter.Start();
+  ASSERT_TRUE( emitter.IsActive() );
+  ASSERT_FALSE( emitter.IsEmpty() );
+
+  emitter.Clear();
+
+  EXPECT_FALSE( emitter.IsActive() );
+  EXPECT_TRUE( emitter.IsEmpty() );
+  emitter.AddParticlesToReservoir( &newGroup, 1, 0.0f );
+  ASSERT_FALSE( emitter.IsEmpty() );
+  emitter.Start();
+  emitter.Update( 0 );
+
+  EXPECT_EQ( 0u, oldGroup.GetParticleCount() );
+  EXPECT_EQ( 1u, newGroup.GetParticleCount() );
+  EXPECT_TRUE( emitter.IsEmpty() );
+  EXPECT_FALSE( emitter.IsActive() );
+}
