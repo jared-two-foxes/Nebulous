@@ -24,7 +24,7 @@ jobs:
           repository-cache: true
       - name: Check Bazel version
         run: bazel --version
-      - name: Build all targets
-        run: bazel build //...
+      - name: Build Beta and its tests
+        run: bazel build //Source/Nebulae/Beta:beta //tests:beta_tests
       - name: Run beta tests
         run: bazel test //tests:beta_tests --test_output=errors
