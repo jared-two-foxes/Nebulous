@@ -27,7 +27,7 @@ std::vector<PacketHeader> Headers( const RenderStream& stream )
   return headers;
 }
 
-std::size_t Count( const RenderStream& stream, PacketType type )
+std::size_t CountPackets( const RenderStream& stream, PacketType type )
 {
   std::size_t result = 0;
   for ( const auto& header : Headers( stream ) ) result += header.type == type;
@@ -73,10 +73,10 @@ TEST( StreamCompiler, ReusesProgramAndUniformWhenScopeIsUnchanged )
   RenderStream stream;
   StreamCompiler compiler;
   compiler.Compile( items, nullptr, stream );
-  EXPECT_EQ( 2u, Count( stream, PT_Draw ) );
-  EXPECT_EQ( 1u, Count( stream, PT_SetProgram ) );
-  EXPECT_EQ( 1u, Count( stream, PT_SetUniform ) );
-  EXPECT_EQ( 1u, Count( stream, PT_SetGeometry ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_Draw ) );
+  EXPECT_EQ( 1u, CountPackets( stream, PT_SetProgram ) );
+  EXPECT_EQ( 1u, CountPackets( stream, PT_SetUniform ) );
+  EXPECT_EQ( 1u, CountPackets( stream, PT_SetGeometry ) );
 }
 
 TEST( StreamCompiler, ProgramSwitchFlushesStackAndDeeperScopeWins )
@@ -96,9 +96,9 @@ TEST( StreamCompiler, ProgramSwitchFlushesStackAndDeeperScopeWins )
   RenderStream stream;
   StreamCompiler compiler;
   compiler.Compile( items, nullptr, stream );
-  EXPECT_EQ( 2u, Count( stream, PT_Draw ) );
-  EXPECT_EQ( 2u, Count( stream, PT_SetProgram ) );
-  EXPECT_EQ( 2u, Count( stream, PT_SetUniform ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_Draw ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetProgram ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetUniform ) );
   EXPECT_FLOAT_EQ( 7.0f, LastUniform( stream ) );
 }
 
@@ -117,7 +117,7 @@ TEST( StreamCompiler, ObjectScopeOverridesEarlierObject )
   RenderStream stream;
   StreamCompiler compiler;
   compiler.Compile( items, nullptr, stream );
-  EXPECT_EQ( 2u, Count( stream, PT_SetUniform ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetUniform ) );
   EXPECT_FLOAT_EQ( 2.0f, LastUniform( stream ) );
 }
 
@@ -145,7 +145,7 @@ TEST( StreamCompiler, ObjectScopeOverridesNodeWorld )
   RenderStream stream;
   StreamCompiler compiler;
   compiler.Compile( items, nullptr, stream );
-  ASSERT_EQ( 1u, Count( stream, PT_SetUniform ) );
+  ASSERT_EQ( 1u, CountPackets( stream, PT_SetUniform ) );
   for ( std::size_t offset = 0; offset < stream.Size(); )
   {
     PacketHeader header;
