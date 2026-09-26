@@ -2,6 +2,7 @@
 #define NEBULAE_ALPHA_PLUGIN_PLUGINACCESSOR_H_
 
 #include <Nebulae/Common/Common.h>
+#include <stdexcept>
 
 namespace Nebulae
 {
@@ -35,6 +36,14 @@ struct PluginDetails
   const char* pluginName;
   const char* pluginVersion;
 };
+
+inline void ValidatePluginApiVersion( const PluginDetails& plugin )
+{
+  if ( plugin.apiVersion != NE_PLUGIN_API_VERSION )
+  {
+    throw std::runtime_error( "Plugin ABI version mismatch." );
+  }
+}
 
 #define NE_STANDARD_PLUGIN_STUFF NE_PLUGIN_API_VERSION, __FILE__
 

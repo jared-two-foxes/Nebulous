@@ -37,6 +37,13 @@ PFNGLUNIFORMMATRIX2FVPROC glUniformMatrix2fv = NULL;
 PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv = NULL;
 PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv = NULL;
 PFNGLACTIVETEXTUREPROC glActiveTexture = NULL;
+PFNGLDRAWELEMENTSBASEVERTEXPROC glDrawElementsBaseVertex = NULL;
+
+// GL 1.1 entry points are linked directly; keep stream calls replaceable for dispatch tests.
+using GLBindTextureFunction = void( APIENTRY* )( GLenum, GLuint );
+using GLDrawElementsFunction = void( APIENTRY* )( GLenum, GLsizei, GLenum, const void* );
+GLBindTextureFunction glBindTextureForStream = &::glBindTexture;
+GLDrawElementsFunction glDrawElementsForStream = &::glDrawElements;
 
 
 #define BUFFER_OFFSET( x ) ( (char*)NULL + ( x ) )
@@ -212,6 +219,7 @@ bool RenderSystem_OGL::Initiate()
   glUniformMatrix3fv = (PFNGLUNIFORMMATRIX3FVPROC)wglGetProcAddress( "glUniformMatrix3fv" );
   glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)wglGetProcAddress( "glUniformMatrix4fv" );
   glActiveTexture = (PFNGLACTIVETEXTUREPROC)wglGetProcAddress( "glActiveTexture" );
+  glDrawElementsBaseVertex = (PFNGLDRAWELEMENTSBASEVERTEXPROC)wglGetProcAddress( "glDrawElementsBaseVertex" );
 
 
   return RenderSystem::Initiate();
@@ -395,9 +403,23 @@ void RenderSystem_OGL::Draw( std::size_t iVertexCount, std::size_t iStartVertexL
 
 
 void RenderSystem_OGL::DrawIndexed( std::size_t iIndexCount, std::size_t iStartIndexLocation,
-                                    std::size_t /*iBaseVertexLocation*/ )
+                                    std::size_t iBaseVertexLocation )
 {
-  glDrawElements( m_OperationMode, (int)iIndexCount, GL_UNSIGNED_SHORT, BUFFER_OFFSET( iStartIndexLocation ) );
+  const void* indexOffset = BUFFER_OFFSET( iStartIndexLocation * sizeof( std::uint16_t ) );
+  if ( iBaseVertexLocation != 0 )
+  {
+    if ( glDrawElementsBaseVertex == nullptr )
+    {
+      NE_LOG_ERROR( "RenderSystem", "Indexed draw requires glDrawElementsBaseVertex for a nonzero base vertex" );
+      return;
+    }
+    glDrawElementsBaseVertex( m_OperationMode, (GLsizei)iIndexCount, GL_UNSIGNED_SHORT, indexOffset,
+                              (GLint)iBaseVertexLocation );
+  }
+  else
+  {
+    glDrawElementsForStream( m_OperationMode, (GLsizei)iIndexCount, GL_UNSIGNED_SHORT, indexOffset );
+  }
   CheckForGLError();
 }
 
@@ -558,16 +580,24 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     const PacketHeader* header = reinterpret_cast<const PacketHeader*>( data + offset );
 
     // Check if the packet fits in the stream
-    if ( offset + header->size > size )
+    if ( header->size < sizeof( PacketHeader ) || header->size > size - offset )
     {
       NE_LOG_WARN( "RenderSystem", "packet at offset %zu exceeds stream size (header.size=%u)", offset, header->size );
       break;
     }
 
+    const auto hasPacketSize = [&]( std::size_t minimum )
+    {
+      if ( header->size >= minimum ) return true;
+      NE_LOG_WARN( "RenderSystem", "packet at offset %zu is too small (header.size=%u)", offset, header->size );
+      return false;
+    };
+
     switch ( header->type )
     {
     case PT_SetProgram:
     {
+      if ( !hasPacketSize( sizeof( PacketSetProgram ) ) ) break;
       const PacketSetProgram* packet = reinterpret_cast<const PacketSetProgram*>( data + offset );
       SetShaders( packet->vertexShader, packet->fragmentShader );
     }
@@ -575,6 +605,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 
     case PT_SetGeometry:
     {
+      if ( !hasPacketSize( sizeof( PacketSetGeometry ) ) ) break;
       const PacketSetGeometry* packet = reinterpret_cast<const PacketSetGeometry*>( data + offset );
       SetVertexBuffers( 0, packet->vertexBuffer, packet->stride, packet->offset );
       if ( packet->indexBuffer != NULL )
@@ -588,6 +619,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 
     case PT_SetRenderState:
     {
+      if ( !hasPacketSize( sizeof( PacketSetRenderState ) ) ) break;
       const PacketSetRenderState* packet = reinterpret_cast<const PacketSetRenderState*>( data + offset );
       SetBlendingState( packet->blendingEnabled );
       SetDepthTest( packet->depthTestEnabled );
@@ -597,8 +629,15 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 
     case PT_SetUniform:
     {
+      if ( !hasPacketSize( sizeof( PacketSetUniform ) ) ) break;
       const PacketSetUniform* packet = reinterpret_cast<const PacketSetUniform*>( data + offset );
       const UniformWrite& write = packet->write;
+      if ( write.payloadBytes > header->size - sizeof( PacketSetUniform ) ||
+           write.payloadBytes != GetUniformPayloadBytes( write.type, write.arraySize ) )
+      {
+        NE_LOG_WARN( "RenderSystem", "Invalid uniform payload at offset %zu", offset );
+        break;
+      }
       const std::uint8_t* payload = data + offset + sizeof( PacketSetUniform );
 
       switch ( write.type )
@@ -627,6 +666,9 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
       case UT_INT4:
         glUniform4iv( write.gpuLocation, write.arraySize, reinterpret_cast<const GLint*>( payload ) );
         break;
+      case UT_MATRIX_2X2:
+        glUniformMatrix2fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
+        break;
       case UT_MATRIX_3X3:
         glUniformMatrix3fv( write.gpuLocation, write.arraySize, GL_TRUE, reinterpret_cast<const GLfloat*>( payload ) );
         break;
@@ -643,6 +685,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 
     case PT_SetSampler:
     {
+      if ( !hasPacketSize( sizeof( PacketSetSampler ) ) ) break;
       const PacketSetSampler* packet = reinterpret_cast<const PacketSetSampler*>( data + offset );
       const SamplerWrite& write = packet->write;
 
@@ -656,7 +699,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
       GLuint handle = impl->GetHandle();
 
       glActiveTexture( GL_TEXTURE0 + write.unit );
-      glBindTexture( GL_TEXTURE_2D, handle );
+      glBindTextureForStream( GL_TEXTURE_2D, handle );
       glUniform1i( write.gpuLocation, write.unit );
       CheckForGLError();
     }
@@ -664,6 +707,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
 
     case PT_Draw:
     {
+      if ( !hasPacketSize( sizeof( PacketDraw ) ) ) break;
       const PacketDraw* packet = reinterpret_cast<const PacketDraw*>( data + offset );
       if ( packet->indexed )
       {

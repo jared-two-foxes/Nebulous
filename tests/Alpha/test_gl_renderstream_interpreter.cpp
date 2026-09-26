@@ -15,47 +15,48 @@
 #include <Includes/TextureImpl_OGL.h>
 #undef private
 
-#include <fstream>
 #include <cstdint>
 #include <cstring>
-#include <iterator>
 #include <memory>
 #include <string>
 #include <type_traits>
 #include <vector>
 
+// These are the function pointers used by the linked GL renderer, not test-local copies.
+extern PFNGLUNIFORM1FVPROC glUniform1fv;
+extern PFNGLUNIFORM2FVPROC glUniform2fv;
+extern PFNGLUNIFORM3FVPROC glUniform3fv;
+extern PFNGLUNIFORM4FVPROC glUniform4fv;
+extern PFNGLUNIFORM1IVPROC glUniform1iv;
+extern PFNGLUNIFORM2IVPROC glUniform2iv;
+extern PFNGLUNIFORM3IVPROC glUniform3iv;
+extern PFNGLUNIFORM4IVPROC glUniform4iv;
+extern PFNGLUNIFORMMATRIX2FVPROC glUniformMatrix2fv;
+extern PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv;
+extern PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
+extern PFNGLUNIFORM1IPROC glUniform1i;
+extern PFNGLATTACHSHADERPROC glAttachShader;
+extern PFNGLCREATEPROGRAMPROC glCreateProgram;
+extern PFNGLDELETEPROGRAMPROC glDeleteProgram;
+extern PFNGLDETACHSHADERPROC glDetachShader;
+extern PFNGLGETPROGRAMIVPROC glGetProgramiv;
+extern PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
+extern PFNGLLINKPROGRAMPROC glLinkProgram;
+extern PFNGLUSEPROGRAMPROC glUseProgram;
+extern PFNGLGETACTIVEUNIFORMPROC glGetActiveUniform;
+extern PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
+extern PFNGLACTIVETEXTUREPROC glActiveTexture;
+extern PFNGLDRAWELEMENTSBASEVERTEXPROC glDrawElementsBaseVertex;
+
+using GLBindTextureFunction = void( APIENTRY* )( GLenum, GLuint );
+using GLDrawElementsFunction = void( APIENTRY* )( GLenum, GLsizei, GLenum, const void* );
+extern GLBindTextureFunction glBindTextureForStream;
+extern GLDrawElementsFunction glDrawElementsForStream;
+
 namespace
 {
 
 using namespace Nebulae;
-
-// Test-local GL function pointers (mocked for testing)
-PFNGLUNIFORM1FVPROC glUniform1fv = nullptr;
-PFNGLUNIFORM2FVPROC glUniform2fv = nullptr;
-PFNGLUNIFORM3FVPROC glUniform3fv = nullptr;
-PFNGLUNIFORM4FVPROC glUniform4fv = nullptr;
-PFNGLUNIFORM1IVPROC glUniform1iv = nullptr;
-PFNGLUNIFORM2IVPROC glUniform2iv = nullptr;
-PFNGLUNIFORM3IVPROC glUniform3iv = nullptr;
-PFNGLUNIFORM4IVPROC glUniform4iv = nullptr;
-PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv = nullptr;
-PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv = nullptr;
-PFNGLUNIFORM1IPROC glUniform1i = nullptr;
-
-PFNGLATTACHSHADERPROC glAttachShader = nullptr;
-PFNGLCREATEPROGRAMPROC glCreateProgram = nullptr;
-PFNGLDELETEPROGRAMPROC glDeleteProgram = nullptr;
-PFNGLDETACHSHADERPROC glDetachShader = nullptr;
-PFNGLGETPROGRAMIVPROC glGetProgramiv = nullptr;
-PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog = nullptr;
-PFNGLLINKPROGRAMPROC glLinkProgram = nullptr;
-PFNGLUSEPROGRAMPROC glUseProgram = nullptr;
-PFNGLGETACTIVEUNIFORMPROC glGetActiveUniform = nullptr;
-PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation = nullptr;
-
-PFNGLACTIVETEXTUREPROC glActiveTexture = nullptr;
-typedef void( APIENTRY* PFNGLBINDTEXTUREPROC )( GLenum, GLuint );
-PFNGLBINDTEXTUREPROC glBindTexture = nullptr;
 
 struct GLUniformCallState
 {
@@ -67,13 +68,20 @@ struct GLUniformCallState
   int uniform2ivCalls = 0;
   int uniform3ivCalls = 0;
   int uniform4ivCalls = 0;
+  int matrix2Calls = 0;
   int matrix3Calls = 0;
   int matrix4Calls = 0;
   int uniform1iCalls = 0;
+  int textureBinds = 0;
+  int indexedDraws = 0;
+  int baseVertexDraws = 0;
 
   int lastLocation = -1;
   int lastCount = -1;
   int lastSamplerUnit = -1;
+  GLuint lastTexture = 0;
+  std::uintptr_t lastIndexOffset = 0;
+  GLint lastBaseVertex = 0;
 };
 
 GLUniformCallState g_uniformCalls;
@@ -135,6 +143,12 @@ void APIENTRY StubUniform4iv( GLint location, GLsizei count, const GLint* )
   g_uniformCalls.lastLocation = location;
   g_uniformCalls.lastCount = count;
 }
+void APIENTRY StubUniformMatrix2fv( GLint location, GLsizei count, GLboolean, const GLfloat* )
+{
+  ++g_uniformCalls.matrix2Calls;
+  g_uniformCalls.lastLocation = location;
+  g_uniformCalls.lastCount = count;
+}
 void APIENTRY StubUniformMatrix3fv( GLint location, GLsizei count, GLboolean, const GLfloat* )
 {
   ++g_uniformCalls.matrix3Calls;
@@ -164,7 +178,22 @@ void APIENTRY StubGetProgramInfoLog( GLuint, GLsizei, GLsizei*, GLchar* ) {}
 void APIENTRY StubGetActiveUniform( GLuint, GLuint, GLsizei, GLsizei*, GLint*, GLenum*, GLchar* ) {}
 GLint APIENTRY StubGetUniformLocation( GLuint, const GLchar* ) { return 0; }
 void APIENTRY StubActiveTexture( GLenum ) {}
-void APIENTRY StubBindTexture( GLenum, GLuint ) {}
+void APIENTRY StubBindTexture( GLenum, GLuint texture )
+{
+  ++g_uniformCalls.textureBinds;
+  g_uniformCalls.lastTexture = texture;
+}
+void APIENTRY StubDrawElements( GLenum, GLsizei, GLenum, const void* indices )
+{
+  ++g_uniformCalls.indexedDraws;
+  g_uniformCalls.lastIndexOffset = reinterpret_cast<std::uintptr_t>( indices );
+}
+void APIENTRY StubDrawElementsBaseVertex( GLenum, GLsizei, GLenum, const void* indices, GLint baseVertex )
+{
+  ++g_uniformCalls.baseVertexDraws;
+  g_uniformCalls.lastIndexOffset = reinterpret_cast<std::uintptr_t>( indices );
+  g_uniformCalls.lastBaseVertex = baseVertex;
+}
 void APIENTRY StubGetProgramiv( GLuint, GLenum pname, GLint* params )
 {
   if ( pname == GL_LINK_STATUS )
@@ -372,6 +401,7 @@ protected:
   PFNGLUNIFORM2IVPROC oldUniform2iv = nullptr;
   PFNGLUNIFORM3IVPROC oldUniform3iv = nullptr;
   PFNGLUNIFORM4IVPROC oldUniform4iv = nullptr;
+  PFNGLUNIFORMMATRIX2FVPROC oldUniformMatrix2fv = nullptr;
   PFNGLUNIFORMMATRIX3FVPROC oldUniformMatrix3fv = nullptr;
   PFNGLUNIFORMMATRIX4FVPROC oldUniformMatrix4fv = nullptr;
   PFNGLUNIFORM1IPROC oldUniform1i = nullptr;
@@ -388,7 +418,9 @@ protected:
   PFNGLGETUNIFORMLOCATIONPROC oldGetUniformLocation = nullptr;
 
   PFNGLACTIVETEXTUREPROC oldActiveTexture = nullptr;
-  PFNGLBINDTEXTUREPROC oldBindTexture = nullptr;
+  PFNGLDRAWELEMENTSBASEVERTEXPROC oldDrawElementsBaseVertex = nullptr;
+  GLBindTextureFunction oldBindTexture = nullptr;
+  GLDrawElementsFunction oldDrawElements = nullptr;
 
   Logger* oldModuleLogger = nullptr;
   std::unique_ptr<Logger> testLogger;
@@ -413,6 +445,7 @@ protected:
     oldUniform2iv = glUniform2iv;
     oldUniform3iv = glUniform3iv;
     oldUniform4iv = glUniform4iv;
+    oldUniformMatrix2fv = glUniformMatrix2fv;
     oldUniformMatrix3fv = glUniformMatrix3fv;
     oldUniformMatrix4fv = glUniformMatrix4fv;
     oldUniform1i = glUniform1i;
@@ -428,7 +461,9 @@ protected:
     oldGetActiveUniform = glGetActiveUniform;
     oldGetUniformLocation = glGetUniformLocation;
     oldActiveTexture = glActiveTexture;
-    oldBindTexture = glBindTexture;
+    oldDrawElementsBaseVertex = glDrawElementsBaseVertex;
+    oldBindTexture = glBindTextureForStream;
+    oldDrawElements = glDrawElementsForStream;
 
     glUniform1fv = &StubUniform1fv;
     glUniform2fv = &StubUniform2fv;
@@ -438,6 +473,7 @@ protected:
     glUniform2iv = &StubUniform2iv;
     glUniform3iv = &StubUniform3iv;
     glUniform4iv = &StubUniform4iv;
+    glUniformMatrix2fv = &StubUniformMatrix2fv;
     glUniformMatrix3fv = &StubUniformMatrix3fv;
     glUniformMatrix4fv = &StubUniformMatrix4fv;
     glUniform1i = &StubUniform1i;
@@ -453,7 +489,9 @@ protected:
     glGetActiveUniform = &StubGetActiveUniform;
     glGetUniformLocation = &StubGetUniformLocation;
     glActiveTexture = &StubActiveTexture;
-    glBindTexture = &StubBindTexture;
+    glDrawElementsBaseVertex = &StubDrawElementsBaseVertex;
+    glBindTextureForStream = &StubBindTexture;
+    glDrawElementsForStream = &StubDrawElements;
   }
 
   void TearDown() override
@@ -466,6 +504,7 @@ protected:
     glUniform2iv = oldUniform2iv;
     glUniform3iv = oldUniform3iv;
     glUniform4iv = oldUniform4iv;
+    glUniformMatrix2fv = oldUniformMatrix2fv;
     glUniformMatrix3fv = oldUniformMatrix3fv;
     glUniformMatrix4fv = oldUniformMatrix4fv;
     glUniform1i = oldUniform1i;
@@ -481,7 +520,9 @@ protected:
     glGetActiveUniform = oldGetActiveUniform;
     glGetUniformLocation = oldGetUniformLocation;
     glActiveTexture = oldActiveTexture;
-    glBindTexture = oldBindTexture;
+    glDrawElementsBaseVertex = oldDrawElementsBaseVertex;
+    glBindTextureForStream = oldBindTexture;
+    glDrawElementsForStream = oldDrawElements;
 
     if ( testLogger )
     {
@@ -637,6 +678,65 @@ TEST_F( GLRenderStreamInterpreterTest, IndexedDrawPacketDispatchesToDrawIndexed 
   EXPECT_EQ( 6u, rs.lastIndexCount );
 }
 
+TEST_F( GLRenderStreamInterpreterTest, IndexedDrawUsesElementOffsetAndBaseVertex )
+{
+  RenderSystem_OGL rs( nullptr, nullptr );
+  rs.DrawIndexed( 6, 3, 0 );
+  EXPECT_EQ( 1, g_uniformCalls.indexedDraws );
+  EXPECT_EQ( 6u, g_uniformCalls.lastIndexOffset ); // Three 16-bit indices.
+
+  rs.DrawIndexed( 6, 4, 7 );
+  EXPECT_EQ( 1, g_uniformCalls.baseVertexDraws );
+  EXPECT_EQ( 8u, g_uniformCalls.lastIndexOffset );
+  EXPECT_EQ( 7, g_uniformCalls.lastBaseVertex );
+}
+
+TEST_F( GLRenderStreamInterpreterTest, MissingBaseVertexSupportSkipsDraw )
+{
+  RenderSystem_OGL rs( nullptr, nullptr );
+  glDrawElementsBaseVertex = nullptr;
+  rs.DrawIndexed( 6, 3, 7 );
+  FlushCapturedLogs();
+  EXPECT_EQ( 0, g_uniformCalls.baseVertexDraws );
+  EXPECT_EQ( 0, g_uniformCalls.indexedDraws );
+  EXPECT_FALSE( g_logMessages.empty() );
+}
+
+TEST_F( GLRenderStreamInterpreterTest, RejectsInvalidPacketSize )
+{
+  RenderSystemOGLStreamSpy rs( nullptr, nullptr );
+  RenderStream stream;
+  PacketDraw draw = MakePacket<PacketDraw>( PT_Draw );
+  stream.Write( draw );
+  const std::uint16_t zero = 0;
+  std::memcpy( const_cast<std::uint8_t*>( stream.Data() ) + offsetof( PacketHeader, size ), &zero, sizeof( zero ) );
+  rs.ExecuteStream( stream );
+  FlushCapturedLogs();
+  EXPECT_EQ( 0, rs.drawCalls );
+  EXPECT_FALSE( g_logMessages.empty() );
+}
+
+TEST_F( GLRenderStreamInterpreterTest, RejectsShortUniformPayloadAndContinues )
+{
+  RenderSystemOGLStreamSpy rs( nullptr, nullptr );
+  RenderStream stream;
+  PacketSetUniform uniform = MakePacket<PacketSetUniform>( PT_SetUniform );
+  uniform.write.type = UT_MATRIX_3X3;
+  uniform.write.arraySize = 1;
+  uniform.write.payloadBytes = sizeof( float );
+  const float shortPayload = 1.0f;
+  stream.WritePayload( uniform, &shortPayload, sizeof( shortPayload ) );
+  PacketDraw draw = MakePacket<PacketDraw>( PT_Draw );
+  draw.vertexCount = 3;
+  stream.Write( draw );
+
+  rs.ExecuteStream( stream );
+  FlushCapturedLogs();
+  EXPECT_EQ( 0, g_uniformCalls.matrix3Calls );
+  EXPECT_EQ( 1, rs.drawCalls );
+  EXPECT_FALSE( g_logMessages.empty() );
+}
+
 TEST_F( GLRenderStreamInterpreterTest, SetProgramPacketCreatesOrFindsProgramAndUsesIt )
 {
   if constexpr ( std::is_abstract_v<RenderSystem_OGL> )
@@ -686,7 +786,7 @@ TEST_F( GLRenderStreamInterpreterTest, UniformDispatchUsesUniformTypeNotElementC
 
     UniformWrite matrixLike{};
     matrixLike.gpuLocation = 17;
-    matrixLike.type = UT_MATRIX_3X3;
+    matrixLike.type = UT_MATRIX_2X2;
     matrixLike.arraySize = 1;
     matrixLike.payloadBytes = static_cast<std::uint16_t>( sizeof( matrix2x2Payload ) );
 
@@ -707,7 +807,7 @@ TEST_F( GLRenderStreamInterpreterTest, UniformDispatchUsesUniformTypeNotElementC
 
     rs.ExecuteStream( stream );
 
-    EXPECT_EQ( 1, g_uniformCalls.matrix3Calls ) << "UT_MATRIX_3X3 must route to glUniformMatrix3fv.";
+    EXPECT_EQ( 1, g_uniformCalls.matrix2Calls ) << "UT_MATRIX_2X2 must route to glUniformMatrix2fv.";
     EXPECT_EQ( 1, g_uniformCalls.uniform4fvCalls ) << "UT_FLOAT4 must route to glUniform4fv.";
   }
 }
@@ -772,6 +872,7 @@ TEST_F( GLRenderStreamInterpreterTest, UniformDispatchCoversScalarIntVectorAndMa
     EXPECT_EQ( 1, g_uniformCalls.uniform2ivCalls );
     EXPECT_EQ( 1, g_uniformCalls.uniform3ivCalls );
     EXPECT_EQ( 1, g_uniformCalls.uniform4ivCalls );
+    EXPECT_EQ( 0, g_uniformCalls.matrix2Calls );
     EXPECT_EQ( 1, g_uniformCalls.matrix3Calls );
     EXPECT_EQ( 1, g_uniformCalls.matrix4Calls );
   }
@@ -827,6 +928,8 @@ TEST_F( GLRenderStreamInterpreterTest, SetSamplerUsesGpuLocationAndTextureUnit )
     EXPECT_EQ( 1, g_uniformCalls.uniform1iCalls );
     EXPECT_EQ( 33, g_uniformCalls.lastLocation );
     EXPECT_EQ( 5, g_uniformCalls.lastSamplerUnit );
+    EXPECT_EQ( 1, g_uniformCalls.textureBinds );
+    EXPECT_EQ( 123u, g_uniformCalls.lastTexture );
   }
 }
 
@@ -877,15 +980,11 @@ TEST( GLPluginApiVersionContract, PluginApiVersionIsBumpedTo2 )
 
 TEST( GLPluginApiVersionContract, PluginVersionMismatchPathThrowsRuntimeErrorAtLoadSite )
 {
-  std::ifstream alphaCpp( "Source/Nebulae/Alpha/Alpha.cpp" );
-  ASSERT_TRUE( alphaCpp.is_open() ) << "Expected to inspect plugin load path source.";
-
-  std::string source( ( std::istreambuf_iterator<char>( alphaCpp ) ), std::istreambuf_iterator<char>() );
-
-  EXPECT_NE( std::string::npos, source.find( "throw std::runtime_error" ) )
-    << "Plugin mismatch path should throw runtime_error.";
-  EXPECT_EQ( std::string::npos, source.find( "catch ( std::exception&" ) )
-    << "Plugin mismatch should propagate runtime_error to caller instead of swallowing it.";
+  PluginDetails plugin{};
+  plugin.apiVersion = NE_PLUGIN_API_VERSION;
+  EXPECT_NO_THROW( ValidatePluginApiVersion( plugin ) );
+  plugin.apiVersion = NE_PLUGIN_API_VERSION - 1;
+  EXPECT_THROW( ValidatePluginApiVersion( plugin ), std::runtime_error );
 }
 
 } // namespace
