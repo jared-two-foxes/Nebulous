@@ -364,16 +364,16 @@ void RenderSystem_OGL::SetOperationType( OperationType eType )
     m_OperationMode = GL_POINTS;
     break;
   case OT_LINES:
-    m_OperationMode = GL_LINE_STRIP;
+    m_OperationMode = GL_LINES;
     break;
   case OT_LINELIST:
-    m_OperationMode = GL_LINES;
+    m_OperationMode = GL_LINE_STRIP;
     break;
   case OT_TRIANGLES:
     m_OperationMode = GL_TRIANGLES;
     break;
   case OT_TRIANGLELIST:
-    m_OperationMode = GL_TRIANGLES;
+    m_OperationMode = GL_TRIANGLE_STRIP;
     break;
   case OT_TRIANGLEFAN:
     m_OperationMode = GL_TRIANGLE_FAN;
