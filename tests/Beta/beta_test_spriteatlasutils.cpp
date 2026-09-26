@@ -82,17 +82,24 @@ TEST( SpriteAtlasUtils, RepeatedFrameChangesKeepProviderAndGeometryAndReadLatest
 
   Material material( "sprite" );
   material.CreatePass();
+  Material other( "unrelated" );
   SceneObject object( nullptr );
-  object.AddSlot( &material );
+  object.AddSlot( &other ); // The sprite material is not yet attached.
   SpriteAtlasUtils::SetSpriteFrame( renderer, &material, &object, &atlas, "first" );
-  ASSERT_EQ( 1u, object.GetSlot( 0 ).providers.size() );
-  auto firstProvider = object.GetSlot( 0 ).providers[0].second;
-  Geometry* geometry = object.GetSlot( 0 ).geometry;
+  ASSERT_EQ( 2u, object.GetSlotCount() );
+  EXPECT_TRUE( object.GetSlot( 0 ).providers.empty() );
+  EXPECT_EQ( nullptr, object.GetSlot( 0 ).geometry );
+  EXPECT_EQ( &material, object.GetSlot( 1 ).material );
+  ASSERT_EQ( 1u, object.GetSlot( 1 ).providers.size() );
+  auto firstProvider = object.GetSlot( 1 ).providers[0].second;
+  Geometry* geometry = object.GetSlot( 1 ).geometry;
   ASSERT_NE( nullptr, geometry );
 
   SpriteAtlasUtils::SetSpriteFrame( renderer, &material, &object, &atlas, "second", SAF_FLIPX );
-  ASSERT_EQ( 1u, object.GetSlot( 0 ).providers.size() );
-  EXPECT_EQ( geometry, object.GetSlot( 0 ).geometry );
+  ASSERT_EQ( 2u, object.GetSlotCount() );
+  EXPECT_TRUE( object.GetSlot( 0 ).providers.empty() );
+  ASSERT_EQ( 1u, object.GetSlot( 1 ).providers.size() );
+  EXPECT_EQ( geometry, object.GetSlot( 1 ).geometry );
 
   UniformBinder binder;
   firstProvider( binder ); // The original callback must see the latest frame.

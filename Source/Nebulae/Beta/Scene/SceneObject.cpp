@@ -55,18 +55,29 @@ void SceneObject::SetVisible( bool bVisible ) { m_visible = bVisible; }
 
 void SceneObject::AddProvider( const std::string& key, UniformProvider provider )
 {
-  for ( auto& slot : m_slots )
+  for ( std::size_t slotIndex = 0; slotIndex < m_slots.size(); ++slotIndex )
   {
-    auto it = std::find_if( slot.providers.begin(), slot.providers.end(),
-                            [&key]( const std::pair<std::string, UniformProvider>& p ) { return p.first == key; } );
-    if ( it != slot.providers.end() )
-    {
-      it->second = provider; // Update existing provider
-    }
-    else
-    {
-      slot.providers.emplace_back( key, provider ); // Add new provider
-    }
+    AddSlotProvider( slotIndex, key, provider );
+  }
+}
+
+void SceneObject::AddSlotProvider( std::size_t slotIndex, const std::string& key, UniformProvider provider )
+{
+  if ( slotIndex >= m_slots.size() )
+  {
+    return;
+  }
+
+  auto& providers = m_slots[slotIndex].providers;
+  auto it = std::find_if( providers.begin(), providers.end(),
+                          [&key]( const auto& entry ) { return entry.first == key; } );
+  if ( it != providers.end() )
+  {
+    it->second = std::move( provider );
+  }
+  else
+  {
+    providers.emplace_back( key, std::move( provider ) );
   }
 }
 

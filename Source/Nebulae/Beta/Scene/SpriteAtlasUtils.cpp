@@ -82,8 +82,7 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   NE_ASSERT( pSpriteAtlas, "" );
 
   // Early out if there are any issues with the parameters.
-  if ( renderer.expired() || material == nullptr || pObj == nullptr || pSpriteAtlas == nullptr ||
-       pObj->GetSlotCount() == 0 )
+  if ( renderer.expired() || material == nullptr || pObj == nullptr || pSpriteAtlas == nullptr )
   {
     return;
   }
@@ -99,8 +98,18 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     return;
   }
 
+  std::size_t slotIndex = 0;
+  while ( slotIndex < pObj->GetSlotCount() && pObj->GetSlot( slotIndex ).material != material )
+  {
+    ++slotIndex;
+  }
+  if ( slotIndex == pObj->GetSlotCount() )
+  {
+    slotIndex = pObj->AddSlot( material );
+  }
+
   // Reuse the state captured by the registered provider; it lives as long as the provider.
-  const auto& providers = pObj->GetSlot( 0 ).providers;
+  const auto& providers = pObj->GetSlot( slotIndex ).providers;
   const auto it = std::find_if( providers.begin(), providers.end(),
                                 []( const auto& entry ) { return entry.first == "sprite"; } );
   const SpriteFrameProvider* existing =
@@ -110,7 +119,7 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   if ( firstFrame )
   {
     state = std::make_shared<SpriteFrameState>();
-    pObj->AddProvider( "sprite", SpriteFrameProvider{ state } );
+    pObj->AddSlotProvider( slotIndex, "sprite", SpriteFrameProvider{ state } );
   }
   else
   {
@@ -168,8 +177,8 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     }
 
     // Set pass data for object.
-    pObj->SetSlotGeometry( 0, pGeometry );
-    pObj->SetSlotInputLayout( 0, inputLayout );
+    pObj->SetSlotGeometry( slotIndex, pGeometry );
+    pObj->SetSlotInputLayout( slotIndex, inputLayout );
   }
 }
 
