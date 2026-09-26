@@ -150,6 +150,13 @@ void StreamCompiler::Compile( DrawItemList items, const Camera* camera, RenderSt
       continue;
     }
     const RenderSlot& slot = item.object->GetSlot( item.slotIndex );
+    // The GL interpreter dereferences the vertex buffer and input layout.
+    // A slot may have a material before its geometry has been initialized.
+    if ( !slot.geometry || !slot.geometry->m_vertexBuffer || !slot.inputLayout ||
+         ( slot.geometry->m_indexBuffer ? slot.geometry->m_indexCount == 0 : slot.geometry->m_vertexCount == 0 ) )
+    {
+      continue;
+    }
     if ( item.node != previousNode )
     {
       nodeScope.Clear();
@@ -189,17 +196,15 @@ void StreamCompiler::Compile( DrawItemList items, const Camera* camera, RenderSt
     EmitValues( values, previous, programChanged, schema, stream );
     previous = std::move( values );
 
-    if ( !hasGeometry || previousGeometry != slot.geometry || previousLayout != slot.inputLayout )
+    if ( programChanged || !hasGeometry || previousGeometry != slot.geometry || previousLayout != slot.inputLayout )
     {
       PacketSetGeometry packet{};
       packet.header.type = PT_SetGeometry;
       packet.inputLayout = slot.inputLayout;
-      if ( slot.geometry )
-      {
-        packet.vertexBuffer = slot.geometry->m_vertexBuffer;
-        packet.indexBuffer = slot.geometry->m_indexBuffer;
-        packet.stride = slot.geometry->m_vertexDeceleration ? slot.geometry->m_vertexDeceleration->GetVertexSize() : 0;
-      }
+      packet.vertexBuffer = slot.geometry->m_vertexBuffer;
+      packet.indexBuffer = slot.geometry->m_indexBuffer;
+      packet.stride = slot.geometry->m_vertexDeceleration ? slot.geometry->m_vertexDeceleration->GetVertexSize() : 0;
+      packet.topology = slot.geometry->m_primitiveTopology;
       stream.Write( packet );
       previousGeometry = slot.geometry;
       previousLayout = slot.inputLayout;
@@ -217,7 +222,15 @@ void StreamCompiler::Compile( DrawItemList items, const Camera* camera, RenderSt
     }
     PacketDraw draw{};
     draw.header.type = PT_Draw;
-    draw.vertexCount = slot.geometry ? slot.geometry->m_vertexCount : 0;
+    draw.indexed = slot.geometry->m_indexBuffer != nullptr;
+    if ( draw.indexed )
+    {
+      draw.indexCount = slot.geometry->m_indexCount;
+    }
+    else
+    {
+      draw.vertexCount = slot.geometry->m_vertexCount;
+    }
     stream.Write( draw );
   }
 }

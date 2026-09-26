@@ -69,15 +69,16 @@ void SceneNode::GetWorldMatrix( Matrix4* pWorldMatrixOut ) const
   }
 
   /// Calculate the local transform
-  Matrix4 trans = MatrixMakeTranslation( m_Position.x, m_Position.y, m_Position.z );
-  Matrix4 scale = MatrixMakeScale( m_Scale.x, m_Scale.y, m_Scale.z );
+  const Matrix4 trans = MatrixMakeTranslation( m_Position.x, m_Position.y, m_Position.z );
+  const Matrix4 scale = MatrixMakeScale( m_Scale.x, m_Scale.y, m_Scale.z );
+  const Matrix3 basis( m_Rotation );
+  const Matrix4 rotation( basis[0][0], basis[0][1], basis[0][2], 0,
+                          basis[1][0], basis[1][1], basis[1][2], 0,
+                          basis[2][0], basis[2][1], basis[2][2], 0,
+                          0, 0, 0, 1 );
 
-  Matrix4 local;
-  local.SetIdentity();
-  local = ( scale * trans );
-
-  /// Multiply with parent to get full matrix.
-  ( *pWorldMatrixOut ) = local * ( *pWorldMatrixOut );
+  // Column-vector convention: parent * translation * rotation * scale.
+  ( *pWorldMatrixOut ) = ( *pWorldMatrixOut ) * trans * rotation * scale;
 }
 
 
