@@ -52,7 +52,8 @@ private:
   Material* m_pMaterial;           ///< Material used to render this Particle grouping.
   HardwareBuffer* m_pVertexBuffer; ///< The vertex buffer. (6 verts, 2 tris)
   InputLayout* m_pInputLayout;     ///< The input layout which describes the vertex layout.
-  SubTexture* m_pTexture;          ///< SubTexture which is mapped to this particle.
+  std::unique_ptr<SubTexture> m_ownedTexture; ///< SubTexture created for a standalone texture.
+  SubTexture* m_pTexture;                     ///< Owned texture or borrowed atlas frame.
 
 public:
   ParticleGroup( RenderSystemPtr renderer, SpriteAtlasManagerPtr atlasManager, const std::string& name,
