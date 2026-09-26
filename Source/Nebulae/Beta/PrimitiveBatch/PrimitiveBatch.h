@@ -132,7 +132,7 @@ public:
   {
     VertexType* mappedVertices;
 
-    Draw( OT_LINELIST, false, nullptr, 0, 2, reinterpret_cast<void**>( &mappedVertices ) );
+    Draw( OT_LINE_STRIP, false, nullptr, 0, 2, reinterpret_cast<void**>( &mappedVertices ) );
 
     mappedVertices[0] = v1;
     mappedVertices[1] = v2;

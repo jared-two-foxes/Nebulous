@@ -9,9 +9,11 @@ enum OperationType
   OT_UNKNOWN = -1,
   OT_POINTS,
   OT_LINES,
-  OT_LINELIST,
+  OT_LINE_STRIP,
+  OT_LINELIST = OT_LINE_STRIP, // Compatibility alias.
   OT_TRIANGLES,
-  OT_TRIANGLELIST,
+  OT_TRIANGLE_STRIP,
+  OT_TRIANGLELIST = OT_TRIANGLE_STRIP, // Compatibility alias.
   OT_TRIANGLEFAN
 };
 

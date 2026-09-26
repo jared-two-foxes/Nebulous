@@ -8,6 +8,7 @@
 #include <vector>
 
 #include <Nebulae/Alpha/Shaders/UniformWrite.h>
+#include <Nebulae/Alpha/RenderSystem/OperationType.h>
 
 
 namespace Nebulae
@@ -72,6 +73,7 @@ struct PacketSetGeometry
   InputLayout* inputLayout;
   std::size_t stride;
   std::size_t offset;
+  OperationType topology;
 };
 
 static_assert( std::is_trivially_copyable_v<PacketSetGeometry>, "PacketSetGeometry must be trivially copyable." );
@@ -115,6 +117,10 @@ struct PacketDraw
   PacketHeader header;
   std::size_t vertexCount;
   std::size_t startVertex;
+  std::size_t indexCount;
+  std::size_t startIndex;
+  std::size_t baseVertex;
+  bool indexed;
 };
 
 static_assert( std::is_trivially_copyable_v<PacketDraw>, "PacketDraw must be trivially copyable." );
@@ -169,6 +175,16 @@ public:
     // from strict-aliasing violations (writing a typed pointer into uint8_t storage).
     const std::uint16_t alignedSize16 = static_cast<std::uint16_t>( alignedSize );
     std::memcpy( m_data.data() + oldSize + offsetof( PacketHeader, size ), &alignedSize16, sizeof( alignedSize16 ) );
+  }
+
+  template <typename T> void WritePayload( const T& packet, const void* payload, std::size_t payloadBytes )
+  {
+    const std::size_t offset = m_data.size();
+    Write( packet, payloadBytes );
+    if ( payloadBytes != 0 )
+    {
+      std::memcpy( m_data.data() + offset + sizeof( T ), payload, payloadBytes );
+    }
   }
 
 private:

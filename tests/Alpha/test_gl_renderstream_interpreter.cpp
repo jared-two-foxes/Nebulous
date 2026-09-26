@@ -249,6 +249,10 @@ public:
   int setDepthCalls = 0;
   int setClearCalls = 0;
   int drawCalls = 0;
+  int indexedDrawCalls = 0;
+  int setOperationCalls = 0;
+  OperationType lastOperation = OT_UNKNOWN;
+  std::size_t lastIndexCount = 0;
   std::size_t lastDrawCount = 0;
   std::size_t lastDrawStart = 0;
 
@@ -318,6 +322,20 @@ public:
     ++drawCalls;
     lastDrawCount = iVertexCount;
     lastDrawStart = iStartVertexLocation;
+  }
+
+  void DrawIndexed( std::size_t indexCount, std::size_t startIndex, std::size_t baseVertex ) override
+  {
+    ++indexedDrawCalls;
+    lastIndexCount = indexCount;
+    EXPECT_EQ( 0u, startIndex );
+    EXPECT_EQ( 0u, baseVertex );
+  }
+
+  void SetOperationType( OperationType type ) override
+  {
+    ++setOperationCalls;
+    lastOperation = type;
   }
 
   // Pure virtual method stubs (not tested, just needed for instantiation)
@@ -567,6 +585,7 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     geometry.inputLayout = &layout;
     geometry.stride = 24u;
     geometry.offset = 8u;
+    geometry.topology = OT_TRIANGLE_STRIP;
     stream.Write( geometry );
 
     PacketSetRenderState rsPacket = MakePacket<PacketSetRenderState>( PT_SetRenderState );
@@ -587,6 +606,8 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     EXPECT_EQ( &ib, rs.lastIB );
     EXPECT_EQ( 1, rs.setLayoutCalls );
     EXPECT_EQ( &layout, rs.lastLayout );
+    EXPECT_EQ( 1, rs.setOperationCalls );
+    EXPECT_EQ( OT_TRIANGLE_STRIP, rs.lastOperation );
 
     EXPECT_EQ( 1, rs.setBlendCalls );
     EXPECT_TRUE( rs.lastBlendEnabled );
@@ -598,6 +619,22 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     EXPECT_FLOAT_EQ( 0.75f, rs.lastClear[2] );
     EXPECT_FLOAT_EQ( 1.0f, rs.lastClear[3] );
   }
+}
+
+TEST_F( GLRenderStreamInterpreterTest, IndexedDrawPacketDispatchesToDrawIndexed )
+{
+  RenderSystemOGLStreamSpy rs( nullptr, nullptr );
+  RenderStream stream;
+  PacketDraw draw = MakePacket<PacketDraw>( PT_Draw );
+  draw.indexed = true;
+  draw.indexCount = 6;
+  stream.Write( draw );
+
+  rs.ExecuteStream( stream );
+
+  EXPECT_EQ( 0, rs.drawCalls );
+  EXPECT_EQ( 1, rs.indexedDrawCalls );
+  EXPECT_EQ( 6u, rs.lastIndexCount );
 }
 
 TEST_F( GLRenderStreamInterpreterTest, SetProgramPacketCreatesOrFindsProgramAndUsesIt )

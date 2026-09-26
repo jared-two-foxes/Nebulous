@@ -13,6 +13,7 @@ class RenderQueue;
 class RenderSystem;
 class SceneGraph;
 class SceneObject;
+class DrawItemList;
 
 /** SceneNode.
  */
@@ -59,7 +60,7 @@ public:
   SceneObject* CreateObject( const Material* material );
   bool DetachObject( SceneObject* subObj );
   SceneObject* FindSubObject( const Material* material ) const;
-  void FindVisibleObjects_( Camera* pCam, RenderQueue* pRenderQueue );
+  void TraverseNode( DrawItemList& items, int layer = 0 );
 
 }; // SceneNode
 

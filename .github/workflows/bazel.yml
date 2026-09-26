@@ -1,0 +1,32 @@
+name: Bazel
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bazel-contrib/setup-bazel@0.19.0
+        with:
+          bazelisk-cache: true
+          repository-cache: true
+      - name: Check Bazel version
+        run: bazel --version
+      - name: Build renderer and compiler tests
+        run: bazel build //Source/Nebulae/Beta:beta //tests:alpha_tests //tests:beta_tests
+      - name: Run compiler tests
+        run: bazel test //tests:beta_tests --test_output=errors
+      - name: Run GL stream dispatch tests
+        run: bazel test //tests:alpha_tests --test_output=errors --test_arg=--gtest_filter=GLRenderStreamInterpreterTest.HeaderWalkDispatchesAndSkipsUnknownPacketByHeaderSize:GLRenderStreamInterpreterTest.DispatchesSetGeometryAndSetRenderStatePackets:GLRenderStreamInterpreterTest.IndexedDrawPacketDispatchesToDrawIndexed

@@ -2,10 +2,12 @@
 #include "SceneGraph.h"
 
 #include <Nebulae/Alpha/Alpha.h>
+#include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 
 #include <Nebulae/Beta/Scene/ConstantBuffers.h>
 #include <Nebulae/Beta/Scene/SceneNode.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
+#include <Nebulae/Beta/RenderQueue/StreamCompiler.h>
 
 using namespace Nebulae;
 
@@ -104,25 +106,14 @@ void SceneGraph::RemoveSceneNode( SceneNode* pNode )
 
 void SceneGraph::Render( Camera* pCamera )
 {
-  // Clear the render queue.
-  PrepareRenderQueue_();
-  // Populate the list.
-  FindVisibleObjects_( pCamera );
-  // Render the list.
-  RenderVisibleObjects_( pCamera );
-}
-
-
-void SceneGraph::PrepareRenderQueue_() {}
-
-
-void SceneGraph::FindVisibleObjects_( Camera* pCamera )
-{
-  // TODO(Phase 5.1, SA-441): emit a DrawItem instead of queueing SceneObject.
-}
-
-
-void SceneGraph::RenderVisibleObjects_( Camera* pCamera )
-{
-  // TODO(Phase 5.1, SA-441): compile DrawItems into a RenderStream
+  if ( !m_RootSceneNode || !m_pRenderSystem )
+  {
+    return;
+  }
+  DrawItemList items;
+  m_RootSceneNode->TraverseNode( items );
+  RenderStream stream;
+  StreamCompiler compiler;
+  compiler.Compile( items, pCamera, stream );
+  m_pRenderSystem->ExecuteStream( stream );
 }

@@ -43,10 +43,6 @@ public:
   void RemoveSceneNode( SceneNode* node );
 
 private:
-  void PrepareRenderQueue_();
-  void FindVisibleObjects_( Camera* pCamera );
-  void RenderVisibleObjects_( Camera* pCamera );
-
 
 }; // SceneGraph
 

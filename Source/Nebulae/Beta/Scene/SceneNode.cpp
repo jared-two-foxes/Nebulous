@@ -5,7 +5,7 @@
 #include <Nebulae/Alpha/InputLayout/VertexDeceleration.h>
 
 #include <Nebulae/Beta/Material/Material.h>
-#include <Nebulae/Beta/RenderQueue/RenderQueue.h>
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Beta/Scene/SceneGraph.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
 
@@ -69,15 +69,16 @@ void SceneNode::GetWorldMatrix( Matrix4* pWorldMatrixOut ) const
   }
 
   /// Calculate the local transform
-  Matrix4 trans = MatrixMakeTranslation( m_Position.x, m_Position.y, m_Position.z );
-  Matrix4 scale = MatrixMakeScale( m_Scale.x, m_Scale.y, m_Scale.z );
+  const Matrix4 trans = MatrixMakeTranslation( m_Position.x, m_Position.y, m_Position.z );
+  const Matrix4 scale = MatrixMakeScale( m_Scale.x, m_Scale.y, m_Scale.z );
+  const Matrix3 basis( m_Rotation );
+  const Matrix4 rotation( basis[0][0], basis[0][1], basis[0][2], 0,
+                          basis[1][0], basis[1][1], basis[1][2], 0,
+                          basis[2][0], basis[2][1], basis[2][2], 0,
+                          0, 0, 0, 1 );
 
-  Matrix4 local;
-  local.SetIdentity();
-  local = ( scale * trans );
-
-  /// Multiply with parent to get full matrix.
-  ( *pWorldMatrixOut ) = local * ( *pWorldMatrixOut );
+  // Column-vector convention: parent * translation * rotation * scale.
+  ( *pWorldMatrixOut ) = ( *pWorldMatrixOut ) * trans * rotation * scale;
 }
 
 
@@ -186,25 +187,27 @@ SceneObject* SceneNode::FindSubObject( const Material* material ) const
 }
 
 
-void SceneNode::FindVisibleObjects_( Camera* camera, RenderQueue* renderQueue )
+void SceneNode::TraverseNode( DrawItemList& items, int layer )
 {
   // @todo: check if node is in the frustum (i.e. Do Culling)
 
   if ( m_bVisible )
   {
+    Matrix4 world;
+    world.SetIdentity();
+    GetWorldMatrix( &world );
+    items.RecordNodeWorld( this, world );
     for ( auto& object : m_Objects )
     {
       if ( object->IsVisible() )
       {
-        // TODO(Phase 5.1, SA-441): emit a DrawItem instead of quenueing the
-        // object directly. The DrawItem will contain a pointer to the
-        // SceneObject and a sort key.
+        object->EmitDrawItems( items, layer, 0 );
       }
     }
 
     for ( auto& childNode : m_ChildNodes )
     {
-      childNode->FindVisibleObjects_( camera, renderQueue );
+      childNode->TraverseNode( items, layer );
     }
   }
 }

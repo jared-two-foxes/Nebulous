@@ -366,13 +366,13 @@ void RenderSystem_OGL::SetOperationType( OperationType eType )
   case OT_LINES:
     m_OperationMode = GL_LINES;
     break;
-  case OT_LINELIST:
+  case OT_LINE_STRIP:
     m_OperationMode = GL_LINE_STRIP;
     break;
   case OT_TRIANGLES:
     m_OperationMode = GL_TRIANGLES;
     break;
-  case OT_TRIANGLELIST:
+  case OT_TRIANGLE_STRIP:
     m_OperationMode = GL_TRIANGLE_STRIP;
     break;
   case OT_TRIANGLEFAN:
@@ -582,6 +582,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
         SetIndexBuffer( packet->indexBuffer, 0 );
       }
       SetInputLayout( packet->inputLayout );
+      SetOperationType( packet->topology );
     }
     break;
 
@@ -664,7 +665,14 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     case PT_Draw:
     {
       const PacketDraw* packet = reinterpret_cast<const PacketDraw*>( data + offset );
-      Draw( packet->vertexCount, packet->startVertex );
+      if ( packet->indexed )
+      {
+        DrawIndexed( packet->indexCount, packet->startIndex, packet->baseVertex );
+      }
+      else
+      {
+        Draw( packet->vertexCount, packet->startVertex );
+      }
     }
     break;
 
