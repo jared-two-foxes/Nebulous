@@ -81,15 +81,15 @@ void ParticleEmitter::Update( const uint64 elapsed )
     for ( size_t i = 0; i < count; ++i )
     {
       Particle* particle = group->SpawnParticle();
-
-      NE_ASSERT( particle != NULL, "Unable to spawn new particle." );
-
-      if ( particle )
+      if ( particle == nullptr )
       {
-        // Store the original position.
-        particle->m_position = m_position; //< Assumes the emitters location is the emitter position.
-        particle->m_velocity = m_emissionForce.Value();
+        // The group has reached capacity; drop the rest of this spawn batch.
+        break;
       }
+
+      // Store the original position.
+      particle->m_position = m_position; //< Assumes the emitters location is the emitter position.
+      particle->m_velocity = m_emissionForce.Value();
     }
   }
 
