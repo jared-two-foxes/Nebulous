@@ -716,6 +716,33 @@ TEST_F( GLRenderStreamInterpreterTest, RejectsInvalidPacketSize )
   EXPECT_FALSE( g_logMessages.empty() );
 }
 
+TEST_F( GLRenderStreamInterpreterTest, RejectsMisalignedPacketSizeBeforeReadingNextHeader )
+{
+  RenderSystemOGLStreamSpy rs( nullptr, nullptr );
+  RenderStream stream;
+  struct UnknownPacket
+  {
+    PacketHeader header;
+    std::uint32_t payload;
+  };
+  UnknownPacket unknown = MakePacket<UnknownPacket>( 0x7FFFu );
+  stream.Write( unknown );
+  PacketDraw draw = MakePacket<PacketDraw>( PT_Draw );
+  draw.vertexCount = 3;
+  stream.Write( draw );
+
+  // A six-byte length would step into the packet body, where a forged draw header starts.
+  const std::uint16_t misalignedSize = 6;
+  std::uint8_t* data = const_cast<std::uint8_t*>( stream.Data() );
+  std::memcpy( data + offsetof( PacketHeader, size ), &misalignedSize, sizeof( misalignedSize ) );
+  std::memcpy( data + misalignedSize, &draw, sizeof( draw ) );
+
+  rs.ExecuteStream( stream );
+  FlushCapturedLogs();
+  EXPECT_EQ( 0, rs.drawCalls );
+  EXPECT_FALSE( g_logMessages.empty() );
+}
+
 TEST_F( GLRenderStreamInterpreterTest, RejectsShortUniformPayloadAndContinues )
 {
   RenderSystemOGLStreamSpy rs( nullptr, nullptr );

@@ -580,9 +580,9 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
     const PacketHeader* header = reinterpret_cast<const PacketHeader*>( data + offset );
 
     // Check if the packet fits in the stream
-    if ( header->size < sizeof( PacketHeader ) || header->size > size - offset )
+    if ( header->size < sizeof( PacketHeader ) || ( header->size & 3u ) != 0 || header->size > size - offset )
     {
-      NE_LOG_WARN( "RenderSystem", "packet at offset %zu exceeds stream size (header.size=%u)", offset, header->size );
+      NE_LOG_WARN( "RenderSystem", "invalid packet size at offset %zu (header.size=%u)", offset, header->size );
       break;
     }
 
