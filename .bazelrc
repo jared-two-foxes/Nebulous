@@ -33,10 +33,5 @@ test:exhaustive --test_size_filters=small,medium,large
 
 
 
-# ============================================================================
-# CACHING & OUTPUT (outside repo to avoid spurious failures)
-# ============================================================================
+# Bazel chooses per-user output and cache paths on local machines and CI.
 build --verbose_failures
-startup --output_user_root=C:/Users/iapet/AppData/Local/Bazel
-build --disk_cache=C:/Users/iapet/AppData/Local/Bazel/cache
-build --repo_contents_cache=C:/Users/iapet/AppData/Local/Bazel/repo_cache
