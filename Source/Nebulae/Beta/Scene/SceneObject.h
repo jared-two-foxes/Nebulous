@@ -16,6 +16,8 @@ class Geometry;
 class InputLayout;
 class RenderSystem;
 class SceneNode;
+struct SpriteAtlasUtils;
+struct SpriteFrameState;
 
 struct RenderSlot
 {
@@ -34,6 +36,7 @@ struct RenderSlot
  */
 class SceneObject
 {
+  friend struct SpriteAtlasUtils;
 public:
   typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 
@@ -44,6 +47,7 @@ private:
   SceneNode* m_node;
   bool m_visible;
   std::vector<RenderSlot> m_slots;
+  std::unique_ptr<SpriteFrameState> m_spriteFrameState;
 
 public:
   explicit SceneObject( SceneNode* parent );

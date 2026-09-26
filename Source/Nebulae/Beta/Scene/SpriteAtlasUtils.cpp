@@ -54,7 +54,8 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   NE_ASSERT( pSpriteAtlas, "" );
 
   // Early out if there are any issues with the parameters.
-  if ( renderer.expired() || material == nullptr || pObj == nullptr || pSpriteAtlas == nullptr )
+  if ( renderer.expired() || material == nullptr || pObj == nullptr || pSpriteAtlas == nullptr ||
+       pObj->GetSlotCount() == 0 )
   {
     return;
   }
@@ -66,6 +67,36 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   SubTexture* subTexture = pSpriteAtlas->FindModuleSubTexture( strFrameName );
   NE_ASSERT( subTexture, "" );
   if ( subTexture == nullptr )
+  {
+    return;
+  }
+
+  // The provider reads this state on every compile. Changing frames only changes these values.
+  const bool firstFrame = !pObj->m_spriteFrameState;
+  if ( firstFrame )
+  {
+    pObj->m_spriteFrameState = std::make_unique<SpriteFrameState>();
+    SpriteFrameState* state = pObj->m_spriteFrameState.get();
+    pObj->AddProvider( "sprite", [state]( UniformBinder& binder )
+                       {
+                         binder.Set( "size", state->size );
+                         binder.Set( "offset", state->offset );
+                         binder.Set( "min_uv", state->minUv );
+                         binder.Set( "max_uv", state->maxUv );
+                         binder.SetTexture( "diffuseTexture", state->texture, 0 );
+                       } );
+  }
+
+  SpriteFrameState& state = *pObj->m_spriteFrameState;
+  state.size = Vector2( static_cast<Real>( subTexture->GetWidth() ), static_cast<Real>( subTexture->GetHeight() ) );
+  state.offset = Vector2( 0.0f, 0.0f );
+  state.minUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0],
+                         iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1] );
+  state.maxUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2],
+                         iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3] );
+  state.texture = subTexture->GetTexture();
+
+  if ( !firstFrame )
   {
     return;
   }
@@ -93,27 +124,6 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   pGeometry->m_vertexCount = 6;
   // pGeometry->m_VertexSize       = 2*sizeof(float);
   pGeometry->m_primitiveTopology = OT_TRIANGLES;
-
-  //
-  // Setup uniforms via keyed providers.
-  //
-  float width = static_cast<float>( subTexture->GetWidth() );
-  float height = static_cast<float>( subTexture->GetHeight() );
-  float minU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0];
-  float minV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1];
-  float maxU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2];
-  float maxV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3];
-  const Texture* texturePtr = subTexture->GetTexture();
-
-  pObj->AddProvider( "sprite",
-                     [=]( UniformBinder& binder )
-                     {
-                       binder.Set( "size", Vector2( width, height ) );
-                       binder.Set( "offset", Vector2( 0.0f, 0.0f ) );
-                       binder.Set( "min_uv", Vector2( minU, minV ) );
-                       binder.Set( "max_uv", Vector2( maxU, maxV ) );
-                       binder.SetTexture( "diffuseTexture", texturePtr, 0 );
-                     } );
 
   //
   // Iterate and setup passes.
