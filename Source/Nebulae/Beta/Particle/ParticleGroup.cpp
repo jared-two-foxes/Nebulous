@@ -39,14 +39,7 @@ ParticleGroup::ParticleGroup( RenderSystemPtr renderDevice, SpriteAtlasManagerPt
 {
 }
 
-ParticleGroup::~ParticleGroup()
-{
-  if ( m_pTexture != nullptr )
-  {
-    delete m_pTexture;
-    m_pTexture = nullptr;
-  }
-}
+ParticleGroup::~ParticleGroup() = default;
 
 bool ParticleGroup::Load( File& is )
 {
@@ -58,6 +51,15 @@ bool ParticleGroup::Load( File& is )
   Json::Value root;
   if ( !ParseJSON( is, &root ) )
   {
+    return false;
+  }
+
+  const char* texture_name = json_cast_with_default<const char*>( root["texture"], nullptr );
+  const char* atlas_name = json_cast_with_default<const char*>( root["atlas"], nullptr );
+  const char* frame_name = json_cast_with_default<const char*>( root["frame"], nullptr );
+  if ( texture_name == nullptr && ( atlas_name == nullptr || frame_name == nullptr || !m_atlasManager ) )
+  {
+    NE_LOG_WARN( "ParticleGroup", "Group '%s' needs a texture or an atlas frame", m_name.c_str() );
     return false;
   }
 
@@ -95,10 +97,6 @@ bool ParticleGroup::Load( File& is )
 
   delete pVertexDecl;
 
-  const char* texture_name = json_cast_with_default<const char*>( root["texture"], nullptr );
-  const char* atlas_name = json_cast_with_default<const char*>( root["atlas"], nullptr );
-  const char* frame_name = json_cast_with_default<const char*>( root["frame"], nullptr );
-
   // Load the texture to act as the appearance of the Particle.
   if ( texture_name != nullptr )
   {
@@ -109,7 +107,8 @@ bool ParticleGroup::Load( File& is )
     }
 
     NE_ASSERT( texture != nullptr, "Unable to find or create the Texture named '%s'", texture_name );
-    m_pTexture = new SubTexture( texture, 0, 0, 1.0f, 1.0f );
+    m_ownedTexture.reset( new SubTexture( texture, 0, 0, 1.0f, 1.0f ) );
+    m_pTexture = m_ownedTexture.get();
   }
   else if ( atlas_name != nullptr )
   {
@@ -134,7 +133,7 @@ bool ParticleGroup::Load( File& is )
   m_template_life.SetConstant( json_cast_with_default<Real>( root["life"], 1.0f ) );
   m_template_scale.SetConstant( json_cast_with_default<Real>( root["scale"], 1.0f ) );
 
-  return true;
+  return m_pTexture != nullptr;
 }
 
 std::size_t ParticleGroup::GetParticleCount() const { return m_particles.size(); }

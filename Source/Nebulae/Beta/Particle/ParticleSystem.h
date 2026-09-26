@@ -28,8 +28,8 @@ private:
   FileArchivePtr m_fileSystem;
   RenderSystemPtr m_renderDevice;
   AtlasManagerPtr m_atlasManager;
-  std::vector<ParticleGroup*> m_groups;     ///< List of all the ParticleGroups known to the system.
-  std::vector<ParticleEmitter*> m_emitters; ///< List of all the ParticleEmitters known to the system.
+  std::vector<std::unique_ptr<ParticleGroup>> m_groups;     ///< Owned particle groups.
+  std::vector<std::unique_ptr<ParticleEmitter>> m_emitters; ///< Owned particle emitters.
   Camera* m_camera;                         ///< Camera used to render the particles.
 
 public:
