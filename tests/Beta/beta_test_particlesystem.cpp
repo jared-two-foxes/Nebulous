@@ -7,12 +7,13 @@
 
 #include <Nebulae/Beta/Camera/Camera.h>
 #include <Nebulae/Beta/Particle/ParticleEmitter.h>
+#define private public
 #include <Nebulae/Beta/Particle/ParticleGroup.h>
+#undef private
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 #include <Nebulae/Alpha/Texture/SubTexture.h>
 #include <Nebulae/Alpha/Texture/TextureImpl.h>
-#include <Nebulae/Alpha/InputLayout/InputLayoutImpl.h>
 #include <Nebulae/Common/FileSystem/FileDevice.h>
 #include <Mock/MockRenderSystem.h>
 
@@ -90,9 +91,6 @@ protected:
     ASSERT_TRUE( renderer->Initiate() );
     ON_CALL( *renderer, CreateTextureImpl( testing::_ ) )
       .WillByDefault( []( const std::string& name ) { return new TestTextureImpl( name ); } );
-    ON_CALL( *renderer, CreateInputLayoutImpl( testing::_, testing::_ ) )
-      .WillByDefault( []( VertexDeceleration* decl, HardwareShader* shader )
-                      { return new InputLayoutImpl( decl, shader ); } );
   }
 };
 } // namespace
@@ -102,6 +100,7 @@ TEST_F( ParticleSystemTest, LoadsGroupsAndEmittersThenAdvancesAndExpiresParticle
   ParticleSystem system( fileSystem, renderer, nullptr );
   ParticleGroup* group = system.CreateGroup( "group.json" );
   ASSERT_NE( nullptr, group );
+  EXPECT_EQ( group->m_ownedTexture.get(), group->m_pTexture );
   EXPECT_EQ( group, system.CreateGroup( "group.json" ) );
 
   ParticleEmitter* emitter = system.CreateEmitter( "emitter.json" );
@@ -131,27 +130,28 @@ TEST_F( ParticleSystemTest, RejectsGroupsWithoutAnImage )
   EXPECT_TRUE( system.m_groups.empty() );
 }
 
-TEST_F( ParticleSystemTest, ClearingOneGroupKeepsSharedAtlasFrameUsable )
+TEST_F( ParticleSystemTest, ClearingAtlasGroupKeepsAtlasFrameUsable )
 {
   files.files["atlas.json"] = R"({"meta":{"image":"particle.png","size":{"w":8,"h":8}},"frames":[{"filename":"spark","frame":{"x":0,"y":0,"w":8,"h":8}}]})";
   files.files["atlas-group.json"] = R"({"atlas":"atlas.json","frame":"spark","life":1})";
   auto atlases = std::make_shared<SpriteAtlasManager>( fileSystem, renderer );
-  ParticleSystem first( fileSystem, renderer, atlases );
-  ParticleSystem second( fileSystem, renderer, atlases );
-  ASSERT_NE( nullptr, first.CreateGroup( "atlas-group.json" ) );
-  ParticleGroup* remaining = second.CreateGroup( "atlas-group.json" );
-  ASSERT_NE( nullptr, remaining );
+  ParticleSystem system( fileSystem, renderer, atlases );
+  ParticleGroup* group = system.CreateGroup( "atlas-group.json" );
+  ASSERT_NE( nullptr, group );
   SubTexture* frame = atlases->GetByName( "atlas.json" )->FindModuleSubTexture( "spark" );
   ASSERT_NE( nullptr, frame );
+  EXPECT_EQ( nullptr, group->m_ownedTexture.get() );
+  EXPECT_EQ( frame, group->m_pTexture );
 
-  first.Clear();
+  ASSERT_NE( nullptr, group->SpawnParticle() );
+  Camera camera;
+  system.SetCamera( &camera );
+  EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 1 );
+  system.Render();
+
+  system.Clear();
   EXPECT_EQ( frame, atlases->GetByName( "atlas.json" )->FindModuleSubTexture( "spark" ) );
   EXPECT_EQ( 8, frame->GetWidth() );
-  ASSERT_NE( nullptr, remaining->SpawnParticle() );
-  Camera camera;
-  second.SetCamera( &camera );
-  EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 1 );
-  second.Render();
 }
 
 TEST_F( ParticleSystemTest, DestroyEmitterAndClearReleaseOwnedObjects )
