@@ -19,8 +19,36 @@
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 
+#include <algorithm>
+
 
 using namespace Nebulae;
+
+namespace
+{
+struct SpriteFrameState
+{
+  Vector2 size;
+  Vector2 offset;
+  Vector2 minUv;
+  Vector2 maxUv;
+  const Texture* texture = nullptr;
+};
+
+struct SpriteFrameProvider
+{
+  std::shared_ptr<SpriteFrameState> state;
+
+  void operator()( UniformBinder& binder ) const
+  {
+    binder.Set( "size", state->size );
+    binder.Set( "offset", state->offset );
+    binder.Set( "min_uv", state->minUv );
+    binder.Set( "max_uv", state->maxUv );
+    binder.SetTexture( "diffuseTexture", state->texture, 0 );
+  }
+};
+} // namespace
 
 
 const float g_fBillboardVertices[] = { 0.0f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f };
@@ -70,6 +98,47 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     return;
   }
 
+  std::size_t slotIndex = 0;
+  while ( slotIndex < pObj->GetSlotCount() && pObj->GetSlot( slotIndex ).material != material )
+  {
+    ++slotIndex;
+  }
+  if ( slotIndex == pObj->GetSlotCount() )
+  {
+    slotIndex = pObj->AddSlot( material );
+  }
+
+  // Reuse the state captured by the registered provider; it lives as long as the provider.
+  const auto& providers = pObj->GetSlot( slotIndex ).providers;
+  const auto it = std::find_if( providers.begin(), providers.end(),
+                                []( const auto& entry ) { return entry.first == "sprite"; } );
+  const SpriteFrameProvider* existing =
+    it == providers.end() ? nullptr : it->second.target<SpriteFrameProvider>();
+  const bool firstFrame = existing == nullptr;
+  std::shared_ptr<SpriteFrameState> state;
+  if ( firstFrame )
+  {
+    state = std::make_shared<SpriteFrameState>();
+    pObj->AddSlotProvider( slotIndex, "sprite", SpriteFrameProvider{ state } );
+  }
+  else
+  {
+    state = existing->state;
+  }
+
+  state->size = Vector2( static_cast<Real>( subTexture->GetWidth() ), static_cast<Real>( subTexture->GetHeight() ) );
+  state->offset = Vector2( 0.0f, 0.0f );
+  state->minUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0],
+                         iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1] );
+  state->maxUv = Vector2( iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2],
+                         iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3] );
+  state->texture = subTexture->GetTexture();
+
+  if ( !firstFrame )
+  {
+    return;
+  }
+
   //
   // Setup the Geometry struct for render operation.
   //
@@ -95,27 +164,6 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   pGeometry->m_primitiveTopology = OT_TRIANGLES;
 
   //
-  // Setup uniforms via keyed providers.
-  //
-  float width = static_cast<float>( subTexture->GetWidth() );
-  float height = static_cast<float>( subTexture->GetHeight() );
-  float minU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0];
-  float minV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1];
-  float maxU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2];
-  float maxV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3];
-  const Texture* texturePtr = subTexture->GetTexture();
-
-  pObj->AddProvider( "sprite",
-                     [=]( UniformBinder& binder )
-                     {
-                       binder.Set( "size", Vector2( width, height ) );
-                       binder.Set( "offset", Vector2( 0.0f, 0.0f ) );
-                       binder.Set( "min_uv", Vector2( minU, minV ) );
-                       binder.Set( "max_uv", Vector2( maxU, maxV ) );
-                       binder.SetTexture( "diffuseTexture", texturePtr, 0 );
-                     } );
-
-  //
   // Iterate and setup passes.
   //
   if ( material->GetPassCount() > 0 )
@@ -129,8 +177,8 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     }
 
     // Set pass data for object.
-    pObj->SetSlotGeometry( 0, pGeometry );
-    pObj->SetSlotInputLayout( 0, inputLayout );
+    pObj->SetSlotGeometry( slotIndex, pGeometry );
+    pObj->SetSlotInputLayout( slotIndex, inputLayout );
   }
 }
 

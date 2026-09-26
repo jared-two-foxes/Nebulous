@@ -57,6 +57,7 @@ public:
   const RenderSlot& GetSlot( std::size_t index ) const;
   void SetVisible( bool bVisible );
   void AddProvider( const std::string& key, UniformProvider provider );
+  void AddSlotProvider( std::size_t slotIndex, const std::string& key, UniformProvider provider );
   void SetSlotGeometry( std::size_t slotIndex, Geometry* geometry );
   void SetSlotInputLayout( std::size_t slotIndex, InputLayout* inputLayout );
   void EmitDrawItems( DrawItemList& items, int layer, int depth );
