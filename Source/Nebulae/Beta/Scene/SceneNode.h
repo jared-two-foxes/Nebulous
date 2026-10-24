@@ -9,7 +9,6 @@ namespace Nebulae
 // Forward Deceleration
 class Camera;
 class Material;
-class RenderQueue;
 class RenderSystem;
 class SceneGraph;
 class SceneObject;
