@@ -14,6 +14,11 @@
 
 using namespace Nebulae;
 
+static_assert( !std::is_copy_constructible_v<SceneObject> );
+static_assert( !std::is_copy_assignable_v<SceneObject> );
+static_assert( !std::is_move_constructible_v<SceneObject> );
+static_assert( !std::is_move_assignable_v<SceneObject> );
+
 TEST( SceneObject, AddSlot_ReturnsZeroBasedIndexAndStoresMaterial )
 {
   SceneObject object( nullptr );
