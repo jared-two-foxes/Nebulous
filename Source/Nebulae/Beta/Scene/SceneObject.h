@@ -16,6 +16,16 @@ class Geometry;
 class InputLayout;
 class RenderSystem;
 class SceneNode;
+class Texture;
+
+struct SpriteFrameState
+{
+  Vector2 size;
+  Vector2 offset;
+  Vector2 minUv;
+  Vector2 maxUv;
+  const Texture* diffuseTexture = nullptr;
+};
 
 struct RenderSlot
 {
@@ -44,10 +54,17 @@ private:
   SceneNode* m_node;
   bool m_visible;
   std::vector<RenderSlot> m_slots;
+  SpriteFrameState m_spriteFrameState;
 
 public:
   explicit SceneObject( SceneNode* parent );
   ~SceneObject();
+
+  // Providers may capture pointers to this object's state.
+  SceneObject( const SceneObject& ) = delete;
+  SceneObject& operator=( const SceneObject& ) = delete;
+  SceneObject( SceneObject&& ) = delete;
+  SceneObject& operator=( SceneObject&& ) = delete;
 
   int GetIdentifier() const;
   SceneNode* GetNode() const;
@@ -55,6 +72,7 @@ public:
   std::size_t AddSlot( const Material* material );
   std::size_t GetSlotCount() const;
   const RenderSlot& GetSlot( std::size_t index ) const;
+  SpriteFrameState& GetSpriteFrameState();
   void SetVisible( bool bVisible );
   void AddProvider( const std::string& key, UniformProvider provider );
   void SetSlotGeometry( std::size_t slotIndex, Geometry* geometry );

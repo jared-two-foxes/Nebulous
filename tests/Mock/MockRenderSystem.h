@@ -27,8 +27,8 @@ public:
 
 
   // factory functions.
-  MOCK_METHOD2( CreateInputLayoutImpl,
-                InputLayoutImpl*( VertexDeceleration* pVertexDecl, HardwareShader* pVertexShader ) );
+  MOCK_METHOD( InputLayoutImpl*, CreateInputLayoutImpl,
+               ( const VertexDeceleration* pVertexDecl, const HardwareShader* pVertexShader ), ( override ) );
   MOCK_METHOD4( CreateBufferImpl, HardwareBufferImpl*( HardwareBufferUsage usage, size_t sizeInBytes,
                                                        HardwareBufferBinding bindFlags, void* sysMem ) );
   MOCK_METHOD2( CreateShaderImpl, HardwareShaderImpl*( const std::string& strFileName, HardwareShaderType eType ) );

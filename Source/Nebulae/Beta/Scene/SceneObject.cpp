@@ -50,6 +50,9 @@ std::size_t SceneObject::GetSlotCount() const { return m_slots.size(); }
 const RenderSlot& SceneObject::GetSlot( std::size_t index ) const { return m_slots[index]; }
 
 
+SpriteFrameState& SceneObject::GetSpriteFrameState() { return m_spriteFrameState; }
+
+
 void SceneObject::SetVisible( bool bVisible ) { m_visible = bVisible; }
 
 

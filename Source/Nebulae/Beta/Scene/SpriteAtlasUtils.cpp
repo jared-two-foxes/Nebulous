@@ -71,30 +71,6 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   }
 
   //
-  // Setup the Geometry struct for render operation.
-  //
-  // Grab the vertex buffer.
-  HardwareBuffer* buffer = renderDevicePtr->FindBufferByName( "billboardVertexBuffer" );
-  if ( buffer == nullptr )
-  {
-    // Vertex buffer wasn't found, create it.
-    buffer = renderDevicePtr->CreateBuffer( "billboardVertexBuffer", HBU_STATIC_WRITE_ONLY, 12 * sizeof( float ),
-                                            HBB_VERTEX, (void*)&g_fBillboardVertices[0] );
-  }
-
-  // Create the vertex description.
-  VertexDeceleration* pVertexDecl = new VertexDeceleration( 2 );
-  pVertexDecl->AddElement( VET_FLOAT2, VES_POSITION, 0 );
-
-  // Create Geometry.
-  Geometry* pGeometry = new Geometry();
-  pGeometry->m_vertexBuffer = buffer;
-  pGeometry->m_vertexDeceleration = pVertexDecl;
-  pGeometry->m_vertexCount = 6;
-  // pGeometry->m_VertexSize       = 2*sizeof(float);
-  pGeometry->m_primitiveTopology = OT_TRIANGLES;
-
-  //
   // Setup uniforms via keyed providers.
   //
   float width = static_cast<float>( subTexture->GetWidth() );
@@ -105,32 +81,75 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   float maxV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3];
   const Texture* texturePtr = subTexture->GetTexture();
 
-  pObj->AddProvider( "sprite",
-                     [=]( UniformBinder& binder )
-                     {
-                       binder.Set( "size", Vector2( width, height ) );
-                       binder.Set( "offset", Vector2( 0.0f, 0.0f ) );
-                       binder.Set( "min_uv", Vector2( minU, minV ) );
-                       binder.Set( "max_uv", Vector2( maxU, maxV ) );
-                       binder.SetTexture( "diffuseTexture", texturePtr, 0 );
-                     } );
+  SpriteFrameState* state = &pObj->GetSpriteFrameState();
+  state->size = Vector2( width, height );
+  state->offset = Vector2( 0.0f, 0.0f );
+  state->minUv = Vector2( minU, minV );
+  state->maxUv = Vector2( maxU, maxV );
+  state->diffuseTexture = texturePtr;
 
-  //
-  // Iterate and setup passes.
-  //
-  if ( material->GetPassCount() > 0 )
+  // AddProvider registers on all existing slots.  Check wheth that
+  // object-wide registeration has already happened.
+  bool spriteProviderRegistered = false;
+  for ( std::size_t slotIndex = 0; slotIndex < pObj->GetSlotCount() && !spriteProviderRegistered; ++slotIndex )
   {
-    // Attempt to grab the input layout for this pass.
-    InputLayout* inputLayout =
-      renderDevicePtr->FindInputLayoutByUsage( pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
-    if ( inputLayout == nullptr )
+    for ( const auto& entry : pObj->GetSlot( slotIndex ).providers )
     {
-      inputLayout = renderDevicePtr->CreateInputLayout( "", pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
+      if ( entry.first == "sprite_frame" )
+      {
+        spriteProviderRegistered = true;
+        break;
+      }
+    }
+  }
+
+  if ( !spriteProviderRegistered )
+  {
+    if ( material->GetPassCount() > 0 && pObj->GetSlotCount() > 0 )
+    {
+      // Grab the vertex buffer.
+      HardwareBuffer* buffer = renderDevicePtr->FindBufferByName( "billboardVertexBuffer" );
+      if ( buffer == nullptr )
+      {
+        // Vertex buffer wasn't found, create it.
+        buffer = renderDevicePtr->CreateBuffer( "billboardVertexBuffer", HBU_STATIC_WRITE_ONLY, 12 * sizeof( float ),
+                                                HBB_VERTEX, (void*)&g_fBillboardVertices[0] );
+      }
+
+      // Create the vertex description.
+      VertexDeceleration* pVertexDecl = new VertexDeceleration( 2 );
+      pVertexDecl->AddElement( VET_FLOAT2, VES_POSITION, 0 );
+
+      // Create Geometry.
+      Geometry* pGeometry = new Geometry();
+      pGeometry->m_vertexBuffer = buffer;
+      pGeometry->m_vertexDeceleration = pVertexDecl;
+      pGeometry->m_vertexCount = 6;
+      // pGeometry->m_VertexSize       = 2*sizeof(float);
+      pGeometry->m_primitiveTopology = OT_TRIANGLES;
+
+      // Attempt to grab the input layout for this pass.
+      InputLayout* inputLayout =
+        renderDevicePtr->FindInputLayoutByUsage( pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
+      if ( inputLayout == nullptr )
+      {
+        inputLayout = renderDevicePtr->CreateInputLayout( "", pVertexDecl, material->GetPass( 0 )->GetVertexShader() );
+      }
+
+      // Set pass data for object.
+      pObj->SetSlotGeometry( 0, pGeometry );
+      pObj->SetSlotInputLayout( 0, inputLayout );
     }
 
-    // Set pass data for object.
-    pObj->SetSlotGeometry( 0, pGeometry );
-    pObj->SetSlotInputLayout( 0, inputLayout );
+    pObj->AddProvider( "sprite_frame",
+                       [state]( UniformBinder& binder )
+                       {
+                         binder.Set( "size", state->size );
+                         binder.Set( "offset", state->offset );
+                         binder.Set( "min_uv", state->minUv );
+                         binder.Set( "max_uv", state->maxUv );
+                         binder.SetTexture( "diffuseTexture", state->diffuseTexture, 0 );
+                       } );
   }
 }
 
