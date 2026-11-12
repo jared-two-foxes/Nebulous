@@ -294,6 +294,7 @@ public:
   std::size_t lastOffset = 0;
   bool lastBlendEnabled = false;
   bool lastDepthEnabled = false;
+  bool lastDepthWriteEnabled = true;
   float lastClear[4] = {};
 
   void SetShaders( HardwareShader* vertexShader, HardwareShader* fragmentShader ) override
@@ -336,6 +337,8 @@ public:
     ++setDepthCalls;
     lastDepthEnabled = enable;
   }
+
+  void SetDepthWrite( bool enable ) override { lastDepthWriteEnabled = enable; }
 
   void SetClearColour( float r, float g, float b, float a ) override
   {
@@ -632,6 +635,7 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     PacketSetRenderState rsPacket = MakePacket<PacketSetRenderState>( PT_SetRenderState );
     rsPacket.blendingEnabled = true;
     rsPacket.depthTestEnabled = false;
+    rsPacket.depthWriteDisabled = true;
     rsPacket.clearColourR = 0.25f;
     rsPacket.clearColourG = 0.5f;
     rsPacket.clearColourB = 0.75f;
@@ -654,6 +658,7 @@ TEST_F( GLRenderStreamInterpreterTest, DispatchesSetGeometryAndSetRenderStatePac
     EXPECT_TRUE( rs.lastBlendEnabled );
     EXPECT_EQ( 1, rs.setDepthCalls );
     EXPECT_FALSE( rs.lastDepthEnabled );
+    EXPECT_FALSE( rs.lastDepthWriteEnabled );
     EXPECT_EQ( 1, rs.setClearCalls );
     EXPECT_FLOAT_EQ( 0.25f, rs.lastClear[0] );
     EXPECT_FLOAT_EQ( 0.5f, rs.lastClear[1] );

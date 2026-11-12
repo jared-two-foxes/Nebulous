@@ -84,6 +84,7 @@ struct PacketSetRenderState
   PacketHeader header;
   bool blendingEnabled;
   bool depthTestEnabled;
+  bool depthWriteDisabled; ///< Inverted so zero-initialised packets keep depth writes enabled.
   float clearColourR;
   float clearColourG;
   float clearColourB;

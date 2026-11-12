@@ -78,6 +78,16 @@ bool ParticleGroup::Load( File& is )
   blendState.isTransparent = true;
   pass->SetBlendState( blendState );
 
+  // StreamCompiler only resolves uniforms present in the pass schema.  Reflection only sees programs the render
+  // system has already linked, so link the shader pair first, then install the reflected schema.
+  m_renderDevice->SetShaders( vertexShader, pixelShader );
+  m_pMaterial->RefreshUniformSchemas( m_renderDevice.get() );
+  if ( pass->GetUniformSchema().empty() )
+  {
+    NE_LOG_WARN( "ParticleGroup", "Group '%s' could not reflect its particle shader uniforms", m_name.c_str() );
+    return false;
+  }
+
   m_pVertexBuffer = m_renderDevice->FindBufferByName( "ParticleVertexBuffer" );
   if ( !m_pVertexBuffer )
   {
@@ -168,21 +178,21 @@ void ParticleGroup::InitRenderPool()
     // Capture stable pointers: m_particleWorlds[i] and m_pTexture never move after InitRenderPool.
     Matrix4* worldPtr = &m_particleWorlds[i];
     const SubTexture* tex = m_pTexture;
-    obj->AddProvider( "particle_world", [worldPtr]( UniformBinder& binder ) {
-      binder.Set( "world", *worldPtr );
-    } );
-    obj->AddProvider( "particle_texture", [tex]( UniformBinder& binder ) {
-      Real textureWidth = static_cast<Real>( tex->GetWidth() );
-      Vector2 size( textureWidth, static_cast<Real>( tex->GetHeight() ) );
-      Vector2 offset( -0.5f * textureWidth, 0.0f );
-      Vector2 minUv( tex->GetTexCoords()[0], tex->GetTexCoords()[1] );
-      Vector2 maxUv( tex->GetTexCoords()[2], tex->GetTexCoords()[3] );
-      binder.Set( "size", size );
-      binder.Set( "offset", offset );
-      binder.Set( "min_uv", minUv );
-      binder.Set( "max_uv", maxUv );
-      binder.SetTexture( "diffuseTexture", tex->GetTexture(), 0 );
-    } );
+    obj->AddProvider( "particle_world", [worldPtr]( UniformBinder& binder ) { binder.Set( "world", *worldPtr ); } );
+    obj->AddProvider( "particle_texture",
+                      [tex]( UniformBinder& binder )
+                      {
+                        Real textureWidth = static_cast<Real>( tex->GetWidth() );
+                        Vector2 size( textureWidth, static_cast<Real>( tex->GetHeight() ) );
+                        Vector2 offset( -0.5f * textureWidth, 0.0f );
+                        Vector2 minUv( tex->GetTexCoords()[0], tex->GetTexCoords()[1] );
+                        Vector2 maxUv( tex->GetTexCoords()[2], tex->GetTexCoords()[3] );
+                        binder.Set( "size", size );
+                        binder.Set( "offset", offset );
+                        binder.Set( "min_uv", minUv );
+                        binder.Set( "max_uv", maxUv );
+                        binder.SetTexture( "diffuseTexture", tex->GetTexture(), 0 );
+                      } );
 
     m_objectPool.push_back( std::move( obj ) );
   }
@@ -257,14 +267,15 @@ struct FarSortOrder
 
     float resl = ( lhs->m_position - pos ).dot( dir );
     float resr = ( rhs->m_position - pos ).dot( dir );
-    return resl < resr;
+    return resl > resr; // larger view-space depth first, i.e. farthest particle drawn first
   }
 };
 } // namespace
 
 void ParticleGroup::EmitDrawItems( DrawItemList& items, const Camera* camera )
 {
-  if ( m_particles.empty() ) return;
+  if ( m_particles.empty() )
+    return;
 
   // Sort far-to-near for correct transparency compositing.
   std::sort( m_particles.begin(), m_particles.end(), FarSortOrder( camera ) );

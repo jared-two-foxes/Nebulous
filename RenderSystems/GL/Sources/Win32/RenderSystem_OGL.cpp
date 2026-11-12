@@ -281,6 +281,13 @@ void RenderSystem_OGL::SetDepthTest( bool enable )
 }
 
 
+void RenderSystem_OGL::SetDepthWrite( bool enable )
+{
+  glDepthMask( enable ? GL_TRUE : GL_FALSE );
+  CheckForGLError();
+}
+
+
 HardwareBufferImpl* RenderSystem_OGL::CreateBufferImpl( const Flags<HardwareBufferUsage>& usage, size_t sizeInBytes,
                                                         HardwareBufferBinding bindFlags, void* sysMem )
 {
@@ -623,6 +630,7 @@ void RenderSystem_OGL::ExecuteStream( const RenderStream& stream )
       const PacketSetRenderState* packet = reinterpret_cast<const PacketSetRenderState*>( data + offset );
       SetBlendingState( packet->blendingEnabled );
       SetDepthTest( packet->depthTestEnabled );
+      SetDepthWrite( !packet->depthWriteDisabled );
       SetClearColour( packet->clearColourR, packet->clearColourG, packet->clearColourB, packet->clearColourA );
     }
     break;

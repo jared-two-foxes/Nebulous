@@ -53,15 +53,15 @@ private:
   Distribution<Real> m_template_life;   ///< The base amount of life each particle will have at emission.
   Distribution<Real> m_template_scale;  ///< The original scale that will be applied to each particle at emission.
   ScreenAlignment m_screenAlignment;
-  Material* m_pMaterial;                              ///< Material used to render this Particle grouping.
-  HardwareBuffer* m_pVertexBuffer;                    ///< The vertex buffer. (6 verts, 2 tris)
-  InputLayout* m_pInputLayout;                        ///< The input layout which describes the vertex layout.
-  std::unique_ptr<VertexDeceleration> m_pVertexDecl;  ///< Vertex declaration kept alive for Geometry.
-  std::unique_ptr<SubTexture> m_ownedTexture;         ///< SubTexture created for a standalone texture.
-  SubTexture* m_pTexture;                             ///< Owned texture or borrowed atlas frame.
-  Geometry m_geometry;                                ///< Shared geometry for all particles in this group.
+  Material* m_pMaterial;                                  ///< Material used to render this Particle grouping.
+  HardwareBuffer* m_pVertexBuffer;                        ///< The vertex buffer. (6 verts, 2 tris)
+  InputLayout* m_pInputLayout;                            ///< The input layout which describes the vertex layout.
+  std::unique_ptr<VertexDeceleration> m_pVertexDecl;      ///< Vertex declaration kept alive for Geometry.
+  std::unique_ptr<SubTexture> m_ownedTexture;             ///< SubTexture created for a standalone texture.
+  SubTexture* m_pTexture;                                 ///< Owned texture or borrowed atlas frame.
+  Geometry m_geometry;                                    ///< Shared geometry for all particles in this group.
   std::vector<std::unique_ptr<SceneObject>> m_objectPool; ///< One SceneObject per pool slot.
-  std::vector<Matrix4> m_particleWorlds;              ///< Per-slot world matrices (stable addresses).
+  std::vector<Matrix4> m_particleWorlds;                  ///< Per-slot world matrices (stable addresses).
 
 public:
   ParticleGroup( RenderSystemPtr renderer, SpriteAtlasManagerPtr atlasManager, const std::string& name,
