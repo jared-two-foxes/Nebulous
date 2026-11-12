@@ -2,6 +2,9 @@
 #define NEBULAE_BETA_PARTICLE_PARTICLEGROUP_H_
 
 #include <Nebulae/Beta/Particle/ParticlePool.h>
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
+#include <Nebulae/Beta/Scene/Geometry.h>
+#include <Nebulae/Beta/Scene/SceneObject.h>
 #include <Nebulae/Common/Common.h>
 
 namespace Nebulae
@@ -15,6 +18,7 @@ class ParticleSystem;
 class RenderSystem;
 class SpriteAtlasManager;
 class SubTexture;
+class VertexDeceleration;
 
 
 class ParticleGroup
@@ -49,11 +53,15 @@ private:
   Distribution<Real> m_template_life;   ///< The base amount of life each particle will have at emission.
   Distribution<Real> m_template_scale;  ///< The original scale that will be applied to each particle at emission.
   ScreenAlignment m_screenAlignment;
-  Material* m_pMaterial;           ///< Material used to render this Particle grouping.
-  HardwareBuffer* m_pVertexBuffer; ///< The vertex buffer. (6 verts, 2 tris)
-  InputLayout* m_pInputLayout;     ///< The input layout which describes the vertex layout.
-  std::unique_ptr<SubTexture> m_ownedTexture; ///< SubTexture created for a standalone texture.
-  SubTexture* m_pTexture;                     ///< Owned texture or borrowed atlas frame.
+  Material* m_pMaterial;                              ///< Material used to render this Particle grouping.
+  HardwareBuffer* m_pVertexBuffer;                    ///< The vertex buffer. (6 verts, 2 tris)
+  InputLayout* m_pInputLayout;                        ///< The input layout which describes the vertex layout.
+  std::unique_ptr<VertexDeceleration> m_pVertexDecl;  ///< Vertex declaration kept alive for Geometry.
+  std::unique_ptr<SubTexture> m_ownedTexture;         ///< SubTexture created for a standalone texture.
+  SubTexture* m_pTexture;                             ///< Owned texture or borrowed atlas frame.
+  Geometry m_geometry;                                ///< Shared geometry for all particles in this group.
+  std::vector<std::unique_ptr<SceneObject>> m_objectPool; ///< One SceneObject per pool slot.
+  std::vector<Matrix4> m_particleWorlds;              ///< Per-slot world matrices (stable addresses).
 
 public:
   ParticleGroup( RenderSystemPtr renderer, SpriteAtlasManagerPtr atlasManager, const std::string& name,
@@ -63,15 +71,14 @@ public:
   bool Load( File& is );
   Particle* SpawnParticle();
   void Update( const uint64 elapsed );
-  void PreRender( Camera* camera );
-  void Render( Camera* camera ) const;
+  void EmitDrawItems( DrawItemList& items, const Camera* camera );
 
   const char* GetName() const;
   std::size_t GetParticleCount() const;
   const Particle* GetParticle( std::size_t idx ) const;
 
 private:
-  void RenderParticle( RenderSystemPtr renderer, Camera* camera, const Particle& particle ) const;
+  void InitRenderPool();
 
 }; // ParticleGroup
 

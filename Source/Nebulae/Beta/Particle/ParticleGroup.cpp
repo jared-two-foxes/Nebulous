@@ -13,9 +13,9 @@
 #include <Nebulae/Alpha/Texture/SubTexture.h>
 #include <Nebulae/Alpha/Texture/Texture.h>
 
-
 #include <Nebulae/Beta/Camera/Camera.h>
 #include <Nebulae/Beta/Material/Material.h>
+#include <Nebulae/Beta/Material/Pass.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 
@@ -74,6 +74,9 @@ bool ParticleGroup::Load( File& is )
   Pass* pass = m_pMaterial->CreatePass();
   pass->SetVertexShader( vertexShader );
   pass->SetPixelShader( pixelShader );
+  BlendState blendState;
+  blendState.isTransparent = true;
+  pass->SetBlendState( blendState );
 
   m_pVertexBuffer = m_renderDevice->FindBufferByName( "ParticleVertexBuffer" );
   if ( !m_pVertexBuffer )
@@ -83,9 +86,10 @@ bool ParticleGroup::Load( File& is )
                                                     HBB_VERTEX, (void*)&s_fRectVertices[0] );
   }
 
-  // Create the vertex deceleration.
+  // Create the vertex declaration (kept alive for Geometry).
   VertexDeceleration* pVertexDecl = new VertexDeceleration( 2 );
   pVertexDecl->AddElement( VET_FLOAT2, VES_POSITION, 0 );
+  m_pVertexDecl.reset( pVertexDecl );
 
   // Attempt to grab the input layout
   m_pInputLayout = m_renderDevice->FindInputLayoutByUsage( pVertexDecl, vertexShader );
@@ -94,8 +98,6 @@ bool ParticleGroup::Load( File& is )
     // Create the InputLayout.
     m_pInputLayout = m_renderDevice->CreateInputLayout( "BasicParticleLayout", pVertexDecl, vertexShader );
   }
-
-  delete pVertexDecl;
 
   // Load the texture to act as the appearance of the Particle.
   if ( texture_name != nullptr )
@@ -126,6 +128,10 @@ bool ParticleGroup::Load( File& is )
     }
   }
 
+  if ( m_pTexture == nullptr )
+  {
+    return false;
+  }
 
   //
   // Setup template
@@ -133,7 +139,53 @@ bool ParticleGroup::Load( File& is )
   m_template_life.SetConstant( json_cast_with_default<Real>( root["life"], 1.0f ) );
   m_template_scale.SetConstant( json_cast_with_default<Real>( root["scale"], 1.0f ) );
 
-  return m_pTexture != nullptr;
+  //
+  // Setup the shared geometry descriptor and pre-allocate the render pool.
+  //
+  m_geometry.m_vertexBuffer = m_pVertexBuffer;
+  m_geometry.m_vertexDeceleration = m_pVertexDecl.get();
+  m_geometry.m_vertexCount = 6;
+  m_geometry.m_primitiveTopology = OT_TRIANGLES;
+
+  InitRenderPool();
+
+  return true;
+}
+
+void ParticleGroup::InitRenderPool()
+{
+  const int capacity = m_pool.GetCapacity();
+  m_particleWorlds.resize( capacity );
+
+  m_objectPool.reserve( capacity );
+  for ( int i = 0; i < capacity; ++i )
+  {
+    auto obj = std::make_unique<SceneObject>( nullptr );
+    std::size_t slotIndex = obj->AddSlot( m_pMaterial );
+    obj->SetSlotGeometry( slotIndex, &m_geometry );
+    obj->SetSlotInputLayout( slotIndex, m_pInputLayout );
+
+    // Capture stable pointers: m_particleWorlds[i] and m_pTexture never move after InitRenderPool.
+    Matrix4* worldPtr = &m_particleWorlds[i];
+    const SubTexture* tex = m_pTexture;
+    obj->AddProvider( "particle_world", [worldPtr]( UniformBinder& binder ) {
+      binder.Set( "world", *worldPtr );
+    } );
+    obj->AddProvider( "particle_texture", [tex]( UniformBinder& binder ) {
+      Real textureWidth = static_cast<Real>( tex->GetWidth() );
+      Vector2 size( textureWidth, static_cast<Real>( tex->GetHeight() ) );
+      Vector2 offset( -0.5f * textureWidth, 0.0f );
+      Vector2 minUv( tex->GetTexCoords()[0], tex->GetTexCoords()[1] );
+      Vector2 maxUv( tex->GetTexCoords()[2], tex->GetTexCoords()[3] );
+      binder.Set( "size", size );
+      binder.Set( "offset", offset );
+      binder.Set( "min_uv", minUv );
+      binder.Set( "max_uv", maxUv );
+      binder.SetTexture( "diffuseTexture", tex->GetTexture(), 0 );
+    } );
+
+    m_objectPool.push_back( std::move( obj ) );
+  }
 }
 
 std::size_t ParticleGroup::GetParticleCount() const { return m_particles.size(); }
@@ -190,15 +242,13 @@ void ParticleGroup::Update( const uint64 elapsed )
   }
 }
 
-bool YoungSortOrder( const Particle* lhs, const Particle* rhs ) { return lhs->m_age < rhs->m_age; }
-
-bool OldSortOrder( const Particle* lhs, const Particle* rhs ) { return lhs->m_age > rhs->m_age; }
-
+namespace
+{
 struct FarSortOrder
 {
-  Camera* m_camera;
+  const Camera* m_camera;
 
-  FarSortOrder( Camera* camera ) : m_camera( camera ) {}
+  FarSortOrder( const Camera* camera ) : m_camera( camera ) {}
 
   bool operator()( const Particle* lhs, const Particle* rhs )
   {
@@ -210,125 +260,34 @@ struct FarSortOrder
     return resl < resr;
   }
 };
+} // namespace
 
-struct NearSortOrder
+void ParticleGroup::EmitDrawItems( DrawItemList& items, const Camera* camera )
 {
-  Camera* m_camera;
+  if ( m_particles.empty() ) return;
 
-  NearSortOrder( Camera* camera ) : m_camera( camera ) {}
-
-  bool operator()( const Particle* lhs, const Particle* rhs )
-  {
-    Vector4 pos = m_camera->GetPosition();
-    Vector4 dir = m_camera->GetLookAt() - pos;
-
-    float resl = ( lhs->m_position - pos ).dot( dir );
-    float resr = ( rhs->m_position - pos ).dot( dir );
-    return resl > resr;
-  }
-};
-
-
-void ParticleGroup::PreRender( Camera* camera )
-{
-  // Sort the live particles.
+  // Sort far-to-near for correct transparency compositing.
   std::sort( m_particles.begin(), m_particles.end(), FarSortOrder( camera ) );
-}
 
-void ParticleGroup::Render( Camera* camera ) const
-{
-  NE_ASSERT( m_renderDevice != NULL, "Invalid renderer found." );
-  NE_ASSERT( m_pMaterial->GetPassCount() == 1, "Material is expected to have a single pass." );
-
-  // Set the operation type
-  m_renderDevice->SetOperationType( OT_TRIANGLES );
-
-  // bind pass to the RenderSystem.
-  // @todo - Enable multi-pass particle shader's.
-  Pass* pass = m_pMaterial->GetPass( 0 );
-  if ( nullptr == pass )
+  for ( std::size_t j = 0; j < m_particles.size(); ++j )
   {
-    return;
+    const Particle& p = *m_particles[j];
+
+    Matrix4 trans = MatrixMakeTranslation( p.m_position.x, p.m_position.y, p.m_position.z );
+    Matrix4 scale = MatrixMakeScale( p.m_scale.x, p.m_scale.y, 1.0f );
+    Matrix4 world;
+    world.SetIdentity();
+    world = trans * scale;
+
+    if ( m_screenAlignment != Velocity )
+    {
+      Matrix4 view = camera->GetViewMatrix();
+      view[3] = view[7] = view[11] = 0;
+      view.Inverse();
+      world *= view;
+    }
+
+    m_particleWorlds[j] = world;
+    m_objectPool[j]->EmitDrawItems( items, 0, 0 );
   }
-  m_renderDevice->SetShaders( pass->GetVertexShader(), pass->GetPixelShader() );
-
-  // Set the Vertex Buffer
-  std::size_t iOffset = 0;
-  std::size_t iStride = 2 * sizeof( Real );
-  m_renderDevice->SetVertexBuffers( 0, m_pVertexBuffer, iStride, iOffset );
-
-  // Set the Vertex input layout
-  m_renderDevice->SetInputLayout( m_pInputLayout );
-
-  // Grab references to the PassVariables.
-  auto viewVarDef = m_renderDevice->GetUniformByName<Matrix4>( "view" );
-  auto projectionVarDef = m_renderDevice->GetUniformByName<Matrix4>( "projection" );
-
-  // Set camera transforms for pass
-  m_renderDevice->SetUniformBinding( viewVarDef, camera->GetViewMatrix() );
-  m_renderDevice->SetUniformBinding( projectionVarDef, camera->GetProjectionMatrix() );
-
-  // Iterate the live particles.
-  std::vector<Particle*>::const_iterator it_end = m_particles.end();
-  for ( std::vector<Particle*>::const_iterator it = m_particles.begin(); it != it_end; ++it )
-  {
-    RenderParticle( m_renderDevice, camera, *( *it ) );
-  }
-}
-
-void ParticleGroup::RenderParticle( RenderSystemPtr renderer, Camera* camera, const Particle& particle ) const
-{
-  NE_ASSERT( renderer != NULL, "Invalid renderer found." );
-
-  //
-  // Grab references to the PassVariables.
-  //
-  auto worldVarDef = renderer->GetUniformByName<Matrix4>( "world" );
-  auto diffuseVarDef = renderer->GetUniformByName<Texture*>( "diffuseTexture" );
-  auto sizeVarDef = renderer->GetUniformByName<Vector2>( "size" );
-  auto offsetVarDef = renderer->GetUniformByName<Vector2>( "offset" );
-  auto minVarDef = renderer->GetUniformByName<Vector2>( "min_uv" );
-  auto maxVarDef = renderer->GetUniformByName<Vector2>( "max_uv" );
-
-  //
-  // Calculate the local transform of the particle
-  //
-  Matrix4 trans = MatrixMakeTranslation( particle.m_position.x, particle.m_position.y, particle.m_position.z );
-  Matrix4 scale = MatrixMakeScale( particle.m_scale.x, particle.m_scale.y, 1.0f );
-
-  Matrix4 world;
-  world.SetIdentity();
-  world = ( trans * scale );
-
-  if ( m_screenAlignment != Velocity )
-  {
-    Matrix4 view = camera->GetViewMatrix();
-    view[3] = view[7] = view[11] = 0; //< remove any translation.
-    view.Inverse();
-
-    world *= view;
-  }
-
-  //
-  // Set particle uniforms for the pass
-  //
-  Real textureWidth = static_cast<Real>( m_pTexture->GetWidth() );
-  Vector2 size = Vector2( textureWidth, static_cast<Real>( m_pTexture->GetHeight() ) );
-  Vector2 offset = Vector2( -0.5f * textureWidth,
-                            0.0f ); //< this would be were we would do something to preserve some pivot
-                                    // of a sprint.  Currently assuming bottom middle is the pivot point.
-  Vector2 min = Vector2( m_pTexture->GetTexCoords()[0], m_pTexture->GetTexCoords()[1] );
-  Vector2 max = Vector2( m_pTexture->GetTexCoords()[2], m_pTexture->GetTexCoords()[3] );
-
-  renderer->SetUniformBinding( worldVarDef, world );
-  renderer->SetUniformBinding( sizeVarDef, size );
-  renderer->SetUniformBinding( offsetVarDef, offset );
-  renderer->SetUniformBinding( diffuseVarDef, m_pTexture->GetTexture() );
-  renderer->SetUniformBinding( minVarDef, min );
-  renderer->SetUniformBinding( maxVarDef, max );
-
-  //
-  // Draw particle.
-  //
-  renderer->Draw( 6, 0 );
 }

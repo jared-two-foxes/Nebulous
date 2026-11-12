@@ -22,6 +22,7 @@ public:
   ParticlePool( uint32 capacity );
   ~ParticlePool();
 
+  int GetCapacity() const { return m_capacity; }
   Particle* fetch();
   void replace( Particle* pParticle );
 

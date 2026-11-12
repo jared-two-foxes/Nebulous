@@ -10,6 +10,7 @@
 #define private public
 #include <Nebulae/Beta/Particle/ParticleGroup.h>
 #undef private
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 #include <Nebulae/Alpha/Texture/SubTexture.h>
@@ -114,12 +115,14 @@ TEST_F( ParticleSystemTest, LoadsGroupsAndEmittersThenAdvancesAndExpiresParticle
   Camera camera;
   system.SetCamera( &camera );
   EXPECT_EQ( &camera, system.GetCamera() );
-  EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 2 );
-  system.Render(); // Draws both live particles using the group's texture.
+  DrawItemList items;
+  system.EmitDrawItems( items );
+  EXPECT_EQ( 2u, items.Size() ); // Both live particles emit a DrawItem.
 
   system.Update( 2000000 );
   EXPECT_EQ( 0u, group->GetParticleCount() );
-  EXPECT_NO_THROW( system.Render() ); // No live particles remain.
+  DrawItemList emptyItems;
+  EXPECT_NO_THROW( system.EmitDrawItems( emptyItems ) ); // No live particles remain.
 }
 
 TEST_F( ParticleSystemTest, RejectsGroupsWithoutAnImage )
@@ -146,8 +149,9 @@ TEST_F( ParticleSystemTest, ClearingAtlasGroupKeepsAtlasFrameUsable )
   ASSERT_NE( nullptr, group->SpawnParticle() );
   Camera camera;
   system.SetCamera( &camera );
-  EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 1 );
-  system.Render();
+  DrawItemList items;
+  system.EmitDrawItems( items );
+  EXPECT_EQ( 1u, items.Size() ); // One live particle emits a DrawItem.
 
   system.Clear();
   EXPECT_EQ( frame, atlases->GetByName( "atlas.json" )->FindModuleSubTexture( "spark" ) );
@@ -171,5 +175,6 @@ TEST_F( ParticleSystemTest, DestroyEmitterAndClearReleaseOwnedObjects )
   EXPECT_TRUE( system.m_emitters.empty() );
   EXPECT_TRUE( system.m_groups.empty() );
   system.Update( 1000000 );
-  EXPECT_NO_THROW( system.Render() );
+  DrawItemList items;
+  EXPECT_NO_THROW( system.EmitDrawItems( items ) );
 }

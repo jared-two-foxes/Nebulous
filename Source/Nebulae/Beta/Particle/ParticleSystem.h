@@ -1,6 +1,7 @@
 #ifndef NEBULAE_BETA_PARTICLE_PARTICLESYSTEM_H_
 #define NEBULAE_BETA_PARTICLE_PARTICLESYSTEM_H_
 
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Common/Common.h>
 
 namespace Nebulae
@@ -38,7 +39,7 @@ public:
 
   void Clear();
   void Update( const uint64 elapsed );
-  void Render();
+  void EmitDrawItems( DrawItemList& items );
   ParticleGroup* CreateGroup( const std::string& filename );
   ParticleEmitter* CreateEmitter( const std::string& filename );
   void DestroyEmitter( ParticleEmitter* emitter );
