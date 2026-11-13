@@ -66,6 +66,7 @@ public:
   virtual void SwapBuffers();
   virtual void SetBlendingState( bool enable );
   virtual void SetDepthTest( bool enable );
+  virtual void SetDepthWrite( bool enable );
   virtual void BeginScissorClipping( Point ul, Point lr );
   virtual void EndScissorClipping();
   virtual void BeginStencilClipping( Point inner_ul, Point inner_lr, Point outer_ul, Point outer_lr );

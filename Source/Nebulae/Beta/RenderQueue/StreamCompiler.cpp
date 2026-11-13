@@ -148,8 +148,11 @@ void StreamCompiler::Compile( DrawItemList items, const Camera* camera, RenderSt
 
     PacketSetRenderState state{};
     state.header.type = PT_SetRenderState;
-    state.blendingEnabled = item.pass->GetBlendState().isTransparent;
+    const bool transparent = item.pass->GetBlendState().isTransparent;
+    state.blendingEnabled = transparent;
     state.depthTestEnabled = true;
+    // Transparent passes test against opaque depth but must not occlude later blended draws.
+    state.depthWriteDisabled = transparent;
     stream.Write( state );
 
     PacketDraw draw{};

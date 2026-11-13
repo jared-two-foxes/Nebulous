@@ -6,10 +6,16 @@
 #undef private
 
 #include <Nebulae/Beta/Camera/Camera.h>
+#include <Nebulae/Beta/Material/Material.h>
+#include <Nebulae/Beta/Material/Pass.h>
+#include <Nebulae/Beta/Particle/Particle.h>
 #include <Nebulae/Beta/Particle/ParticleEmitter.h>
 #define private public
 #include <Nebulae/Beta/Particle/ParticleGroup.h>
 #undef private
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
+#include <Nebulae/Beta/RenderQueue/StreamCompiler.h>
+#include <Nebulae/Beta/Scene/SceneGraph.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlas.h>
 #include <Nebulae/Beta/SpriteAtlas/SpriteAtlasManager.h>
 #include <Nebulae/Alpha/Texture/SubTexture.h>
@@ -73,6 +79,43 @@ public:
   void Close( File* file ) override { delete file; }
 };
 
+UniformDefinitionMap ParticleSchema()
+{
+  UniformDefinitionMap schema;
+  std::size_t index = 0;
+  const auto add = [&]( const char* name, UniformType type )
+  {
+    UniformDefinitionBase def;
+    def.type = type;
+    def.logicalIndex = index++;
+    schema[name] = def;
+  };
+  add( "view", UT_MATRIX_4X4 );
+  add( "projection", UT_MATRIX_4X4 );
+  add( "world", UT_MATRIX_4X4 );
+  add( "size", UT_FLOAT2 );
+  add( "offset", UT_FLOAT2 );
+  add( "min_uv", UT_FLOAT2 );
+  add( "max_uv", UT_FLOAT2 );
+  add( "diffuseTexture", UT_SAMPLER2D );
+  return schema;
+}
+
+std::size_t CountPackets( const RenderStream& stream, PacketType type )
+{
+  std::size_t count = 0;
+  for ( std::size_t offset = 0; offset < stream.Size(); )
+  {
+    PacketHeader header;
+    std::memcpy( &header, stream.Data() + offset, sizeof( header ) );
+    if ( header.size == 0 )
+      break;
+    count += header.type == type;
+    offset += header.size;
+  }
+  return count;
+}
+
 class ParticleSystemTest : public ::testing::Test
 {
 protected:
@@ -89,6 +132,14 @@ protected:
     fileSystem->Mount( NE_DEFAULT_ROOTDEVICE, &files );
     renderer = std::make_shared<testing::NiceMock<MockRenderDevice>>( fileSystem, nullptr );
     ASSERT_TRUE( renderer->Initiate() );
+    // The particle pass needs its shader pair reflected, otherwise StreamCompiler drops every uniform.
+    ON_CALL( *renderer, ReflectProgramShaders( testing::_, testing::_, testing::_ ) )
+      .WillByDefault(
+        []( HardwareShader*, HardwareShader*, UniformDefinitionMap& out )
+        {
+          out = ParticleSchema();
+          return true;
+        } );
     ON_CALL( *renderer, CreateTextureImpl( testing::_ ) )
       .WillByDefault( []( const std::string& name ) { return new TestTextureImpl( name ); } );
   }
@@ -114,12 +165,14 @@ TEST_F( ParticleSystemTest, LoadsGroupsAndEmittersThenAdvancesAndExpiresParticle
   Camera camera;
   system.SetCamera( &camera );
   EXPECT_EQ( &camera, system.GetCamera() );
-  EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 2 );
-  system.Render(); // Draws both live particles using the group's texture.
+  DrawItemList items;
+  system.EmitDrawItems( items );
+  EXPECT_EQ( 2u, items.Size() ); // Both live particles emit a DrawItem.
 
   system.Update( 2000000 );
   EXPECT_EQ( 0u, group->GetParticleCount() );
-  EXPECT_NO_THROW( system.Render() ); // No live particles remain.
+  DrawItemList emptyItems;
+  EXPECT_NO_THROW( system.EmitDrawItems( emptyItems ) ); // No live particles remain.
 }
 
 TEST_F( ParticleSystemTest, RejectsGroupsWithoutAnImage )
@@ -146,8 +199,9 @@ TEST_F( ParticleSystemTest, ClearingAtlasGroupKeepsAtlasFrameUsable )
   ASSERT_NE( nullptr, group->SpawnParticle() );
   Camera camera;
   system.SetCamera( &camera );
-  EXPECT_CALL( *renderer, Draw( 6, 0 ) ).Times( 1 );
-  system.Render();
+  DrawItemList items;
+  system.EmitDrawItems( items );
+  EXPECT_EQ( 1u, items.Size() ); // One live particle emits a DrawItem.
 
   system.Clear();
   EXPECT_EQ( frame, atlases->GetByName( "atlas.json" )->FindModuleSubTexture( "spark" ) );
@@ -171,5 +225,129 @@ TEST_F( ParticleSystemTest, DestroyEmitterAndClearReleaseOwnedObjects )
   EXPECT_TRUE( system.m_emitters.empty() );
   EXPECT_TRUE( system.m_groups.empty() );
   system.Update( 1000000 );
-  EXPECT_NO_THROW( system.Render() );
+  DrawItemList items;
+  EXPECT_NO_THROW( system.EmitDrawItems( items ) );
+}
+
+TEST_F( ParticleSystemTest, LoadLinksShadersBeforeReflectingTheirSchema )
+{
+  testing::InSequence order;
+  EXPECT_CALL( *renderer, SetShaders( testing::_, testing::_ ) ).Times( 1 );
+  EXPECT_CALL( *renderer, ReflectProgramShaders( testing::_, testing::_, testing::_ ) ).Times( 1 );
+  ParticleSystem system( fileSystem, renderer, nullptr );
+  ParticleGroup* group = system.CreateGroup( "group.json" );
+  ASSERT_NE( nullptr, group );
+  EXPECT_EQ( ParticleSchema().size(), group->m_pMaterial->GetPass( 0 )->GetUniformSchema().size() );
+}
+
+TEST_F( ParticleSystemTest, RejectsGroupsWhoseShadersCannotBeReflected )
+{
+  ON_CALL( *renderer, ReflectProgramShaders( testing::_, testing::_, testing::_ ) )
+    .WillByDefault( testing::Return( false ) );
+  ParticleSystem system( fileSystem, renderer, nullptr );
+  EXPECT_EQ( nullptr, system.CreateGroup( "group.json" ) );
+  EXPECT_TRUE( system.m_groups.empty() );
+}
+
+TEST_F( ParticleSystemTest, EmittedParticlesCompileToDrawsWithBindingsAndTransparentState )
+{
+  ParticleSystem system( fileSystem, renderer, nullptr );
+  ASSERT_NE( nullptr, system.CreateEmitter( "emitter.json" ) );
+  system.m_emitters.front()->Start();
+  system.Update( 0 );
+  Camera camera;
+  system.SetCamera( &camera );
+
+  DrawItemList items;
+  system.EmitDrawItems( items );
+  ASSERT_EQ( 2u, items.Size() );
+
+  RenderStream stream;
+  StreamCompiler compiler;
+  compiler.Compile( items, &camera, stream );
+
+  // One complete draw per particle.
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetProgram ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetGeometry ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_Draw ) );
+  // view, projection, world, size, offset, min_uv, max_uv per draw, plus the diffuse sampler.
+  EXPECT_EQ( 14u, CountPackets( stream, PT_SetUniform ) );
+  EXPECT_EQ( 2u, CountPackets( stream, PT_SetSampler ) );
+
+  std::size_t drawsSeen = 0;
+  std::size_t statesSeen = 0;
+  for ( std::size_t offset = 0; offset < stream.Size(); )
+  {
+    PacketHeader header;
+    std::memcpy( &header, stream.Data() + offset, sizeof( header ) );
+    if ( header.type == PT_Draw )
+    {
+      PacketDraw draw;
+      std::memcpy( &draw, stream.Data() + offset, sizeof( draw ) );
+      EXPECT_FALSE( draw.indexed );
+      EXPECT_EQ( 6u, draw.vertexCount ); // Two triangles.
+      ++drawsSeen;
+    }
+    else if ( header.type == PT_SetRenderState )
+    {
+      PacketSetRenderState state;
+      std::memcpy( &state, stream.Data() + offset, sizeof( state ) );
+      EXPECT_TRUE( state.blendingEnabled );
+      EXPECT_TRUE( state.depthTestEnabled );
+      EXPECT_TRUE( state.depthWriteDisabled ); // Blended particles must not occlude each other.
+      ++statesSeen;
+    }
+    offset += header.size;
+  }
+  EXPECT_EQ( 2u, drawsSeen );
+  EXPECT_EQ( 2u, statesSeen );
+}
+
+TEST_F( ParticleSystemTest, EmitsFarthestParticlesFirst )
+{
+  ParticleSystem system( fileSystem, renderer, nullptr );
+  ParticleGroup* group = system.CreateGroup( "group.json" );
+  ASSERT_NE( nullptr, group );
+  Particle* nearParticle = group->SpawnParticle();
+  Particle* farParticle = group->SpawnParticle();
+  ASSERT_NE( nullptr, nearParticle );
+  ASSERT_NE( nullptr, farParticle );
+  nearParticle->m_position = Vector4( 0.0f, 0.0f, -1.0f, 1.0f );
+  farParticle->m_position = Vector4( 0.0f, 0.0f, -10.0f, 1.0f );
+
+  Camera camera;
+  camera.SetPosition( Vector4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+  camera.SetLookAt( Vector4( 0.0f, 0.0f, -1.0f, 1.0f ) );
+  DrawItemList items;
+  group->EmitDrawItems( items, &camera );
+
+  ASSERT_EQ( 2u, group->m_particles.size() );
+  EXPECT_EQ( farParticle, group->m_particles[0] );
+  EXPECT_EQ( nearParticle, group->m_particles[1] );
+}
+
+TEST_F( ParticleSystemTest, SceneGraphCompilesParticlesInTheSameFrameList )
+{
+  ParticleSystem system( fileSystem, renderer, nullptr );
+  ASSERT_NE( nullptr, system.CreateEmitter( "emitter.json" ) );
+  system.m_emitters.front()->Start();
+  system.Update( 0 );
+  Camera camera;
+  system.SetCamera( &camera );
+
+  SceneGraph graph( renderer );
+  ASSERT_TRUE( graph.Initialize() );
+  const std::size_t id = graph.AddDrawItemSource( [&system]( DrawItemList& items ) { system.EmitDrawItems( items ); } );
+
+  std::size_t draws = 0;
+  EXPECT_CALL( *renderer, ExecuteStream( testing::_ ) )
+    .WillOnce( [&draws]( const RenderStream& stream ) { draws = CountPackets( stream, PT_Draw ); } );
+  graph.Render( &camera );
+  EXPECT_EQ( 2u, draws ); // Particles reach ExecuteStream through the SceneGraph's own compile.
+
+  graph.RemoveDrawItemSource( id );
+  EXPECT_CALL( *renderer, ExecuteStream( testing::_ ) )
+    .WillOnce( [&draws]( const RenderStream& stream ) { draws = CountPackets( stream, PT_Draw ); } );
+  graph.Render( &camera );
+  EXPECT_EQ( 0u, draws );
 }

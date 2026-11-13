@@ -1,9 +1,12 @@
 
 #include "SceneGraph.h"
 
+#include <algorithm>
+
 #include <Nebulae/Alpha/Alpha.h>
 #include <Nebulae/Alpha/RenderSystem/RenderSystem.h>
 
+#include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Beta/Scene/ConstantBuffers.h>
 #include <Nebulae/Beta/Scene/SceneNode.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
@@ -14,7 +17,10 @@ using namespace Nebulae;
 
 // constructor
 SceneGraph::SceneGraph( RenderSystemPtr pRenderSystem )
-  : m_pRenderSystem( pRenderSystem ), m_pCameraInProgress( nullptr ), m_RootSceneNode( nullptr )
+  : m_pRenderSystem( pRenderSystem ),
+    m_pCameraInProgress( nullptr ),
+    m_RootSceneNode( nullptr ),
+    m_nextDrawItemSourceId( 0 )
 {
 }
 
@@ -112,8 +118,29 @@ void SceneGraph::Render( Camera* pCamera )
   }
   DrawItemList items;
   m_RootSceneNode->TraverseNode( items );
+  for ( const auto& source : m_drawItemSources )
+  {
+    source.second( items );
+  }
   RenderStream stream;
   StreamCompiler compiler;
   compiler.Compile( items, pCamera, stream );
   m_pRenderSystem->ExecuteStream( stream );
+}
+
+
+std::size_t SceneGraph::AddDrawItemSource( DrawItemSource source )
+{
+  const std::size_t id = m_nextDrawItemSourceId++;
+  m_drawItemSources.emplace_back( id, std::move( source ) );
+  return id;
+}
+
+
+void SceneGraph::RemoveDrawItemSource( std::size_t id )
+{
+  m_drawItemSources.erase(
+    std::remove_if( m_drawItemSources.begin(), m_drawItemSources.end(),
+                    [id]( const std::pair<std::size_t, DrawItemSource>& s ) { return s.first == id; } ),
+    m_drawItemSources.end() );
 }

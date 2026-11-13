@@ -38,16 +38,13 @@ void ParticleSystem::Update( const uint64 elapsed )
   }
 }
 
-void ParticleSystem::Render()
+void ParticleSystem::EmitDrawItems( DrawItemList& items )
 {
   if ( m_camera == nullptr ) return;
 
-  // Temporary direct path until particle DrawItem emission is implemented in SA-468.
   for ( const auto& group : m_groups )
   {
-    if ( group->GetParticleCount() == 0 ) continue;
-    group->PreRender( m_camera );
-    group->Render( m_camera );
+    group->EmitDrawItems( items, m_camera );
   }
 }
 

@@ -44,6 +44,7 @@ public:
   virtual void SwapBuffers() override;
   virtual void SetBlendingState( bool enable ) override;
   virtual void SetDepthTest( bool enable ) override;
+  virtual void SetDepthWrite( bool enable ) override;
 
   // pipeline functions
   virtual void SetVertexBuffers( int iSlot, HardwareBuffer* pBuffers, size_t iStride, size_t iOffset ) override;

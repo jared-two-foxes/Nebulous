@@ -65,6 +65,8 @@ void RenderSystem::SetBlendingState( bool /*enable*/ ) {}
 
 void RenderSystem::SetDepthTest( bool /*enable*/ ) {}
 
+void RenderSystem::SetDepthWrite( bool /*enable*/ ) {}
+
 void RenderSystem::BeginScissorClipping( Point /*ul*/, Point /*lr*/ ) {}
 
 void RenderSystem::EndScissorClipping() {}

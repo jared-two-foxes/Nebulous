@@ -309,3 +309,42 @@ TEST( SceneTraversal, WorldMatrixIncludesRotationAndTranslation )
   EXPECT_NEAR( 5.0f, ( *world )[3], 0.0001f );
   EXPECT_NEAR( 6.0f, ( *world )[7], 0.0001f );
 }
+
+TEST( StreamCompiler, TransparentPassesTestDepthButDoNotWriteIt )
+{
+  for ( const bool transparent : { false, true } )
+  {
+    Material material( "depth" );
+    auto* pass = material.CreatePass();
+    pass->SetUniformSchema( Schema() );
+    BlendState blend;
+    blend.isTransparent = transparent;
+    pass->SetBlendState( blend );
+    SceneObject object( nullptr );
+    object.AddSlot( &material );
+    Drawable drawable;
+    drawable.Attach( object );
+    DrawItemList items;
+    object.EmitDrawItems( items, 0, 0 );
+    RenderStream stream;
+    StreamCompiler compiler;
+    compiler.Compile( items, nullptr, stream );
+
+    bool found = false;
+    for ( std::size_t offset = 0; offset < stream.Size(); )
+    {
+      PacketHeader header;
+      std::memcpy( &header, stream.Data() + offset, sizeof( header ) );
+      if ( header.type == PT_SetRenderState )
+      {
+        PacketSetRenderState state;
+        std::memcpy( &state, stream.Data() + offset, sizeof( state ) );
+        EXPECT_TRUE( state.depthTestEnabled );
+        EXPECT_EQ( transparent, state.depthWriteDisabled );
+        found = true;
+      }
+      offset += header.size;
+    }
+    EXPECT_TRUE( found );
+  }
+}
