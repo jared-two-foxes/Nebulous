@@ -32,6 +32,16 @@ std::size_t SpriteAnimation::GetFrameCount() const { return m_Frames.size(); }
 SpriteAnimationFrame* SpriteAnimation::GetFrame( std::size_t idx ) const { return m_Frames[idx]; }
 
 
+void SpriteAnimation::AddFrame( SpriteAtlas* pAtlas, const std::string& strFrameName )
+{
+  SpriteAnimationFrame* pAnimationFrame = new SpriteAnimationFrame();
+  pAnimationFrame->iId = static_cast<int>( m_Frames.size() );
+  pAnimationFrame->pSpriteAtlas = pAtlas;
+  pAnimationFrame->strFrameName = strFrameName;
+  m_Frames.push_back( pAnimationFrame );
+}
+
+
 bool SpriteAnimation::Load( File* stream )
 {
   NE_ASSERT( stream, "Null stream passed to sprite animation." );

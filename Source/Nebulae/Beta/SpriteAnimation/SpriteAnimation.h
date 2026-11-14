@@ -46,6 +46,7 @@ public:
 
   /** \name Mutators */ ///@{
   virtual bool Load( File* is );
+  void AddFrame( SpriteAtlas* pAtlas, const std::string& strFrameName );
   //@}
 
 }; // SpriteAnimation
