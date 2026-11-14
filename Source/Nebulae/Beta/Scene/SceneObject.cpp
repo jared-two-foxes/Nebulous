@@ -18,6 +18,20 @@
 using namespace Nebulae;
 
 
+void SpriteFrameState::SetFrame( const SubTexture& subTexture, int flags )
+{
+  const auto* texCoords = subTexture.GetTexCoords();
+  const bool flipX = ( flags & SAF_FLIPX ) != 0;
+  const bool flipY = ( flags & SAF_FLIPY ) != 0;
+
+  size = Vector2( static_cast<float>( subTexture.GetWidth() ), static_cast<float>( subTexture.GetHeight() ) );
+  offset = Vector2( 0.0f, 0.0f );
+  minUv = Vector2( flipX ? texCoords[2] : texCoords[0], flipY ? texCoords[3] : texCoords[1] );
+  maxUv = Vector2( flipX ? texCoords[0] : texCoords[2], flipY ? texCoords[1] : texCoords[3] );
+  diffuseTexture = subTexture.GetTexture();
+}
+
+
 int SceneObject::ms_nextIdentifier = 0;
 
 SceneObject::SceneObject( SceneNode* parent ) : m_identifier( ms_nextIdentifier++ ), m_node( parent ), m_visible( true )

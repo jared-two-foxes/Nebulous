@@ -1,6 +1,7 @@
 
 #include "SpriteAnimationController.h"
 
+#include <Nebulae/Alpha/Texture/SubTexture.h>
 #include <Nebulae/Beta/Scene/SceneNode.h>
 #include <Nebulae/Beta/Scene/SceneObject.h>
 #include <Nebulae/Beta/Scene/SpriteAtlasUtils.h>
@@ -67,9 +68,20 @@ void SpriteAnimationController::Update( float elapsed )
       // Grab the first frame of the animation.
       SpriteAnimationFrame* pAnimationFrame = m_pCurrentAnimation->GetFrame( m_iCurrentStep );
 
-      // Attach the frame to this node.
-      SpriteAtlasUtils::SetSpriteFrame( m_renderDevice, m_material, m_pObject, pAnimationFrame->pSpriteAtlas,
-                                        pAnimationFrame->strFrameName, m_iDisplayFlags );
+      // Update the persistent sprite state; the registered sprite_frame provider reads it when drawing.
+      // A missing atlas or frame keeps the previous appearance: no assert, no provider, no allocation.
+      SubTexture* pSubTexture = pAnimationFrame->pSpriteAtlas
+                                  ? pAnimationFrame->pSpriteAtlas->FindModuleSubTexture( pAnimationFrame->strFrameName )
+                                  : nullptr;
+      if ( pSubTexture )
+      {
+        m_pObject->GetSpriteFrameState().SetFrame( *pSubTexture, m_iDisplayFlags );
+      }
+      else
+      {
+        NE_LOG_WARN( "SpriteAnimationController", "Animation frame '{}' has no resolvable atlas frame; keeping the previous sprite.",
+                     pAnimationFrame->strFrameName );
+      }
     }
   }
 }

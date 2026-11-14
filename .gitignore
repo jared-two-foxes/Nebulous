@@ -31,3 +31,4 @@ MODULE.bazel.lock
 # --- ticket-pipeline state (git-native workflow) ---------
 .criteria-stack.json
 .pipeline-git-state.json
+.pi/

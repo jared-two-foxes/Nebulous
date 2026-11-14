@@ -5,6 +5,7 @@
 #include <Nebulae/Beta/RenderQueue/UniformProvider.h>
 #include <Nebulae/Beta/RenderQueue/DrawItemList.h>
 #include <Nebulae/Beta/RenderQueue/SortKey.h>
+#include <Nebulae/Beta/Scene/SpriteAtlasFlags.h>
 
 namespace Nebulae
 {
@@ -16,6 +17,7 @@ class Geometry;
 class InputLayout;
 class RenderSystem;
 class SceneNode;
+class SubTexture;
 class Texture;
 
 struct SpriteFrameState
@@ -25,6 +27,9 @@ struct SpriteFrameState
   Vector2 minUv;
   Vector2 maxUv;
   const Texture* diffuseTexture = nullptr;
+
+  /** Fills this state from a sprite atlas frame, honouring SAF_ flip flags. Needs no render system. */
+  void SetFrame( const SubTexture& subTexture, int flags = SAF_NONE );
 };
 
 struct RenderSlot

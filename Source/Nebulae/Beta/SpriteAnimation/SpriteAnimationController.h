@@ -15,6 +15,9 @@ class SpriteAnimation;
 struct SpriteAnimationFrame;
 
 /** SpriteAnimationController.
+ *
+ *  Frame changes write the SceneObject's persistent SpriteFrameState; no provider is registered per frame.
+ *  The render device and material are only used by Play() to create that SceneObject once per animation.
  */
 class SpriteAnimationController
 {
@@ -32,7 +35,7 @@ private:
   float m_fSecondsPerFrame;                   ///< Max time to display each frame for.
   std::function<void()>
     m_animationCompleteCallback; ///< Callback function to be invoked when the animation is complete.
-  Material* m_material;          ///< Material used to render the animation.
+  Material* m_material;          ///< Material used when creating the animation's SceneObject.
 
 public:
   /** \name Structors */ ///@{

@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "image": "atlas_texture_b",
+    "size": {
+      "w": 64,
+      "h": 64
+    }
+  },
+  "frames": [
+    {
+      "filename": "frame_c",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 #define NEBULAE_BETA_SCENE_SPRITEATLASUTILS_H_
 
 #include <Nebulae/Common/Common.h>
+#include <Nebulae/Beta/Scene/SpriteAtlasFlags.h>
 
 namespace Nebulae
 {
@@ -15,13 +16,6 @@ struct SpriteAtlasModule;
 class SubTexture;
 class Texture;
 
-
-enum SpriteAtlasFlags
-{
-  SAF_NONE = 0,
-  SAF_FLIPX = 1,
-  SAF_FLIPY = 2
-};
 
 struct SpriteAtlasUtils
 {
@@ -46,6 +40,14 @@ struct SpriteAtlasUtils
    */
   static void SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Material* material, SceneObject* pSubObject,
                               SpriteAtlas* pAtlas, const std::string& strFrameName, int iFlags = 0 );
+
+
+  /**
+   *  Creates the sprite quad geometry, the input layout and the keyed 'sprite_frame' provider on an object.
+   *  Idempotent: does nothing when the provider is already registered, so it can be called before any frame
+   *  has been resolved and again afterwards without registering a second provider.
+   */
+  static void EnsureSpriteProvider( std::weak_ptr<RenderSystem> renderer, Material* material, SceneObject* pObj );
 
 
   /**

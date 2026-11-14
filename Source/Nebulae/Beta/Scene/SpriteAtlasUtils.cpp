@@ -38,7 +38,20 @@ SceneObject* SpriteAtlasUtils::AttachFrameToNode( std::weak_ptr<RenderSystem> re
   SceneObject* pObj = pNode->CreateObject( material );
   if ( pObj )
   {
-    SetSpriteFrame( renderer, material, pObj, pSpriteAtlas, strFrameName, iFlags );
+    // Build the geometry and the sprite_frame provider up front, so a missing first frame cannot leave the
+    // object permanently unrenderable while later frames only update its state.
+    EnsureSpriteProvider( renderer, material, pObj );
+
+    SubTexture* subTexture = pSpriteAtlas ? pSpriteAtlas->FindModuleSubTexture( strFrameName ) : nullptr;
+    if ( subTexture )
+    {
+      pObj->GetSpriteFrameState().SetFrame( *subTexture, iFlags );
+    }
+    else
+    {
+      NE_LOG_WARN( "SpriteAtlasUtils", "Sprite frame '{}' could not be resolved; keeping default sprite state.",
+                   strFrameName );
+    }
   }
 
   return pObj;
@@ -59,7 +72,6 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
     return;
   }
 
-  std::shared_ptr<RenderSystem> renderDevicePtr = renderer.lock();
   //
   // Grab the specific frame that we are attempting to add to the scene.
   //
@@ -73,20 +85,20 @@ void SpriteAtlasUtils::SetSpriteFrame( std::weak_ptr<RenderSystem> renderer, Mat
   //
   // Setup uniforms via keyed providers.
   //
-  float width = static_cast<float>( subTexture->GetWidth() );
-  float height = static_cast<float>( subTexture->GetHeight() );
-  float minU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[2] : subTexture->GetTexCoords()[0];
-  float minV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[3] : subTexture->GetTexCoords()[1];
-  float maxU = iFlags & SAF_FLIPX ? subTexture->GetTexCoords()[0] : subTexture->GetTexCoords()[2];
-  float maxV = iFlags & SAF_FLIPY ? subTexture->GetTexCoords()[1] : subTexture->GetTexCoords()[3];
-  const Texture* texturePtr = subTexture->GetTexture();
+  pObj->GetSpriteFrameState().SetFrame( *subTexture, iFlags );
+  EnsureSpriteProvider( renderer, material, pObj );
+}
 
+
+void SpriteAtlasUtils::EnsureSpriteProvider( std::weak_ptr<RenderSystem> renderer, Material* material, SceneObject* pObj )
+{
+  if ( renderer.expired() || material == nullptr || pObj == nullptr )
+  {
+    return;
+  }
+
+  std::shared_ptr<RenderSystem> renderDevicePtr = renderer.lock();
   SpriteFrameState* state = &pObj->GetSpriteFrameState();
-  state->size = Vector2( width, height );
-  state->offset = Vector2( 0.0f, 0.0f );
-  state->minUv = Vector2( minU, minV );
-  state->maxUv = Vector2( maxU, maxV );
-  state->diffuseTexture = texturePtr;
 
   // AddProvider registers on all existing slots.  Check wheth that
   // object-wide registeration has already happened.
